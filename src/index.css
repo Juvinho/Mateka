@@ -37,6 +37,9 @@ body {
     radial-gradient(circle at 14% 12%, rgba(45, 27, 105, 0.45), transparent 34%),
     radial-gradient(circle at 80% 22%, rgba(6, 182, 212, 0.22), transparent 38%),
     linear-gradient(180deg, var(--bg-main) 0%, #0a1021 100%);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
   text-rendering: geometricPrecision;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -60,12 +63,12 @@ body.cursor-hidden * {
 main {
   overflow: clip;
   position: relative;
-  z-index: 3;
+  z-index: 12;
 }
 
 .app-content {
   position: relative;
-  z-index: 3;
+  z-index: 12;
   transition:
     opacity 420ms ease,
     filter 520ms ease;
@@ -114,6 +117,205 @@ section::after {
   transform-origin: 0 50%;
   background: linear-gradient(90deg, var(--cyan), var(--pink));
   box-shadow: 0 0 20px rgba(34, 211, 238, 0.5);
+}
+
+.background-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+}
+
+.math-trail-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+}
+
+.floating-equations-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.floating-equation {
+  position: fixed;
+  pointer-events: auto;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.01em;
+  user-select: none;
+  transform-origin: center;
+  transition:
+    transform 0.1s ease,
+    opacity 0.1s ease,
+    text-shadow 0.1s ease;
+}
+
+.floating-equation.tone-cyan {
+  color: rgba(34, 211, 238, 0.95);
+}
+
+.floating-equation.tone-pink {
+  color: rgba(244, 114, 182, 0.95);
+}
+
+.floating-equation.tone-purple {
+  color: rgba(168, 85, 247, 0.95);
+}
+
+.floating-equation.is-hovered {
+  text-shadow:
+    0 0 14px currentColor,
+    0 0 26px rgba(2, 6, 23, 0.8);
+}
+
+.floating-equation-text {
+  position: relative;
+  display: inline-block;
+}
+
+.floating-equation-text::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  opacity: 0;
+}
+
+.floating-equation.is-underlined .floating-equation-text::after {
+  animation: floatingEquationUnderline 240ms ease;
+}
+
+.floating-equation-tooltip {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 6px);
+  width: max-content;
+  max-width: 220px;
+  border-radius: 8px;
+  padding: 6px 9px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: rgba(15, 23, 42, 0.82);
+  backdrop-filter: blur(10px);
+  color: #e2e8f0;
+  font-size: 0.68rem;
+  opacity: 0;
+  transform: translateY(4px);
+  animation: floatingTooltipIn 170ms ease forwards;
+  pointer-events: none;
+}
+
+.konami-flash-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 320;
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.3);
+  animation: konamiFlash 300ms ease;
+}
+
+.professor-mode-banner {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 321;
+  width: min(92vw, 360px);
+  text-align: center;
+  border-radius: 14px;
+  padding: 14px 16px;
+  border: 1px solid rgba(34, 211, 238, 0.45);
+  background: rgba(15, 23, 42, 0.62);
+  backdrop-filter: blur(12px);
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.06em;
+  font-size: 0.86rem;
+  color: #f8fafc;
+  animation: professorBannerIn 3000ms ease;
+}
+
+body.professor-mode .background-canvas {
+  filter: saturate(1.15) brightness(1.06);
+}
+
+.aurora {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 280px;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity 320ms ease;
+}
+
+.aurora.ambience-on {
+  opacity: 1.4;
+}
+
+.aurora::before,
+.aurora::after {
+  content: '';
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: -50%;
+  left: -50%;
+  filter: blur(60px);
+  opacity: 0.12;
+}
+
+.aurora::before {
+  background: conic-gradient(
+    from 0deg at 30% 50%,
+    #22d3ee 0deg,
+    transparent 60deg,
+    #6d28d9 120deg,
+    transparent 180deg,
+    #f472b6 240deg,
+    transparent 300deg,
+    #22d3ee 360deg
+  );
+  animation: aurora-rotate 18s linear infinite;
+}
+
+.aurora::after {
+  background: conic-gradient(
+    from 180deg at 70% 50%,
+    #6d28d9 0deg,
+    transparent 80deg,
+    #22d3ee 160deg,
+    transparent 240deg,
+    #f472b6 320deg,
+    transparent 360deg
+  );
+  animation: aurora-rotate 24s linear infinite reverse;
+}
+
+.global-vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 55%,
+    rgba(2, 6, 23, 0.4) 75%,
+    rgba(2, 6, 23, 0.85) 100%
+  );
 }
 
 .particle-field {
@@ -308,6 +510,15 @@ select {
   color: rgba(186, 230, 253, 0.95);
 }
 
+.custom-cursor-root.is-professor .custom-cursor-inner {
+  background: #f472b6;
+  box-shadow: 0 0 14px rgba(244, 114, 182, 0.72);
+}
+
+.custom-cursor-root.is-professor .custom-cursor-outer {
+  border-color: rgba(244, 114, 182, 0.55);
+}
+
 .mateka-navbar {
   position: fixed;
   top: 12px;
@@ -375,21 +586,52 @@ select {
 .mateka-nav-links {
   display: flex;
   justify-content: center;
-  gap: 20px;
 }
 
-.mateka-nav-links button {
+.mateka-nav-links-track {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(2, 6, 23, 0.36);
+  border: 1px solid rgba(148, 163, 184, 0.14);
+}
+
+.mateka-nav-pill {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  height: calc(100% - 8px);
+  border-radius: 999px;
+  background: rgba(34, 211, 238, 0.12);
+  border: 1px solid rgba(34, 211, 238, 0.34);
+  transition:
+    transform 300ms ease,
+    width 300ms ease,
+    opacity 180ms ease;
+  pointer-events: none;
+}
+
+.mateka-nav-pill.is-static {
+  transition: none;
+}
+
+.mateka-nav-link-wrap {
+  position: relative;
+}
+
+.mateka-nav-link {
+  position: relative;
+  z-index: 1;
   border: 0;
   background: transparent;
   color: #94a3b8;
-  font-size: 0.94rem;
+  font-size: 0.9rem;
+  border-radius: 999px;
+  padding: 8px 14px;
   transition: color 180ms ease;
-}
-
-.mateka-nav-link-label {
-  position: relative;
-  display: inline-block;
-  padding-bottom: 5px;
 }
 
 .mateka-nav-link-label::after {
@@ -405,12 +647,61 @@ select {
   transition: transform 220ms ease;
 }
 
-.mateka-nav-links button:hover .mateka-nav-link-label::after {
+.mateka-nav-link:hover .mateka-nav-link-label::after,
+.mateka-nav-link.is-active .mateka-nav-link-label::after {
   transform: scaleX(1);
 }
 
-.mateka-nav-links button:hover {
+.mateka-nav-link:hover {
   color: #f8fafc;
+}
+
+.mateka-nav-link.is-active {
+  color: var(--cyan);
+}
+
+.mateka-nav-preview {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 12px);
+  transform: translateX(-50%) scale(0.95);
+  width: 160px;
+  min-height: 90px;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  align-content: start;
+  gap: 4px;
+  border-radius: 12px;
+  padding: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: rgba(15, 23, 42, 0.68);
+  backdrop-filter: blur(12px);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 200ms ease,
+    transform 200ms ease;
+}
+
+.mateka-nav-preview.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+.mateka-nav-preview-glyph {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.1rem;
+  color: var(--cyan);
+}
+
+.mateka-nav-preview strong {
+  font-size: 0.78rem;
+  color: #f8fafc;
+}
+
+.mateka-nav-preview small {
+  font-size: 0.68rem;
+  color: #94a3b8;
 }
 
 .mateka-nav-actions {
@@ -491,12 +782,15 @@ select {
 }
 
 .hero-section {
+  --hero-mx: 0;
+  --hero-my: 0;
   min-height: 100vh;
   display: grid;
   grid-template-columns: 60fr 40fr;
   align-items: center;
   gap: 36px;
   padding-top: 170px;
+  perspective: 1000px;
 }
 
 .math-background {
@@ -510,6 +804,10 @@ select {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  transform: translate(
+    calc(var(--hero-mx, 0) * -12px),
+    calc(var(--hero-my, 0) * -8px)
+  );
 }
 
 .hero-orb {
@@ -532,7 +830,6 @@ select {
   left: -40px;
   top: 38px;
   background: rgba(34, 211, 238, 0.65);
-  transform: translate3d(var(--orb-mouse-x, 0), var(--orb-mouse-y, 0), 0);
 }
 
 .orb-purple {
@@ -560,6 +857,10 @@ select {
   background-size: 22px 22px;
   opacity: 0.07;
   transform-origin: 50% 50%;
+  transform: translate(
+    calc(var(--hero-mx, 0) * -18px),
+    calc(var(--hero-my, 0) * -12px)
+  );
 }
 
 .math-background canvas {
@@ -571,6 +872,10 @@ select {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  transform: translate(
+    calc(var(--hero-mx, 0) * -6px),
+    calc(var(--hero-my, 0) * -4px)
+  );
 }
 
 .math-floating-formula {
@@ -584,6 +889,10 @@ select {
 
 .hero-left {
   position: relative;
+  transform: translate(
+    calc(var(--hero-mx, 0) * 3px),
+    calc(var(--hero-my, 0) * 2px)
+  );
 }
 
 .hero-badge {
@@ -711,6 +1020,22 @@ select {
 
 .hero-right {
   min-width: 0;
+  transform:
+    translate(
+      calc(var(--hero-mx, 0) * -5px),
+      calc(var(--hero-my, 0) * -3px)
+    )
+    rotateY(calc(var(--hero-mx, 0) * 4deg))
+    rotateX(calc(var(--hero-my, 0) * -3deg));
+  transform-style: preserve-3d;
+}
+
+.hero-section.is-parallax-disabled .hero-orbs,
+.hero-section.is-parallax-disabled .math-formulas-layer,
+.hero-section.is-parallax-disabled .hero-dot-grid,
+.hero-section.is-parallax-disabled .hero-left,
+.hero-section.is-parallax-disabled .hero-right {
+  transform: none !important;
 }
 
 .trig-panel {
@@ -776,6 +1101,12 @@ select {
   animation: trigPowerOn 900ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
+.trig-unit-circle.is-flashing {
+  animation:
+    trigPowerOn 900ms cubic-bezier(0.22, 1, 0.36, 1) forwards,
+    trigCircleFlash 300ms ease;
+}
+
 .trig-unit-circle.is-powering {
   filter: drop-shadow(0 0 10px rgba(34, 211, 238, 0.3));
 }
@@ -833,6 +1164,19 @@ select {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+}
+
+.trig-exact-values {
+  margin-top: 10px;
+  border-radius: 12px;
+  padding: 10px 12px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(10px);
+  color: #e2e8f0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.76rem;
+  animation: trigExactValuesIn 220ms ease;
 }
 
 .trig-values span {
@@ -1039,6 +1383,13 @@ select {
   transition:
     transform 240ms ease,
     filter 240ms ease;
+}
+
+.why-viz-label {
+  fill: #e2e8f0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.04em;
 }
 
 .why-card:hover {
@@ -1426,6 +1777,14 @@ select {
   align-items: flex-start;
 }
 
+.module-icon-stage {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  display: grid;
+  place-items: center;
+}
+
 .module-icon {
   font-family: 'JetBrains Mono', monospace;
   font-size: 2.1rem;
@@ -1435,6 +1794,35 @@ select {
   transition:
     opacity 300ms ease,
     transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.module-icon.is-hover-hidden {
+  opacity: 0;
+  transform: scale(0.88);
+}
+
+.module-preview-shell {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  transform: scale(0.94);
+  transition:
+    opacity 300ms ease,
+    transform 300ms ease;
+  pointer-events: none;
+}
+
+.module-preview-shell.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.module-preview-canvas {
+  width: 80px;
+  height: 80px;
+  display: block;
 }
 
 .module-icon.is-revealed {
@@ -1795,6 +2183,12 @@ select {
   }
 }
 
+@keyframes aurora-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @keyframes blinkCursor {
   0%,
   49% {
@@ -1969,6 +2363,92 @@ select {
   }
 }
 
+@keyframes floatingEquationUnderline {
+  0% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+
+  60% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scaleX(1);
+    opacity: 0.5;
+  }
+}
+
+@keyframes floatingTooltipIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes konamiFlash {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes professorBannerIn {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+
+  65% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes trigCircleFlash {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes trigExactValuesIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (max-width: 1100px) {
   .hero-section {
     grid-template-columns: 1fr;
@@ -2109,7 +2589,9 @@ select {
   }
 
   .particle-field,
+  .math-trail-layer,
   .global-scanlines,
+  .background-canvas,
   .custom-cursor-root,
   .loading-screen-scanlines {
     display: none !important;
@@ -2130,7 +2612,19 @@ select {
     display: none !important;
   }
 
+  .math-trail-layer {
+    display: none !important;
+  }
+
   .global-scanlines {
     opacity: 0.14;
+  }
+
+  .hero-orbs,
+  .math-formulas-layer,
+  .hero-dot-grid,
+  .hero-left,
+  .hero-right {
+    transform: none !important;
   }
 }

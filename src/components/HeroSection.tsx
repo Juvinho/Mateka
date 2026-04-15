@@ -2,7 +2,6 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 
 import { useGlitchText } from '../hooks/useGlitchText'
 import { useMagneticButton } from '../hooks/useMagneticButton'
-import { lerp } from '../utils/math'
 import MathBackground from './MathBackground'
 import TrigCircle from './TrigCircle'
 
@@ -65,6 +64,13 @@ const HeroSection = ({ onNavigate, ambienceEnabled }: HeroSectionProps) => {
     () =>
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+    [],
+  )
+
+  const coarsePointer = useMemo(
+    () =>
+      typeof window !== 'undefined' &&
+      window.matchMedia('(hover: none), (pointer: coarse)').matches,
     [],
   )
 
@@ -162,42 +168,58 @@ const HeroSection = ({ onNavigate, ambienceEnabled }: HeroSectionProps) => {
   }, [isDeleting, phraseIndex, typedText])
 
   useEffect(() => {
-    if (reducedMotion) return
+    const section = sectionRef.current
+    if (!section) return
 
+    if (reducedMotion || coarsePointer) {
+      section.style.setProperty('--hero-mx', '0')
+      section.style.setProperty('--hero-my', '0')
+      return
+    }
+
+    const target = { x: 0, y: 0 }
+    const current = { x: 0, y: 0 }
     let frame = 0
-    let leftY = 0
-    let rightY = 0
+
+    const onPointerMove = (event: PointerEvent): void => {
+      target.x = (event.clientX / window.innerWidth - 0.5) * 2
+      target.y = (event.clientY / window.innerHeight - 0.5) * 2
+    }
+
+    const onPointerLeave = (): void => {
+      target.x = 0
+      target.y = 0
+    }
 
     const animate = (): void => {
-      const scrollY = window.scrollY
-      const activeScroll = scrollY > window.innerHeight ? 0 : scrollY
+      current.x += (target.x - current.x) * 0.06
+      current.y += (target.y - current.y) * 0.06
 
-      const leftTarget = activeScroll * 0.08
-      const rightTarget = activeScroll * 0.15
-
-      leftY = lerp(leftY, leftTarget, 0.12)
-      rightY = lerp(rightY, rightTarget, 0.12)
-
-      if (leftRef.current) {
-        leftRef.current.style.transform = `translate3d(0, ${leftY.toFixed(2)}px, 0)`
-      }
-
-      if (rightRef.current) {
-        rightRef.current.style.transform = `translate3d(0, ${rightY.toFixed(2)}px, 0)`
-      }
+      section.style.setProperty('--hero-mx', current.x.toFixed(4))
+      section.style.setProperty('--hero-my', current.y.toFixed(4))
 
       frame = window.requestAnimationFrame(animate)
     }
+
+    window.addEventListener('pointermove', onPointerMove)
+    window.addEventListener('pointerleave', onPointerLeave)
 
     frame = window.requestAnimationFrame(animate)
 
     return () => {
       window.cancelAnimationFrame(frame)
+      window.removeEventListener('pointermove', onPointerMove)
+      window.removeEventListener('pointerleave', onPointerLeave)
     }
-  }, [reducedMotion])
+  }, [coarsePointer, reducedMotion])
 
   return (
-    <section ref={sectionRef} id="hero" className="hero-section reveal" data-reveal>
+    <section
+      ref={sectionRef}
+      id="hero"
+      className={`hero-section reveal ${reducedMotion || coarsePointer ? 'is-parallax-disabled' : ''}`}
+      data-reveal
+    >
       <MathBackground ambienceEnabled={ambienceEnabled} />
 
       <div ref={leftRef} className="hero-left">

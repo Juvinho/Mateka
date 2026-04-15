@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 
 import { useCardTilt } from '../hooks/useCardTilt'
+import { useSpringReveal } from '../hooks/useSpringReveal'
 
 type StatItem = {
   label: string
@@ -100,6 +101,13 @@ const StatsBar = () => {
   const [displayValues, setDisplayValues] = useState<string[]>(() =>
     reducedMotion ? stats.map((item) => formatDisplay(item.value, item.suffix)) : stats.map(() => '0'),
   )
+
+  useSpringReveal({
+    rootRef: sectionRef,
+    selector: '.stats-bar-shell, .stats-bar-item',
+    staggerMs: 60,
+    disabled: reducedMotion,
+  })
 
   useEffect(() => {
     if (reducedMotion) return

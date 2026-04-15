@@ -1,22 +1,183 @@
 import { type ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 
 import { useCardTilt } from '../hooks/useCardTilt'
+import { useSpringReveal } from '../hooks/useSpringReveal'
 
 type WhyCardProps = {
+  id: 'game-dev' | 'audio' | 'engineering'
   tone: 'cyan' | 'pink' | 'purple'
   delayMs: number
   isVisible: boolean
   title: string
   description: string
+  onHoverChange: (id: WhyCardProps['id'], hovered: boolean) => void
   children: ReactNode
 }
 
+const GameDevIcon = ({ hovered, reducedMotion }: { hovered: boolean; reducedMotion: boolean }) => {
+  const [angle, setAngle] = useState(0)
+  const boostUntilRef = useRef(0)
+
+  useEffect(() => {
+    if (!hovered) return
+    boostUntilRef.current = performance.now() + 1000
+  }, [hovered])
+
+  useEffect(() => {
+    if (reducedMotion) return
+
+    let frame = 0
+    let last = performance.now()
+
+    const tick = (now: number): void => {
+      const dt = (now - last) / 16.667
+      last = now
+
+      const boosted = now < boostUntilRef.current ? 3 : 1
+      setAngle((previous) => previous + 0.02 * boosted * dt)
+      frame = window.requestAnimationFrame(tick)
+    }
+
+    frame = window.requestAnimationFrame(tick)
+
+    return () => {
+      window.cancelAnimationFrame(frame)
+    }
+  }, [reducedMotion])
+
+  const x = 70 + Math.cos(angle) * 34
+  const y = 60 - Math.sin(angle) * 34
+  const degrees = Math.round((((angle * 180) / Math.PI) % 360 + 360) % 360)
+
+  return (
+    <svg viewBox="0 0 140 120" role="img" aria-label="Vetor 2D interativo">
+      <circle cx="70" cy="60" r="36" fill="none" stroke="rgba(34,211,238,0.2)" />
+      <line x1="70" y1="60" x2={x} y2={y} stroke="#22d3ee" strokeWidth="3" />
+      <polygon points={`${x},${y} ${x - 8},${y + 4} ${x - 4},${y - 8}`} fill="#22d3ee" />
+      <circle cx="70" cy="60" r="3" fill="rgba(34,211,238,0.8)" />
+      <text x="10" y="18" className="why-viz-label">
+        θ = {degrees}°
+      </text>
+    </svg>
+  )
+}
+
+const AudioIcon = ({ hovered, reducedMotion }: { hovered: boolean; reducedMotion: boolean }) => {
+  const [frequency, setFrequency] = useState(220)
+  const [phase, setPhase] = useState(0)
+
+  const frequencyRef = useRef(220)
+  const phaseRef = useRef(0)
+
+  useEffect(() => {
+    if (reducedMotion) {
+      setFrequency(220)
+      setPhase(0)
+      return
+    }
+
+    let frame = 0
+
+    const tick = (): void => {
+      const target = hovered ? 880 : 220
+      frequencyRef.current += (target - frequencyRef.current) * 0.03
+      phaseRef.current += 0.03 * (frequencyRef.current / 220)
+
+      setFrequency(frequencyRef.current)
+      setPhase(phaseRef.current)
+
+      frame = window.requestAnimationFrame(tick)
+    }
+
+    frame = window.requestAnimationFrame(tick)
+
+    return () => {
+      window.cancelAnimationFrame(frame)
+    }
+  }, [hovered, reducedMotion])
+
+  const cycles = 1.3 + ((frequency - 220) / 660) * 3.4
+  const amplitude = 12 + Math.sin(phase * 0.4) * 6
+
+  let path = ''
+  for (let x = 8; x <= 132; x += 2) {
+    const normalized = (x - 8) / 124
+    const y = 60 - Math.sin(normalized * Math.PI * 2 * cycles + phase) * amplitude
+    path += x === 8 ? `M ${x} ${y}` : ` L ${x} ${y}`
+  }
+
+  return (
+    <svg viewBox="0 0 140 120" role="img" aria-label="Onda senoidal com frequência interativa">
+      <path d={path} fill="none" stroke="#f472b6" strokeWidth="2.5" />
+      <text x="10" y="18" className="why-viz-label">
+        f = {Math.round(frequency)} Hz
+      </text>
+    </svg>
+  )
+}
+
+const EngineeringIcon = ({ hovered, reducedMotion }: { hovered: boolean; reducedMotion: boolean }) => {
+  const [pulse, setPulse] = useState(0)
+
+  useEffect(() => {
+    if (reducedMotion) {
+      setPulse(0)
+      return
+    }
+
+    let frame = 0
+
+    const tick = (now: number): void => {
+      setPulse(now / 1000)
+      frame = window.requestAnimationFrame(tick)
+    }
+
+    frame = window.requestAnimationFrame(tick)
+
+    return () => {
+      window.cancelAnimationFrame(frame)
+    }
+  }, [reducedMotion])
+
+  const intensity = hovered ? 1 : 0.45
+  const compressionShift = Math.sin(pulse * 3.2) * 5 * intensity
+  const tensionShift = Math.cos(pulse * 2.6) * 4 * intensity
+
+  return (
+    <svg viewBox="0 0 140 120" role="img" aria-label="Arco de ponte com vetores de força">
+      <path
+        d="M 12 84 Q 70 14 128 84"
+        fill="none"
+        stroke="#7c3aed"
+        strokeWidth="3"
+      />
+
+      <line x1="44" y1="54" x2="44" y2={70 + compressionShift} stroke="#22c55e" strokeWidth="2.3" />
+      <polygon points={`40,${66 + compressionShift} 48,${66 + compressionShift} 44,${74 + compressionShift}`} fill="#22c55e" />
+
+      <line x1="70" y1="36" x2="70" y2={56 + compressionShift} stroke="#22c55e" strokeWidth="2.3" />
+      <polygon points={`66,${52 + compressionShift} 74,${52 + compressionShift} 70,${60 + compressionShift}`} fill="#22c55e" />
+
+      <line x1="96" y1="54" x2="96" y2={70 + compressionShift} stroke="#22c55e" strokeWidth="2.3" />
+      <polygon points={`92,${66 + compressionShift} 100,${66 + compressionShift} 96,${74 + compressionShift}`} fill="#22c55e" />
+
+      <line x1="30" y1="84" x2={18 - tensionShift} y2="84" stroke="#ef4444" strokeWidth="2" />
+      <polygon points={`${22 - tensionShift},80 ${22 - tensionShift},88 ${14 - tensionShift},84`} fill="#ef4444" />
+
+      <line x1="110" y1="84" x2={122 + tensionShift} y2="84" stroke="#ef4444" strokeWidth="2" />
+      <polygon points={`${118 + tensionShift},80 ${118 + tensionShift},88 ${126 + tensionShift},84`} fill="#ef4444" />
+    </svg>
+  )
+}
+
 const WhyCard = ({
+  id,
   tone,
   delayMs,
   isVisible,
   title,
   description,
+  onHoverChange,
   children,
 }: WhyCardProps) => {
   const { cardRef, glareRef, onMouseLeave, onMouseMove } = useCardTilt()
@@ -27,7 +188,11 @@ const WhyCard = ({
       className={`why-card ${tone} ${isVisible ? 'is-visible' : ''}`}
       style={{ transitionDelay: `${delayMs}ms` }}
       onMouseMove={onMouseMove}
-      onMouseLeave={onMouseLeave}
+      onMouseLeave={() => {
+        onMouseLeave()
+        onHoverChange(id, false)
+      }}
+      onMouseEnter={() => onHoverChange(id, true)}
       data-cursor
     >
       <div ref={glareRef} className="card-glare" aria-hidden="true" />
@@ -49,6 +214,18 @@ const WhyItMatters = () => {
 
   const sectionRef = useRef<HTMLElement | null>(null)
   const [cardsVisible, setCardsVisible] = useState(reducedMotion)
+  const [hoverState, setHoverState] = useState({
+    'game-dev': false,
+    audio: false,
+    engineering: false,
+  })
+
+  useSpringReveal({
+    rootRef: sectionRef,
+    selector: '.why-card',
+    staggerMs: 60,
+    disabled: reducedMotion,
+  })
 
   useEffect(() => {
     if (reducedMotion) return
@@ -76,6 +253,10 @@ const WhyItMatters = () => {
     }
   }, [reducedMotion])
 
+  const handleHoverChange = (id: 'game-dev' | 'audio' | 'engineering', hovered: boolean): void => {
+    setHoverState((previous) => ({ ...previous, [id]: hovered }))
+  }
+
   return (
     <section
       ref={sectionRef}
@@ -90,87 +271,39 @@ const WhyItMatters = () => {
 
       <div className="why-cards-grid">
         <WhyCard
+          id="game-dev"
           tone="cyan"
           delayMs={40}
           isVisible={cardsVisible}
           title="Game Dev"
           description="Vetores, ângulos e trigonometria controlam câmera, iluminação e colisão em qualquer motor de jogo."
+          onHoverChange={handleHoverChange}
         >
-          <svg viewBox="0 0 140 120" role="img" aria-label="Vetor rotacionando">
-            <circle cx="70" cy="60" r="36" fill="none" stroke="rgba(34,211,238,0.2)" />
-            <g>
-              <line x1="70" y1="60" x2="104" y2="60" stroke="#22d3ee" strokeWidth="3" />
-              <circle cx="104" cy="60" r="5" fill="#22d3ee" />
-              <animateTransform
-                attributeName="transform"
-                attributeType="XML"
-                type="rotate"
-                from="0 70 60"
-                to="360 70 60"
-                dur="3s"
-                repeatCount="indefinite"
-              />
-            </g>
-            <circle cx="96" cy="52" r="2" fill="rgba(34,211,238,0.7)">
-              <animate attributeName="opacity" values="0;1;0" dur="1.2s" repeatCount="indefinite" />
-            </circle>
-            <circle cx="82" cy="35" r="2" fill="rgba(34,211,238,0.5)">
-              <animate attributeName="opacity" values="0;1;0" dur="1.6s" repeatCount="indefinite" />
-            </circle>
-          </svg>
+          <GameDevIcon hovered={hoverState['game-dev']} reducedMotion={reducedMotion} />
         </WhyCard>
 
         <WhyCard
+          id="audio"
           tone="pink"
           delayMs={140}
           isVisible={cardsVisible}
           title="Síntese de Áudio"
           description="Frequência e amplitude deixam de ser teoria: você manipula onda, harmônica e timbre em tempo real."
+          onHoverChange={handleHoverChange}
         >
-          <svg viewBox="0 0 140 120" role="img" aria-label="Equalizador animado">
-            <g className="equalizer-bars">
-              {[16, 32, 20, 44, 28, 38].map((height, index) => (
-                <rect
-                  key={height}
-                  x={18 + index * 18}
-                  y={80 - height}
-                  width="12"
-                  height={height}
-                  rx="4"
-                />
-              ))}
-            </g>
-            <path
-              d="M 10 88 C 24 72, 38 104, 52 88 C 66 72, 80 104, 94 88 C 108 72, 122 104, 136 88"
-              fill="none"
-              stroke="rgba(244,114,182,0.8)"
-              strokeWidth="2"
-            />
-          </svg>
+          <AudioIcon hovered={hoverState.audio} reducedMotion={reducedMotion} />
         </WhyCard>
 
         <WhyCard
+          id="engineering"
           tone="purple"
           delayMs={240}
           isVisible={cardsVisible}
           title="Engenharia"
           description="Curvas e distribuição de carga explicam pontes, estruturas e materiais de forma intuitiva."
+          onHoverChange={handleHoverChange}
         >
-          <svg viewBox="0 0 140 120" role="img" aria-label="Arco de engenharia com cargas">
-            <path
-              className="engineering-arc"
-              d="M 12 84 Q 70 14 128 84"
-              fill="none"
-              stroke="#7c3aed"
-              strokeWidth="3"
-            />
-            <line x1="70" y1="24" x2="70" y2="58" stroke="#c4b5fd" strokeWidth="2" />
-            <polygon points="66,56 74,56 70,64" fill="#c4b5fd" />
-            <line x1="40" y1="40" x2="40" y2="68" stroke="#c4b5fd" strokeWidth="2" />
-            <polygon points="36,66 44,66 40,74" fill="#c4b5fd" />
-            <line x1="100" y1="40" x2="100" y2="68" stroke="#c4b5fd" strokeWidth="2" />
-            <polygon points="96,66 104,66 100,74" fill="#c4b5fd" />
-          </svg>
+          <EngineeringIcon hovered={hoverState.engineering} reducedMotion={reducedMotion} />
         </WhyCard>
       </div>
     </section>

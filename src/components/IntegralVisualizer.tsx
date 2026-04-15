@@ -42,72 +42,107 @@ const IntegralVisualizer = () => {
     const context = canvas.getContext('2d')
     if (!context) return
 
-    const width = canvas.clientWidth
-    const height = canvas.clientHeight
-    const dpr = window.devicePixelRatio || 1
+    let frame = 0
+    let initFrameA = 0
+    let initFrameB = 0
 
-    canvas.width = Math.floor(width * dpr)
-    canvas.height = Math.floor(height * dpr)
-    context.setTransform(dpr, 0, 0, dpr, 0, 0)
+    const draw = (): void => {
+      const width = canvas.clientWidth
+      const height = canvas.clientHeight
+      if (width < 2 || height < 2) return
 
-    context.clearRect(0, 0, width, height)
+      const dpr = window.devicePixelRatio || 1
 
-    const yMax = selectedFunction === 'sin' ? 1.2 : 10.4
+      if (canvas.width !== Math.floor(width * dpr) || canvas.height !== Math.floor(height * dpr)) {
+        canvas.width = Math.floor(width * dpr)
+        canvas.height = Math.floor(height * dpr)
+        context.setTransform(dpr, 0, 0, dpr, 0, 0)
+      }
 
-    const xToPx = (x: number): number => ((x - rangeStart) / (rangeEnd - rangeStart)) * width
-    const yToPx = (y: number): number => height - (y / yMax) * height
+      context.clearRect(0, 0, width, height)
 
-    context.strokeStyle = 'rgba(30,41,59,0.75)'
-    context.lineWidth = 1
+      const yMax = selectedFunction === 'sin' ? 1.2 : 10.4
 
-    for (let i = 0; i <= 8; i += 1) {
-      const y = (i / 8) * height
+      const xToPx = (x: number): number => ((x - rangeStart) / (rangeEnd - rangeStart)) * width
+      const yToPx = (y: number): number => height - (y / yMax) * height
+
+      context.strokeStyle = 'rgba(30,41,59,0.75)'
+      context.lineWidth = 1
+
+      for (let i = 0; i <= 8; i += 1) {
+        const y = (i / 8) * height
+        context.beginPath()
+        context.moveTo(0, y)
+        context.lineTo(width, y)
+        context.stroke()
+      }
+
       context.beginPath()
-      context.moveTo(0, y)
-      context.lineTo(width, y)
+      context.moveTo(0, yToPx(0))
+      context.lineTo(width, yToPx(0))
+      context.strokeStyle = 'rgba(148,163,184,0.9)'
+      context.stroke()
+
+      const dx = (rangeEnd - rangeStart) / slices
+      const melted = slices >= 60
+
+      for (let i = 0; i < slices; i += 1) {
+        const x = rangeStart + i * dx
+        const value = Math.max(0, fn(x))
+
+        const left = xToPx(x)
+        const right = xToPx(x + dx)
+        const top = yToPx(value)
+
+        context.fillStyle = 'rgba(34,211,238,0.38)'
+        context.fillRect(left, top, right - left, height - top)
+
+        context.strokeStyle = melted ? 'rgba(34,211,238,0.1)' : 'rgba(34,211,238,0.45)'
+        context.lineWidth = melted ? 0.6 : 1
+        context.strokeRect(left, top, right - left, height - top)
+      }
+
+      context.beginPath()
+
+      for (let i = 0; i <= 300; i += 1) {
+        const x = rangeStart + (i / 300) * (rangeEnd - rangeStart)
+        const y = fn(x)
+        const px = xToPx(x)
+        const py = yToPx(y)
+
+        if (i === 0) context.moveTo(px, py)
+        else context.lineTo(px, py)
+      }
+
+      context.strokeStyle = '#22d3ee'
+      context.lineWidth = 2.4
       context.stroke()
     }
 
-    context.beginPath()
-    context.moveTo(0, yToPx(0))
-    context.lineTo(width, yToPx(0))
-    context.strokeStyle = 'rgba(148,163,184,0.9)'
-    context.stroke()
+    const scheduleDraw = (): void => {
+      if (frame) {
+        window.cancelAnimationFrame(frame)
+      }
 
-    const dx = (rangeEnd - rangeStart) / slices
-    const melted = slices >= 60
-
-    for (let i = 0; i < slices; i += 1) {
-      const x = rangeStart + i * dx
-      const value = Math.max(0, fn(x))
-
-      const left = xToPx(x)
-      const right = xToPx(x + dx)
-      const top = yToPx(value)
-
-      context.fillStyle = 'rgba(34,211,238,0.38)'
-      context.fillRect(left, top, right - left, height - top)
-
-      context.strokeStyle = melted ? 'rgba(34,211,238,0.1)' : 'rgba(34,211,238,0.45)'
-      context.lineWidth = melted ? 0.6 : 1
-      context.strokeRect(left, top, right - left, height - top)
+      frame = window.requestAnimationFrame(draw)
     }
 
-    context.beginPath()
+    const resizeObserver = new ResizeObserver(() => {
+      scheduleDraw()
+    })
 
-    for (let i = 0; i <= 300; i += 1) {
-      const x = rangeStart + (i / 300) * (rangeEnd - rangeStart)
-      const y = fn(x)
-      const px = xToPx(x)
-      const py = yToPx(y)
+    resizeObserver.observe(canvas)
 
-      if (i === 0) context.moveTo(px, py)
-      else context.lineTo(px, py)
+    initFrameA = window.requestAnimationFrame(() => {
+      initFrameB = window.requestAnimationFrame(scheduleDraw)
+    })
+
+    return () => {
+      window.cancelAnimationFrame(frame)
+      window.cancelAnimationFrame(initFrameA)
+      window.cancelAnimationFrame(initFrameB)
+      resizeObserver.disconnect()
     }
-
-    context.strokeStyle = '#22d3ee'
-    context.lineWidth = 2.4
-    context.stroke()
   }, [fn, rangeEnd, rangeStart, selectedFunction, slices])
 
   return (

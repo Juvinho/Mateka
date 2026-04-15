@@ -12,7 +12,11 @@ const canEnableCursor = (): boolean => {
   return supportsHover && finePointer && !reducedMotion
 }
 
-const CustomCursor = () => {
+type CustomCursorProps = {
+  professorMode?: boolean
+}
+
+const CustomCursor = ({ professorMode = false }: CustomCursorProps) => {
   const innerRef = useRef<HTMLDivElement | null>(null)
   const outerRef = useRef<HTMLDivElement | null>(null)
 
@@ -108,7 +112,7 @@ const CustomCursor = () => {
 
   return (
     <div
-      className={`custom-cursor-root ${visible ? 'is-visible' : 'is-hidden'} ${interactive ? 'is-hover' : ''}`}
+      className={`custom-cursor-root ${visible ? 'is-visible' : 'is-hidden'} ${interactive ? 'is-hover' : ''} ${professorMode ? 'is-professor' : ''}`}
       aria-hidden="true"
     >
       <div

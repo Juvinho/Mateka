@@ -6,11 +6,25 @@ const VIEWBOX_SIZE = 300
 const CENTER = 140
 const RADIUS = 120
 const TAU = Math.PI * 2
-const AUTO_ROTATE_SPEED = 0.8
+const TRAIL_LIMIT = 20
+const AUTO_IDLE_MS = 2000
+const EXPLOSION_LIFE_MS = 800
 
 type Point = {
   x: number
   y: number
+}
+
+type ExplosionParticle = {
+  id: number
+  x: number
+  y: number
+  vx: number
+  vy: number
+  radius: number
+  life: number
+  opacity: number
+  color: string
 }
 
 const pointFromAngle = (angle: number, radius: number): Point => ({
@@ -18,27 +32,41 @@ const pointFromAngle = (angle: number, radius: number): Point => ({
   y: CENTER - radius * Math.sin(angle),
 })
 
-const createArcPath = (start: number, end: number, radius: number): string => {
-  const startPoint = pointFromAngle(start, radius)
-  const endPoint = pointFromAngle(end, radius)
-  const delta = normalizeAngle(end - start)
-  const largeArcFlag = delta > Math.PI ? 1 : 0
+const createArcPathSigned = (angle: number, radius: number): string => {
+  const startPoint = pointFromAngle(0, radius)
+  const endPoint = pointFromAngle(angle, radius)
+  const largeArcFlag = Math.abs(angle) > Math.PI ? 1 : 0
+  const sweepFlag = angle >= 0 ? 0 : 1
 
-  return `M ${startPoint.x} ${startPoint.y} A ${radius} ${radius} 0 ${largeArcFlag} 0 ${endPoint.x} ${endPoint.y}`
+  return `M ${startPoint.x} ${startPoint.y} A ${radius} ${radius} 0 ${largeArcFlag} ${sweepFlag} ${endPoint.x} ${endPoint.y}`
 }
 
-const getQuadrant = (angle: number): number => Math.floor(normalizeAngle(angle) / (Math.PI / 2))
+const toTrailColor = (index: number): string => {
+  const ratio = index / Math.max(1, TRAIL_LIMIT - 1)
+  const r = Math.round(34 + (244 - 34) * ratio)
+  const g = Math.round(211 + (114 - 211) * ratio)
+  const b = Math.round(238 + (182 - 238) * ratio)
+  return `rgb(${r}, ${g}, ${b})`
+}
 
 const TrigCircle = () => {
   const [angle, setAngle] = useState(Math.PI / 4)
   const [showTangent, setShowTangent] = useState(true)
   const [isHovering, setIsHovering] = useState(false)
-  const [trail, setTrail] = useState<Point[]>([])
-  const [powerCycle, setPowerCycle] = useState(0)
-  const [badgeFlipKey, setBadgeFlipKey] = useState(0)
+  const [autoMode, setAutoMode] = useState(false)
+  const [trail, setTrail] = useState<Point[]>([pointFromAngle(Math.PI / 4, RADIUS)])
+  const [pulseTime, setPulseTime] = useState(0)
+  const [explosionParticles, setExplosionParticles] = useState<ExplosionParticle[]>([])
+  const [isCircleFlashing, setIsCircleFlashing] = useState(false)
+  const [showExactValues, setShowExactValues] = useState(false)
 
   const angleRef = useRef(angle)
-  const quadrantRef = useRef(getQuadrant(angle))
+  const isHoveringRef = useRef(isHovering)
+  const lastInteractionRef = useRef(performance.now())
+  const particlesRef = useRef<ExplosionParticle[]>([])
+  const particleIdRef = useRef(0)
+  const exactValuesTimeoutRef = useRef<number | null>(null)
+  const flashTimeoutRef = useRef<number | null>(null)
 
   const reducedMotion = useMemo(
     () =>
@@ -52,16 +80,16 @@ const TrigCircle = () => {
     setAngle(nextAngle)
 
     const nextPoint = pointFromAngle(nextAngle, RADIUS)
-    setTrail((previous) => [nextPoint, ...previous].slice(0, 12))
-
-    const nextQuadrant = getQuadrant(nextAngle)
-    if (nextQuadrant === quadrantRef.current) return
-
-    quadrantRef.current = nextQuadrant
-    setBadgeFlipKey((previous) => previous + 1)
+    setTrail((previous) => [nextPoint, ...previous].slice(0, TRAIL_LIMIT))
   }, [])
 
+  useEffect(() => {
+    isHoveringRef.current = isHovering
+  }, [isHovering])
+
   const normalizedAngle = normalizeAngle(angle)
+  const signedAngle = Math.atan2(Math.sin(angle), Math.cos(angle))
+
   const degrees = Math.round(radToDeg(normalizedAngle))
   const radiansLabel = formatPiFraction(normalizedAngle)
 
@@ -117,15 +145,42 @@ const TrigCircle = () => {
   }, [normalizedAngle])
 
   useEffect(() => {
-    if (isHovering || reducedMotion) return
-
     let frame = 0
-    let last = performance.now()
 
     const tick = (now: number): void => {
-      const deltaSeconds = (now - last) / 1000
-      last = now
-      applyAngle(angleRef.current + AUTO_ROTATE_SPEED * deltaSeconds)
+      setPulseTime(now / 1000)
+
+      const isIdle = !isHoveringRef.current && now - lastInteractionRef.current > AUTO_IDLE_MS
+      if (!reducedMotion && isIdle) {
+        const speed = 0.012 + 0.006 * Math.sin((now / 1000) * 0.5)
+        applyAngle(angleRef.current + speed)
+      }
+
+      setAutoMode(!reducedMotion && isIdle)
+
+      if (particlesRef.current.length > 0) {
+        const updatedParticles: ExplosionParticle[] = []
+
+        for (const particle of particlesRef.current) {
+          const nextLife = particle.life + 16
+          const progress = nextLife / EXPLOSION_LIFE_MS
+          if (progress >= 1) continue
+
+          updatedParticles.push({
+            ...particle,
+            x: particle.x + particle.vx,
+            y: particle.y + particle.vy,
+            vx: particle.vx * 0.97,
+            vy: particle.vy * 0.97,
+            life: nextLife,
+            opacity: 1 - progress,
+          })
+        }
+
+        particlesRef.current = updatedParticles
+        setExplosionParticles(updatedParticles)
+      }
+
       frame = window.requestAnimationFrame(tick)
     }
 
@@ -134,27 +189,90 @@ const TrigCircle = () => {
     return () => {
       window.cancelAnimationFrame(frame)
     }
-  }, [applyAngle, isHovering, reducedMotion])
+  }, [applyAngle, reducedMotion])
+
+  useEffect(() => {
+    return () => {
+      if (exactValuesTimeoutRef.current) {
+        window.clearTimeout(exactValuesTimeoutRef.current)
+        exactValuesTimeoutRef.current = null
+      }
+
+      if (flashTimeoutRef.current) {
+        window.clearTimeout(flashTimeoutRef.current)
+        flashTimeoutRef.current = null
+      }
+    }
+  }, [])
 
   const onMove = (event: React.PointerEvent<HTMLDivElement>): void => {
+    if (reducedMotion) return
+
     const rect = event.currentTarget.getBoundingClientRect()
     const relativeX = ((event.clientX - rect.left) / rect.width) * VIEWBOX_SIZE
     const relativeY = ((event.clientY - rect.top) / rect.height) * VIEWBOX_SIZE
 
     const nextAngle = Math.atan2(CENTER - relativeY, relativeX - CENTER)
     applyAngle(nextAngle)
+    lastInteractionRef.current = performance.now()
   }
 
   const handlePointerEnter = (): void => {
     setIsHovering(true)
-    setPowerCycle((previous) => previous + 1)
+    lastInteractionRef.current = performance.now()
   }
 
   const handlePointerLeave = (): void => {
     setIsHovering(false)
+    lastInteractionRef.current = performance.now()
   }
 
-  const autoMode = !isHovering && !reducedMotion
+  const handleCircleClick = (): void => {
+    if (reducedMotion) return
+
+    const colors = ['#22d3ee', '#f472b6', '#a855f7']
+    const particles: ExplosionParticle[] = Array.from({ length: 8 }, (_, index) => {
+      const direction = (index / 8) * TAU
+      const speed = 2.2 + Math.random() * 1.1
+
+      return {
+        id: particleIdRef.current + index,
+        x: point.x,
+        y: point.y,
+        vx: Math.cos(direction) * speed,
+        vy: -Math.sin(direction) * speed,
+        radius: 2 + Math.random() * 1.8,
+        life: 0,
+        opacity: 1,
+        color: colors[index % colors.length] ?? '#22d3ee',
+      }
+    })
+
+    particleIdRef.current += 8
+    particlesRef.current = particles
+    setExplosionParticles(particles)
+
+    setIsCircleFlashing(true)
+    if (flashTimeoutRef.current) {
+      window.clearTimeout(flashTimeoutRef.current)
+    }
+    flashTimeoutRef.current = window.setTimeout(() => {
+      setIsCircleFlashing(false)
+      flashTimeoutRef.current = null
+    }, 300)
+
+    setShowExactValues(true)
+    if (exactValuesTimeoutRef.current) {
+      window.clearTimeout(exactValuesTimeoutRef.current)
+    }
+    exactValuesTimeoutRef.current = window.setTimeout(() => {
+      setShowExactValues(false)
+      exactValuesTimeoutRef.current = null
+    }, 1500)
+  }
+
+  const projectionPulse = 0.4 + 0.3 * Math.sin(pulseTime * 2)
+  const thetaLabelPoint = pointFromAngle(signedAngle * 0.5, 42)
 
   return (
     <aside className="trig-panel" aria-label="Painel interativo de trigonometria">
@@ -178,12 +296,16 @@ const TrigCircle = () => {
         onPointerMove={onMove}
         onPointerEnter={handlePointerEnter}
         onPointerLeave={handlePointerLeave}
+        onClick={handleCircleClick}
       >
         <button
           type="button"
           className="tangent-toggle"
           aria-label="Mostrar ou ocultar reta tangente"
-          onClick={() => setShowTangent((previous) => !previous)}
+          onClick={(event) => {
+            event.stopPropagation()
+            setShowTangent((previous) => !previous)
+          }}
           data-cursor
         >
           {showTangent ? 'Tangente: ON' : 'Tangente: OFF'}
@@ -198,8 +320,7 @@ const TrigCircle = () => {
           <line x1={CENTER} y1="20" x2={CENTER} y2="280" stroke="#1e293b" strokeWidth="1.4" />
 
           <circle
-            key={powerCycle}
-            className={`trig-unit-circle ${isHovering ? 'is-powering' : ''}`}
+            className={`trig-unit-circle ${isCircleFlashing ? 'is-flashing' : ''}`}
             cx={CENTER}
             cy={CENTER}
             r={RADIUS}
@@ -224,6 +345,23 @@ const TrigCircle = () => {
             0
           </text>
 
+          {trail.map((trailPoint, index) => {
+            const factor = 1 - index / TRAIL_LIMIT
+            const radius = 4 * factor
+            const opacity = 0.5 * factor
+
+            return (
+              <circle
+                key={`${trailPoint.x}-${trailPoint.y}-${index}`}
+                cx={trailPoint.x}
+                cy={trailPoint.y}
+                r={Math.max(0.6, radius)}
+                fill={toTrailColor(index)}
+                fillOpacity={Math.max(0, opacity)}
+              />
+            )
+          })}
+
           <line x1={CENTER} y1={CENTER} x2={point.x} y2={point.y} stroke="#f8fafc" strokeWidth="2" />
 
           <line
@@ -232,8 +370,9 @@ const TrigCircle = () => {
             x2={point.x}
             y2={CENTER}
             stroke="#22d3ee"
-            strokeWidth="1.5"
-            strokeDasharray="4 4"
+            strokeWidth="1.6"
+            strokeDasharray="5 5"
+            strokeOpacity={projectionPulse}
           />
           <line
             x1={CENTER}
@@ -241,12 +380,13 @@ const TrigCircle = () => {
             x2={point.x}
             y2={point.y}
             stroke="#ec4899"
-            strokeWidth="1.5"
-            strokeDasharray="4 4"
+            strokeWidth="1.6"
+            strokeDasharray="5 5"
+            strokeOpacity={projectionPulse}
           />
 
           <line
-            className={autoMode ? 'trig-projection-line pulse-sin' : 'trig-projection-line'}
+            className="trig-projection-line"
             x1={CENTER}
             y1={CENTER}
             x2={sinProjection.x}
@@ -255,7 +395,7 @@ const TrigCircle = () => {
             strokeWidth="2"
           />
           <line
-            className={autoMode ? 'trig-projection-line pulse-cos' : 'trig-projection-line'}
+            className="trig-projection-line"
             x1={CENTER}
             y1={CENTER}
             x2={cosProjection.x}
@@ -264,7 +404,10 @@ const TrigCircle = () => {
             strokeWidth="2"
           />
 
-          <path d={createArcPath(0, normalizedAngle, 36)} stroke="#7c3aed" strokeWidth="2" fill="none" />
+          <path d={createArcPathSigned(signedAngle, 28)} stroke="rgba(168,85,247,0.8)" strokeWidth="2" fill="none" />
+          <text x={thetaLabelPoint.x - 6} y={thetaLabelPoint.y - 6} className="angle-label">
+            θ
+          </text>
 
           {showTangent ? (
             <line
@@ -277,21 +420,16 @@ const TrigCircle = () => {
             />
           ) : null}
 
-          {trail.map((trailPoint, index) => {
-            const factor = 1 - index / Math.max(1, trail.length)
-            const radius = 0.5 + factor * 2.5
-            const opacity = factor * 0.5
-
-            return (
-              <circle
-                key={`${trailPoint.x}-${trailPoint.y}-${index}`}
-                cx={trailPoint.x}
-                cy={trailPoint.y}
-                r={radius}
-                fill={`rgba(34, 211, 238, ${opacity.toFixed(3)})`}
-              />
-            )
-          })}
+          {explosionParticles.map((particle) => (
+            <circle
+              key={particle.id}
+              cx={particle.x}
+              cy={particle.y}
+              r={particle.radius}
+              fill={particle.color}
+              fillOpacity={particle.opacity}
+            />
+          ))}
 
           <circle cx={point.x} cy={point.y} r="9" fill="rgba(34,211,238,0.2)" />
           <circle
@@ -305,10 +443,17 @@ const TrigCircle = () => {
           />
         </svg>
 
-        <div key={badgeFlipKey} className="trig-tooltip trig-angle-badge" style={{ left: point.x + 10, top: point.y - 44 }}>
+        <div className="trig-tooltip trig-angle-badge" style={{ left: point.x + 10, top: point.y - 44 }}>
           {degrees}° | {radiansLabel} rad
         </div>
       </div>
+
+      {showExactValues ? (
+        <div className="trig-exact-values" aria-live="polite">
+          sen(θ) = {sinValue.toFixed(2)} | cos(θ) = {cosValue.toFixed(2)} | tan(θ) ={' '}
+          {Number.isFinite(tanValue) ? tanValue.toFixed(2) : '∞'}
+        </div>
+      ) : null}
 
       <div className="trig-values" aria-live="polite">
         <span className="sin">sin = {sinValue.toFixed(3)} ↑</span>

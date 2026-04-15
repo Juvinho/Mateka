@@ -1,6 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react'
-
-import { lerp } from '../utils/math'
+import { useMemo } from 'react'
 
 type MathBackgroundProps = {
   ambienceEnabled: boolean
@@ -29,11 +27,6 @@ const formulaPositions = [
 ]
 
 const MathBackground = ({ ambienceEnabled }: MathBackgroundProps) => {
-  const orbsRef = useRef<HTMLDivElement | null>(null)
-  const formulasRef = useRef<HTMLDivElement | null>(null)
-  const gridRef = useRef<HTMLDivElement | null>(null)
-  const cyanOrbRef = useRef<HTMLDivElement | null>(null)
-
   const reducedMotion = useMemo(
     () =>
       typeof window !== 'undefined' &&
@@ -41,83 +34,23 @@ const MathBackground = ({ ambienceEnabled }: MathBackgroundProps) => {
     [],
   )
 
-  useEffect(() => {
-    if (reducedMotion) return
-
-    const mouseTarget = { x: 0, y: 0 }
-    const mouseCurrent = { x: 0, y: 0 }
-
-    let orbShift = 0
-    let formulaShift = 0
-    let gridShift = 0
-    let frame = 0
-
-    const onPointerMove = (event: PointerEvent): void => {
-      mouseTarget.x = (event.clientX - window.innerWidth / 2) * 0.05
-      mouseTarget.y = (event.clientY - window.innerHeight / 2) * 0.05
-    }
-
-    const onPointerLeave = (): void => {
-      mouseTarget.x = 0
-      mouseTarget.y = 0
-    }
-
-    const tick = (): void => {
-      const scrollY = window.scrollY
-      const activeScroll = scrollY > window.innerHeight ? 0 : scrollY
-
-      orbShift = lerp(orbShift, activeScroll * 0.4, 0.08)
-      formulaShift = lerp(formulaShift, activeScroll * 0.25, 0.08)
-      gridShift = lerp(gridShift, activeScroll * 0.5, 0.08)
-
-      mouseCurrent.x = lerp(mouseCurrent.x, mouseTarget.x, 0.03)
-      mouseCurrent.y = lerp(mouseCurrent.y, mouseTarget.y, 0.03)
-
-      if (orbsRef.current) {
-        orbsRef.current.style.transform = `translate3d(0, ${orbShift.toFixed(2)}px, 0)`
-      }
-
-      if (formulasRef.current) {
-        formulasRef.current.style.transform = `translate3d(0, ${formulaShift.toFixed(2)}px, 0)`
-      }
-
-      if (gridRef.current) {
-        gridRef.current.style.transform = `translate3d(0, ${gridShift.toFixed(2)}px, 0)`
-      }
-
-      if (cyanOrbRef.current) {
-        cyanOrbRef.current.style.setProperty('--orb-mouse-x', `${mouseCurrent.x.toFixed(2)}px`)
-        cyanOrbRef.current.style.setProperty('--orb-mouse-y', `${mouseCurrent.y.toFixed(2)}px`)
-      }
-
-      frame = window.requestAnimationFrame(tick)
-    }
-
-    frame = window.requestAnimationFrame(tick)
-
-    window.addEventListener('pointermove', onPointerMove)
-    window.addEventListener('pointerleave', onPointerLeave)
-
-    return () => {
-      window.cancelAnimationFrame(frame)
-      window.removeEventListener('pointermove', onPointerMove)
-      window.removeEventListener('pointerleave', onPointerLeave)
-    }
-  }, [reducedMotion])
-
   return (
     <div className="math-background" aria-hidden="true">
-      <div ref={orbsRef} className={`hero-orbs ${ambienceEnabled ? 'is-ambience' : ''}`}>
-        <div ref={cyanOrbRef} className="hero-orb orb-cyan" />
+      <div className={`hero-orbs ${ambienceEnabled ? 'is-ambience' : ''}`}>
+        <div className="hero-orb orb-cyan" />
         <div className="hero-orb orb-purple" />
         <div className="hero-orb orb-pink" />
       </div>
 
-      <div ref={gridRef} className="hero-dot-grid" />
+      <div className="hero-dot-grid" />
 
-      <div ref={formulasRef} className="math-formulas-layer">
+      <div className="math-formulas-layer">
         {formulas.map((formula, index) => (
-          <span key={formula} className="math-floating-formula" style={formulaPositions[index]}>
+          <span
+            key={formula}
+            className={`math-floating-formula ${reducedMotion ? 'is-static' : ''}`}
+            style={formulaPositions[index]}
+          >
             {formula}
           </span>
         ))}

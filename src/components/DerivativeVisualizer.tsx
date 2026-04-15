@@ -25,6 +25,7 @@ const DerivativeVisualizer = () => {
   const [selectedFunction, setSelectedFunction] = useState<FunctionKey>('x3-3x')
   const [showDerivativeCurve, setShowDerivativeCurve] = useState(false)
   const [hoverX, setHoverX] = useState<number | null>(null)
+  const hoverXRef = useRef<number | null>(null)
 
   const [domainStart, domainEnd] = domainByFunction[selectedFunction]
 
@@ -35,15 +36,26 @@ const DerivativeVisualizer = () => {
   }, [hoverX, selectedFunction])
 
   useEffect(() => {
+    hoverXRef.current = hoverX
+  }, [hoverX])
+
+  useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
 
     const context = canvas.getContext('2d')
     if (!context) return
 
+    let frame = 0
+    let initFrameA = 0
+    let initFrameB = 0
+
     const draw = (): void => {
       const width = canvas.clientWidth
       const height = canvas.clientHeight
+
+      if (width < 2 || height < 2) return
+
       const dpr = window.devicePixelRatio || 1
 
       if (canvas.width !== Math.floor(width * dpr) || canvas.height !== Math.floor(height * dpr)) {
@@ -85,8 +97,6 @@ const DerivativeVisualizer = () => {
 
       const xToPx = (x: number): number => ((x - domainStart) / (domainEnd - domainStart)) * width
       const yToPx = (y: number): number => height - ((y - yMin) / (yMax - yMin)) * height
-      const pxToX = (pixelX: number): number =>
-        domainStart + (pixelX / width) * (domainEnd - domainStart)
 
       context.strokeStyle = 'rgba(30,41,59,0.9)'
       context.lineWidth = 1
@@ -150,8 +160,8 @@ const DerivativeVisualizer = () => {
         context.stroke()
       }
 
-      if (hoverX !== null) {
-        const boundedX = Math.min(domainEnd, Math.max(domainStart, hoverX))
+      if (hoverXRef.current !== null) {
+        const boundedX = Math.min(domainEnd, Math.max(domainStart, hoverXRef.current))
         const fx = evaluateFunction(selectedFunction, boundedX)
         const dfx = evaluateDerivative(selectedFunction, boundedX)
 
@@ -179,22 +189,49 @@ const DerivativeVisualizer = () => {
         }
       }
 
-      const onPointerMove = (event: PointerEvent): void => {
-        const rect = canvas.getBoundingClientRect()
-        const localX = event.clientX - rect.left
-        setHoverX(pxToX(localX))
-      }
-
-      const onPointerLeave = (): void => {
-        setHoverX(null)
-      }
-
-      canvas.onpointermove = onPointerMove
-      canvas.onpointerleave = onPointerLeave
     }
 
-    draw()
-  }, [domainEnd, domainStart, hoverX, selectedFunction, showDerivativeCurve])
+    const scheduleDraw = (): void => {
+      if (frame) {
+        window.cancelAnimationFrame(frame)
+      }
+      frame = window.requestAnimationFrame(draw)
+    }
+
+    const onPointerMove = (event: PointerEvent): void => {
+      const rect = canvas.getBoundingClientRect()
+      const localX = event.clientX - rect.left
+      setHoverX(domainStart + (localX / rect.width) * (domainEnd - domainStart))
+      scheduleDraw()
+    }
+
+    const onPointerLeave = (): void => {
+      setHoverX(null)
+      scheduleDraw()
+    }
+
+    const resizeObserver = new ResizeObserver(() => {
+      scheduleDraw()
+    })
+
+    canvas.addEventListener('pointermove', onPointerMove)
+    canvas.addEventListener('pointerleave', onPointerLeave)
+    resizeObserver.observe(canvas)
+
+    initFrameA = window.requestAnimationFrame(() => {
+      initFrameB = window.requestAnimationFrame(scheduleDraw)
+    })
+
+    return () => {
+      window.cancelAnimationFrame(frame)
+      window.cancelAnimationFrame(initFrameA)
+      window.cancelAnimationFrame(initFrameB)
+
+      canvas.removeEventListener('pointermove', onPointerMove)
+      canvas.removeEventListener('pointerleave', onPointerLeave)
+      resizeObserver.disconnect()
+    }
+  }, [domainEnd, domainStart, selectedFunction, showDerivativeCurve])
 
   const interpretationTone =
     derivativeValue === null

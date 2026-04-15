@@ -4,20 +4,25 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react'
 
+import Aurora from './components/Aurora'
+import BackgroundCanvas from './components/BackgroundCanvas'
 import CustomCursor from './components/CustomCursor'
 import { PlaygroundErrorBoundary } from './components/PlaygroundErrorBoundary'
 import Footer from './components/Footer'
+import FloatingEquations from './components/FloatingEquations'
 import HeroSection from './components/HeroSection'
 import LoadingScreen from './components/LoadingScreen'
+import MathTrail from './components/MathTrail'
 import ModuleGrid from './components/ModuleGrid'
 import NavBar from './components/NavBar'
-import ParticleField from './components/ParticleField'
 import StatsBar from './components/StatsBar'
 import StatsCounter from './components/StatsCounter'
 import TestimonialSection from './components/TestimonialSection'
+import Vignette from './components/Vignette'
 import WavePlayground from './components/WavePlayground'
 import WhyItMatters from './components/WhyItMatters'
 import { useAmbience } from './hooks/useAmbience'
@@ -31,11 +36,33 @@ const lessonTitles: Record<string, string> = {
   '#aula-2': 'Aula 2 — Pré-Cálculo Visual',
 }
 
+const KONAMI_SEQUENCE = [
+  'ArrowUp',
+  'ArrowUp',
+  'ArrowDown',
+  'ArrowDown',
+  'ArrowLeft',
+  'ArrowRight',
+  'ArrowLeft',
+  'ArrowRight',
+  'b',
+  'a',
+]
+
 const App = () => {
   const [activeHash, setActiveHash] = useState(window.location.hash || '#hero')
   const [loadingVisible, setLoadingVisible] = useState(
     () => sessionStorage.getItem('mateka:loaded') !== 'true',
   )
+  const [professorMode, setProfessorMode] = useState(false)
+  const [konamiFlashVisible, setKonamiFlashVisible] = useState(false)
+  const [professorMessageVisible, setProfessorMessageVisible] = useState(false)
+
+  const konamiIndexRef = useRef(0)
+  const flashTimeoutRef = useRef<number | null>(null)
+  const messageTimeoutRef = useRef<number | null>(null)
+  const professorTimeoutRef = useRef<number | null>(null)
+
   const progress = useScrollProgress()
   const { enabled: ambienceEnabled, toggle: toggleAmbience } = useAmbience()
 
@@ -43,6 +70,13 @@ const App = () => {
     () =>
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+    [],
+  )
+
+  const touchDevice = useMemo(
+    () =>
+      typeof window !== 'undefined' &&
+      window.matchMedia('(hover: none), (pointer: coarse)').matches,
     [],
   )
 
@@ -90,8 +124,120 @@ const App = () => {
     })
   }, [activeHash])
 
+  const activateProfessorMode = useCallback((): void => {
+    setProfessorMode(true)
+    setKonamiFlashVisible(true)
+    setProfessorMessageVisible(true)
+
+    if (flashTimeoutRef.current) {
+      window.clearTimeout(flashTimeoutRef.current)
+    }
+
+    if (messageTimeoutRef.current) {
+      window.clearTimeout(messageTimeoutRef.current)
+    }
+
+    if (professorTimeoutRef.current) {
+      window.clearTimeout(professorTimeoutRef.current)
+    }
+
+    flashTimeoutRef.current = window.setTimeout(() => {
+      setKonamiFlashVisible(false)
+      flashTimeoutRef.current = null
+    }, 300)
+
+    messageTimeoutRef.current = window.setTimeout(() => {
+      setProfessorMessageVisible(false)
+      messageTimeoutRef.current = null
+    }, 3000)
+
+    professorTimeoutRef.current = window.setTimeout(() => {
+      setProfessorMode(false)
+      professorTimeoutRef.current = null
+    }, 10000)
+  }, [])
+
+  useEffect(() => {
+    if (touchDevice || reducedMotion) return
+
+    const onKeyDown = (event: KeyboardEvent): void => {
+      const key = event.key.length === 1 ? event.key.toLowerCase() : event.key
+      const index = konamiIndexRef.current
+      const expected = KONAMI_SEQUENCE[index]
+
+      if (key === expected) {
+        const nextIndex = index + 1
+        konamiIndexRef.current = nextIndex
+
+        if (nextIndex !== KONAMI_SEQUENCE.length) return
+
+        konamiIndexRef.current = 0
+        activateProfessorMode()
+        return
+      }
+
+      konamiIndexRef.current = key === KONAMI_SEQUENCE[0] ? 1 : 0
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+
+    return () => {
+      window.removeEventListener('keydown', onKeyDown)
+    }
+  }, [activateProfessorMode, reducedMotion, touchDevice])
+
+  useEffect(() => {
+    document.body.classList.toggle('professor-mode', professorMode)
+
+    return () => {
+      document.body.classList.remove('professor-mode')
+    }
+  }, [professorMode])
+
+  useEffect(() => {
+    return () => {
+      if (flashTimeoutRef.current) {
+        window.clearTimeout(flashTimeoutRef.current)
+        flashTimeoutRef.current = null
+      }
+
+      if (messageTimeoutRef.current) {
+        window.clearTimeout(messageTimeoutRef.current)
+        messageTimeoutRef.current = null
+      }
+
+      if (professorTimeoutRef.current) {
+        window.clearTimeout(professorTimeoutRef.current)
+        professorTimeoutRef.current = null
+      }
+    }
+  }, [])
+
   useEffect(() => {
     const revealedClass = 'is-visible'
+
+    const revealAll = (): void => {
+      document.querySelectorAll<HTMLElement>('[data-reveal]').forEach((element) => {
+        element.classList.add(revealedClass)
+      })
+    }
+
+    if (reducedMotion || typeof window === 'undefined' || !('IntersectionObserver' in window)) {
+      revealAll()
+
+      const fallbackObserver = new MutationObserver(() => {
+        revealAll()
+      })
+
+      fallbackObserver.observe(document.body, { childList: true, subtree: true })
+
+      return () => {
+        fallbackObserver.disconnect()
+      }
+    }
+
+    const timerByElement = new WeakMap<HTMLElement, number>()
+    const timers = new Set<number>()
 
     // IntersectionObserver shared across all [data-reveal] elements (including
     // those added later by lazy-loaded components via MutationObserver).
@@ -103,6 +249,14 @@ const App = () => {
           const staggerIndex = Number(target.dataset.stagger ?? 0)
           target.style.transitionDelay = `${staggerIndex * 100}ms`
           target.classList.add(revealedClass)
+
+          const timeoutId = timerByElement.get(target)
+          if (timeoutId) {
+            window.clearTimeout(timeoutId)
+            timers.delete(timeoutId)
+            timerByElement.delete(target)
+          }
+
           io.unobserve(target)
         }
       },
@@ -110,12 +264,17 @@ const App = () => {
     )
 
     const observeIfNeeded = (el: HTMLElement): void => {
-      if (reducedMotion) {
-        el.classList.add(revealedClass)
-        return
-      }
       if (!el.classList.contains(revealedClass)) {
         io.observe(el)
+
+        const timeoutId = window.setTimeout(() => {
+          if (el.classList.contains(revealedClass)) return
+          el.classList.add(revealedClass)
+          io.unobserve(el)
+        }, 1000)
+
+        timerByElement.set(el, timeoutId)
+        timers.add(timeoutId)
       }
     }
 
@@ -137,6 +296,12 @@ const App = () => {
     return () => {
       io.disconnect()
       mo.disconnect()
+
+      for (const timeoutId of timers) {
+        window.clearTimeout(timeoutId)
+      }
+
+      timers.clear()
     }
   }, [activeHash, reducedMotion])
 
@@ -145,20 +310,38 @@ const App = () => {
   }, [toggleAmbience])
 
   const activeLessonTitle = lessonTitles[activeHash]
+
+  useEffect(() => {
+    if (!import.meta.env.DEV) return
+    const currentView = activeLessonTitle ? 'lesson' : 'landing'
+    const lessonId = activeLessonTitle ? activeHash : 'none'
+    console.log('current view:', currentView, 'lessonId:', lessonId)
+  }, [activeHash, activeLessonTitle])
+
   const handleLoadingComplete = useCallback(() => {
     setLoadingVisible(false)
   }, [])
 
   return (
     <div className="app-shell">
-      <div className="scroll-progress-bar" style={{ transform: `scaleX(${progress})` }} />
+      <BackgroundCanvas ambienceActive={ambienceEnabled} intensityBoost={professorMode ? 0.5 : 0} />
+      <Aurora ambienceActive={ambienceEnabled} />
+      <Vignette />
+      <FloatingEquations />
+      <MathTrail boostSymbols={professorMode} />
 
-      <ParticleField />
-      <div className="global-scanlines" aria-hidden="true" />
+      {konamiFlashVisible ? <div className="konami-flash-overlay" aria-hidden="true" /> : null}
+      {professorMessageVisible ? (
+        <div className="professor-mode-banner" role="status" aria-live="polite">
+          🎓 MODO PROFESSOR ATIVADO
+        </div>
+      ) : null}
+
+      <div className="scroll-progress-bar" style={{ transform: `scaleX(${progress})` }} />
 
       {loadingVisible ? <LoadingScreen onComplete={handleLoadingComplete} /> : null}
 
-      <CustomCursor />
+      <CustomCursor professorMode={professorMode} />
       <div className={`app-content ${loadingVisible ? 'is-loading' : 'is-ready'}`}>
         <NavBar
           ambienceEnabled={ambienceEnabled}

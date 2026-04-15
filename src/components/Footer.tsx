@@ -1,10 +1,30 @@
+import { useMemo, useRef } from 'react'
+
+import { useSpringReveal } from '../hooks/useSpringReveal'
+
 type FooterProps = {
   onNavigate: (hash: string) => void
 }
 
 const Footer = ({ onNavigate }: FooterProps) => {
+  const footerRef = useRef<HTMLElement | null>(null)
+
+  const reducedMotion = useMemo(
+    () =>
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+    [],
+  )
+
+  useSpringReveal({
+    rootRef: footerRef,
+    selector: '.mateka-footer-inner',
+    staggerMs: 60,
+    disabled: reducedMotion,
+  })
+
   return (
-    <footer className="mateka-footer reveal" data-reveal>
+    <footer ref={footerRef} className="mateka-footer reveal" data-reveal>
       <div className="mateka-footer-inner">
         <div className="footer-top">
           <div>
