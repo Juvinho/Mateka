@@ -1,6 +1,15 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 
+interface WaveDot {
+  x: number
+  type: 'max' | 'min' | 'zero'
+  label: string
+  opacity: number
+  fadeFrames: number
+}
+
 import { WaveSynth, audioIsSupported } from '../utils/audio'
+import { useMagneticButton } from '../hooks/useMagneticButton'
 import { mapRange } from '../utils/math'
 
 const CANVAS_WIDTH = 1200
@@ -17,6 +26,12 @@ const WavePlayground = () => {
   const dotsFadingRef = useRef(false)
   const fadeTimeoutRef = useRef<number | null>(null)
   const hasMountedRef = useRef(false)
+  const {
+    buttonRef: ctaButtonRef,
+    textRef: ctaTextRef,
+    onMouseMove: onCtaMouseMove,
+    onMouseLeave: onCtaMouseLeave,
+  } = useMagneticButton()
 
   const reducedMotion = useMemo(
     () =>
@@ -75,6 +90,15 @@ const WavePlayground = () => {
     let frame = 0
     let phase = 0
 
+    const frequencyScale = frequency * 0.016
+    const wavelength = (2 * Math.PI) / frequencyScale
+
+    const dots: WaveDot[] = [
+      { x: wavelength * 0.25, type: 'max',  label: 'max', opacity: 1, fadeFrames: 0 },
+      { x: wavelength * 0.5,  type: 'zero', label: '0',   opacity: 1, fadeFrames: 0 },
+      { x: wavelength * 0.75, type: 'min',  label: 'min', opacity: 1, fadeFrames: 0 },
+    ]
+
     const draw = (): void => {
       const width = canvas.clientWidth
       const height = canvas.clientHeight
@@ -90,19 +114,10 @@ const WavePlayground = () => {
 
       const centerY = height / 2
       const maxAmplitudePx = amplitude * (height * 0.32)
-      const frequencyScale = frequency * 0.016
 
       const pointsPrimary: Array<{ x: number; y: number }> = []
       const pointsHarmonic: Array<{ x: number; y: number }> = []
       const pointsComposite: Array<{ x: number; y: number }> = []
-
-      const maxX = Math.min(width - 16, Math.max(16, (Math.PI * 0.5) / frequencyScale))
-      const minX = Math.min(width - 16, Math.max(16, (Math.PI * 1.5) / frequencyScale))
-      const zeroX = Math.min(width - 16, Math.max(16, Math.PI / frequencyScale))
-
-      const primaryMax = { x: maxX, y: centerY - maxAmplitudePx }
-      const primaryMin = { x: minX, y: centerY + maxAmplitudePx }
-      const zeroCrossing = { x: zeroX, y: centerY }
 
       for (let x = 0; x <= width; x += 2) {
         const theta = x * frequencyScale + phase
@@ -159,18 +174,26 @@ const WavePlayground = () => {
         context.stroke()
       }
 
-      const drawMarker = (x: number, y: number, label: string, color: string, alpha: number): void => {
-        context.save()
-        context.globalAlpha = alpha
-        context.beginPath()
-        context.fillStyle = color
-        context.arc(x, y, 5, 0, Math.PI * 2)
-        context.fill()
+      // Traveling dots — move left at the same speed as the wave
+      const waveSpeed = 0.04 / frequencyScale
 
-        context.font = '12px "JetBrains Mono", monospace'
-        context.fillStyle = color
-        context.fillText(label, x + 8, y - 8)
-        context.restore()
+      if (!reducedMotion) {
+        for (const dot of dots) {
+          dot.x -= waveSpeed
+
+          if (dot.x < -20) {
+            dot.x = width + 20
+            dot.fadeFrames = 15
+            dot.opacity = 0
+          }
+
+          if (dot.fadeFrames > 0) {
+            dot.opacity = 1 - dot.fadeFrames / 15
+            dot.fadeFrames--
+          } else {
+            dot.opacity = 1
+          }
+        }
       }
 
       const isDotsFading = dotsFadingRef.current
@@ -179,9 +202,35 @@ const WavePlayground = () => {
         (targetMarkerOpacity - markerOpacityRef.current) * (isDotsFading ? 0.22 : 0.14)
       const markerOpacity = markerOpacityRef.current
 
-      drawMarker(primaryMax.x, primaryMax.y, 'max', '#22d3ee', markerOpacity)
-      drawMarker(primaryMin.x, primaryMin.y, 'min', '#ec4899', markerOpacity)
-      drawMarker(zeroCrossing.x, zeroCrossing.y, '0', '#ffffff', markerOpacity)
+      for (const dot of dots) {
+        const dotY = centerY - Math.sin(dot.x * frequencyScale + phase) * maxAmplitudePx
+        const radius = dot.type === 'zero' ? 5 : 7
+        const color = dot.type === 'max' ? '#22d3ee' : dot.type === 'min' ? '#f472b6' : '#ffffff'
+        const finalAlpha = markerOpacity * dot.opacity
+
+        context.save()
+        context.globalAlpha = finalAlpha
+        context.shadowBlur = 12
+        context.shadowColor = color
+        context.beginPath()
+        context.fillStyle = color
+        context.arc(dot.x, dotY, radius, 0, Math.PI * 2)
+        context.fill()
+
+        context.font = '12px "JetBrains Mono", monospace'
+        context.fillStyle = color
+        context.shadowBlur = 8
+
+        if (dot.type === 'max') {
+          context.fillText(dot.label, dot.x + 10, dotY - 10)
+        } else if (dot.type === 'min') {
+          context.fillText(dot.label, dot.x + 10, dotY + 18)
+        } else {
+          context.fillText(dot.label, dot.x + 8, dotY - 8)
+        }
+
+        context.restore()
+      }
 
       if (!reducedMotion) {
         phase += 0.04
@@ -263,7 +312,7 @@ const WavePlayground = () => {
     <section id="playground" className="wave-playground-section reveal" data-reveal>
       <header className="section-header">
         <p className="section-kicker">O playground</p>
-        <h2>Arraste para alterar a frequencia e sinta a matematica.</h2>
+        <h2>Arraste para alterar a frequência e sinta a matemática.</h2>
       </header>
 
       <div className={`wave-canvas-shell ${soundEnabled ? 'is-sounding' : ''}`}>
@@ -272,13 +321,13 @@ const WavePlayground = () => {
           width={CANVAS_WIDTH}
           height={CANVAS_HEIGHT}
           role="img"
-          aria-label="Playground de onda senoidal com frequencia e amplitude dinamicas"
+          aria-label="Playground de onda senoidal com frequência e amplitude dinâmicas"
         />
       </div>
 
       <div className="wave-controls">
         <label htmlFor="freq-slider" className="wave-slider-group">
-          <span>FREQUENCIA</span>
+          <span>FREQUÊNCIA</span>
           <input
             id="freq-slider"
             type="range"
@@ -287,7 +336,7 @@ const WavePlayground = () => {
             step={0.1}
             value={frequency}
             onChange={(event) => setFrequency(Number(event.target.value))}
-            aria-label="Controlar frequencia da onda"
+            aria-label="Controlar frequência da onda"
           />
           <output>{frequency.toFixed(1)} Hz</output>
         </label>
@@ -323,9 +372,9 @@ const WavePlayground = () => {
               type="checkbox"
               checked={harmonicEnabled}
               onChange={(event) => setHarmonicEnabled(event.target.checked)}
-              aria-label="Adicionar harmonica na onda"
+              aria-label="Adicionar harmônica na onda"
             />
-            Adicionar Harmonica
+            Adicionar Harmônica
           </label>
         </div>
 
@@ -338,10 +387,18 @@ const WavePlayground = () => {
         <p>
           Entendeu o conceito em 5 segundos?
           <br />
-          Imagine o que voce aprende em 5 minutos.
+          Imagine o que você aprende em 5 minutos.
         </p>
-        <button type="button" className="btn-primary" aria-label="Comecar agora">
-          Comecar Agora →
+        <button
+          ref={ctaButtonRef}
+          type="button"
+          className="btn-primary"
+          aria-label="Começar agora"
+          onMouseMove={onCtaMouseMove}
+          onMouseLeave={onCtaMouseLeave}
+          data-cursor
+        >
+          <span ref={ctaTextRef}>Começar Agora →</span>
         </button>
       </footer>
     </section>

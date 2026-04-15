@@ -1,40 +1,86 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 
+import { useCardTilt } from '../hooks/useCardTilt'
+
 type StatItem = {
   label: string
   value: number
   suffix: string
   note: string
+  iconPath: string
+}
+
+type StatCardProps = {
+  item: StatItem
+  displayValue: string
+  isVisible: boolean
+  isPulsing: boolean
 }
 
 const stats: StatItem[] = [
   {
-    label: 'Exercicios interativos',
+    label: 'Exercícios interativos',
     value: 5200,
     suffix: '+',
     note: 'curtos e visuais',
+    iconPath: 'M 8 42 L 22 28 L 34 34 L 50 16',
   },
   {
     label: 'Alunos ativos',
     value: 18000,
     suffix: '+',
-    note: 'aprendendo com exploracao',
+    note: 'aprendendo com exploração',
+    iconPath: 'M 10 42 C 18 24, 28 24, 36 42 C 42 26, 52 26, 58 42',
   },
   {
-    label: 'Tempo medio para entender',
+    label: 'Tempo médio para entender',
     value: 5,
     suffix: ' min',
     note: 'do conceito ao clique',
+    iconPath: 'M 34 10 A 24 24 0 1 1 33.9 10 M 34 16 L 34 34 L 46 38',
   },
   {
-    label: 'Taxa de acerto apos revisao',
+    label: 'Taxa de acerto após revisão',
     value: 92,
     suffix: '%',
-    note: 'com repeticao inteligente',
+    note: 'com repetição inteligente',
+    iconPath: 'M 8 34 L 24 48 L 52 16',
   },
 ]
 
 const easeOutCubic = (progress: number): number => 1 - Math.pow(1 - progress, 3)
+
+const formatDisplay = (value: number, suffix: string): string =>
+  `${value.toLocaleString('pt-BR')}${suffix}`
+
+const randomDisplay = (target: number, suffix: string): string => {
+  const randomValue = Math.max(1, Math.floor(Math.random() * (target + 1)))
+  return formatDisplay(randomValue, suffix)
+}
+
+const StatCard = ({ item, displayValue, isVisible, isPulsing }: StatCardProps) => {
+  const { cardRef, glareRef, onMouseMove, onMouseLeave } = useCardTilt()
+
+  return (
+    <article
+      ref={cardRef}
+      className={`stats-bar-item ${isVisible ? 'is-visible' : ''}`}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
+      data-cursor
+    >
+      <div ref={glareRef} className="card-glare" aria-hidden="true" />
+
+      <svg className="stats-bar-icon" viewBox="0 0 68 56" aria-hidden="true">
+        <path className="stats-bar-icon-path" d={item.iconPath} fill="none" />
+      </svg>
+
+      <strong className={isPulsing ? 'is-pulsing' : ''}>{displayValue}</strong>
+      <span>{item.label}</span>
+      <small>{item.note}</small>
+    </article>
+  )
+}
 
 const StatsBar = () => {
   const reducedMotion = useMemo(
@@ -46,10 +92,13 @@ const StatsBar = () => {
 
   const sectionRef = useRef<HTMLElement | null>(null)
   const frameRef = useRef<number | null>(null)
+  const pulseTimeoutRef = useRef<number | null>(null)
   const hasStartedRef = useRef(false)
+
   const [isVisible, setIsVisible] = useState(reducedMotion)
-  const [counts, setCounts] = useState<number[]>(() =>
-    reducedMotion ? stats.map((item) => item.value) : stats.map(() => 0),
+  const [isPulsing, setIsPulsing] = useState(false)
+  const [displayValues, setDisplayValues] = useState<string[]>(() =>
+    reducedMotion ? stats.map((item) => formatDisplay(item.value, item.suffix)) : stats.map(() => '0'),
   )
 
   useEffect(() => {
@@ -83,52 +132,85 @@ const StatsBar = () => {
 
     hasStartedRef.current = true
 
-    const duration = 980
+    const duration = 1100
     const start = performance.now()
 
     const tick = (now: number): void => {
       const elapsed = now - start
       const progress = Math.min(elapsed / duration, 1)
 
-      setCounts(
+      setDisplayValues(
         stats.map((item, index) => {
-          const offset = Math.min(index * 0.08, 0.28)
+          const offset = Math.min(index * 0.08, 0.3)
           const normalized = Math.max(0, Math.min((progress - offset) / (1 - offset), 1))
-          return Math.round(item.value * easeOutCubic(normalized))
+
+          if (normalized < 0.7) {
+            return randomDisplay(item.value, item.suffix)
+          }
+
+          const settle = easeOutCubic((normalized - 0.7) / 0.3)
+          const settledValue = Math.round(item.value * settle)
+          return formatDisplay(settledValue, item.suffix)
         }),
       )
 
       if (progress < 1) {
         frameRef.current = window.requestAnimationFrame(tick)
+        return
       }
+
+      setDisplayValues(stats.map((item) => formatDisplay(item.value, item.suffix)))
+      setIsPulsing(true)
+
+      pulseTimeoutRef.current = window.setTimeout(() => {
+        setIsPulsing(false)
+        pulseTimeoutRef.current = null
+      }, 300)
     }
 
     frameRef.current = window.requestAnimationFrame(tick)
 
     return () => {
-      if (!frameRef.current) return
-      window.cancelAnimationFrame(frameRef.current)
-      frameRef.current = null
+      if (frameRef.current) {
+        window.cancelAnimationFrame(frameRef.current)
+        frameRef.current = null
+      }
+
+      if (!pulseTimeoutRef.current) return
+      window.clearTimeout(pulseTimeoutRef.current)
+      pulseTimeoutRef.current = null
     }
   }, [isVisible, reducedMotion])
+
+  useEffect(() => {
+    return () => {
+      if (frameRef.current) {
+        window.cancelAnimationFrame(frameRef.current)
+        frameRef.current = null
+      }
+
+      if (!pulseTimeoutRef.current) return
+      window.clearTimeout(pulseTimeoutRef.current)
+      pulseTimeoutRef.current = null
+    }
+  }, [])
 
   return (
     <section
       ref={sectionRef}
       className={`stats-bar-section ${isVisible ? 'is-visible' : ''}`}
-      aria-label="Resumo rapido da plataforma"
+      aria-label="Resumo rápido da plataforma"
     >
       <div className="stats-bar-shell">
         <div className="stats-bar-grid">
           {stats.map((item, index) => (
-            <article key={item.label} className="stats-bar-item">
-              <strong>
-                {counts[index].toLocaleString('pt-BR')}
-                {item.suffix}
-              </strong>
-              <span>{item.label}</span>
-              <small>{item.note}</small>
-            </article>
+            <StatCard
+              key={item.label}
+              item={item}
+              displayValue={displayValues[index] ?? formatDisplay(item.value, item.suffix)}
+              isVisible={isVisible}
+              isPulsing={isPulsing}
+            />
           ))}
         </div>
       </div>

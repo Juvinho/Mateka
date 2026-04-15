@@ -1,10 +1,14 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
+import { useGlitchText } from '../hooks/useGlitchText'
+import { useMagneticButton } from '../hooks/useMagneticButton'
+import { lerp } from '../utils/math'
 import MathBackground from './MathBackground'
 import TrigCircle from './TrigCircle'
 
 type HeroSectionProps = {
   onNavigate: (hash: string) => void
+  ambienceEnabled: boolean
 }
 
 type QuickStat = {
@@ -16,16 +20,53 @@ type QuickStat = {
 }
 
 const stats: QuickStat[] = [
-  { id: 'modules', label: 'modulos', value: 5 },
-  { id: 'viz', label: 'visualizacoes', staticValue: '∞' },
+  { id: 'modules', label: 'módulos', value: 5 },
+  { id: 'viz', label: 'visualizações', staticValue: '∞' },
   { id: 'ai', label: 'ia adaptativa', staticValue: 'IA' },
-  { id: 'free', label: 'gratis', value: 100, suffix: '%' },
+  { id: 'free', label: 'grátis', value: 100, suffix: '%' },
 ]
 
-const HeroSection = ({ onNavigate }: HeroSectionProps) => {
+const typewriterPhrases = [
+  'Transformando matemática abstrata em experiência visual.',
+  'Do ensino médio ao cálculo universitário.',
+  'Interaja. Experimente. Entenda de verdade.',
+  'A matemática que você sentia que faltava.',
+]
+
+const HeroSection = ({ onNavigate, ambienceEnabled }: HeroSectionProps) => {
+  const sectionRef = useRef<HTMLElement | null>(null)
+  const leftRef = useRef<HTMLDivElement | null>(null)
+  const rightRef = useRef<HTMLDivElement | null>(null)
   const statsRef = useRef<HTMLDivElement | null>(null)
+
   const [visible, setVisible] = useState(false)
   const [animatedValues, setAnimatedValues] = useState<Record<string, number>>({})
+  const [typedText, setTypedText] = useState('')
+  const [phraseIndex, setPhraseIndex] = useState(0)
+  const [isDeleting, setIsDeleting] = useState(false)
+
+  const badgeGlitch = useGlitchText('A NOVA ERA DA MATEMÁTICA')
+  const titleGlitch = useGlitchText('Não decore. Visualize.')
+
+  const {
+    buttonRef: exploreButtonRef,
+    textRef: exploreTextRef,
+    onMouseMove: onExploreMouseMove,
+    onMouseLeave: onExploreMouseLeave,
+  } = useMagneticButton()
+  const {
+    buttonRef: demoButtonRef,
+    textRef: demoTextRef,
+    onMouseMove: onDemoMouseMove,
+    onMouseLeave: onDemoMouseLeave,
+  } = useMagneticButton()
+
+  const reducedMotion = useMemo(
+    () =>
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+    [],
+  )
 
   useEffect(() => {
     const element = statsRef.current
@@ -81,18 +122,96 @@ const HeroSection = ({ onNavigate }: HeroSectionProps) => {
     }
   }, [visible])
 
-  return (
-    <section id="hero" className="hero-section reveal" data-reveal>
-      <MathBackground />
+  useEffect(() => {
+    const currentPhrase = typewriterPhrases[phraseIndex]
+    if (!currentPhrase) return
 
-      <div className="hero-left">
+    if (!isDeleting && typedText === currentPhrase) {
+      const pauseTimer = window.setTimeout(() => {
+        setIsDeleting(true)
+      }, 2200)
+
+      return () => {
+        window.clearTimeout(pauseTimer)
+      }
+    }
+
+    if (isDeleting && typedText.length === 0) {
+      const nextPhraseTimer = window.setTimeout(() => {
+        setIsDeleting(false)
+        setPhraseIndex((previous) => (previous + 1) % typewriterPhrases.length)
+      }, 0)
+
+      return () => {
+        window.clearTimeout(nextPhraseTimer)
+      }
+    }
+
+    const stepDelay = isDeleting ? 25 : 45
+    const nextText = isDeleting
+      ? currentPhrase.slice(0, typedText.length - 1)
+      : currentPhrase.slice(0, typedText.length + 1)
+
+    const stepTimer = window.setTimeout(() => {
+      setTypedText(nextText)
+    }, stepDelay)
+
+    return () => {
+      window.clearTimeout(stepTimer)
+    }
+  }, [isDeleting, phraseIndex, typedText])
+
+  useEffect(() => {
+    if (reducedMotion) return
+
+    let frame = 0
+    let leftY = 0
+    let rightY = 0
+
+    const animate = (): void => {
+      const scrollY = window.scrollY
+      const activeScroll = scrollY > window.innerHeight ? 0 : scrollY
+
+      const leftTarget = activeScroll * 0.08
+      const rightTarget = activeScroll * 0.15
+
+      leftY = lerp(leftY, leftTarget, 0.12)
+      rightY = lerp(rightY, rightTarget, 0.12)
+
+      if (leftRef.current) {
+        leftRef.current.style.transform = `translate3d(0, ${leftY.toFixed(2)}px, 0)`
+      }
+
+      if (rightRef.current) {
+        rightRef.current.style.transform = `translate3d(0, ${rightY.toFixed(2)}px, 0)`
+      }
+
+      frame = window.requestAnimationFrame(animate)
+    }
+
+    frame = window.requestAnimationFrame(animate)
+
+    return () => {
+      window.cancelAnimationFrame(frame)
+    }
+  }, [reducedMotion])
+
+  return (
+    <section ref={sectionRef} id="hero" className="hero-section reveal" data-reveal>
+      <MathBackground ambienceEnabled={ambienceEnabled} />
+
+      <div ref={leftRef} className="hero-left">
         <span className="hero-badge">
-          <span className="hero-badge-dot" /> A NOVA ERA DA MATEMATICA
+          <span className="hero-badge-dot" />
+          <span className={`hero-badge-text ${badgeGlitch.glitchClass}`}>
+            {badgeGlitch.displayText}
+          </span>
         </span>
 
         <h1 className="hero-title">
-          <span>Nao decore.</span>
-          <span className="gradient">Visualize.</span>
+          <span className={`hero-title-glitch ${titleGlitch.glitchClass}`}>
+            {titleGlitch.displayText}
+          </span>
           <svg className="title-wave" viewBox="0 0 440 34" aria-hidden="true">
             <path
               d="M 4 17 C 48 4, 76 30, 120 17 C 164 4, 192 30, 236 17 C 280 4, 308 30, 352 17 C 396 4, 420 30, 436 17"
@@ -110,10 +229,9 @@ const HeroSection = ({ onNavigate }: HeroSectionProps) => {
           </svg>
         </h1>
 
-        <p className="hero-description">
-          Matematica nao e uma lista de regras — e um universo visual.
-          <br />
-          Manipule graficos. Ouva funcoes. Sinta o calculo.
+        <p className="hero-description hero-typewriter" aria-live="polite">
+          <span>{typedText}</span>
+          <span className="typewriter-cursor">|</span>
         </p>
 
         <div ref={statsRef} className="hero-quick-stats" aria-live="polite">
@@ -138,25 +256,33 @@ const HeroSection = ({ onNavigate }: HeroSectionProps) => {
 
         <div className="hero-ctas">
           <button
+            ref={exploreButtonRef}
             type="button"
             className="btn-primary"
             onClick={() => onNavigate('#hero')}
-            aria-label="Explorar o circulo trigonometrico"
+            onMouseMove={onExploreMouseMove}
+            onMouseLeave={onExploreMouseLeave}
+            aria-label="Explorar o círculo trigonométrico"
+            data-cursor
           >
-            Explorar Circulo
+            <span ref={exploreTextRef}>Explorar Círculo</span>
           </button>
           <button
+            ref={demoButtonRef}
             type="button"
             className="btn-secondary"
             onClick={() => onNavigate('#playground')}
-            aria-label="Ver demonstracao do playground"
+            onMouseMove={onDemoMouseMove}
+            onMouseLeave={onDemoMouseLeave}
+            aria-label="Ver demonstração do playground"
+            data-cursor
           >
-            Ver Demo →
+            <span ref={demoTextRef}>Ver Demo →</span>
           </button>
         </div>
       </div>
 
-      <div className="hero-right">
+      <div ref={rightRef} className="hero-right">
         <TrigCircle />
       </div>
     </section>

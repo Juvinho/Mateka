@@ -9,22 +9,22 @@ const Footer = ({ onNavigate }: FooterProps) => {
         <div className="footer-top">
           <div>
             <p className="footer-brand">Mateka!</p>
-            <p className="footer-tagline">Nao decore. Visualize.</p>
+            <p className="footer-tagline">Não decore. Visualize.</p>
           </div>
 
-          <nav className="footer-links" aria-label="Links do rodape">
+          <nav className="footer-links" aria-label="Links do rodapé">
             <button type="button" onClick={() => onNavigate('#hero')}>
               Topo
             </button>
             <button type="button" onClick={() => onNavigate('#conteudos')}>
-              Modulos
+              Módulos
             </button>
             <button type="button" onClick={() => onNavigate('#playground')}>
               Playground
             </button>
           </nav>
 
-          <p className="footer-support">Aprendizado visual de matematica para Ensino Medio e Universidade.</p>
+          <p className="footer-support">Aprendizado visual de matemática para Ensino Médio e Universidade.</p>
         </div>
 
         <div className="footer-divider" aria-hidden="true" />

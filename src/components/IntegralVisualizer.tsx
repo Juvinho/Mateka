@@ -114,7 +114,7 @@ const IntegralVisualizer = () => {
     <section id="integrais" className="integral-section reveal" data-reveal>
       <header className="section-header">
         <p className="section-kicker">Visualizador de integrais</p>
-        <h2>Veja as somas de Riemann convergindo para a area real.</h2>
+        <h2>Veja as somas de Riemann convergindo para a área real.</h2>
       </header>
 
       <div className="integral-layout">
@@ -124,23 +124,23 @@ const IntegralVisualizer = () => {
             width={400}
             height={300}
             role="img"
-            aria-label="Grafico com retangulos de Riemann e area aproximada"
+            aria-label="Gráfico com retângulos de Riemann e área aproximada"
           />
         </div>
 
         <aside className="integral-controls">
-          <label htmlFor="integral-function">Funcao</label>
+          <label htmlFor="integral-function">Função</label>
           <select
             id="integral-function"
             value={selectedFunction}
             onChange={(event) => setSelectedFunction(event.target.value as IntegralFunctionKey)}
-            aria-label="Selecionar funcao para visualizacao da integral"
+            aria-label="Selecionar função para visualização da integral"
           >
             <option value="sin">f(x) = sin(x)</option>
             <option value="x2">f(x) = x^2</option>
           </select>
 
-          <label htmlFor="slice-slider">Numero de fatias: {slices}</label>
+          <label htmlFor="slice-slider">Número de fatias: {slices}</label>
           <input
             id="slice-slider"
             type="range"
@@ -149,12 +149,12 @@ const IntegralVisualizer = () => {
             step={1}
             value={slices}
             onChange={(event) => setSlices(Number(event.target.value))}
-            aria-label="Numero de fatias para soma de Riemann"
+            aria-label="Número de fatias para soma de Riemann"
           />
 
           <div className="integral-metrics" aria-live="polite">
-            <p>Area aproximada = {approximatedArea.toFixed(4)}</p>
-            <p>Area exata = {exactArea.toFixed(4)}</p>
+            <p>Área aproximada = {approximatedArea.toFixed(4)}</p>
+            <p>Área exata = {exactArea.toFixed(4)}</p>
             <p>Erro: {errorPercent.toFixed(2)}%</p>
           </div>
         </aside>

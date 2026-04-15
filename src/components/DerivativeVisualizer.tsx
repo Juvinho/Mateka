@@ -209,7 +209,7 @@ const DerivativeVisualizer = () => {
     <section id="derivadas" className="derivative-section reveal" data-reveal>
       <header className="section-header">
         <p className="section-kicker">Visualizador de derivada</p>
-        <h2>Incline a reta tangente e veja a variacao instantanea.</h2>
+        <h2>Incline a reta tangente e veja a variação instantânea.</h2>
       </header>
 
       <div className="derivative-layout">
@@ -219,12 +219,12 @@ const DerivativeVisualizer = () => {
             width={400}
             height={300}
             role="img"
-            aria-label="Grafico interativo com reta tangente e derivada"
+            aria-label="Gráfico interativo com reta tangente e derivada"
           />
 
           <div className="derivative-tooltip" aria-live="polite">
             {hoverX === null ? (
-              <span>Mova o mouse no grafico para explorar a tangente.</span>
+              <span>Mova o mouse no gráfico para explorar a tangente.</span>
             ) : (
               <span>
                 f'(x) = {functionLabels[selectedFunction]} = {derivativeValue?.toFixed(3) ?? 'n/a'}
@@ -234,12 +234,12 @@ const DerivativeVisualizer = () => {
         </div>
 
         <aside className="derivative-controls">
-          <label htmlFor="function-select">Funcao</label>
+          <label htmlFor="function-select">Função</label>
           <select
             id="function-select"
             value={selectedFunction}
             onChange={(event) => setSelectedFunction(event.target.value as FunctionKey)}
-            aria-label="Selecionar funcao para derivar"
+            aria-label="Selecionar função para derivar"
           >
             <option value="x2">x^2</option>
             <option value="x3-3x">x^3 - 3x</option>
@@ -260,9 +260,9 @@ const DerivativeVisualizer = () => {
           </label>
 
           <div className={`derivative-interpretation ${interpretationTone}`}>
-            <p>Inclinacao positiva → funcao esta CRESCENDO ↗</p>
-            <p>Inclinacao negativa → funcao esta DECRESCENDO ↘</p>
-            <p>Inclinacao zero → MAXIMO ou MINIMO local ●</p>
+            <p>Inclinação positiva → função está CRESCENDO ↗</p>
+            <p>Inclinação negativa → função está DECRESCENDO ↘</p>
+            <p>Inclinação zero → MÁXIMO ou MÍNIMO local ●</p>
           </div>
         </aside>
       </div>

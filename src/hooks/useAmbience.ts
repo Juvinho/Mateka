@@ -28,7 +28,12 @@ export const useAmbience = () => {
       return
     }
 
-    const context = new window.AudioContext()
+    let context: AudioContext
+    try {
+      context = new window.AudioContext()
+    } catch {
+      return
+    }
     const gain = context.createGain()
 
     gain.gain.value = 0.0001
@@ -89,16 +94,6 @@ export const useAmbience = () => {
   }, [enabled, ensureAudioGraph, setAmbientLevel])
 
   useEffect(() => {
-    if (!enabled) return
-
-    ensureAudioGraph()
-      .then(() => setAmbientLevel(true))
-      .catch(() => {
-        setEnabled(false)
-      })
-  }, [enabled, ensureAudioGraph, setAmbientLevel])
-
-  useEffect(() => {
     return () => {
       const context = contextRef.current
       if (!context) return
@@ -112,7 +107,7 @@ export const useAmbience = () => {
         }
       })
 
-      context.close()
+      void context.suspend()
       contextRef.current = null
       gainRef.current = null
       oscillatorsRef.current = []

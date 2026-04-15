@@ -13,18 +13,50 @@ export const useScrollProgress = (): number => {
   const [progress, setProgress] = useState(0)
 
   useEffect(() => {
-    const onScroll = (): void => {
+    let frame: number | null = null
+
+    const updateProgress = (): void => {
+      frame = null
       setProgress(getScrollProgress())
     }
 
-    onScroll()
+    const requestUpdate = (): void => {
+      if (frame !== null) return
+      frame = window.requestAnimationFrame(updateProgress)
+    }
+
+    const onScroll = (): void => {
+      requestUpdate()
+    }
+
+    const onResize = (): void => {
+      requestUpdate()
+    }
+
+    const onVisibilityChange = (): void => {
+      if (document.visibilityState === 'hidden' && frame !== null) {
+        window.cancelAnimationFrame(frame)
+        frame = null
+        return
+      }
+
+      requestUpdate()
+    }
+
+    requestUpdate()
 
     window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onScroll)
+    window.addEventListener('resize', onResize)
+    document.addEventListener('visibilitychange', onVisibilityChange)
 
     return () => {
       window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onScroll)
+      window.removeEventListener('resize', onResize)
+      document.removeEventListener('visibilitychange', onVisibilityChange)
+
+      if (frame === null) return
+      window.cancelAnimationFrame(frame)
+      frame = null
     }
   }, [])
 

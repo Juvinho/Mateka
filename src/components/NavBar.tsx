@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 
+import { useMagneticButton } from '../hooks/useMagneticButton'
+
 type NavBarProps = {
   ambienceEnabled: boolean
   onToggleAmbience: () => void
@@ -8,10 +10,16 @@ type NavBarProps = {
 
 const NavBar = ({ ambienceEnabled, onToggleAmbience, onNavigate }: NavBarProps) => {
   const [scrolled, setScrolled] = useState(false)
+  const {
+    buttonRef: ctaButtonRef,
+    textRef: ctaTextRef,
+    onMouseMove: onCtaMouseMove,
+    onMouseLeave: onCtaMouseLeave,
+  } = useMagneticButton()
 
   useEffect(() => {
     const onScroll = (): void => {
-      setScrolled(window.scrollY > 50)
+      setScrolled(window.scrollY > 40)
     }
 
     onScroll()
@@ -40,14 +48,14 @@ const NavBar = ({ ambienceEnabled, onToggleAmbience, onNavigate }: NavBarProps) 
       </button>
 
       <nav className="mateka-nav-links" aria-label="Seções principais">
-        <button type="button" onClick={() => onNavigate('#hero')}>
-          Visualizador
+        <button type="button" onClick={() => onNavigate('#hero')} data-cursor>
+          <span className="mateka-nav-link-label">Visualizador</span>
         </button>
-        <button type="button" onClick={() => onNavigate('#why-it-matters')}>
-          Aplicações
+        <button type="button" onClick={() => onNavigate('#why-it-matters')} data-cursor>
+          <span className="mateka-nav-link-label">Aplicações</span>
         </button>
-        <button type="button" onClick={() => onNavigate('#playground')}>
-          Labs
+        <button type="button" onClick={() => onNavigate('#playground')} data-cursor>
+          <span className="mateka-nav-link-label">Labs</span>
         </button>
       </nav>
 
@@ -57,6 +65,7 @@ const NavBar = ({ ambienceEnabled, onToggleAmbience, onNavigate }: NavBarProps) 
           aria-label={ambienceEnabled ? 'Desativar som ambiente' : 'Ativar som ambiente'}
           className={`ambience-toggle ${ambienceEnabled ? 'is-active' : ''}`}
           onClick={onToggleAmbience}
+          data-cursor
         >
           <span className="ambience-dot" aria-hidden="true" />
           <span className="ambience-label">
@@ -65,12 +74,16 @@ const NavBar = ({ ambienceEnabled, onToggleAmbience, onNavigate }: NavBarProps) 
         </button>
 
         <button
+          ref={ctaButtonRef}
           type="button"
           className="navbar-cta"
           onClick={() => onNavigate('#conteudos')}
+          onMouseMove={onCtaMouseMove}
+          onMouseLeave={onCtaMouseLeave}
           aria-label="Começar agora e ir para os módulos"
+          data-cursor
         >
-          Comecar Agora
+          <span ref={ctaTextRef}>Começar Agora</span>
         </button>
       </div>
     </header>

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { formatPiFraction, normalizeAngle, radToDeg } from '../utils/math'
 
@@ -6,6 +6,7 @@ const VIEWBOX_SIZE = 300
 const CENTER = 140
 const RADIUS = 120
 const TAU = Math.PI * 2
+const AUTO_ROTATE_SPEED = 0.8
 
 type Point = {
   x: number
@@ -26,10 +27,39 @@ const createArcPath = (start: number, end: number, radius: number): string => {
   return `M ${startPoint.x} ${startPoint.y} A ${radius} ${radius} 0 ${largeArcFlag} 0 ${endPoint.x} ${endPoint.y}`
 }
 
+const getQuadrant = (angle: number): number => Math.floor(normalizeAngle(angle) / (Math.PI / 2))
+
 const TrigCircle = () => {
   const [angle, setAngle] = useState(Math.PI / 4)
   const [showTangent, setShowTangent] = useState(true)
-  const [interacted, setInteracted] = useState(false)
+  const [isHovering, setIsHovering] = useState(false)
+  const [trail, setTrail] = useState<Point[]>([])
+  const [powerCycle, setPowerCycle] = useState(0)
+  const [badgeFlipKey, setBadgeFlipKey] = useState(0)
+
+  const angleRef = useRef(angle)
+  const quadrantRef = useRef(getQuadrant(angle))
+
+  const reducedMotion = useMemo(
+    () =>
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+    [],
+  )
+
+  const applyAngle = useCallback((nextAngle: number): void => {
+    angleRef.current = nextAngle
+    setAngle(nextAngle)
+
+    const nextPoint = pointFromAngle(nextAngle, RADIUS)
+    setTrail((previous) => [nextPoint, ...previous].slice(0, 12))
+
+    const nextQuadrant = getQuadrant(nextAngle)
+    if (nextQuadrant === quadrantRef.current) return
+
+    quadrantRef.current = nextQuadrant
+    setBadgeFlipKey((previous) => previous + 1)
+  }, [])
 
   const normalizedAngle = normalizeAngle(angle)
   const degrees = Math.round(radToDeg(normalizedAngle))
@@ -86,20 +116,50 @@ const TrigCircle = () => {
     return { x, y }
   }, [normalizedAngle])
 
+  useEffect(() => {
+    if (isHovering || reducedMotion) return
+
+    let frame = 0
+    let last = performance.now()
+
+    const tick = (now: number): void => {
+      const deltaSeconds = (now - last) / 1000
+      last = now
+      applyAngle(angleRef.current + AUTO_ROTATE_SPEED * deltaSeconds)
+      frame = window.requestAnimationFrame(tick)
+    }
+
+    frame = window.requestAnimationFrame(tick)
+
+    return () => {
+      window.cancelAnimationFrame(frame)
+    }
+  }, [applyAngle, isHovering, reducedMotion])
+
   const onMove = (event: React.PointerEvent<HTMLDivElement>): void => {
     const rect = event.currentTarget.getBoundingClientRect()
     const relativeX = ((event.clientX - rect.left) / rect.width) * VIEWBOX_SIZE
     const relativeY = ((event.clientY - rect.top) / rect.height) * VIEWBOX_SIZE
 
     const nextAngle = Math.atan2(CENTER - relativeY, relativeX - CENTER)
-    setAngle(nextAngle)
-    setInteracted(true)
+    applyAngle(nextAngle)
   }
+
+  const handlePointerEnter = (): void => {
+    setIsHovering(true)
+    setPowerCycle((previous) => previous + 1)
+  }
+
+  const handlePointerLeave = (): void => {
+    setIsHovering(false)
+  }
+
+  const autoMode = !isHovering && !reducedMotion
 
   return (
     <aside className="trig-panel" aria-label="Painel interativo de trigonometria">
       <div className="trig-mini-chart" aria-hidden="true">
-        <svg viewBox="0 0 320 80" role="img" aria-label="Mini grafico da funcao seno">
+        <svg viewBox="0 0 320 80" role="img" aria-label="Mini gráfico da função seno">
           <defs>
             <linearGradient id="miniArea" x1="0" x2="0" y1="0" y2="1">
               <stop offset="0%" stopColor="rgba(34,211,238,0.38)" />
@@ -113,12 +173,18 @@ const TrigCircle = () => {
         <span>f(x) = sin(x)</span>
       </div>
 
-      <div className="trig-circle-area" onPointerMove={onMove}>
+      <div
+        className={`trig-circle-area ${autoMode ? 'is-auto' : ''}`}
+        onPointerMove={onMove}
+        onPointerEnter={handlePointerEnter}
+        onPointerLeave={handlePointerLeave}
+      >
         <button
           type="button"
           className="tangent-toggle"
           aria-label="Mostrar ou ocultar reta tangente"
-          onClick={() => setShowTangent((prev) => !prev)}
+          onClick={() => setShowTangent((previous) => !previous)}
+          data-cursor
         >
           {showTangent ? 'Tangente: ON' : 'Tangente: OFF'}
         </button>
@@ -126,12 +192,21 @@ const TrigCircle = () => {
         <svg
           viewBox="0 0 300 300"
           role="img"
-          aria-label="Circulo trigonometrico interativo com seno, cosseno, tangente e angulo"
+          aria-label="Círculo trigonométrico interativo com seno, cosseno, tangente e ângulo"
         >
           <line x1="20" y1={CENTER} x2="280" y2={CENTER} stroke="#1e293b" strokeWidth="1.4" />
           <line x1={CENTER} y1="20" x2={CENTER} y2="280" stroke="#1e293b" strokeWidth="1.4" />
 
-          <circle cx={CENTER} cy={CENTER} r={RADIUS} stroke="#1e293b" strokeWidth="1.5" fill="none" />
+          <circle
+            key={powerCycle}
+            className={`trig-unit-circle ${isHovering ? 'is-powering' : ''}`}
+            cx={CENTER}
+            cy={CENTER}
+            r={RADIUS}
+            stroke="#1e293b"
+            strokeWidth="1.5"
+            fill="none"
+          />
 
           <text x="22" y={CENTER - 6} className="axis-label">
             -1
@@ -171,6 +246,7 @@ const TrigCircle = () => {
           />
 
           <line
+            className={autoMode ? 'trig-projection-line pulse-sin' : 'trig-projection-line'}
             x1={CENTER}
             y1={CENTER}
             x2={sinProjection.x}
@@ -179,6 +255,7 @@ const TrigCircle = () => {
             strokeWidth="2"
           />
           <line
+            className={autoMode ? 'trig-projection-line pulse-cos' : 'trig-projection-line'}
             x1={CENTER}
             y1={CENTER}
             x2={cosProjection.x}
@@ -187,16 +264,7 @@ const TrigCircle = () => {
             strokeWidth="2"
           />
 
-          <path
-            d={createArcPath(0, normalizedAngle, 36)}
-            stroke="#7c3aed"
-            strokeWidth="2"
-            fill="none"
-          />
-
-          <text x={CENTER + 42} y={CENTER - 12} className="angle-label">
-            {degrees}°
-          </text>
+          <path d={createArcPath(0, normalizedAngle, 36)} stroke="#7c3aed" strokeWidth="2" fill="none" />
 
           {showTangent ? (
             <line
@@ -208,6 +276,22 @@ const TrigCircle = () => {
               strokeWidth="1.8"
             />
           ) : null}
+
+          {trail.map((trailPoint, index) => {
+            const factor = 1 - index / Math.max(1, trail.length)
+            const radius = 0.5 + factor * 2.5
+            const opacity = factor * 0.5
+
+            return (
+              <circle
+                key={`${trailPoint.x}-${trailPoint.y}-${index}`}
+                cx={trailPoint.x}
+                cy={trailPoint.y}
+                r={radius}
+                fill={`rgba(34, 211, 238, ${opacity.toFixed(3)})`}
+              />
+            )
+          })}
 
           <circle cx={point.x} cy={point.y} r="9" fill="rgba(34,211,238,0.2)" />
           <circle
@@ -221,23 +305,15 @@ const TrigCircle = () => {
           />
         </svg>
 
-        <div className="trig-tooltip" style={{ left: point.x + 10, top: point.y - 44 }}>
+        <div key={badgeFlipKey} className="trig-tooltip trig-angle-badge" style={{ left: point.x + 10, top: point.y - 44 }}>
           {degrees}° | {radiansLabel} rad
         </div>
-
-        {!interacted ? (
-          <p className="trig-helper" aria-hidden="true">
-            ← arraste o mouse para explorar
-          </p>
-        ) : null}
       </div>
 
       <div className="trig-values" aria-live="polite">
         <span className="sin">sin = {sinValue.toFixed(3)} ↑</span>
         <span className="cos">cos = {cosValue.toFixed(3)} →</span>
-        <span className="tan">
-          tan = {Number.isFinite(tanValue) ? tanValue.toFixed(3) : 'infinity'}
-        </span>
+        <span className="tan">tan = {Number.isFinite(tanValue) ? tanValue.toFixed(3) : 'infinity'}</span>
       </div>
     </aside>
   )

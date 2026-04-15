@@ -2,19 +2,14 @@ import { useEffect, useRef, useState } from 'react'
 
 import { lerp } from '../utils/math'
 
-const CLICKABLE_SELECTOR =
-  'a, button, [role="button"], input, textarea, select, [data-cursor="hover"]'
+const CLICKABLE_SELECTOR = 'a, button, [data-cursor]'
 
-const CLICK_FLASH_MS = 120
-
-const prefersFinePointer = (): boolean => {
+const canEnableCursor = (): boolean => {
   if (typeof window === 'undefined') return false
-  return window.matchMedia('(pointer: fine)').matches
-}
-
-const prefersReducedMotion = (): boolean => {
-  if (typeof window === 'undefined') return false
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const supportsHover = window.matchMedia('(hover: hover)').matches
+  const finePointer = window.matchMedia('(pointer: fine)').matches
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  return supportsHover && finePointer && !reducedMotion
 }
 
 const CustomCursor = () => {
@@ -24,10 +19,9 @@ const CustomCursor = () => {
   const targetRef = useRef({ x: 0, y: 0 })
   const currentRef = useRef({ x: 0, y: 0 })
 
+  const [visible, setVisible] = useState(false)
   const [interactive, setInteractive] = useState(false)
-  const [pressed, setPressed] = useState(false)
-  const [flash, setFlash] = useState(false)
-  const [enabled] = useState(() => prefersFinePointer() && !prefersReducedMotion())
+  const [enabled] = useState(() => canEnableCursor())
 
   useEffect(() => {
     if (!enabled) {
@@ -48,6 +42,7 @@ const CustomCursor = () => {
     const onPointerMove = (event: PointerEvent): void => {
       const { clientX, clientY } = event
       targetRef.current = { x: clientX, y: clientY }
+      setVisible(true)
 
       if (innerRef.current) {
         innerRef.current.style.transform = `translate3d(${clientX}px, ${clientY}px, 0)`
@@ -60,26 +55,25 @@ const CustomCursor = () => {
       setInteractive(nextInteractive)
     }
 
-    const onPointerDown = (): void => {
-      setPressed(true)
-      setFlash(true)
-      window.setTimeout(() => setFlash(false), CLICK_FLASH_MS)
+    const onWindowMouseOut = (event: MouseEvent): void => {
+      if (event.relatedTarget !== null) return
+      setVisible(false)
     }
 
-    const onPointerUp = (): void => {
-      setPressed(false)
+    const onWindowMouseEnter = (): void => {
+      setVisible(true)
     }
 
     window.addEventListener('pointermove', onPointerMove)
     window.addEventListener('pointerover', onPointerOver)
-    window.addEventListener('pointerdown', onPointerDown)
-    window.addEventListener('pointerup', onPointerUp)
+    window.addEventListener('mouseout', onWindowMouseOut)
+    window.addEventListener('mouseenter', onWindowMouseEnter)
 
     return () => {
       window.removeEventListener('pointermove', onPointerMove)
       window.removeEventListener('pointerover', onPointerOver)
-      window.removeEventListener('pointerdown', onPointerDown)
-      window.removeEventListener('pointerup', onPointerUp)
+      window.removeEventListener('mouseout', onWindowMouseOut)
+      window.removeEventListener('mouseenter', onWindowMouseEnter)
     }
   }, [enabled])
 
@@ -89,10 +83,10 @@ const CustomCursor = () => {
     let frame = 0
 
     const tick = (): void => {
-      const outerSize = pressed ? 20 : interactive ? 60 : 36
+      const outerSize = interactive ? 56 : 32
 
-      currentRef.current.x = lerp(currentRef.current.x, targetRef.current.x, 0.16)
-      currentRef.current.y = lerp(currentRef.current.y, targetRef.current.y, 0.16)
+      currentRef.current.x = lerp(currentRef.current.x, targetRef.current.x, 0.12)
+      currentRef.current.y = lerp(currentRef.current.y, targetRef.current.y, 0.12)
 
       if (outerRef.current) {
         outerRef.current.style.transform = `translate3d(${currentRef.current.x - outerSize / 2}px, ${currentRef.current.y - outerSize / 2}px, 0)`
@@ -108,23 +102,26 @@ const CustomCursor = () => {
     return () => {
       window.cancelAnimationFrame(frame)
     }
-  }, [enabled, interactive, pressed])
+  }, [enabled, interactive])
 
   if (!enabled) return null
 
   return (
-    <>
+    <div
+      className={`custom-cursor-root ${visible ? 'is-visible' : 'is-hidden'} ${interactive ? 'is-hover' : ''}`}
+      aria-hidden="true"
+    >
       <div
         ref={innerRef}
-        aria-hidden="true"
-        className={`custom-cursor-inner ${interactive ? 'is-hover' : ''}`}
+        className="custom-cursor-inner"
       />
       <div
         ref={outerRef}
-        aria-hidden="true"
-        className={`custom-cursor-outer ${interactive ? 'is-hover' : ''} ${pressed ? 'is-pressed' : ''} ${flash ? 'is-flash' : ''}`}
-      />
-    </>
+        className="custom-cursor-outer"
+      >
+        <span className="custom-cursor-label">CLIQUE</span>
+      </div>
+    </div>
   )
 }
 
