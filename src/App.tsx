@@ -8,21 +8,17 @@ import {
   useState,
 } from 'react'
 
-import Aurora from './components/Aurora'
 import BackgroundCanvas from './components/BackgroundCanvas'
 import CustomCursor from './components/CustomCursor'
 import { PlaygroundErrorBoundary } from './components/PlaygroundErrorBoundary'
 import Footer from './components/Footer'
-import FloatingEquations from './components/FloatingEquations'
 import HeroSection from './components/HeroSection'
 import LoadingScreen from './components/LoadingScreen'
-import MathTrail from './components/MathTrail'
 import ModuleGrid from './components/ModuleGrid'
 import NavBar from './components/NavBar'
 import StatsBar from './components/StatsBar'
 import StatsCounter from './components/StatsCounter'
 import TestimonialSection from './components/TestimonialSection'
-import Vignette from './components/Vignette'
 import WavePlayground from './components/WavePlayground'
 import WhyItMatters from './components/WhyItMatters'
 import { useAmbience } from './hooks/useAmbience'
@@ -325,10 +321,6 @@ const App = () => {
   return (
     <div className="app-shell">
       <BackgroundCanvas ambienceActive={ambienceEnabled} intensityBoost={professorMode ? 0.5 : 0} />
-      <Aurora ambienceActive={ambienceEnabled} />
-      <Vignette />
-      <FloatingEquations />
-      <MathTrail boostSymbols={professorMode} />
 
       {konamiFlashVisible ? <div className="konami-flash-overlay" aria-hidden="true" /> : null}
       {professorMessageVisible ? (
@@ -380,7 +372,7 @@ const App = () => {
           </main>
         ) : (
           <main>
-            <HeroSection onNavigate={navigateTo} ambienceEnabled={ambienceEnabled} />
+            <HeroSection onNavigate={navigateTo} />
             <StatsBar />
             <WhyItMatters />
             <WavePlayground />

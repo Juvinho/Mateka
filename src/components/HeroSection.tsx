@@ -2,12 +2,10 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 
 import { useGlitchText } from '../hooks/useGlitchText'
 import { useMagneticButton } from '../hooks/useMagneticButton'
-import MathBackground from './MathBackground'
 import TrigCircle from './TrigCircle'
 
 type HeroSectionProps = {
   onNavigate: (hash: string) => void
-  ambienceEnabled: boolean
 }
 
 type QuickStat = {
@@ -32,7 +30,7 @@ const typewriterPhrases = [
   'A matemática que você sentia que faltava.',
 ]
 
-const HeroSection = ({ onNavigate, ambienceEnabled }: HeroSectionProps) => {
+const HeroSection = ({ onNavigate }: HeroSectionProps) => {
   const sectionRef = useRef<HTMLElement | null>(null)
   const leftRef = useRef<HTMLDivElement | null>(null)
   const rightRef = useRef<HTMLDivElement | null>(null)
@@ -220,8 +218,6 @@ const HeroSection = ({ onNavigate, ambienceEnabled }: HeroSectionProps) => {
       className={`hero-section reveal ${reducedMotion || coarsePointer ? 'is-parallax-disabled' : ''}`}
       data-reveal
     >
-      <MathBackground ambienceEnabled={ambienceEnabled} />
-
       <div ref={leftRef} className="hero-left">
         <span className="hero-badge">
           <span className="hero-badge-dot" />

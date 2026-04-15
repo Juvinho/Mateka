@@ -28,11 +28,11 @@ const navItems: NavItem[] = [
   },
   {
     id: 'why-it-matters',
-    label: 'Aplicações',
+    label: 'Scroll Film',
     hash: '#why-it-matters',
-    previewTitle: 'Mundo Real',
-    previewSubtitle: 'Game Dev, áudio e engenharia',
-    previewGlyph: '∇',
+    previewTitle: 'Cinema do Cálculo',
+    previewSubtitle: 'Derivada + integral em 4 atos',
+    previewGlyph: '∫',
   },
   {
     id: 'playground',
