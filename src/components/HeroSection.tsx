@@ -30,6 +30,14 @@ const typewriterPhrases = [
   'A matemática que você sentia que faltava.',
 ]
 
+const titleVariants = [
+  'Não decore. Visualize.',
+  'Não memorize. Descubra.',
+  'Não assuste. Explore.',
+  'Não trave. Itere.',
+  'Não chute. Derive.',
+]
+
 const HeroSection = ({ onNavigate }: HeroSectionProps) => {
   const sectionRef = useRef<HTMLElement | null>(null)
   const leftRef = useRef<HTMLDivElement | null>(null)
@@ -41,9 +49,14 @@ const HeroSection = ({ onNavigate }: HeroSectionProps) => {
   const [typedText, setTypedText] = useState('')
   const [phraseIndex, setPhraseIndex] = useState(0)
   const [isDeleting, setIsDeleting] = useState(false)
+  const [titleIndex, setTitleIndex] = useState(0)
 
   const badgeGlitch = useGlitchText('A NOVA ERA DA MATEMÁTICA')
-  const titleGlitch = useGlitchText('Não decore. Visualize.')
+  const titleGlitch = useGlitchText(titleVariants[titleIndex] ?? titleVariants[0])
+
+  const cycleTitle = (): void => {
+    setTitleIndex((previous) => (previous + 1) % titleVariants.length)
+  }
 
   const {
     buttonRef: exploreButtonRef,
@@ -226,7 +239,13 @@ const HeroSection = ({ onNavigate }: HeroSectionProps) => {
           </span>
         </span>
 
-        <h1 className="hero-title">
+        <h1
+          className="hero-title is-clickable"
+          onClick={cycleTitle}
+          title="Clique para embaralhar"
+          data-cursor
+          data-no-burst
+        >
           <span className={`hero-title-glitch ${titleGlitch.glitchClass}`}>
             {titleGlitch.displayText}
           </span>

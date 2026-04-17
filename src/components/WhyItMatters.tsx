@@ -28,21 +28,21 @@ const cards: StoryCard[] = [
   {
     title: 'Ato I',
     subtitle: 'Derivada viva',
-    description: 'A reta tangente percorre a curva e revela a inclinacao local em tempo real.',
+    description: 'A reta tangente percorre a curva e revela a inclinação local em tempo real.',
     metricLabel: "f'(x)",
     metricUnit: 'slope',
   },
   {
     title: 'Ato II',
     subtitle: 'Integral em fluxo',
-    description: 'A area acumula da esquerda para a direita como um filme de soma continua.',
+    description: 'A área acumula da esquerda para a direita como um filme de soma contínua.',
     metricLabel: 'Integral',
     metricUnit: 'area',
   },
   {
     title: 'Ato III',
-    subtitle: 'Conexao total',
-    description: 'Derivada e integral coexistem para fechar o Teorema Fundamental do Calculo.',
+    subtitle: 'Conexão total',
+    description: 'Derivada e integral coexistem para fechar o Teorema Fundamental do Cálculo.',
     metricLabel: 'FTC',
     metricUnit: 'd/dx',
   },
@@ -819,14 +819,14 @@ const ScrollStory = () => {
             <canvas
               ref={canvasRef}
               className="scroll-film-canvas"
-              aria-label="Scroll film cinematico de derivada e integral"
+              aria-label="Visualização animada de derivada e integral"
             />
           </div>
 
           <aside className="scroll-film-panel">
             <header className="scroll-film-header">
               <p className="section-kicker">Scroll Film</p>
-              <h2>Cinema do Calculo</h2>
+              <h2>Cinema do Cálculo</h2>
             </header>
 
             <div className="scroll-film-card-stack">

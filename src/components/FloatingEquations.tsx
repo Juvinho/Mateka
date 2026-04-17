@@ -76,6 +76,23 @@ const FloatingEquations = () => {
   const mouseRef = useRef({ x: -9999, y: -9999, active: false })
   const [snapshot, setSnapshot] = useState<RuntimeEquation[]>([])
 
+  const layersRef = useRef<HTMLDivElement>(null)
+  const isVisibleRef = useRef(false)
+
+  useEffect(() => {
+    const el = layersRef.current
+    if (!el) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry) isVisibleRef.current = entry.isIntersecting
+      },
+      { threshold: 0.01 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
   useEffect(() => {
     equationsRef.current = createInitialEquations()
     setSnapshot([...equationsRef.current])
@@ -134,6 +151,9 @@ const FloatingEquations = () => {
     let frame = 0
 
     const tick = (now: number): void => {
+      frame = window.requestAnimationFrame(tick)
+      if (!isVisibleRef.current) return
+
       const time = now / 1000
       const width = window.innerWidth
       const height = window.innerHeight
@@ -176,7 +196,6 @@ const FloatingEquations = () => {
       }
 
       setSnapshot([...equations])
-      frame = window.requestAnimationFrame(tick)
     }
 
     frame = window.requestAnimationFrame(tick)
@@ -189,7 +208,7 @@ const FloatingEquations = () => {
   if (snapshot.length === 0) return null
 
   return (
-    <div className="floating-equations-layer" aria-hidden="true">
+    <div ref={layersRef} className="floating-equations-layer" aria-hidden="true">
       {snapshot.map((equation) => {
         const isUnderlined = equation.underlineUntil > performance.now()
 

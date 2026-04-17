@@ -55,6 +55,21 @@ const MathTrail = ({ boostSymbols }: MathTrailProps) => {
   const lastSpawnRef = useRef(0)
   const colorIndexRef = useRef(0)
   const idRef = useRef(0)
+  const isVisibleRef = useRef(false)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry) isVisibleRef.current = entry.isIntersecting
+      },
+      { threshold: 0.01 }
+    )
+    observer.observe(canvas)
+    return () => observer.disconnect()
+  }, [])
 
   const reducedMotion = useMemo(
     () =>
@@ -125,6 +140,9 @@ const MathTrail = ({ boostSymbols }: MathTrailProps) => {
     }
 
     const tick = (now: number): void => {
+      frame = window.requestAnimationFrame(tick)
+      if (!isVisibleRef.current) return
+
       const width = window.innerWidth
       const height = window.innerHeight
       context.clearRect(0, 0, width, height)
@@ -158,8 +176,6 @@ const MathTrail = ({ boostSymbols }: MathTrailProps) => {
 
         return true
       })
-
-      frame = window.requestAnimationFrame(tick)
     }
 
     resize()

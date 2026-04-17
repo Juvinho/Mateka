@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 
+import MatekaLogo from './MatekaLogo'
 import { useMagneticButton } from '../hooks/useMagneticButton'
 
 type NavBarProps = {
@@ -163,20 +164,7 @@ const NavBar = ({ ambienceEnabled, onToggleAmbience, onNavigate }: NavBarProps) 
 
   return (
     <header className={`mateka-navbar ${scrolled ? 'is-scrolled' : ''}`}>
-      <button
-        className="mateka-logo"
-        onClick={() => onNavigate('#hero')}
-        type="button"
-        aria-label="Ir para o topo da página"
-      >
-        <span className="mateka-logo-icon">
-          <span className="mateka-logo-glyph">M</span>
-        </span>
-        <span className="mateka-logo-text">
-          <span className="mateka-logo-white">Mat</span>
-          <span className="mateka-logo-cyan">eka!</span>
-        </span>
-      </button>
+      <MatekaLogo onClick={() => onNavigate('#hero')} />
 
       <nav className="mateka-nav-links" aria-label="Seções principais">
         <div ref={navLinksRef} className="mateka-nav-links-track">
@@ -242,10 +230,10 @@ const NavBar = ({ ambienceEnabled, onToggleAmbience, onNavigate }: NavBarProps) 
           ref={ctaButtonRef}
           type="button"
           className="navbar-cta"
-          onClick={() => onNavigate('#conteudos')}
+          onClick={() => onNavigate('#login')}
           onMouseMove={onCtaMouseMove}
           onMouseLeave={onCtaMouseLeave}
-          aria-label="Começar agora e ir para os módulos"
+          aria-label="Começar agora — ir para o login"
           data-cursor
         >
           <span ref={ctaTextRef}>Começar Agora</span>

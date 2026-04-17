@@ -104,6 +104,21 @@ const BackgroundCanvas = ({ ambienceActive, intensityBoost = 0 }: BackgroundCanv
 
   const intensityRef = useRef(0)
   const targetIntensityRef = useRef(0)
+  const isVisibleRef = useRef(false)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry) isVisibleRef.current = entry.isIntersecting
+      },
+      { threshold: 0.01 }
+    )
+    observer.observe(canvas)
+    return () => observer.disconnect()
+  }, [])
 
   const reducedMotion = useMemo(
     () =>
@@ -202,7 +217,7 @@ const BackgroundCanvas = ({ ambienceActive, intensityBoost = 0 }: BackgroundCanv
     }
 
     const createParticles = (width: number, height: number): MathParticle[] => {
-      const count = liteMode ? 15 : 45
+      const count = liteMode ? 12 : 25
       return Array.from({ length: count }, () => ({
         x: randomBetween(0, width),
         y: randomBetween(0, height),
@@ -416,6 +431,8 @@ const BackgroundCanvas = ({ ambienceActive, intensityBoost = 0 }: BackgroundCanv
 
             const dx = b.x - a.x
             const dy = b.y - a.y
+            if (Math.abs(dx) > 160) continue
+            if (Math.abs(dy) > 160) continue
             const distance = Math.hypot(dx, dy)
 
             if (distance > 160) continue
@@ -476,9 +493,11 @@ const BackgroundCanvas = ({ ambienceActive, intensityBoost = 0 }: BackgroundCanv
     }
 
     const drawFrame = (timeMs: number): void => {
+      rafRef.current = window.requestAnimationFrame(drawFrame)
+      if (!isVisibleRef.current) return
+
       const { width, height } = sizeRef.current
       if (width < 2 || height < 2) {
-        rafRef.current = window.requestAnimationFrame(drawFrame)
         return
       }
 
@@ -502,8 +521,6 @@ const BackgroundCanvas = ({ ambienceActive, intensityBoost = 0 }: BackgroundCanv
       drawOrbs(timeMs, intensityRef.current, scrollY)
       drawParticles(intensityRef.current, scrollRef.current.driftMultiplier)
       drawShockwaves()
-
-      rafRef.current = window.requestAnimationFrame(drawFrame)
     }
 
     const startLoop = (): void => {

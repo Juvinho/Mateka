@@ -9,11 +9,14 @@ import {
 } from 'react'
 
 import BackgroundCanvas from './components/BackgroundCanvas'
+import ClickBurst from './components/ClickBurst'
 import CustomCursor from './components/CustomCursor'
+import FloatingEquations from './components/FloatingEquations'
 import { PlaygroundErrorBoundary } from './components/PlaygroundErrorBoundary'
 import Footer from './components/Footer'
 import HeroSection from './components/HeroSection'
 import LoadingScreen from './components/LoadingScreen'
+import MathTrail from './components/MathTrail'
 import ModuleGrid from './components/ModuleGrid'
 import NavBar from './components/NavBar'
 import StatsBar from './components/StatsBar'
@@ -21,8 +24,10 @@ import StatsCounter from './components/StatsCounter'
 import TestimonialSection from './components/TestimonialSection'
 import WavePlayground from './components/WavePlayground'
 import WhyItMatters from './components/WhyItMatters'
+import AuthCardFlip from './components/AuthCardFlip'
 import { useAmbience } from './hooks/useAmbience'
 import { useScrollProgress } from './hooks/useScrollProgress'
+import { useScrollVelocity } from './hooks/useScrollVelocity'
 
 const DerivativeVisualizer = lazy(() => import('./components/DerivativeVisualizer'))
 const IntegralVisualizer = lazy(() => import('./components/IntegralVisualizer'))
@@ -60,6 +65,7 @@ const App = () => {
   const professorTimeoutRef = useRef<number | null>(null)
 
   const progress = useScrollProgress()
+  const scrollBoosting = useScrollVelocity()
   const { enabled: ambienceEnabled, toggle: toggleAmbience } = useAmbience()
 
   const reducedMotion = useMemo(
@@ -306,10 +312,11 @@ const App = () => {
   }, [toggleAmbience])
 
   const activeLessonTitle = lessonTitles[activeHash]
+  const isAuthRoute = activeHash === '#login' || activeHash === '#register'
 
   useEffect(() => {
     if (!import.meta.env.DEV) return
-    const currentView = activeLessonTitle ? 'lesson' : 'landing'
+    const currentView = activeHash === '#login' ? 'login' : activeLessonTitle ? 'lesson' : 'landing'
     const lessonId = activeLessonTitle ? activeHash : 'none'
     console.log('current view:', currentView, 'lessonId:', lessonId)
   }, [activeHash, activeLessonTitle])
@@ -318,9 +325,17 @@ const App = () => {
     setLoadingVisible(false)
   }, [])
 
+  if (isAuthRoute) {
+    const initialView = window.location.hash === '#register' ? 'register' : 'login'
+    return <AuthCardFlip view={initialView} onFlip={(v) => navigateTo(`#${v}`)} />
+  }
+
   return (
     <div className="app-shell">
       <BackgroundCanvas ambienceActive={ambienceEnabled} intensityBoost={professorMode ? 0.5 : 0} />
+      <FloatingEquations />
+      <MathTrail boostSymbols={scrollBoosting || professorMode} />
+      <ClickBurst />
 
       {konamiFlashVisible ? <div className="konami-flash-overlay" aria-hidden="true" /> : null}
       {professorMessageVisible ? (

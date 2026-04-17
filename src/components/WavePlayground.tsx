@@ -86,6 +86,21 @@ const WavePlayground = () => {
   const waveSpeedRef = useRef((PHASE_INCREMENT * WAVE_SCALE_X) / frequency)
   const hoverRef = useRef({ x: 0, y: 0, active: false })
   const dragRef = useRef({ active: false, startY: 0, startAmplitude: 0, moved: false })
+  const isVisibleRef = useRef(false)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry) isVisibleRef.current = entry.isIntersecting
+      },
+      { threshold: 0.01 }
+    )
+    observer.observe(canvas)
+    return () => observer.disconnect()
+  }, [])
 
   const {
     buttonRef: ctaButtonRef,
@@ -219,6 +234,9 @@ const WavePlayground = () => {
     let frame = 0
 
     const draw = (): void => {
+      frame = window.requestAnimationFrame(draw)
+      if (!isVisibleRef.current) return
+
       const width = canvas.clientWidth
       const height = canvas.clientHeight
       const dpr = window.devicePixelRatio || 1
@@ -417,8 +435,6 @@ const WavePlayground = () => {
         context.fillText(`y = ${yValue.toFixed(2)} | x = ${xInPi.toFixed(2)}π`, snapX + 16, snapY - 18)
         context.restore()
       }
-
-      frame = window.requestAnimationFrame(draw)
     }
 
     frame = window.requestAnimationFrame(draw)
