@@ -3,6 +3,21 @@ import { useCallback, useState } from 'react'
 export type LoginStatus = 'idle' | 'loading' | 'success'
 export type FocusedField = 'email' | 'password' | 'captcha' | null
 
+type CaptchaChallenge = { question: string; answer: number; tolerance: number }
+
+const CAPTCHA_CHALLENGES: CaptchaChallenge[] = [
+  { question: '∫₀^π sin(x) dx', answer: 2, tolerance: 0.01 },
+  { question: 'd/dx[x³] em x = 2', answer: 12, tolerance: 0.01 },
+  { question: 'log₂(32)', answer: 5, tolerance: 0.01 },
+  { question: '∑(i=1 até 5) i', answer: 15, tolerance: 0.01 },
+  { question: '√169', answer: 13, tolerance: 0.01 },
+  { question: '2⁴ − 3²', answer: 7, tolerance: 0.01 },
+  { question: '∫₀^2 x dx', answer: 2, tolerance: 0.01 },
+  { question: 'lim(x→∞) 1/x', answer: 0, tolerance: 0.01 },
+  { question: 'sen²(π/6) + cos²(π/6)', answer: 1, tolerance: 0.01 },
+  { question: 'e⁰', answer: 1, tolerance: 0.01 },
+]
+
 export type LoginErrors = {
   email?: string
   password?: string
@@ -43,6 +58,7 @@ type UseLoginFormReturn = {
   focused: FocusedField
   attempts: number
   captchaRequired: boolean
+  captchaQuestion: string
   setEmail: (value: string) => void
   setPassword: (value: string) => void
   setCaptcha: (value: string) => void
@@ -59,8 +75,10 @@ export const useLoginForm = (): UseLoginFormReturn => {
   const [status, setStatus] = useState<LoginStatus>('idle')
   const [focused, setFocused] = useState<FocusedField>(null)
   const [attempts, setAttempts] = useState(0)
+  const [challengeIndex] = useState(() => Math.floor(Math.random() * CAPTCHA_CHALLENGES.length))
 
   const captchaRequired = attempts >= 2
+  const captchaQuestion = CAPTCHA_CHALLENGES[challengeIndex]!.question
 
   const setEmail = useCallback((value: string) => {
     setEmailState(value)
@@ -81,10 +99,11 @@ export const useLoginForm = (): UseLoginFormReturn => {
     const { valid, errors: nextErrors } = validate(email, password)
 
     if (captchaRequired) {
+      const challenge = CAPTCHA_CHALLENGES[challengeIndex]!
       const numeric = Number(captcha.replace(',', '.'))
       if (!captcha.trim()) {
         nextErrors.captcha = 'Resolva o desafio para continuar'
-      } else if (!Number.isFinite(numeric) || Math.abs(numeric - 2) > 0.01) {
+      } else if (!Number.isFinite(numeric) || Math.abs(numeric - challenge.answer) > challenge.tolerance) {
         nextErrors.captcha = 'Tente novamente, estudante 📐'
       }
     }
@@ -119,6 +138,7 @@ export const useLoginForm = (): UseLoginFormReturn => {
     focused,
     attempts,
     captchaRequired,
+    captchaQuestion,
     setEmail,
     setPassword,
     setCaptcha,

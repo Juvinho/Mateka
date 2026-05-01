@@ -260,12 +260,14 @@ const RegisterPage = ({ onSuccess, onBack, isVisible }: RegisterPageProps) => {
                 {form.errors.password}
               </span>
 
-              <div className="pw-strength" aria-hidden="true">
-                <div className="pw-seg" style={{ background: '#f472b6', opacity: form.passwordStrength >= 1 ? 1 : 0.18 }} />
-                <div className="pw-seg" style={{ background: '#fb923c', opacity: form.passwordStrength >= 2 ? 1 : 0.18 }} />
-                <div className="pw-seg" style={{ background: '#facc15', opacity: form.passwordStrength >= 3 ? 1 : 0.18 }} />
-                <div className="pw-seg" style={{ background: '#22d3ee', opacity: form.passwordStrength >= 4 ? 1 : 0.18 }} />
-                <div className="pw-label">{['Fraca','Razoável','Boa','Forte'][Math.max(0, form.passwordStrength-1)] || 'Fraca'}</div>
+              <div className="pw-strength-wrap" aria-hidden="true">
+                <div className="pw-strength">
+                  <div className="pw-seg" style={{ background: '#f472b6', opacity: form.passwordStrength >= 1 ? 1 : 0.18 }} />
+                  <div className="pw-seg" style={{ background: '#fb923c', opacity: form.passwordStrength >= 2 ? 1 : 0.18 }} />
+                  <div className="pw-seg" style={{ background: '#facc15', opacity: form.passwordStrength >= 3 ? 1 : 0.18 }} />
+                  <div className="pw-seg" style={{ background: '#22d3ee', opacity: form.passwordStrength >= 4 ? 1 : 0.18 }} />
+                </div>
+                <span className="pw-label">{['Fraca','Razoável','Boa','Forte'][Math.max(0, form.passwordStrength-1)] || 'Fraca'}</span>
               </div>
             </div>
 

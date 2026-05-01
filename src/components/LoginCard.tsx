@@ -75,10 +75,7 @@ const LoginCard = ({ onSuccess, onLogoClick, onCreateAccount, isVisible }: Login
   // Entry animation (runs when isVisible becomes true)
   const hasAnimated = useRef(false)
   useEffect(() => {
-    if (!isVisible) {
-      hasAnimated.current = false
-      return
-    }
+    if (!isVisible) return
     if (hasAnimated.current) return
     hasAnimated.current = true
 
@@ -142,7 +139,7 @@ const LoginCard = ({ onSuccess, onLogoClick, onCreateAccount, isVisible }: Login
     }
 
     return () => {
-      tl.kill()
+      tl.progress(1).kill()
     }
   }, [isVisible])
 
@@ -290,7 +287,7 @@ const LoginCard = ({ onSuccess, onLogoClick, onCreateAccount, isVisible }: Login
 
         <div className="login-header">
           <p className="login-kicker">// ACESSO.AUTENTICADO<span className="cursor-blink">_</span></p>
-          <h1 className="login-title">Bem-vindo de volta.</h1>
+          <h1 className="login-title">Bem-vindo<br />de volta.</h1>
           <p className="login-subtitle">
             Continue sua jornada matemática de onde parou.
           </p>
@@ -378,7 +375,7 @@ const LoginCard = ({ onSuccess, onLogoClick, onCreateAccount, isVisible }: Login
                 Prove que você é humano
               </label>
               <div className="login-captcha-question">
-                ∫₀^π sin(x) dx = ?
+                {form.captchaQuestion} = ?
               </div>
               <div className="login-input-wrap">
                 <input

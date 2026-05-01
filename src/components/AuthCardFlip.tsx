@@ -139,6 +139,8 @@ export default function AuthCardFlip({ view: propView, onFlip }: Props) {
         .register-card::-webkit-scrollbar { display: none; }
         
         .register-fields-wrapper { display: flex; flex-direction: column; gap: 8px; }
+        .register-card .login-form { gap: 6px; }
+        .register-card .register-progress { margin-top: 2px; }
         .login-title { margin-bottom: 20px; }
         .register-card .login-title { font-size: clamp(22px, 4vw, 30px); margin-bottom: 4px; }
         
@@ -149,10 +151,12 @@ export default function AuthCardFlip({ view: propView, onFlip }: Props) {
         .login-input { padding: 12px 16px; height: 48px; }
         .register-card .login-input { height: 44px; padding: 10px 14px; font-size: 13px; }
         
-        .pw-strength, .password-strength { margin-top: 6px; margin-bottom: 0; height: 4px; gap: 4px; display: flex; }
+        .pw-strength-wrap { margin-top: 6px; display: flex; flex-direction: column; gap: 4px; }
+        .pw-strength, .password-strength { margin-top: 0; margin-bottom: 0; height: 4px; gap: 4px; display: flex; }
         .pw-seg { flex: 1 1 0; height: 4px; border-radius: 3px; opacity: 0.18; transform-origin: center; }
+        .pw-label { font-size: 11px; color: rgba(148,163,184,0.7); text-align: right; line-height: 1; }
         .login-submit { margin-top: 16px; padding: 14px; }
-        .register-card .login-submit { margin-top: 12px; padding: 12px; font-size: 13px; }
+        .register-card .login-submit { margin-top: 4px; padding: 12px; font-size: 13px; }
         
         .login-forgot { margin-top: 12px; }
         .register-card .login-forgot { margin-top: 10px; font-size: 12px; }

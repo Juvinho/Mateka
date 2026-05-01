@@ -25,6 +25,7 @@ import TestimonialSection from './components/TestimonialSection'
 import WavePlayground from './components/WavePlayground'
 import WhyItMatters from './components/WhyItMatters'
 import AuthCardFlip from './components/AuthCardFlip'
+import ModulosPage from './pages/ModulosPage'
 import { useAmbience } from './hooks/useAmbience'
 import { useScrollProgress } from './hooks/useScrollProgress'
 import { useScrollVelocity } from './hooks/useScrollVelocity'
@@ -313,6 +314,7 @@ const App = () => {
 
   const activeLessonTitle = lessonTitles[activeHash]
   const isAuthRoute = activeHash === '#login' || activeHash === '#register'
+  const isModulosRoute = activeHash === '#modulos' || activeHash.startsWith('#modulos/')
 
   useEffect(() => {
     if (!import.meta.env.DEV) return
@@ -328,6 +330,10 @@ const App = () => {
   if (isAuthRoute) {
     const initialView = window.location.hash === '#register' ? 'register' : 'login'
     return <AuthCardFlip view={initialView} onFlip={(v) => navigateTo(`#${v}`)} />
+  }
+
+  if (isModulosRoute) {
+    return <ModulosPage />
   }
 
   return (

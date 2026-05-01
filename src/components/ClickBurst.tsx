@@ -126,7 +126,7 @@ const ClickBurst = () => {
 
       // Rings
       ringsRef.current = ringsRef.current.filter((ring) => {
-        const age = now - ring.bornAt
+        const age = Math.max(0, now - ring.bornAt)
         const progress = age / ring.lifetime
         if (progress >= 1) return false
 
@@ -143,7 +143,7 @@ const ClickBurst = () => {
 
       // Particles
       particlesRef.current = particlesRef.current.filter((particle) => {
-        const age = now - particle.bornAt
+        const age = Math.max(0, now - particle.bornAt)
         const progress = age / particle.lifetime
         if (progress >= 1) return false
 
