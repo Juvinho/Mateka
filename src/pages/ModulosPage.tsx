@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import RippleBackground from '../components/ui/RippleBackground'
 import ModuleHeader from '../components/modules/ModuleHeader'
 import ModuleHero from '../components/modules/ModuleHero'
 import ModuleProgress from '../components/modules/ModuleProgress'
@@ -269,7 +270,8 @@ const ModulosPage = () => {
   const tabKey = activeTab
 
   return (
-    <div className="modulos-page">
+    <div className="modulos-page" style={{ position: 'relative', zIndex: 10 }}>
+      <RippleBackground />
       <ModuleHeader
         moduleName={MODULE_DATA.name}
         streak={MODULE_DATA.streak}

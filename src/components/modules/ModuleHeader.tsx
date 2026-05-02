@@ -1,3 +1,5 @@
+import ProfileDropdown from '../ui/ProfileDropdown'
+
 type ModuleHeaderProps = {
   moduleName: string
   streak: number
@@ -9,8 +11,29 @@ const ModuleHeader = ({ moduleName, streak, userInitials = 'U' }: ModuleHeaderPr
     <header className="modulos-header">
       <div className="modulos-header-inner">
         <a href="#hero" className="modulos-logo" aria-label="Ir para o início">
-          <div className="modulos-logo-mark" aria-hidden="true">M</div>
-          <span className="modulos-logo-text">Mateka!</span>
+          <div
+            className="modulos-logo-mark"
+            aria-hidden="true"
+            style={{
+              background: '#22d3ee',
+              color: '#020617',
+              fontWeight: 800,
+              opacity: 1,
+            }}
+          >
+            M
+          </div>
+          <span
+            className="modulos-logo-text"
+            style={{
+              color: '#ffffff',
+              fontWeight: 700,
+              fontFamily: "'Syne', sans-serif",
+              opacity: 1,
+            }}
+          >
+            Mateka!
+          </span>
         </a>
 
         <nav className="modulos-breadcrumb" aria-label="Caminho de navegação">
@@ -23,9 +46,7 @@ const ModuleHeader = ({ moduleName, streak, userInitials = 'U' }: ModuleHeaderPr
           🔥 {streak} dias
         </div>
 
-        <div className="modulos-avatar" role="img" aria-label="Avatar do usuário">
-          {userInitials}
-        </div>
+        <ProfileDropdown initials={userInitials} />
       </div>
     </header>
   )

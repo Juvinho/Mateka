@@ -17,7 +17,7 @@ const UnitSection = ({
   onLessonClick,
 }: UnitSectionProps) => {
   return (
-    <section className="unit-section" aria-labelledby={`unit-${unitNumber}-label`}>
+    <section className="unit-section" aria-labelledby={`unit-${unitNumber}-label`} style={{ marginBottom: '32px' }}>
       <div className="unit-section-header">
         <span
           id={`unit-${unitNumber}-label`}
@@ -29,7 +29,7 @@ const UnitSection = ({
         {locked && <span className="unit-section-lock-icon" aria-hidden="true">🔒</span>}
       </div>
 
-      <div className="unit-section-lessons">
+      <div className="unit-section-lessons" style={{ gap: '8px' }}>
         {lessons.map((lesson) => (
           <LessonCard
             key={lesson.id}
