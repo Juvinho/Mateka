@@ -319,7 +319,7 @@ const ModulosPage = () => {
         })}
       </div>
 
-      <div key={tabKey} className="modulos-tab-content" role="tabpanel">
+      <div key={tabKey} className="modulos-tab-content" role="tabpanel" style={{ paddingTop: '16px' }}>
         {activeTab === 'aulas' && (
           <>
             <UnitSection

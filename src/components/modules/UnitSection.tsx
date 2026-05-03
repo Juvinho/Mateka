@@ -17,7 +17,7 @@ const UnitSection = ({
   onLessonClick,
 }: UnitSectionProps) => {
   return (
-    <section className="unit-section" aria-labelledby={`unit-${unitNumber}-label`} style={{ marginBottom: '32px' }}>
+    <div role="region" className="unit-section" aria-labelledby={`unit-${unitNumber}-label`} style={{ marginBottom: '32px' }}>
       <div className="unit-section-header">
         <span
           id={`unit-${unitNumber}-label`}
@@ -38,7 +38,7 @@ const UnitSection = ({
           />
         ))}
       </div>
-    </section>
+    </div>
   )
 }
 
