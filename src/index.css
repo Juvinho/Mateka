@@ -575,34 +575,37 @@ select {
 }
 
 .mateka-logo-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
   display: grid;
   place-items: center;
-  background: linear-gradient(135deg, var(--cyan), var(--pink));
+  background: linear-gradient(135deg, #22d3ee 0%, #7c3aed 50%, #ec4899 100%);
+  flex-shrink: 0;
 }
 
 .mateka-logo-glyph {
-  color: #020617;
+  color: #ffffff;
   font-family: 'Syne', sans-serif;
   font-weight: 800;
-  font-style: italic;
+  font-style: normal;
+  font-size: 1.1rem;
+  line-height: 1;
 }
 
 .mateka-logo-text {
-  font-size: 1.14rem;
+  font-size: 1.18rem;
   font-family: 'Syne', sans-serif;
   font-weight: 700;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
 }
 
 .mateka-logo-white {
-  color: #f8fafc;
+  color: rgba(255, 255, 255, 0.18);
 }
 
 .mateka-logo-cyan {
-  color: var(--cyan);
+  color: #22d3ee;
 }
 
 .mateka-nav-links {

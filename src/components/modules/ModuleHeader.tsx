@@ -1,3 +1,4 @@
+import MatekaLogo from '../MatekaLogo'
 import ProfileDropdown from '../ui/ProfileDropdown'
 
 type ModuleHeaderProps = {
@@ -10,31 +11,7 @@ const ModuleHeader = ({ moduleName, streak, userInitials = 'U' }: ModuleHeaderPr
   return (
     <header className="modulos-header">
       <div className="modulos-header-inner">
-        <a href="#hero" className="modulos-logo" aria-label="Ir para o início">
-          <div
-            className="modulos-logo-mark"
-            aria-hidden="true"
-            style={{
-              background: '#22d3ee',
-              color: '#020617',
-              fontWeight: 800,
-              opacity: 1,
-            }}
-          >
-            M
-          </div>
-          <span
-            className="modulos-logo-text"
-            style={{
-              color: '#ffffff',
-              fontWeight: 700,
-              fontFamily: "'Syne', sans-serif",
-              opacity: 1,
-            }}
-          >
-            Mateka!
-          </span>
-        </a>
+        <MatekaLogo onClick={() => { window.location.hash = '#hero' }} ariaLabel="Ir para o início" />
 
         <nav className="modulos-breadcrumb" aria-label="Caminho de navegação">
           <span>Dashboard</span>
