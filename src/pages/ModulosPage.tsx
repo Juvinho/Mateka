@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import gsap from 'gsap'
 
 import RippleBackground from '../components/ui/RippleBackground'
 import ModuleHeader from '../components/modules/ModuleHeader'
@@ -13,6 +14,12 @@ import StreakSection from '../components/modules/StreakSection'
 import type { LessonCardData } from '../components/modules/LessonCard'
 
 type TabId = 'aulas' | 'exercicios' | 'quiz'
+
+const TAB_LABELS: Record<TabId, string> = {
+  aulas: 'Aulas',
+  exercicios: 'Exercícios',
+  quiz: 'Quiz Rápido',
+}
 
 const MODULE_DATA = {
   name: 'Cálculo Diferencial',
@@ -250,8 +257,113 @@ const QUIZ_QUESTIONS: QuizQuestionData[] = [
 
 const STREAK_DAYS: boolean[] = [true, true, true, true, true, true, true]
 
+const TABS: TabId[] = ['aulas', 'exercicios', 'quiz']
+
 const ModulosPage = () => {
-  const [activeTab, setActiveTab] = useState<TabId>('aulas')
+  const reducedMotion = useMemo(
+    () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+    [],
+  )
+
+  const [activeTab, setActiveTab]     = useState<TabId>('aulas')
+  const [displayedTab, setDisplayedTab] = useState<TabId>('aulas')
+  const isTransitioning               = useRef(false)
+
+  const pageRef       = useRef<HTMLDivElement>(null)
+  const progressRef   = useRef<HTMLDivElement>(null)
+  const tabsBarRef    = useRef<HTMLDivElement>(null)
+  const tabContentRef = useRef<HTMLDivElement>(null)
+  const underlineRef  = useRef<HTMLDivElement>(null)
+  const tabBtnRefs    = useRef<Partial<Record<TabId, HTMLButtonElement | null>>>({})
+
+  // ── Page entrance timeline ──────────────────────────────────────────
+  useEffect(() => {
+    if (reducedMotion) return
+
+    const page    = pageRef.current
+    const progress = progressRef.current
+    const tabsBar  = tabsBarRef.current
+    const content  = tabContentRef.current
+    if (!page) return
+
+    const header = page.querySelector<HTMLElement>('.modulos-header')
+
+    if (header)   gsap.set(header,   { opacity: 0, y: -8 })
+    if (progress) gsap.set(progress, { opacity: 0 })
+    if (tabsBar)  gsap.set(tabsBar,  { opacity: 0 })
+    if (content)  gsap.set(content,  { opacity: 0 })
+
+    const tl = gsap.timeline()
+    if (header)   tl.to(header,   { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' })
+    if (progress) tl.to(progress, { opacity: 1, duration: 0.3 }, '>0.3')
+    if (tabsBar)  tl.to(tabsBar,  { opacity: 1, duration: 0.3, delay: 0.2 }, '>')
+    if (content)  tl.to(content,  { opacity: 1, duration: 0.25 }, '>')
+
+    return () => { tl.kill() }
+  }, [reducedMotion])
+
+  // ── Tab underline positioning ────────────────────────────────────────
+  const positionUnderline = (tab: TabId, animate: boolean) => {
+    const btn       = tabBtnRefs.current[tab]
+    const underline = underlineRef.current
+    const bar       = tabsBarRef.current
+    if (!btn || !underline || !bar) return
+
+    const barRect = bar.getBoundingClientRect()
+    const btnRect = btn.getBoundingClientRect()
+    const left    = btnRect.left - barRect.left + bar.scrollLeft
+
+    if (animate && !reducedMotion) {
+      gsap.to(underline, { left, width: btnRect.width, duration: 0.25, ease: 'power2.out' })
+    } else {
+      gsap.set(underline, { left, width: btnRect.width })
+    }
+  }
+
+  useEffect(() => {
+    positionUnderline(activeTab, false)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // ── Tab switch ───────────────────────────────────────────────────────
+  const handleTabChange = (tab: TabId) => {
+    if (tab === activeTab || isTransitioning.current) return
+
+    positionUnderline(tab, true)
+
+    const el = tabContentRef.current
+    if (!el || reducedMotion) {
+      setActiveTab(tab)
+      setDisplayedTab(tab)
+      return
+    }
+
+    isTransitioning.current = true
+
+    gsap.to(el, {
+      opacity: 0,
+      x: -12,
+      duration: 0.15,
+      ease: 'power1.in',
+      onComplete: () => {
+        setDisplayedTab(tab)
+        setActiveTab(tab)
+        requestAnimationFrame(() => {
+          gsap.fromTo(
+            el,
+            { opacity: 0, x: 12 },
+            {
+              opacity: 1,
+              x: 0,
+              duration: 0.2,
+              ease: 'power2.out',
+              onComplete: () => { isTransitioning.current = false },
+            },
+          )
+        })
+      },
+    })
+  }
 
   const handleContinue = () => {
     const inProgress = [...UNIT_1_LESSONS, ...UNIT_2_LESSONS, ...UNIT_3_LESSONS].find(
@@ -262,16 +374,14 @@ const ModulosPage = () => {
     }
   }
 
-  const handleTabChange = (tab: TabId) => {
-    setActiveTab(tab)
-    window.location.hash = `modulos/calculo-diferencial#${tab}`
-  }
-
-  const tabKey = activeTab
-
   return (
-    <div className="modulos-page" style={{ position: 'relative', zIndex: 10 }}>
+    <div
+      ref={pageRef}
+      className="modulos-page"
+      style={{ position: 'relative', zIndex: 10 }}
+    >
       <RippleBackground />
+
       <ModuleHeader
         moduleName={MODULE_DATA.name}
         streak={MODULE_DATA.streak}
@@ -290,58 +400,69 @@ const ModulosPage = () => {
         onContinue={handleContinue}
       />
 
-      <ModuleProgress percentage={MODULE_DATA.progress} />
+      <div ref={progressRef}>
+        <ModuleProgress percentage={MODULE_DATA.progress} />
+      </div>
 
+      {/* Tabs bar with sliding underline */}
       <div
+        ref={tabsBarRef}
         className="modulos-tabs-bar"
         role="tablist"
         aria-label="Seções do módulo"
-        style={{ maxWidth: 'min(1160px, calc(100% - 40px))', marginInline: 'auto' }}
+        style={{
+          maxWidth: 'min(1160px, calc(100% - 40px))',
+          marginInline: 'auto',
+          position: 'relative',
+        }}
       >
-        {(['aulas', 'exercicios', 'quiz'] as TabId[]).map((tab) => {
-          const labels: Record<TabId, string> = {
-            aulas: 'Aulas',
-            exercicios: 'Exercícios',
-            quiz: 'Quiz Rápido',
-          }
-          return (
-            <button
-              key={tab}
-              type="button"
-              role="tab"
-              aria-selected={activeTab === tab}
-              className={`modulos-tab-btn${activeTab === tab ? ' is-active' : ''}`}
-              onClick={() => handleTabChange(tab)}
-            >
-              {labels[tab]}
-            </button>
-          )
-        })}
+        {TABS.map((tab) => (
+          <button
+            key={tab}
+            ref={(el) => { tabBtnRefs.current[tab] = el }}
+            type="button"
+            role="tab"
+            aria-selected={activeTab === tab}
+            className={`modulos-tab-btn${activeTab === tab ? ' is-active' : ''}`}
+            onClick={() => handleTabChange(tab)}
+            style={{ borderBottomColor: 'transparent' }}
+          >
+            {TAB_LABELS[tab]}
+          </button>
+        ))}
+
+        {/* Animated underline indicator */}
+        <div
+          ref={underlineRef}
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            height: '2px',
+            background: '#22d3ee',
+            borderRadius: '2px 2px 0 0',
+            pointerEvents: 'none',
+          }}
+        />
       </div>
 
-      <div key={tabKey} className="modulos-tab-content" role="tabpanel" style={{ paddingTop: '16px' }}>
-        {activeTab === 'aulas' && (
+      {/* Tab content — no key remount, animated via ref */}
+      <div
+        ref={tabContentRef}
+        className="modulos-tab-content"
+        role="tabpanel"
+        aria-label={TAB_LABELS[displayedTab]}
+        style={{ paddingTop: '16px' }}
+      >
+        {displayedTab === 'aulas' && (
           <>
-            <UnitSection
-              unitNumber={1}
-              title="Limites e Continuidade"
-              lessons={UNIT_1_LESSONS}
-            />
-            <UnitSection
-              unitNumber={2}
-              title="Derivadas"
-              lessons={UNIT_2_LESSONS}
-            />
-            <UnitSection
-              unitNumber={3}
-              title="Aplicações"
-              lessons={UNIT_3_LESSONS}
-              locked
-            />
+            <UnitSection unitNumber={1} title="Limites e Continuidade" lessons={UNIT_1_LESSONS} />
+            <UnitSection unitNumber={2} title="Derivadas"              lessons={UNIT_2_LESSONS} />
+            <UnitSection unitNumber={3} title="Aplicações"             lessons={UNIT_3_LESSONS} locked />
           </>
         )}
 
-        {activeTab === 'exercicios' && (
+        {displayedTab === 'exercicios' && (
           <div className="exercise-grid">
             {EXERCISES.map((ex) => (
               <ExerciseCard key={ex.id} {...ex} />
@@ -349,7 +470,7 @@ const ModulosPage = () => {
           </div>
         )}
 
-        {activeTab === 'quiz' && (
+        {displayedTab === 'quiz' && (
           <>
             <div className="quiz-list">
               {QUIZ_QUESTIONS.map((q) => (
