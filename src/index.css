@@ -4118,13 +4118,6 @@ select {
   border-radius: 999px;
   background: linear-gradient(90deg, #1e40af 0%, var(--mateka-purple) 50%, var(--mateka-cyan) 100%);
   width: 0%;
-  transition: width 1s ease;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .modulos-progress-fill {
-    transition: none;
-  }
 }
 
 /* ── Tabs ── */
