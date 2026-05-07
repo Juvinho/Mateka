@@ -4189,20 +4189,26 @@ select {
   margin-bottom: 40px;
 }
 
+.unit-section + .unit-section {
+  margin-top: 12px;
+}
+
 .unit-section-header {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
+  padding-left: 12px;
+  border-left: 2px solid var(--mateka-cyan);
 }
 
 .unit-section-label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--mateka-cyan-dim);
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .unit-section-label.is-locked {

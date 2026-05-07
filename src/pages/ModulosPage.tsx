@@ -452,7 +452,7 @@ const ModulosPage = () => {
         className="modulos-tab-content"
         role="tabpanel"
         aria-label={TAB_LABELS[displayedTab]}
-        style={{ paddingTop: '16px' }}
+        style={{ paddingTop: '76px' }}
       >
         {displayedTab === 'aulas' && (
           <>
