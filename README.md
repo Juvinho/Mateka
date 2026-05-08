@@ -263,6 +263,6 @@ Distribuído sob a licença MIT. Veja [`LICENSE`](LICENSE) para mais informaçõ
 
 Feito com 🔢 e muita vontade de aprender.
 
-**[Juvinho](https://github.com/Juvinho)** — TCC 2026
+**[Juvinho](https://github.com/Juvinho) e [Ban-Heika](https://github.com/Ban-Heika)** — TCC 2026
 
 </div>
