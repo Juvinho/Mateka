@@ -1,0 +1,57 @@
+import { useMemo, useRef } from 'react'
+
+import { useSpringReveal } from '../hooks/useSpringReveal'
+
+type FooterProps = {
+  onNavigate: (hash: string) => void
+}
+
+const Footer = ({ onNavigate }: FooterProps) => {
+  const footerRef = useRef<HTMLElement | null>(null)
+
+  const reducedMotion = useMemo(
+    () =>
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+    [],
+  )
+
+  useSpringReveal({
+    rootRef: footerRef,
+    selector: '.mateka-footer-inner',
+    staggerMs: 60,
+    disabled: reducedMotion,
+  })
+
+  return (
+    <footer ref={footerRef} className="mateka-footer reveal" data-reveal>
+      <div className="mateka-footer-inner">
+        <div className="footer-top">
+          <div>
+            <p className="footer-brand">Mateka!</p>
+            <p className="footer-tagline">Não decore. Visualize.</p>
+          </div>
+
+          <nav className="footer-links" aria-label="Links do rodapé">
+            <button type="button" onClick={() => onNavigate('#hero')}>
+              Topo
+            </button>
+            <button type="button" onClick={() => onNavigate('#conteudos')}>
+              Módulos
+            </button>
+            <button type="button" onClick={() => onNavigate('#playground')}>
+              Playground
+            </button>
+          </nav>
+
+          <p className="footer-support">Aprendizado visual de matemática para Ensino Médio e Universidade.</p>
+        </div>
+
+        <div className="footer-divider" aria-hidden="true" />
+        <small className="footer-copyright">© {new Date().getFullYear()} Mateka. Visual-first math learning.</small>
+      </div>
+    </footer>
+  )
+}
+
+export default Footer
