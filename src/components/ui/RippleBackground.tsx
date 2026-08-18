@@ -102,7 +102,7 @@ const RippleBackground = () => {
       }
 
       ripplesRef.current = ripplesRef.current.filter((r) => {
-        const elapsed = now - r.startTime
+        const elapsed = Math.max(0, now - r.startTime)
         if (elapsed >= RIPPLE_DURATION) return false
 
         const progress = elapsed / RIPPLE_DURATION
