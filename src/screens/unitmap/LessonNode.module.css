@@ -1,0 +1,39 @@
+.node {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--color-border);
+  background: white;
+  text-decoration: none;
+  color: var(--color-text);
+  font-weight: 700;
+  box-shadow: 0 4px 0 0 var(--color-border);
+}
+
+a.node:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 0 var(--color-border);
+}
+
+.icon {
+  font-size: 1.4rem;
+}
+
+.locked {
+  color: var(--color-locked-text);
+  background: var(--color-surface);
+  cursor: not-allowed;
+}
+
+.completed {
+  border-color: var(--color-primary);
+  box-shadow: 0 4px 0 0 var(--color-primary-dark);
+}
+
+.boss {
+  border-color: var(--color-gold);
+  box-shadow: 0 4px 0 0 var(--color-gold-dark);
+  background: #fffaeb;
+}

@@ -1,0 +1,27 @@
+.wrapper {
+  max-width: 480px;
+  margin: var(--space-8) auto;
+  padding: 0 var(--space-5);
+}
+
+.card {
+  text-align: center;
+}
+
+.score {
+  color: var(--color-text-muted);
+  margin-top: var(--space-2);
+}
+
+.xp {
+  color: var(--color-gold-dark);
+  font-weight: 800;
+  margin-top: var(--space-2);
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}

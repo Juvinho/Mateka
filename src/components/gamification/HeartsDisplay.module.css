@@ -1,0 +1,9 @@
+.row {
+  display: flex;
+  gap: var(--space-1);
+  font-size: 1.25rem;
+}
+
+.heart {
+  line-height: 1;
+}

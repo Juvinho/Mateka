@@ -1,0 +1,35 @@
+.page {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: var(--space-5);
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-8);
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.brand {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--color-primary);
+}
+
+.stats {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.xp {
+  font-weight: 800;
+}
+
+.path {
+  display: flex;
+  flex-direction: column;
+}

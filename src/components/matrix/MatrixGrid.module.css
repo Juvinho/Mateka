@@ -1,0 +1,49 @@
+.wrapper {
+  display: inline-grid;
+  gap: 6px;
+  padding: 10px 16px;
+  border-left: 3px solid var(--color-text);
+  border-right: 3px solid var(--color-text);
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text);
+}
+
+.editable {
+  border: 2px solid var(--color-border);
+  background: white;
+  text-align: center;
+  font-family: inherit;
+  width: 100%;
+  padding: 0;
+}
+
+.editable:focus {
+  outline: none;
+  border-color: var(--color-blue);
+}
+
+.editable:disabled {
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+}
+
+.highlighted {
+  background: #fff6d6;
+}
+
+.editable::-webkit-outer-spin-button,
+.editable::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
