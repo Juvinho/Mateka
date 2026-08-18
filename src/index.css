@@ -2395,6 +2395,40 @@ select {
   color: #94a3b8;
 }
 
+.lesson-view p + .matrix-display,
+.matrix-display + p {
+  margin-top: 18px;
+}
+
+.matrix-display {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.matrix-display-label {
+  color: var(--mateka-cyan-dim);
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+
+.matrix-grid {
+  display: inline-grid;
+  gap: 8px;
+  padding: 12px 16px;
+  border-left: 2px solid var(--text-main);
+  border-right: 2px solid var(--text-main);
+}
+
+.matrix-cell {
+  min-width: 2.2rem;
+  text-align: center;
+  color: var(--text-main);
+  font-weight: 600;
+}
+
 .lesson-actions {
   margin-top: 18px;
   display: flex;

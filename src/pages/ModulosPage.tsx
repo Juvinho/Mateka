@@ -21,194 +21,185 @@ const TAB_LABELS: Record<TabId, string> = {
   quiz: 'Quiz Rápido',
 }
 
-const MODULE_DATA = {
-  name: 'Cálculo Diferencial',
-  icon: "f'",
-  badge: 'Universitário',
-  description:
-    'Domine a variação instantânea através de visualizações interativas de derivadas, limites e suas aplicações reais.',
-  progress: 45,
-  totalLessons: 11,
-  completedLessons: 5,
-  accuracy: 88,
-  streak: 7,
+type UnitDef = {
+  number: number
+  title: string
+  lessons: LessonCardData[]
+  locked?: boolean
 }
 
 const UNIT_1_LESSONS: LessonCardData[] = [
   {
-    id: 'l1',
-    title: 'Introdução aos Limites',
-    description: 'Conceito intuitivo de limite e notação formal.',
-    tags: ['Vídeo', 'Interativo'],
-    status: 'done',
-    accuracy: 100,
-    duration: 18,
-  },
-  {
-    id: 'l2',
-    title: 'Limites Laterais',
-    description: 'Limites pela esquerda e pela direita.',
-    tags: ['Vídeo', 'Exercício'],
-    status: 'done',
-    accuracy: 92,
-    duration: 22,
-  },
-  {
-    id: 'l3',
-    title: 'Continuidade de Funções',
-    description: 'Definição formal e pontos de descontinuidade.',
+    id: 'matriz-1',
+    title: 'O que é uma matriz?',
+    description: 'Notação, dimensão m×n e como localizar cada elemento.',
     tags: ['Interativo', 'Exercício'],
-    status: 'done',
-    accuracy: 88,
-    duration: 25,
-  },
-]
-
-const UNIT_2_LESSONS: LessonCardData[] = [
-  {
-    id: 'l4',
-    title: 'Definição de Derivada',
-    description: 'Taxa de variação instantânea via limite.',
-    tags: ['Vídeo', 'Interativo'],
-    status: 'done',
-    accuracy: 95,
-    duration: 20,
-  },
-  {
-    id: 'l5',
-    title: 'Regras de Derivação',
-    description: 'Regra da soma, produto, quociente e cadeia.',
-    tags: ['Vídeo', 'Exercício'],
-    status: 'done',
-    accuracy: 78,
-    duration: 30,
-  },
-  {
-    id: 'l6',
-    title: 'Derivadas Trigonométricas',
-    description: 'Derivadas de sin, cos, tan e suas inversas.',
-    tags: ['Vídeo', 'Interativo'],
     status: 'in-progress',
     accuracy: null,
-    duration: 28,
+    duration: 8,
   },
   {
-    id: 'l7',
-    title: 'Derivadas de Funções Compostas',
-    description: 'Aplicação da regra da cadeia em situações reais.',
-    tags: ['Exercício'],
-    status: 'locked',
-    accuracy: null,
-    duration: 35,
-  },
-  {
-    id: 'l8',
-    title: 'Derivadas Implícitas',
-    description: 'Diferenciação de equações implícitas.',
-    tags: ['Vídeo', 'Exercício'],
-    status: 'locked',
-    accuracy: null,
-    duration: 32,
-  },
-]
-
-const UNIT_3_LESSONS: LessonCardData[] = [
-  {
-    id: 'l9',
-    title: 'Máximos e Mínimos',
-    description: 'Pontos críticos e teste da segunda derivada.',
+    id: 'matriz-2',
+    title: 'Tipos de matrizes',
+    description: 'Matriz quadrada, linha, coluna e nula.',
     tags: ['Interativo', 'Exercício'],
     status: 'locked',
     accuracy: null,
-    duration: 40,
+    duration: 8,
   },
   {
-    id: 'l10',
-    title: 'Problemas de Otimização',
-    description: 'Modelagem e solução de problemas reais.',
-    tags: ['Vídeo', 'Exercício'],
+    id: 'matriz-3',
+    title: 'Localizando e comparando',
+    description: 'Notação aᵢⱼ e quando duas matrizes são iguais.',
+    tags: ['Interativo', 'Exercício'],
     status: 'locked',
     accuracy: null,
-    duration: 45,
-  },
-  {
-    id: 'l11',
-    title: 'Esboço de Curvas',
-    description: 'Análise completa do gráfico usando derivadas.',
-    tags: ['Interativo'],
-    status: 'locked',
-    accuracy: null,
-    duration: 38,
+    duration: 8,
   },
 ]
+
+const ROADMAP_UNITS: UnitDef[] = [
+  {
+    number: 2,
+    title: 'Operações Básicas',
+    locked: true,
+    lessons: [
+      {
+        id: 'op-basicas',
+        title: 'Soma, subtração e multiplicação por escalar',
+        description: 'Combine matrizes de mesma dimensão elemento a elemento.',
+        tags: ['Vídeo', 'Exercício'],
+        status: 'locked',
+        accuracy: null,
+        duration: 12,
+      },
+    ],
+  },
+  {
+    number: 3,
+    title: 'Multiplicação de Matrizes',
+    locked: true,
+    lessons: [
+      {
+        id: 'mult-matrizes',
+        title: 'Multiplicação linha por coluna',
+        description: 'A operação que mais confunde — e como visualizá-la.',
+        tags: ['Interativo', 'Exercício'],
+        status: 'locked',
+        accuracy: null,
+        duration: 15,
+      },
+    ],
+  },
+  {
+    number: 4,
+    title: 'Determinante e Transposta',
+    locked: true,
+    lessons: [
+      {
+        id: 'det-transposta',
+        title: 'Identidade, transposta e determinante',
+        description: 'Matrizes especiais e o cálculo do determinante 2×2 e 3×3.',
+        tags: ['Vídeo', 'Exercício'],
+        status: 'locked',
+        accuracy: null,
+        duration: 15,
+      },
+    ],
+  },
+  {
+    number: 5,
+    title: 'Inversa e Sistemas Lineares',
+    locked: true,
+    lessons: [
+      {
+        id: 'inversa-sistemas',
+        title: 'Matriz inversa e sistemas lineares',
+        description: 'Use a inversa para resolver sistemas de equações.',
+        tags: ['Interativo', 'Exercício'],
+        status: 'locked',
+        accuracy: null,
+        duration: 18,
+      },
+    ],
+  },
+  {
+    number: 6,
+    title: 'Aplicações Reais',
+    locked: true,
+    lessons: [
+      {
+        id: 'aplicacoes',
+        title: 'Transformações geométricas e grafos',
+        description: 'Onde matrizes aparecem fora da sala de aula.',
+        tags: ['Interativo'],
+        status: 'locked',
+        accuracy: null,
+        duration: 15,
+      },
+    ],
+  },
+]
+
+const ALL_UNITS: UnitDef[] = [{ number: 1, title: 'Fundamentos', lessons: UNIT_1_LESSONS }, ...ROADMAP_UNITS]
+const ALL_LESSONS: LessonCardData[] = ALL_UNITS.flatMap((unit) => unit.lessons)
+
+const MODULE_DATA = {
+  name: 'Matrizes',
+  icon: '[A]',
+  badge: 'Ensino Médio',
+  description:
+    'Organize números em linhas e colunas e aprenda a somar, multiplicar e transformar matrizes com visualizações interativas.',
+  progress: 0,
+  totalLessons: ALL_LESSONS.length,
+  completedLessons: 0,
+  accuracy: 0,
+  streak: 0,
+}
 
 const EXERCISES: ExerciseCardData[] = [
   {
-    id: 'e1',
-    icon: "f'",
+    id: 'ex-fundamentos',
+    icon: '[A]',
     difficulty: 'easy',
-    title: 'Derivadas Básicas',
-    description: 'Aplique as regras fundamentais de derivação.',
-    duration: 10,
-    questions: 8,
+    title: 'Fundamentos: Identificação',
+    description: 'Reconheça dimensões, elementos e tipos de matriz.',
+    duration: 8,
+    questions: 5,
     points: 40,
-    status: 'completed',
-    accuracy: 100,
+    status: 'pending',
   },
   {
-    id: 'e2',
-    icon: '∂',
-    difficulty: 'medium',
-    title: 'Regra da Cadeia',
-    description: 'Derivadas de funções compostas em múltiplos níveis.',
-    duration: 15,
-    questions: 6,
-    points: 70,
-    status: 'completed',
-    accuracy: 83,
-  },
-  {
-    id: 'e3',
-    icon: '⛓',
-    difficulty: 'medium',
-    title: 'Derivadas Implícitas',
-    description: 'Diferencie equações definidas implicitamente.',
-    duration: 20,
+    id: 'ex-tipos',
+    icon: '□',
+    difficulty: 'easy',
+    title: 'Tipos de Matrizes',
+    description: 'Diferencie matriz quadrada, linha, coluna e nula.',
+    duration: 8,
     questions: 5,
-    points: 120,
+    points: 40,
     status: 'pending',
   },
   {
-    id: 'e4',
-    icon: 'sin',
-    difficulty: 'hard',
-    title: 'Aplicações de Derivadas',
-    description: 'Problemas de otimização e taxa de variação.',
-    duration: 25,
-    questions: 4,
-    points: 150,
-    status: 'pending',
-  },
-  {
-    id: 'e5',
-    icon: 'ln',
+    id: 'ex-localizacao',
+    icon: 'aᵢⱼ',
     difficulty: 'medium',
-    title: 'Funções Transcendentes',
-    description: 'Derivadas de logarítmicas e exponenciais.',
-    duration: 18,
-    questions: 6,
-    points: 90,
+    title: 'Localizando Elementos',
+    description: 'Pratique a notação aᵢⱼ e a igualdade de matrizes.',
+    duration: 10,
+    questions: 5,
+    points: 60,
     status: 'pending',
   },
   {
-    id: 'e6',
-    icon: 'max',
+    id: 'ex-boss',
+    icon: '★',
     difficulty: 'hard',
-    title: 'Extremos Globais',
-    description: 'Maximos e mínimos absolutos em intervalos fechados.',
-    duration: 30,
-    questions: 5,
-    points: 150,
+    title: 'Desafio: Fundamentos',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 1.',
+    duration: 12,
+    questions: 6,
+    points: 100,
     status: 'pending',
   },
 ]
@@ -218,48 +209,52 @@ const QUIZ_QUESTIONS: QuizQuestionData[] = [
     id: 'q1',
     number: 1,
     difficulty: 'Fácil',
-    question: 'Qual é a derivada da função f(x) = x²?',
-    formula: "f'(x) = lim[h→0] (f(x+h) - f(x)) / h",
+    question: 'Quantas linhas e colunas tem a matriz A abaixo?',
+    formula: 'A = [2 5 9; 1 4 7]',
     options: [
-      { letter: 'A', text: "f'(x) = x", isCorrect: false },
-      { letter: 'B', text: "f'(x) = 2x", isCorrect: true },
-      { letter: 'C', text: "f'(x) = 2", isCorrect: false },
-      { letter: 'D', text: "f'(x) = x²", isCorrect: false },
+      { letter: 'A', text: '3 linhas e 2 colunas', isCorrect: false },
+      { letter: 'B', text: '2 linhas e 3 colunas', isCorrect: true },
+      { letter: 'C', text: '2 linhas e 2 colunas', isCorrect: false },
+      { letter: 'D', text: '6 linhas e 1 coluna', isCorrect: false },
     ],
   },
   {
     id: 'q2',
     number: 2,
     difficulty: 'Médio',
-    question: 'Qual é a derivada de f(x) = sin(x) · cos(x) usando a regra do produto?',
-    formula: "(u · v)' = u'v + uv'",
+    question: 'Qual é o elemento a₂₃ (linha 2, coluna 3) da matriz A?',
+    formula: 'A = [4 1 7; 2 9 5; 6 3 8]',
     options: [
-      { letter: 'A', text: 'cos²(x) - sin²(x)', isCorrect: true },
-      { letter: 'B', text: '2sin(x)cos(x)', isCorrect: false },
-      { letter: 'C', text: '-sin²(x)', isCorrect: false },
-      { letter: 'D', text: 'cos(x) - sin(x)', isCorrect: false },
+      { letter: 'A', text: '7', isCorrect: false },
+      { letter: 'B', text: '5', isCorrect: true },
+      { letter: 'C', text: '9', isCorrect: false },
+      { letter: 'D', text: '3', isCorrect: false },
     ],
   },
   {
     id: 'q3',
     number: 3,
-    difficulty: 'Difícil',
-    question: 'Encontre dy/dx para a equação implícita x² + y² = 25.',
-    formula: 'x² + y² = 25',
+    difficulty: 'Médio',
+    question: 'Como se chama uma matriz que tem o mesmo número de linhas e colunas?',
+    formula: 'A = [1 2; 3 4]  (2×2)',
     options: [
-      { letter: 'A', text: 'dy/dx = y/x', isCorrect: false },
-      { letter: 'B', text: 'dy/dx = -x/y', isCorrect: true },
-      { letter: 'C', text: 'dy/dx = x/y', isCorrect: false },
-      { letter: 'D', text: 'dy/dx = -y/x', isCorrect: false },
+      { letter: 'A', text: 'Matriz quadrada', isCorrect: true },
+      { letter: 'B', text: 'Matriz linha', isCorrect: false },
+      { letter: 'C', text: 'Matriz nula', isCorrect: false },
+      { letter: 'D', text: 'Matriz coluna', isCorrect: false },
     ],
   },
 ]
 
-const STREAK_DAYS: boolean[] = [true, true, true, true, true, true, true]
+const STREAK_DAYS: boolean[] = [false, false, false, false, false, false, false]
 
 const TABS: TabId[] = ['aulas', 'exercicios', 'quiz']
 
-const ModulosPage = () => {
+type ModulosPageProps = {
+  onNavigate?: (hash: string) => void
+}
+
+const ModulosPage = ({ onNavigate }: ModulosPageProps) => {
   const reducedMotion = useMemo(
     () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
     [],
@@ -365,12 +360,14 @@ const ModulosPage = () => {
     })
   }
 
+  const handleLessonClick = (id: string) => {
+    onNavigate?.(`#aula-${id}`)
+  }
+
   const handleContinue = () => {
-    const inProgress = [...UNIT_1_LESSONS, ...UNIT_2_LESSONS, ...UNIT_3_LESSONS].find(
-      (l) => l.status === 'in-progress',
-    )
+    const inProgress = ALL_LESSONS.find((l) => l.status === 'in-progress')
     if (inProgress) {
-      console.log('Navegar para aula:', inProgress.id)
+      onNavigate?.(`#aula-${inProgress.id}`)
     }
   }
 
@@ -456,9 +453,16 @@ const ModulosPage = () => {
       >
         {displayedTab === 'aulas' && (
           <>
-            <UnitSection unitNumber={1} title="Limites e Continuidade" lessons={UNIT_1_LESSONS} />
-            <UnitSection unitNumber={2} title="Derivadas"              lessons={UNIT_2_LESSONS} />
-            <UnitSection unitNumber={3} title="Aplicações"             lessons={UNIT_3_LESSONS} locked />
+            {ALL_UNITS.map((unit) => (
+              <UnitSection
+                key={unit.number}
+                unitNumber={unit.number}
+                title={unit.title}
+                lessons={unit.lessons}
+                locked={unit.locked}
+                onLessonClick={handleLessonClick}
+              />
+            ))}
           </>
         )}
 

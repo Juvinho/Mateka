@@ -52,6 +52,15 @@ const moduleCards: ModuleCard[] = [
     lessonHash: '#aula-1',
   },
   {
+    id: 'matrizes',
+    title: 'Matrizes',
+    icon: '[A]',
+    accent: 'purple',
+    description: 'Organize números em linhas e colunas e domine as operações que resolvem sistemas inteiros de uma vez.',
+    difficulty: 'Ensino Médio',
+    lessonHash: '#modulos',
+  },
+  {
     id: 'pre-calculus',
     title: 'Pré-Cálculo',
     icon: 'f(x)',
@@ -215,6 +224,38 @@ const ModulePreviewCanvas = ({ moduleId, active }: { moduleId: string; active: b
       }
     }
 
+    const drawMatrix = (t: number): void => {
+      const size = 3
+      const cell = 18
+      const gap = 3
+      const gridWidth = size * cell + (size - 1) * gap
+      const originX = (80 - gridWidth) / 2
+      const originY = (80 - gridWidth) / 2
+
+      const cycle = (t * 0.0009) % (size * 2)
+      const activeRow = Math.floor(cycle) % size
+      const activeCol = Math.floor(cycle + size) % size
+
+      context.strokeStyle = 'rgba(148,163,184,0.4)'
+      context.lineWidth = 2
+      context.beginPath()
+      context.moveTo(originX - 4, originY - 4)
+      context.lineTo(originX - 4, originY + gridWidth + 4)
+      context.moveTo(originX + gridWidth + 4, originY - 4)
+      context.lineTo(originX + gridWidth + 4, originY + gridWidth + 4)
+      context.stroke()
+
+      for (let r = 0; r < size; r += 1) {
+        for (let c = 0; c < size; c += 1) {
+          const x = originX + c * (cell + gap)
+          const y = originY + r * (cell + gap)
+          const isActive = r === activeRow || c === activeCol
+          context.fillStyle = isActive ? 'rgba(124,58,237,0.85)' : 'rgba(34,211,238,0.28)'
+          context.fillRect(x, y, cell, cell)
+        }
+      }
+    }
+
     const drawTrig = (t: number): void => {
       const cx = 24
       const cy = 40
@@ -266,6 +307,7 @@ const ModulePreviewCanvas = ({ moduleId, active }: { moduleId: string; active: b
       context.clearRect(0, 0, logicalSize, logicalSize)
 
       if (moduleId === 'basic-concepts') drawBasicConcepts(time)
+      else if (moduleId === 'matrizes') drawMatrix(time)
       else if (moduleId === 'pre-calculus') drawPreCalculus(time)
       else if (moduleId === 'differential') drawDifferential(time)
       else if (moduleId === 'integral') drawIntegral(time)
@@ -388,8 +430,6 @@ const ModuleGrid = ({ onNavigate }: ModuleGridProps) => {
   const { registerAttempt, completion } = useSpacedRepetition()
 
   const favoriteSet = useMemo(() => new Set(favorites), [favorites])
-  const topModules = moduleCards.slice(0, 3)
-  const bottomModules = moduleCards.slice(3)
 
   useSpringReveal({
     rootRef: sectionRef,
@@ -448,8 +488,8 @@ const ModuleGrid = ({ onNavigate }: ModuleGridProps) => {
         </p>
       </header>
 
-      <div className="module-grid module-grid-top">
-        {topModules.map((module, index) => (
+      <div className="module-grid">
+        {moduleCards.map((module, index) => (
           <ModuleCardItem
             key={module.id}
             module={module}
@@ -461,23 +501,6 @@ const ModuleGrid = ({ onNavigate }: ModuleGridProps) => {
             onAccessModule={accessModule}
           />
         ))}
-      </div>
-
-      <div className="module-grid-bottom-wrap">
-        <div className="module-grid module-grid-bottom">
-          {bottomModules.map((module, index) => (
-            <ModuleCardItem
-              key={module.id}
-              module={module}
-              delayMs={200 + index * 80}
-              isFavorite={favoriteSet.has(module.id)}
-              isRevealed={sectionRevealed}
-              reducedMotion={reducedMotion}
-              onToggleFavorite={toggleFavorite}
-              onAccessModule={accessModule}
-            />
-          ))}
-        </div>
       </div>
     </section>
   )

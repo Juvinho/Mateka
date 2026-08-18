@@ -25,10 +25,12 @@ import TestimonialSection from './components/TestimonialSection'
 import WavePlayground from './components/WavePlayground'
 import WhyItMatters from './components/WhyItMatters'
 import AuthCardFlip from './components/AuthCardFlip'
+import MatrixDisplay from './components/MatrixDisplay'
 import ModulosPage from './pages/ModulosPage'
 import { useAmbience } from './hooks/useAmbience'
 import { useScrollProgress } from './hooks/useScrollProgress'
 import { useScrollVelocity } from './hooks/useScrollVelocity'
+import { MATRIZES_LESSON_BY_HASH } from './data/matrizesLessons'
 
 const DerivativeVisualizer = lazy(() => import('./components/DerivativeVisualizer'))
 const IntegralVisualizer = lazy(() => import('./components/IntegralVisualizer'))
@@ -313,15 +315,17 @@ const App = () => {
   }, [toggleAmbience])
 
   const activeLessonTitle = lessonTitles[activeHash]
+  const matrizesLesson = MATRIZES_LESSON_BY_HASH[activeHash]
   const isAuthRoute = activeHash === '#login' || activeHash === '#register'
   const isModulosRoute = activeHash === '#modulos' || activeHash.startsWith('#modulos/')
 
   useEffect(() => {
     if (!import.meta.env.DEV) return
-    const currentView = activeHash === '#login' ? 'login' : activeLessonTitle ? 'lesson' : 'landing'
-    const lessonId = activeLessonTitle ? activeHash : 'none'
+    const currentView =
+      activeHash === '#login' ? 'login' : activeLessonTitle || matrizesLesson ? 'lesson' : 'landing'
+    const lessonId = activeLessonTitle || matrizesLesson ? activeHash : 'none'
     console.log('current view:', currentView, 'lessonId:', lessonId)
-  }, [activeHash, activeLessonTitle])
+  }, [activeHash, activeLessonTitle, matrizesLesson])
 
   const handleLoadingComplete = useCallback(() => {
     setLoadingVisible(false)
@@ -333,7 +337,7 @@ const App = () => {
   }
 
   if (isModulosRoute) {
-    return <ModulosPage />
+    return <ModulosPage onNavigate={navigateTo} />
   }
 
   return (
@@ -362,7 +366,41 @@ const App = () => {
           onNavigate={navigateTo}
         />
 
-        {activeLessonTitle ? (
+        {matrizesLesson ? (
+          <main className="lesson-shell">
+            <section className="lesson-view reveal is-visible" data-reveal>
+              <p className="section-kicker">Matrizes</p>
+              <h1>{matrizesLesson.title}</h1>
+              {matrizesLesson.intro.map((paragraph, i) => (
+                <p key={`intro-${i}`}>{paragraph}</p>
+              ))}
+              {matrizesLesson.example ? (
+                <MatrixDisplay label={matrizesLesson.example.label} matrix={matrizesLesson.example.matrix} />
+              ) : null}
+              {matrizesLesson.after?.map((paragraph, i) => (
+                <p key={`after-${i}`}>{paragraph}</p>
+              ))}
+              <div className="lesson-actions">
+                <button
+                  type="button"
+                  className="btn-primary"
+                  onClick={() => navigateTo('#modulos')}
+                  aria-label="Praticar exercícios de matrizes"
+                >
+                  Praticar exercícios →
+                </button>
+                <button
+                  type="button"
+                  className="btn-secondary"
+                  onClick={() => navigateTo('#hero')}
+                  aria-label="Voltar para a landing page"
+                >
+                  Landing Principal
+                </button>
+              </div>
+            </section>
+          </main>
+        ) : activeLessonTitle ? (
           <main className="lesson-shell">
             <section className="lesson-view reveal is-visible" data-reveal>
               <p className="section-kicker">Modo aula</p>
