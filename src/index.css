@@ -4658,6 +4658,15 @@ select {
   letter-spacing: 0.04em;
 }
 
+.quiz-matrix-display {
+  display: flex;
+  justify-content: center;
+  background: rgba(2, 6, 23, 0.7);
+  border: 1px solid var(--mateka-border-cyan);
+  border-radius: 10px;
+  padding: 16px 18px;
+}
+
 .quiz-options {
   display: flex;
   flex-direction: column;

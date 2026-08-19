@@ -32,7 +32,8 @@ const QUIZ_QUESTIONS: QuizQuestionData[] = [
     number: 1,
     difficulty: 'Fácil',
     question: 'Quantas linhas e colunas tem a matriz A abaixo?',
-    formula: 'A = [2 5 9; 1 4 7]',
+    matrixLabel: 'A',
+    matrix: [[2, 5, 9], [1, 4, 7]],
     options: [
       { letter: 'A', text: '3 linhas e 2 colunas', isCorrect: false },
       { letter: 'B', text: '2 linhas e 3 colunas', isCorrect: true },
@@ -45,7 +46,8 @@ const QUIZ_QUESTIONS: QuizQuestionData[] = [
     number: 2,
     difficulty: 'Médio',
     question: 'Qual é o elemento a₂₃ (linha 2, coluna 3) da matriz A?',
-    formula: 'A = [4 1 7; 2 9 5; 6 3 8]',
+    matrixLabel: 'A',
+    matrix: [[4, 1, 7], [2, 9, 5], [6, 3, 8]],
     options: [
       { letter: 'A', text: '7', isCorrect: false },
       { letter: 'B', text: '5', isCorrect: true },
@@ -58,7 +60,8 @@ const QUIZ_QUESTIONS: QuizQuestionData[] = [
     number: 3,
     difficulty: 'Médio',
     question: 'Como se chama uma matriz que tem o mesmo número de linhas e colunas?',
-    formula: 'A = [1 2; 3 4]  (2×2)',
+    matrixLabel: 'A',
+    matrix: [[1, 2], [3, 4]],
     options: [
       { letter: 'A', text: 'Matriz quadrada', isCorrect: true },
       { letter: 'B', text: 'Matriz linha', isCorrect: false },

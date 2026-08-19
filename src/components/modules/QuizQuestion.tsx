@@ -1,5 +1,6 @@
 import { useMemo, useRef, useState } from 'react'
 import gsap from 'gsap'
+import MatrixDisplay from '../MatrixDisplay'
 
 export type QuizOptionLetter = 'A' | 'B' | 'C' | 'D'
 
@@ -14,7 +15,9 @@ export type QuizQuestionData = {
   number: number
   difficulty: string
   question: string
-  formula: string
+  formula?: string
+  matrixLabel?: string
+  matrix?: number[][]
   options: QuizOption[]
 }
 
@@ -27,6 +30,8 @@ const QuizQuestion = ({
   difficulty,
   question,
   formula,
+  matrixLabel,
+  matrix,
   options,
 }: QuizQuestionProps) => {
   const reducedMotion = useMemo(
@@ -94,9 +99,15 @@ const QuizQuestion = ({
 
       <p className="quiz-question-text">{question}</p>
 
-      <div className="quiz-formula-display" aria-label="Fórmula da questão">
-        {formula}
-      </div>
+      {matrix ? (
+        <div className="quiz-matrix-display">
+          <MatrixDisplay label={matrixLabel ?? 'A'} matrix={matrix} />
+        </div>
+      ) : formula ? (
+        <div className="quiz-formula-display" aria-label="Fórmula da questão">
+          {formula}
+        </div>
+      ) : null}
 
       <div className="quiz-options" role="radiogroup" aria-label="Alternativas">
         {options.map((opt, i) => (
