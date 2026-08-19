@@ -27,10 +27,13 @@ import WhyItMatters from './components/WhyItMatters'
 import AuthCardFlip from './components/AuthCardFlip'
 import MatrixDisplay from './components/MatrixDisplay'
 import ModulosPage from './pages/ModulosPage'
+import ExerciseSessionPage from './pages/ExerciseSessionPage'
 import { useAmbience } from './hooks/useAmbience'
 import { useScrollProgress } from './hooks/useScrollProgress'
 import { useScrollVelocity } from './hooks/useScrollVelocity'
-import { MATRIZES_LESSON_BY_HASH } from './data/matrizesLessons'
+import { LESSON_BY_ID } from './data/matrizes/units'
+import { EXERCISE_SET_BY_ID } from './data/matrizes/exerciseSets'
+import { useMatrizesProgress } from './state/useMatrizesProgress'
 
 const DerivativeVisualizer = lazy(() => import('./components/DerivativeVisualizer'))
 const IntegralVisualizer = lazy(() => import('./components/IntegralVisualizer'))
@@ -315,9 +318,20 @@ const App = () => {
   }, [toggleAmbience])
 
   const activeLessonTitle = lessonTitles[activeHash]
-  const matrizesLesson = MATRIZES_LESSON_BY_HASH[activeHash]
+  const matrizesLesson = activeHash.startsWith('#aula-')
+    ? LESSON_BY_ID[activeHash.slice('#aula-'.length)]
+    : undefined
+  const activeExerciseSet = activeHash.startsWith('#exercicio-')
+    ? EXERCISE_SET_BY_ID[activeHash.slice('#exercicio-'.length)]
+    : undefined
   const isAuthRoute = activeHash === '#login' || activeHash === '#register'
   const isModulosRoute = activeHash === '#modulos' || activeHash.startsWith('#modulos/')
+
+  const { markLessonSeen } = useMatrizesProgress()
+
+  useEffect(() => {
+    if (matrizesLesson) markLessonSeen(matrizesLesson.id)
+  }, [matrizesLesson, markLessonSeen])
 
   useEffect(() => {
     if (!import.meta.env.DEV) return
@@ -338,6 +352,10 @@ const App = () => {
 
   if (isModulosRoute) {
     return <ModulosPage onNavigate={navigateTo} />
+  }
+
+  if (activeExerciseSet) {
+    return <ExerciseSessionPage exerciseSet={activeExerciseSet} onNavigate={navigateTo} />
   }
 
   return (
@@ -374,8 +392,12 @@ const App = () => {
               {matrizesLesson.intro.map((paragraph, i) => (
                 <p key={`intro-${i}`}>{paragraph}</p>
               ))}
-              {matrizesLesson.example ? (
-                <MatrixDisplay label={matrizesLesson.example.label} matrix={matrizesLesson.example.matrix} />
+              {matrizesLesson.examples && matrizesLesson.examples.length > 0 ? (
+                <div className="lesson-examples-row">
+                  {matrizesLesson.examples.map((ex) => (
+                    <MatrixDisplay key={ex.label} label={ex.label} matrix={ex.matrix} />
+                  ))}
+                </div>
               ) : null}
               {matrizesLesson.after?.map((paragraph, i) => (
                 <p key={`after-${i}`}>{paragraph}</p>
@@ -384,7 +406,7 @@ const App = () => {
                 <button
                   type="button"
                   className="btn-primary"
-                  onClick={() => navigateTo('#modulos')}
+                  onClick={() => navigateTo(`#exercicio-${matrizesLesson.exerciseSetId}`)}
                   aria-label="Praticar exercícios de matrizes"
                 >
                   Praticar exercícios →

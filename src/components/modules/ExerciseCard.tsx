@@ -1,8 +1,8 @@
-import { useMemo, useRef } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import gsap from 'gsap'
 
 export type ExerciseDifficulty = 'easy' | 'medium' | 'hard'
-export type ExerciseStatus = 'completed' | 'pending'
+export type ExerciseStatus = 'completed' | 'pending' | 'locked'
 
 export type ExerciseCardData = {
   id: string
@@ -45,17 +45,33 @@ const ExerciseCard = ({
     [],
   )
 
+  const isLocked = status === 'locked'
+  const [isShaking, setIsShaking] = useState(false)
+  const shakeTimerRef = useRef<number | null>(null)
   const cardRef   = useRef<HTMLElement>(null)
   const symbolRef = useRef<HTMLDivElement>(null)
 
+  const handleClick = () => {
+    if (isLocked) {
+      if (shakeTimerRef.current) return
+      setIsShaking(true)
+      shakeTimerRef.current = window.setTimeout(() => {
+        setIsShaking(false)
+        shakeTimerRef.current = null
+      }, 320)
+      return
+    }
+    onClick?.(id)
+  }
+
   const handleMouseEnter = () => {
-    if (reducedMotion) return
+    if (reducedMotion || isLocked) return
     gsap.to(cardRef.current,   { scale: 1.018, y: -3, duration: 0.2, ease: 'power1.out' })
     gsap.to(symbolRef.current, { rotation: 8,  duration: 0.2, ease: 'power1.out' })
   }
 
   const handleMouseLeave = () => {
-    if (reducedMotion) return
+    if (reducedMotion || isLocked) return
     gsap.to(cardRef.current,   { scale: 1, y: 0,     duration: 0.2, ease: 'power1.out' })
     gsap.to(symbolRef.current, { rotation: 0, duration: 0.2, ease: 'power1.out' })
   }
@@ -63,17 +79,20 @@ const ExerciseCard = ({
   return (
     <article
       ref={cardRef}
-      className="exercise-card"
-      onClick={() => onClick?.(id)}
+      className={`exercise-card${isLocked ? ' is-locked' : ''}${isShaking ? ' is-shaking' : ''}`}
+      onClick={handleClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       role="button"
-      tabIndex={0}
-      aria-label={`Exercício: ${title}`}
-      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onClick?.(id) }}
+      tabIndex={isLocked ? -1 : 0}
+      aria-disabled={isLocked}
+      aria-label={`Exercício: ${title}${isLocked ? ' — Bloqueado' : ''}`}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleClick() }}
     >
       <div className="exercise-card-top">
-        <div ref={symbolRef} className="exercise-card-symbol" aria-hidden="true">{icon}</div>
+        <div ref={symbolRef} className="exercise-card-symbol" aria-hidden="true">
+          {isLocked ? '🔒' : icon}
+        </div>
         <span className={`exercise-difficulty-badge ${difficulty}`}>
           {DIFFICULTY_LABEL[difficulty]}
         </span>
@@ -92,7 +111,9 @@ const ExerciseCard = ({
         <span className={`exercise-card-status ${status}`}>
           {status === 'completed'
             ? `✓ Concluído${accuracy !== undefined ? ` — ${accuracy}%` : ''}`
-            : 'Pendente'}
+            : status === 'locked'
+              ? 'Bloqueado'
+              : 'Pendente'}
         </span>
       </div>
     </article>

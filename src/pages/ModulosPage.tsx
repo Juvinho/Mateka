@@ -13,6 +13,11 @@ import type { QuizQuestionData } from '../components/modules/QuizQuestion'
 import StreakSection from '../components/modules/StreakSection'
 import type { LessonCardData } from '../components/modules/LessonCard'
 
+import { ALL_LESSONS, MATRIZES_UNITS } from '../data/matrizes/units'
+import { ALL_EXERCISE_SETS } from '../data/matrizes/exerciseSets'
+import { TRACK, isNodeUnlocked } from '../data/matrizes/track'
+import { useMatrizesProgress } from '../state/useMatrizesProgress'
+
 type TabId = 'aulas' | 'exercicios' | 'quiz'
 
 const TAB_LABELS: Record<TabId, string> = {
@@ -20,189 +25,6 @@ const TAB_LABELS: Record<TabId, string> = {
   exercicios: 'Exercícios',
   quiz: 'Quiz Rápido',
 }
-
-type UnitDef = {
-  number: number
-  title: string
-  lessons: LessonCardData[]
-  locked?: boolean
-}
-
-const UNIT_1_LESSONS: LessonCardData[] = [
-  {
-    id: 'matriz-1',
-    title: 'O que é uma matriz?',
-    description: 'Notação, dimensão m×n e como localizar cada elemento.',
-    tags: ['Interativo', 'Exercício'],
-    status: 'in-progress',
-    accuracy: null,
-    duration: 8,
-  },
-  {
-    id: 'matriz-2',
-    title: 'Tipos de matrizes',
-    description: 'Matriz quadrada, linha, coluna e nula.',
-    tags: ['Interativo', 'Exercício'],
-    status: 'locked',
-    accuracy: null,
-    duration: 8,
-  },
-  {
-    id: 'matriz-3',
-    title: 'Localizando e comparando',
-    description: 'Notação aᵢⱼ e quando duas matrizes são iguais.',
-    tags: ['Interativo', 'Exercício'],
-    status: 'locked',
-    accuracy: null,
-    duration: 8,
-  },
-]
-
-const ROADMAP_UNITS: UnitDef[] = [
-  {
-    number: 2,
-    title: 'Operações Básicas',
-    locked: true,
-    lessons: [
-      {
-        id: 'op-basicas',
-        title: 'Soma, subtração e multiplicação por escalar',
-        description: 'Combine matrizes de mesma dimensão elemento a elemento.',
-        tags: ['Vídeo', 'Exercício'],
-        status: 'locked',
-        accuracy: null,
-        duration: 12,
-      },
-    ],
-  },
-  {
-    number: 3,
-    title: 'Multiplicação de Matrizes',
-    locked: true,
-    lessons: [
-      {
-        id: 'mult-matrizes',
-        title: 'Multiplicação linha por coluna',
-        description: 'A operação que mais confunde — e como visualizá-la.',
-        tags: ['Interativo', 'Exercício'],
-        status: 'locked',
-        accuracy: null,
-        duration: 15,
-      },
-    ],
-  },
-  {
-    number: 4,
-    title: 'Determinante e Transposta',
-    locked: true,
-    lessons: [
-      {
-        id: 'det-transposta',
-        title: 'Identidade, transposta e determinante',
-        description: 'Matrizes especiais e o cálculo do determinante 2×2 e 3×3.',
-        tags: ['Vídeo', 'Exercício'],
-        status: 'locked',
-        accuracy: null,
-        duration: 15,
-      },
-    ],
-  },
-  {
-    number: 5,
-    title: 'Inversa e Sistemas Lineares',
-    locked: true,
-    lessons: [
-      {
-        id: 'inversa-sistemas',
-        title: 'Matriz inversa e sistemas lineares',
-        description: 'Use a inversa para resolver sistemas de equações.',
-        tags: ['Interativo', 'Exercício'],
-        status: 'locked',
-        accuracy: null,
-        duration: 18,
-      },
-    ],
-  },
-  {
-    number: 6,
-    title: 'Aplicações Reais',
-    locked: true,
-    lessons: [
-      {
-        id: 'aplicacoes',
-        title: 'Transformações geométricas e grafos',
-        description: 'Onde matrizes aparecem fora da sala de aula.',
-        tags: ['Interativo'],
-        status: 'locked',
-        accuracy: null,
-        duration: 15,
-      },
-    ],
-  },
-]
-
-const ALL_UNITS: UnitDef[] = [{ number: 1, title: 'Fundamentos', lessons: UNIT_1_LESSONS }, ...ROADMAP_UNITS]
-const ALL_LESSONS: LessonCardData[] = ALL_UNITS.flatMap((unit) => unit.lessons)
-
-const MODULE_DATA = {
-  name: 'Matrizes',
-  icon: '[A]',
-  badge: 'Ensino Médio',
-  description:
-    'Organize números em linhas e colunas e aprenda a somar, multiplicar e transformar matrizes com visualizações interativas.',
-  progress: 0,
-  totalLessons: ALL_LESSONS.length,
-  completedLessons: 0,
-  accuracy: 0,
-  streak: 0,
-}
-
-const EXERCISES: ExerciseCardData[] = [
-  {
-    id: 'ex-fundamentos',
-    icon: '[A]',
-    difficulty: 'easy',
-    title: 'Fundamentos: Identificação',
-    description: 'Reconheça dimensões, elementos e tipos de matriz.',
-    duration: 8,
-    questions: 5,
-    points: 40,
-    status: 'pending',
-  },
-  {
-    id: 'ex-tipos',
-    icon: '□',
-    difficulty: 'easy',
-    title: 'Tipos de Matrizes',
-    description: 'Diferencie matriz quadrada, linha, coluna e nula.',
-    duration: 8,
-    questions: 5,
-    points: 40,
-    status: 'pending',
-  },
-  {
-    id: 'ex-localizacao',
-    icon: 'aᵢⱼ',
-    difficulty: 'medium',
-    title: 'Localizando Elementos',
-    description: 'Pratique a notação aᵢⱼ e a igualdade de matrizes.',
-    duration: 10,
-    questions: 5,
-    points: 60,
-    status: 'pending',
-  },
-  {
-    id: 'ex-boss',
-    icon: '★',
-    difficulty: 'hard',
-    title: 'Desafio: Fundamentos',
-    description: 'Revisão mista de tudo que você aprendeu na Unidade 1.',
-    duration: 12,
-    questions: 6,
-    points: 100,
-    status: 'pending',
-  },
-]
 
 const QUIZ_QUESTIONS: QuizQuestionData[] = [
   {
@@ -246,8 +68,6 @@ const QUIZ_QUESTIONS: QuizQuestionData[] = [
   },
 ]
 
-const STREAK_DAYS: boolean[] = [false, false, false, false, false, false, false]
-
 const TABS: TabId[] = ['aulas', 'exercicios', 'quiz']
 
 type ModulosPageProps = {
@@ -259,6 +79,8 @@ const ModulosPage = ({ onNavigate }: ModulosPageProps) => {
     () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
     [],
   )
+
+  const { state, streakCount, averageAccuracy } = useMatrizesProgress()
 
   const [activeTab, setActiveTab]     = useState<TabId>('aulas')
   const [displayedTab, setDisplayedTab] = useState<TabId>('aulas')
@@ -360,15 +182,92 @@ const ModulosPage = ({ onNavigate }: ModulosPageProps) => {
     })
   }
 
+  // ── Derived data: lessons, exercise sets, module stats ────────────────
+  const lessonCardsByUnit = useMemo(() => {
+    const map: Record<number, LessonCardData[]> = {}
+    for (const unit of MATRIZES_UNITS) {
+      map[unit.number] = unit.lessons.map((lesson) => {
+        const done = Boolean(state.completedNodeIds[lesson.id])
+        const unlocked = isNodeUnlocked(lesson.id, state.completedNodeIds)
+        const result = state.exerciseResults[lesson.exerciseSetId]
+        return {
+          id: lesson.id,
+          title: lesson.title,
+          description: lesson.description,
+          tags: lesson.tags,
+          status: done ? 'done' : unlocked ? 'in-progress' : 'locked',
+          accuracy: result ? Math.round(result.bestAccuracy * 100) : null,
+          duration: lesson.duration,
+        }
+      })
+    }
+    return map
+  }, [state.completedNodeIds, state.exerciseResults])
+
+  const exerciseCards: ExerciseCardData[] = useMemo(
+    () =>
+      ALL_EXERCISE_SETS.map((set) => {
+        const unlocked = isNodeUnlocked(set.id, state.completedNodeIds)
+        const result = state.exerciseResults[set.id]
+        return {
+          id: set.id,
+          icon: set.icon,
+          difficulty: set.difficulty,
+          title: set.title,
+          description: set.description,
+          duration: set.exercises.length * 2,
+          questions: set.exercises.length,
+          points: set.points,
+          status: result ? 'completed' : unlocked ? 'pending' : 'locked',
+          accuracy: result ? Math.round(result.bestAccuracy * 100) : undefined,
+        }
+      }),
+    [state.completedNodeIds, state.exerciseResults],
+  )
+
+  const completedLessonsCount = ALL_LESSONS.filter((l) => state.completedNodeIds[l.id]).length
+  const completedTrackNodes = TRACK.filter((n) => state.completedNodeIds[n.id]).length
+  const progressPct = TRACK.length > 0 ? Math.round((completedTrackNodes / TRACK.length) * 100) : 0
+  const accuracyPct = Math.round(averageAccuracy * 100)
+
+  const MODULE_DATA = {
+    name: 'Matrizes',
+    icon: '[A]',
+    badge: 'Ensino Médio',
+    description:
+      'Organize números em linhas e colunas e aprenda a somar, multiplicar e transformar matrizes com visualizações interativas.',
+    progress: progressPct,
+    totalLessons: ALL_LESSONS.length,
+    completedLessons: completedLessonsCount,
+    accuracy: accuracyPct,
+    streak: streakCount,
+  }
+
+  const streakDays = useMemo(() => {
+    const lastDate = state.streak.lastPracticedISODate
+    if (!lastDate || state.streak.count === 0) return Array<boolean>(7).fill(false)
+    const anchor = new Date(`${lastDate}T00:00:00`)
+    const anchorIndex = anchor.getDay() === 0 ? 6 : anchor.getDay() - 1
+    return Array.from({ length: 7 }, (_, i) => {
+      const diff = (anchorIndex - i + 7) % 7
+      return diff < state.streak.count
+    })
+  }, [state.streak.lastPracticedISODate, state.streak.count])
+
+  const todayIndex = new Date().getDay() === 0 ? 6 : new Date().getDay() - 1
+
   const handleLessonClick = (id: string) => {
     onNavigate?.(`#aula-${id}`)
   }
 
+  const handleExerciseClick = (id: string) => {
+    onNavigate?.(`#exercicio-${id}`)
+  }
+
   const handleContinue = () => {
-    const inProgress = ALL_LESSONS.find((l) => l.status === 'in-progress')
-    if (inProgress) {
-      onNavigate?.(`#aula-${inProgress.id}`)
-    }
+    const firstIncomplete = TRACK.find((node) => !state.completedNodeIds[node.id])
+    if (!firstIncomplete) return
+    onNavigate?.(firstIncomplete.kind === 'lesson' ? `#aula-${firstIncomplete.id}` : `#exercicio-${firstIncomplete.id}`)
   }
 
   return (
@@ -453,13 +352,13 @@ const ModulosPage = ({ onNavigate }: ModulosPageProps) => {
       >
         {displayedTab === 'aulas' && (
           <>
-            {ALL_UNITS.map((unit) => (
+            {MATRIZES_UNITS.map((unit) => (
               <UnitSection
                 key={unit.number}
                 unitNumber={unit.number}
                 title={unit.title}
-                lessons={unit.lessons}
-                locked={unit.locked}
+                lessons={lessonCardsByUnit[unit.number]}
+                locked={!isNodeUnlocked(unit.lessons[0].id, state.completedNodeIds)}
                 onLessonClick={handleLessonClick}
               />
             ))}
@@ -468,8 +367,8 @@ const ModulosPage = ({ onNavigate }: ModulosPageProps) => {
 
         {displayedTab === 'exercicios' && (
           <div className="exercise-grid">
-            {EXERCISES.map((ex) => (
-              <ExerciseCard key={ex.id} {...ex} />
+            {exerciseCards.map((ex) => (
+              <ExerciseCard key={ex.id} {...ex} onClick={handleExerciseClick} />
             ))}
           </div>
         )}
@@ -481,11 +380,7 @@ const ModulosPage = ({ onNavigate }: ModulosPageProps) => {
                 <QuizQuestion key={q.id} {...q} />
               ))}
             </div>
-            <StreakSection
-              streak={MODULE_DATA.streak}
-              days={STREAK_DAYS}
-              todayIndex={new Date().getDay() === 0 ? 6 : new Date().getDay() - 1}
-            />
+            <StreakSection streak={streakCount} days={streakDays} todayIndex={todayIndex} />
           </>
         )}
       </div>

@@ -2396,8 +2396,17 @@ select {
 }
 
 .lesson-view p + .matrix-display,
-.matrix-display + p {
+.lesson-view p + .lesson-examples-row,
+.matrix-display + p,
+.lesson-examples-row + p {
   margin-top: 18px;
+}
+
+.lesson-examples-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 28px;
 }
 
 .matrix-display {
@@ -4451,6 +4460,20 @@ select {
   border-color: rgba(148, 163, 184, 0.28);
 }
 
+.exercise-card.is-locked {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.exercise-card.is-locked:hover {
+  transform: none;
+  border-color: var(--mateka-border-soft);
+}
+
+.exercise-card.is-shaking {
+  animation: shake-card 300ms ease;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .exercise-card {
     transition: none;
@@ -4563,6 +4586,10 @@ select {
 
 .exercise-card-status.pending {
   color: var(--text-soft);
+}
+
+.exercise-card-status.locked {
+  color: var(--mateka-locked);
 }
 
 /* ── QuizQuestion ── */
@@ -4849,4 +4876,226 @@ select {
   .streak-number {
     font-size: 2.8rem;
   }
+}
+
+/* ── Exercise engine ── */
+.exercise-context-row {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.exercise-prompt {
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0 0 16px;
+}
+
+.exercise-choices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.exercise-choice-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid var(--mateka-border-soft);
+  background: var(--mateka-bg-card-2);
+  color: var(--text-main);
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 160ms ease, background-color 160ms ease;
+}
+
+.exercise-choice-btn:hover:not(:disabled) {
+  border-color: var(--mateka-border-cyan);
+}
+
+.exercise-choice-btn.is-selected {
+  border-color: var(--mateka-cyan-dim);
+  background: rgba(34, 211, 238, 0.1);
+}
+
+.exercise-choice-btn:disabled {
+  cursor: not-allowed;
+}
+
+.exercise-claim-row,
+.exercise-builder-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.exercise-operator {
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: var(--text-soft);
+}
+
+.exercise-tf-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.exercise-hint {
+  color: var(--text-soft);
+  font-size: 0.82rem;
+  margin: 4px 0 16px;
+}
+
+.exercise-matrix-input {
+  border: 1px solid var(--mateka-border-soft);
+  background: rgba(2, 6, 23, 0.6);
+  color: var(--text-main);
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  font-size: 1.05rem;
+  width: 100%;
+  border-radius: 6px;
+  padding: 0;
+}
+
+.exercise-matrix-input:focus {
+  outline: none;
+  border-color: var(--mateka-cyan-dim);
+}
+
+.exercise-matrix-input:disabled {
+  opacity: 0.7;
+}
+
+.exercise-matrix-highlight {
+  background: rgba(124, 58, 237, 0.22);
+  border-radius: 6px;
+}
+
+.exercise-matrix-input::-webkit-outer-spin-button,
+.exercise-matrix-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* ── Exercise session page ── */
+.exercise-session-page {
+  min-height: 100vh;
+  padding: 120px 20px 60px;
+}
+
+.exercise-session-shell {
+  width: min(760px, 100%);
+  margin: 0 auto;
+}
+
+.exercise-session-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.exercise-progress-track {
+  flex: 1;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.18);
+  overflow: hidden;
+}
+
+.exercise-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--cyan), var(--pink));
+  border-radius: 999px;
+  transition: width 220ms ease;
+}
+
+.exercise-session-counter {
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-soft);
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.exercise-session-card {
+  background: var(--mateka-bg-card);
+  border: 1px solid var(--mateka-border-soft);
+  border-radius: 20px;
+  padding: 28px;
+}
+
+.exercise-feedback {
+  margin-top: 20px;
+  border-radius: 16px;
+  padding: 18px 20px;
+  border: 1px solid;
+}
+
+.exercise-feedback.is-correct {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: rgba(34, 197, 94, 0.4);
+}
+
+.exercise-feedback.is-incorrect {
+  background: rgba(248, 113, 113, 0.1);
+  border-color: rgba(248, 113, 113, 0.4);
+}
+
+.exercise-feedback-title {
+  font-weight: 800;
+  margin: 0 0 6px;
+  color: var(--text-main);
+}
+
+.exercise-feedback-explanation {
+  color: var(--text-soft);
+  margin: 0 0 14px;
+  font-size: 0.92rem;
+}
+
+.exercise-intro-card,
+.exercise-results-card {
+  text-align: center;
+  padding: 44px 28px;
+}
+
+.exercise-intro-card h1,
+.exercise-results-card h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  margin: 0 0 12px;
+}
+
+.exercise-results-score {
+  font-family: 'Syne', sans-serif;
+  font-size: 2.4rem;
+  margin: 6px 0;
+  color: var(--mateka-cyan-dim);
+}
+
+.exercise-results-points {
+  color: var(--text-soft);
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+}
+
+.exercise-results-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 24px;
 }
