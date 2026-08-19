@@ -2409,8 +2409,8 @@ select {
   gap: 28px;
 }
 
-/* ── Cayley-Hamilton interactive verifier ── */
-.ch-verifier {
+/* ── Interactive matrix labs (live editable examples) ── */
+.matrix-lab {
   margin: 22px 0;
   padding: 22px;
   background: rgba(2, 6, 23, 0.55);
@@ -2419,7 +2419,7 @@ select {
   text-align: center;
 }
 
-.ch-verifier-label {
+.matrix-lab-label {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.78rem;
   color: var(--mateka-cyan-dim);
@@ -2428,7 +2428,7 @@ select {
   margin-bottom: 14px;
 }
 
-.ch-verifier-row {
+.matrix-lab-row {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -2436,7 +2436,11 @@ select {
   gap: 20px;
 }
 
-.ch-verifier-formula {
+.matrix-lab-row + .matrix-lab-row {
+  margin-top: 20px;
+}
+
+.matrix-lab-formula {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.88rem;
   color: #cbd5e1;
@@ -2444,16 +2448,72 @@ select {
   line-height: 1.7;
 }
 
-.ch-verifier-formula p {
+.matrix-lab-formula p {
   margin: 0;
   color: inherit;
 }
 
-.ch-verifier-hint {
+.matrix-lab-hint {
   margin-top: 16px;
   color: var(--text-soft);
   font-size: 0.85rem;
   text-align: center;
+}
+
+.matrix-lab-scalar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.1rem;
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+.matrix-lab-scalar input {
+  width: 64px;
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 1rem;
+  background: rgba(2, 6, 23, 0.6);
+  border: 1px solid var(--mateka-border-soft);
+  border-radius: 6px;
+  color: var(--text-main);
+  padding: 8px 4px;
+}
+
+.matrix-lab-scalar input:focus {
+  outline: none;
+  border-color: var(--mateka-cyan-dim);
+}
+
+.matrix-lab-note {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.88rem;
+  color: #f472b6;
+  padding: 10px 16px;
+  border: 1px solid rgba(244, 114, 182, 0.3);
+  border-radius: 10px;
+  background: rgba(244, 114, 182, 0.08);
+}
+
+.matrix-lab-selected {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.9rem;
+  color: var(--mateka-cyan-dim);
+  min-height: 1.4em;
+}
+
+.matrix-lab-svg-wrap {
+  background: rgba(2, 6, 23, 0.6);
+  border: 1px solid var(--mateka-border-soft);
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.matrix-lab-svg-wrap svg {
+  display: block;
 }
 
 .matrix-display {

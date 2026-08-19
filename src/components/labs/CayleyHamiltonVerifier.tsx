@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
-import MatrixGrid from './exercise/MatrixGrid'
-import { det2, identity, multiply, scalarMul, sub, sum, trace, type Matrix } from '../lib/matrixMath'
+import MatrixGrid from '../exercise/MatrixGrid'
+import { det2, identity, multiply, scalarMul, sub, sum, trace, type Matrix } from '../../lib/matrixMath'
 
 const DEFAULT_A: Matrix = [[1, 2], [3, 4]]
 
@@ -18,9 +18,9 @@ const CayleyHamiltonVerifier = () => {
   }, [values])
 
   return (
-    <div className="ch-verifier">
-      <p className="ch-verifier-label">Edite A e observe:</p>
-      <div className="ch-verifier-row">
+    <div className="matrix-lab">
+      <p className="matrix-lab-label">Edite A e observe:</p>
+      <div className="matrix-lab-row">
         <div className="matrix-display">
           <span className="matrix-display-label">A =</span>
           <MatrixGrid
@@ -35,7 +35,7 @@ const CayleyHamiltonVerifier = () => {
             }}
           />
         </div>
-        <div className="ch-verifier-formula">
+        <div className="matrix-lab-formula">
           <p>tr(A) = {tr}</p>
           <p>det(A) = {det}</p>
           <p>p(λ) = λ² − {tr}λ + ({det})</p>
@@ -50,7 +50,7 @@ const CayleyHamiltonVerifier = () => {
           <MatrixGrid values={pOfA} readOnly />
         </div>
       </div>
-      <p className="ch-verifier-hint">p(A) = A² − tr(A)·A + det(A)·I sempre dá a matriz nula, para qualquer A que você digitar.</p>
+      <p className="matrix-lab-hint">p(A) = A² − tr(A)·A + det(A)·I sempre dá a matriz nula, para qualquer A que você digitar.</p>
     </div>
   )
 }

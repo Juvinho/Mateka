@@ -25,7 +25,7 @@ import TestimonialSection from './components/TestimonialSection'
 import WavePlayground from './components/WavePlayground'
 import WhyItMatters from './components/WhyItMatters'
 import AuthCardFlip from './components/AuthCardFlip'
-import CayleyHamiltonVerifier from './components/CayleyHamiltonVerifier'
+import InteractiveWidgetHost from './components/labs/InteractiveWidgetHost'
 import MatrixDisplay from './components/MatrixDisplay'
 import ModulosPage from './pages/ModulosPage'
 import ExerciseSessionPage from './pages/ExerciseSessionPage'
@@ -414,7 +414,7 @@ const App = () => {
               {matrizesLesson.after?.map((paragraph, i) => (
                 <p key={`after-${i}`}>{paragraph}</p>
               ))}
-              {matrizesLesson.interactiveWidget === 'cayley-hamilton-verifier' ? <CayleyHamiltonVerifier /> : null}
+              {matrizesLesson.interactiveWidget ? <InteractiveWidgetHost widget={matrizesLesson.interactiveWidget} /> : null}
               <div className="lesson-actions">
                 <button
                   type="button"

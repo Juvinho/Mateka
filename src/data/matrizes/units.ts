@@ -14,7 +14,14 @@ import {
 
 export type LessonExample = { label: string; matrix: Matrix }
 
-export type InteractiveWidget = 'cayley-hamilton-verifier'
+export type InteractiveWidget =
+  | 'matrix-explorer'
+  | 'operations-lab'
+  | 'multiplication-lab'
+  | 'determinant-lab'
+  | 'inverse-lab'
+  | 'transform-lab'
+  | 'cayley-hamilton-verifier'
 
 export type LessonContent = {
   id: string
@@ -67,6 +74,7 @@ export const MATRIZES_UNITS: UnitContent[] = [
         ],
         examples: [{ label: 'A', matrix: [[2, 5, 9], [1, 4, 7]] }],
         after: ['Cada número dentro da matriz é um elemento, e sua posição é dada por aᵢⱼ — i é a linha, j é a coluna. Aqui, a₂₃ = 7.'],
+        interactiveWidget: 'matrix-explorer',
         exerciseSetId: 'ex-fundamentos',
       },
       {
@@ -117,6 +125,7 @@ export const MATRIZES_UNITS: UnitContent[] = [
           `A + B = ${formatMatrix(sum(opsA, opsB))} — cada posição soma A e B naquela posição.`,
           `Multiplicar por um escalar significa multiplicar TODOS os elementos por esse número: 2A = ${formatMatrix(scalarMul(2, opsA))}.`,
         ],
+        interactiveWidget: 'operations-lab',
         exerciseSetId: 'ex-operacoes',
       },
     ],
@@ -140,6 +149,7 @@ export const MATRIZES_UNITS: UnitContent[] = [
           { label: 'B', matrix: multB },
         ],
         after: [`A × B = ${formatMatrix(multiply(multA, multB))} — o elemento da linha 1, coluna 1 é (1×5)+(2×7) = 19.`],
+        interactiveWidget: 'multiplication-lab',
         exerciseSetId: 'ex-multiplicacao',
       },
     ],
@@ -163,6 +173,7 @@ export const MATRIZES_UNITS: UnitContent[] = [
           `A transposta de A (escrita Aᵀ) troca linhas por colunas: Aᵀ = ${formatMatrix(transpose(detA))}.`,
           `O determinante de uma matriz 2×2 [a b; c d] é a·d − b·c. Por exemplo, det([3 8; 4 6]) = 3×6 − 8×4 = ${det2([[3, 8], [4, 6]])}.`,
         ],
+        interactiveWidget: 'determinant-lab',
         exerciseSetId: 'ex-determinante',
       },
     ],
@@ -186,6 +197,7 @@ export const MATRIZES_UNITS: UnitContent[] = [
           `det(A) = ${det2(invA)}, então A⁻¹ = ${formatMatrix(invAinv)}.`,
           'A inversa serve para resolver sistemas lineares: se A × x = b, então x = A⁻¹ × b.',
         ],
+        interactiveWidget: 'inverse-lab',
         exerciseSetId: 'ex-inversa',
       },
     ],
@@ -209,6 +221,7 @@ export const MATRIZES_UNITS: UnitContent[] = [
           `S × P = ${formatMatrix(multiply(appScale, appPoint))} — o ponto (3,1) dobra de tamanho.`,
           'Matrizes também representam grafos: uma matriz de adjacência tem 1 na posição (i,j) se existe uma conexão entre os nós i e j, e 0 caso contrário.',
         ],
+        interactiveWidget: 'transform-lab',
         exerciseSetId: 'ex-aplicacoes',
       },
     ],

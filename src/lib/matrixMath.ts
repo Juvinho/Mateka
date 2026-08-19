@@ -87,6 +87,18 @@ export function inverse2(a: Matrix): Matrix | null {
   ]
 }
 
+const SUBSCRIPT_DIGITS: Record<string, string> = {
+  '0': '₀', '1': '₁', '2': '₂', '3': '₃', '4': '₄',
+  '5': '₅', '6': '₆', '7': '₇', '8': '₈', '9': '₉',
+}
+
+export function toSubscript(n: number): string {
+  return String(n)
+    .split('')
+    .map((d) => SUBSCRIPT_DIGITS[d] ?? d)
+    .join('')
+}
+
 export function formatMatrix(m: Matrix): string {
   return `[${m.map((row) => row.join(' ')).join('; ')}]`
 }
