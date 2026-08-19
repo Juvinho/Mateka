@@ -4537,6 +4537,24 @@ select {
   white-space: nowrap;
 }
 
+/* ── Endless mode tab ── */
+.endless-tab-intro {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 32px;
+}
+
+.endless-tab-intro h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin: 8px 0 12px;
+}
+
+.endless-tab-intro p:not(.section-kicker) {
+  color: var(--text-soft);
+  line-height: 1.5;
+}
+
 /* ── ExerciseCard grid ── */
 .exercise-grid {
   display: grid;

@@ -22,12 +22,13 @@ import { useMatrizesProgress } from '../state/useMatrizesProgress'
 const ENDLESS_DIFFICULTIES: Difficulty[] = ['easy', 'medium', 'hard']
 const ENDLESS_LABEL: Record<Difficulty, string> = { easy: 'Fácil', medium: 'Médio', hard: 'Difícil' }
 
-type TabId = 'aulas' | 'exercicios' | 'quiz'
+type TabId = 'aulas' | 'exercicios' | 'quiz' | 'endless'
 
 const TAB_LABELS: Record<TabId, string> = {
   aulas: 'Aulas',
   exercicios: 'Exercícios',
   quiz: 'Quiz Rápido',
+  endless: 'Modo Endless',
 }
 
 const QUIZ_QUESTIONS: QuizQuestionData[] = [
@@ -75,7 +76,7 @@ const QUIZ_QUESTIONS: QuizQuestionData[] = [
   },
 ]
 
-const TABS: TabId[] = ['aulas', 'exercicios', 'quiz']
+const TABS: TabId[] = ['aulas', 'exercicios', 'quiz', 'endless']
 
 type ModulosPageProps = {
   onNavigate?: (hash: string) => void
@@ -211,49 +212,53 @@ const ModulosPage = ({ onNavigate }: ModulosPageProps) => {
     return map
   }, [state.completedNodeIds, state.exerciseResults])
 
-  const exerciseCards: ExerciseCardData[] = useMemo(() => {
-    const fixedCards: ExerciseCardData[] = ALL_EXERCISE_SETS.map((set) => {
-      const unlocked = isNodeUnlocked(set.id, state.completedNodeIds)
-      const result = state.exerciseResults[set.id]
-      return {
-        id: set.id,
-        icon: set.icon,
-        difficulty: set.difficulty,
-        title: set.title,
-        description: set.description,
-        duration: set.exercises.length * 2,
-        questions: set.exercises.length,
-        points: set.points,
-        status: result ? 'completed' : unlocked ? 'pending' : 'locked',
-        accuracy: result ? Math.round(result.bestAccuracy * 100) : undefined,
-      }
-    })
+  const exerciseCards: ExerciseCardData[] = useMemo(
+    () =>
+      ALL_EXERCISE_SETS.map((set) => {
+        const unlocked = isNodeUnlocked(set.id, state.completedNodeIds)
+        const result = state.exerciseResults[set.id]
+        return {
+          id: set.id,
+          icon: set.icon,
+          difficulty: set.difficulty,
+          title: set.title,
+          description: set.description,
+          duration: set.exercises.length * 2,
+          questions: set.exercises.length,
+          points: set.points,
+          status: result ? 'completed' : unlocked ? 'pending' : 'locked',
+          accuracy: result ? Math.round(result.bestAccuracy * 100) : undefined,
+        }
+      }),
+    [state.completedNodeIds, state.exerciseResults],
+  )
 
-    const endlessUnlocked = Boolean(state.completedNodeIds['ex-boss'])
-    const endlessCards: ExerciseCardData[] = ENDLESS_DIFFICULTIES.map((difficulty) => {
-      const stats = state.endless[difficulty]
-      const bankSize = ENDLESS_BANK[difficulty].length
-      const accuracy = stats.totalAnswered > 0 ? Math.round((stats.totalCorrect / stats.totalAnswered) * 100) : undefined
-      return {
-        id: `endless-${difficulty}`,
-        icon: '∞',
-        difficulty,
-        title: `Modo Endless — ${ENDLESS_LABEL[difficulty]}`,
-        description: `Prática livre e sem fim com questões ${ENDLESS_LABEL[difficulty].toLowerCase()}s de todo o módulo.`,
-        duration: 0,
-        durationLabel: 'Sem limite',
-        questions: bankSize,
-        questionsLabel: `${bankSize}+ questões`,
-        points: 0,
-        pointsLabel: '+5 pts/acerto',
-        status: !endlessUnlocked ? 'locked' : stats.totalAnswered > 0 ? 'completed' : 'pending',
-        accuracy,
-        isEndless: true,
-      }
-    })
-
-    return [...fixedCards, ...endlessCards]
-  }, [state.completedNodeIds, state.exerciseResults, state.endless])
+  // Free-practice mode: always available, no unit progress required.
+  const endlessCards: ExerciseCardData[] = useMemo(
+    () =>
+      ENDLESS_DIFFICULTIES.map((difficulty) => {
+        const stats = state.endless[difficulty]
+        const bankSize = ENDLESS_BANK[difficulty].length
+        const accuracy = stats.totalAnswered > 0 ? Math.round((stats.totalCorrect / stats.totalAnswered) * 100) : undefined
+        return {
+          id: `endless-${difficulty}`,
+          icon: '∞',
+          difficulty,
+          title: `Modo Endless — ${ENDLESS_LABEL[difficulty]}`,
+          description: `Prática livre e sem fim com questões ${ENDLESS_LABEL[difficulty].toLowerCase()}s de todo o módulo.`,
+          duration: 0,
+          durationLabel: 'Sem limite',
+          questions: bankSize,
+          questionsLabel: `${bankSize}+ questões`,
+          points: 0,
+          pointsLabel: '+5 pts/acerto',
+          status: stats.totalAnswered > 0 ? 'completed' : 'pending',
+          accuracy,
+          isEndless: true,
+        }
+      }),
+    [state.endless],
+  )
 
   const completedLessonsCount = ALL_LESSONS.filter((l) => state.completedNodeIds[l.id]).length
   const completedTrackNodes = TRACK.filter((n) => state.completedNodeIds[n.id]).length
@@ -415,6 +420,21 @@ const ModulosPage = ({ onNavigate }: ModulosPageProps) => {
               ))}
             </div>
             <StreakSection streak={streakCount} days={streakDays} todayIndex={todayIndex} />
+          </>
+        )}
+
+        {displayedTab === 'endless' && (
+          <>
+            <div className="endless-tab-intro">
+              <p className="section-kicker">Prática livre</p>
+              <h2>Sem unidade, sem fim — só prática.</h2>
+              <p>Escolha uma dificuldade e pratique o quanto quiser, puxando questões do módulo inteiro. Disponível a qualquer momento, sem pré-requisitos.</p>
+            </div>
+            <div className="exercise-grid">
+              {endlessCards.map((ex) => (
+                <ExerciseCard key={ex.id} {...ex} onClick={handleExerciseClick} />
+              ))}
+            </div>
           </>
         )}
       </div>
