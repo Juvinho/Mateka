@@ -5,6 +5,7 @@ import { unit3ExerciseSets } from './unit3Exercises'
 import { unit4ExerciseSets } from './unit4Exercises'
 import { unit5ExerciseSets } from './unit5Exercises'
 import { unit6ExerciseSets } from './unit6Exercises'
+import { unit7ExerciseSets } from './unit7Exercises'
 
 export const ALL_EXERCISE_SETS: ExerciseSet[] = [
   ...unit1ExerciseSets,
@@ -13,6 +14,7 @@ export const ALL_EXERCISE_SETS: ExerciseSet[] = [
   ...unit4ExerciseSets,
   ...unit5ExerciseSets,
   ...unit6ExerciseSets,
+  ...unit7ExerciseSets,
 ]
 
 export const EXERCISE_SET_BY_ID: Record<string, ExerciseSet> = Object.fromEntries(

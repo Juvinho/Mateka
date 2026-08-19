@@ -7,11 +7,14 @@ import {
   multiply,
   scalarMul,
   sum,
+  trace,
   transpose,
   type Matrix,
 } from '../../lib/matrixMath'
 
 export type LessonExample = { label: string; matrix: Matrix }
+
+export type InteractiveWidget = 'cayley-hamilton-verifier'
 
 export type LessonContent = {
   id: string
@@ -22,6 +25,7 @@ export type LessonContent = {
   intro: string[]
   examples?: LessonExample[]
   after?: string[]
+  interactiveWidget?: InteractiveWidget
   exerciseSetId: string
 }
 
@@ -206,6 +210,51 @@ export const MATRIZES_UNITS: UnitContent[] = [
           'Matrizes também representam grafos: uma matriz de adjacência tem 1 na posição (i,j) se existe uma conexão entre os nós i e j, e 0 caso contrário.',
         ],
         exerciseSetId: 'ex-aplicacoes',
+      },
+    ],
+  },
+  {
+    number: 7,
+    title: 'Tópicos Avançados',
+    lessons: [
+      {
+        id: 'tipos-avancados',
+        title: 'Mais tipos de matrizes',
+        description: 'Identidade, binária, triangular e ortogonal.',
+        tags: ['Interativo', 'Exercício'],
+        duration: 14,
+        intro: [
+          'Além de quadrada, linha, coluna e nula, alguns outros tipos de matriz aparecem com frequência em álgebra linear mais avançada.',
+          'Matriz triangular superior: todos os elementos ABAIXO da diagonal principal são zero, como T abaixo. Numa triangular inferior é o contrário — zeros ACIMA da diagonal.',
+        ],
+        examples: [
+          { label: 'I', matrix: identity(3) },
+          { label: 'T', matrix: [[2, 5, 1], [0, 3, 4], [0, 0, 1]] },
+        ],
+        after: [
+          'Matriz binária: todos os elementos são 0 ou 1, como B = [1 0 1; 0 1 0; 1 1 0] — muito usada para representar grafos e conexões.',
+          `Matriz ortogonal: uma matriz quadrada A é ortogonal quando Aᵀ × A = I. Por exemplo, com A = ${formatMatrix([[0, 1], [1, 0]])}, temos Aᵀ × A = ${formatMatrix(multiply(transpose([[0, 1], [1, 0]]), [[0, 1], [1, 0]]))} = I.`,
+        ],
+        exerciseSetId: 'ex-tipos-avancados',
+      },
+      {
+        id: 'cayley-hamilton',
+        title: 'Teorema de Cayley-Hamilton',
+        description: 'Toda matriz satisfaz sua própria equação característica.',
+        tags: ['Interativo', 'Exercício'],
+        duration: 20,
+        intro: [
+          'O Teorema de Cayley-Hamilton afirma que toda matriz quadrada A é raiz do seu próprio polinômio característico: p(A) = 0.',
+          `Para uma matriz 2×2, o polinômio característico é p(λ) = λ² − tr(A)λ + det(A), então p(A) = A² − tr(A)·A + det(A)·I = 0.`,
+        ],
+        examples: [{ label: 'A', matrix: [[1, 2], [3, 4]] }],
+        after: [
+          `Para A acima: tr(A) = ${trace([[1, 2], [3, 4]])} e det(A) = ${det2([[1, 2], [3, 4]])}, então A² = 5A + 2I — qualquer potência maior de A pode ser reduzida usando essa relação, sem calcular A³, A⁴... diretamente.`,
+          `Isolando a identidade em p(A) = 0 chegamos numa fórmula pronta para a inversa: A⁻¹ = (1/det(A))·(tr(A)·I − A) = ${formatMatrix(inverse2([[1, 2], [3, 4]]) as Matrix)}.`,
+          'Mexa nos valores de A abaixo e veja o teorema se confirmando ao vivo — p(A) sempre dá a matriz nula, não importa o que você digitar.',
+        ],
+        interactiveWidget: 'cayley-hamilton-verifier',
+        exerciseSetId: 'ex-cayley-hamilton',
       },
     ],
   },

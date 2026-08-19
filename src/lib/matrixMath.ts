@@ -56,6 +56,16 @@ export function transpose(a: Matrix): Matrix {
   return result
 }
 
+export function trace(a: Matrix): number {
+  let sum = 0
+  for (let i = 0; i < a.length; i += 1) sum += a[i][i]
+  return sum
+}
+
+export function isOrthogonal(a: Matrix, epsilon = 1e-9): boolean {
+  return matricesEqual(multiply(transpose(a), a), identity(rowCount(a)), epsilon)
+}
+
 export function det2(a: Matrix): number {
   return a[0][0] * a[1][1] - a[0][1] * a[1][0]
 }

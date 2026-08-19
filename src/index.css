@@ -2409,6 +2409,53 @@ select {
   gap: 28px;
 }
 
+/* ── Cayley-Hamilton interactive verifier ── */
+.ch-verifier {
+  margin: 22px 0;
+  padding: 22px;
+  background: rgba(2, 6, 23, 0.55);
+  border: 1px solid var(--mateka-border-cyan);
+  border-radius: 16px;
+  text-align: center;
+}
+
+.ch-verifier-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--mateka-cyan-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 14px;
+}
+
+.ch-verifier-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.ch-verifier-formula {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.88rem;
+  color: #cbd5e1;
+  text-align: left;
+  line-height: 1.7;
+}
+
+.ch-verifier-formula p {
+  margin: 0;
+  color: inherit;
+}
+
+.ch-verifier-hint {
+  margin-top: 16px;
+  color: var(--text-soft);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
 .matrix-display {
   display: inline-flex;
   align-items: center;
