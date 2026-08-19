@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from 'react'
 import { isToday, isYesterday, toLocalDateStr } from '../lib/dates'
+import type { Difficulty } from '../data/matrizes/endlessBank'
 
 const STORAGE_KEY = 'mateka:matrizes:progress'
-const STORAGE_VERSION = 1
+const STORAGE_VERSION = 2
 
 export type ExerciseResult = {
   bestAccuracy: number
@@ -10,17 +11,27 @@ export type ExerciseResult = {
   pointsEarned: number
 }
 
+export type EndlessStats = {
+  totalAnswered: number
+  totalCorrect: number
+  totalPoints: number
+}
+
 export type MatrizesProgressState = {
   version: number
   completedNodeIds: Record<string, true>
   exerciseResults: Record<string, ExerciseResult>
+  endless: Record<Difficulty, EndlessStats>
   streak: { count: number; lastPracticedISODate: string | null }
 }
+
+const defaultEndlessStats: EndlessStats = { totalAnswered: 0, totalCorrect: 0, totalPoints: 0 }
 
 const defaultState: MatrizesProgressState = {
   version: STORAGE_VERSION,
   completedNodeIds: {},
   exerciseResults: {},
+  endless: { easy: { ...defaultEndlessStats }, medium: { ...defaultEndlessStats }, hard: { ...defaultEndlessStats } },
   streak: { count: 0, lastPracticedISODate: null },
 }
 
@@ -49,12 +60,12 @@ export function useMatrizesProgress() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
   }, [state])
 
-  // Both writers below rebase on a fresh `loadState()` read — not the `prev`
+  // All writers below rebase on a fresh `loadState()` read — not the `prev`
   // React gives us — because this hook is mounted independently in several
-  // places at once (App, ModulosPage, ExerciseSessionPage). App's instance in
-  // particular never unmounts across hash navigation, so its in-memory
-  // `state` goes stale the moment another instance writes; merging onto
-  // stale `prev` would silently resurrect and persist that staleness,
+  // places at once (App, ModulosPage, ExerciseSessionPage, EndlessSessionPage).
+  // App's instance in particular never unmounts across hash navigation, so its
+  // in-memory `state` goes stale the moment another instance writes; merging
+  // onto stale `prev` would silently resurrect and persist that staleness,
   // clobbering fresher progress recorded elsewhere.
   const markLessonSeen = useCallback((lessonId: string) => {
     setState(() => {
@@ -87,6 +98,25 @@ export function useMatrizesProgress() {
     [],
   )
 
+  const recordEndlessAnswer = useCallback((difficulty: Difficulty, correct: boolean) => {
+    setState(() => {
+      const fresh = loadState()
+      const prevStats = fresh.endless[difficulty]
+      return {
+        ...fresh,
+        endless: {
+          ...fresh.endless,
+          [difficulty]: {
+            totalAnswered: prevStats.totalAnswered + 1,
+            totalCorrect: prevStats.totalCorrect + (correct ? 1 : 0),
+            totalPoints: prevStats.totalPoints + (correct ? 5 : 0),
+          },
+        },
+        streak: touchStreak(fresh.streak),
+      }
+    })
+  }, [])
+
   const isNodeCompleted = useCallback(
     (nodeId: string) => Boolean(state.completedNodeIds[nodeId]),
     [state.completedNodeIds],
@@ -103,8 +133,10 @@ export function useMatrizesProgress() {
     state,
     markLessonSeen,
     recordExerciseResult,
+    recordEndlessAnswer,
     isNodeCompleted,
     exerciseResults: state.exerciseResults,
+    endless: state.endless,
     streakCount: state.streak.count,
     totalPoints,
     averageAccuracy,

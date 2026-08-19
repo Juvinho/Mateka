@@ -15,6 +15,10 @@ export type ExerciseCardData = {
   points: number
   status: ExerciseStatus
   accuracy?: number
+  isEndless?: boolean
+  durationLabel?: string
+  questionsLabel?: string
+  pointsLabel?: string
 }
 
 type ExerciseCardProps = ExerciseCardData & {
@@ -38,6 +42,10 @@ const ExerciseCard = ({
   points,
   status,
   accuracy,
+  isEndless,
+  durationLabel,
+  questionsLabel,
+  pointsLabel,
   onClick,
 }: ExerciseCardProps) => {
   const reducedMotion = useMemo(
@@ -79,7 +87,7 @@ const ExerciseCard = ({
   return (
     <article
       ref={cardRef}
-      className={`exercise-card${isLocked ? ' is-locked' : ''}${isShaking ? ' is-shaking' : ''}`}
+      className={`exercise-card${isEndless ? ' is-endless' : ''}${isLocked ? ' is-locked' : ''}${isShaking ? ' is-shaking' : ''}`}
       onClick={handleClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -89,6 +97,8 @@ const ExerciseCard = ({
       aria-label={`Exercício: ${title}${isLocked ? ' — Bloqueado' : ''}`}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleClick() }}
     >
+      {isEndless && !isLocked ? <span className="exercise-endless-ribbon">ENDLESS</span> : null}
+
       <div className="exercise-card-top">
         <div ref={symbolRef} className="exercise-card-symbol" aria-hidden="true">
           {isLocked ? '🔒' : icon}
@@ -102,12 +112,12 @@ const ExerciseCard = ({
       <p className="exercise-card-desc">{description}</p>
 
       <div className="exercise-card-stats">
-        <span className="exercise-stat">⏱ {duration} min</span>
-        <span className="exercise-stat">📝 {questions} questões</span>
+        <span className="exercise-stat">⏱ {durationLabel ?? `${duration} min`}</span>
+        <span className="exercise-stat">📝 {questionsLabel ?? `${questions} questões`}</span>
       </div>
 
       <div className="exercise-card-footer">
-        <span className="exercise-card-points">+{points} pts</span>
+        <span className="exercise-card-points">{pointsLabel ?? `+${points} pts`}</span>
         <span className={`exercise-card-status ${status}`}>
           {status === 'completed'
             ? `✓ Concluído${accuracy !== undefined ? ` — ${accuracy}%` : ''}`

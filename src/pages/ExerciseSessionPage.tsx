@@ -134,7 +134,7 @@ const ExerciseSessionInner = ({ exerciseSet, onNavigate, onRetry }: InnerProps) 
         </div>
 
         <div className="exercise-session-card">
-          <ExerciseRenderer exercise={currentExercise} onAnswer={handleAnswer} disabled={feedback !== null} />
+          <ExerciseRenderer key={currentExercise.id} exercise={currentExercise} onAnswer={handleAnswer} disabled={feedback !== null} />
         </div>
 
         {feedback && (

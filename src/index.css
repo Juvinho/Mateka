@@ -4444,6 +4444,7 @@ select {
 }
 
 .exercise-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -4453,6 +4454,37 @@ select {
   border-radius: 16px;
   cursor: pointer;
   transition: transform 200ms ease-out, border-color 200ms ease;
+}
+
+.exercise-card.is-endless {
+  border-color: rgba(217, 70, 239, 0.3);
+  background:
+    linear-gradient(160deg, rgba(34, 211, 238, 0.07), rgba(236, 72, 153, 0.07)),
+    var(--mateka-bg-card-2);
+}
+
+.exercise-card.is-endless:hover {
+  border-color: rgba(236, 72, 153, 0.5);
+}
+
+.exercise-card.is-endless.is-locked {
+  background: var(--mateka-bg-card-2);
+}
+
+.exercise-endless-ribbon {
+  position: absolute;
+  top: 0;
+  right: 18px;
+  transform: translateY(-50%);
+  background: linear-gradient(90deg, var(--cyan), var(--pink));
+  color: #020617;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  padding: 3px 10px;
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(2, 6, 23, 0.5);
 }
 
 .exercise-card:hover {
@@ -5107,4 +5139,61 @@ select {
   gap: 12px;
   flex-wrap: wrap;
   margin-top: 24px;
+}
+
+/* ── Endless mode ── */
+.exercise-endless-pill {
+  display: inline-block;
+  background: linear-gradient(90deg, var(--cyan), var(--pink));
+  color: #020617;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-right: 8px;
+  margin-bottom: 12px;
+}
+
+.exercise-intro-card .exercise-endless-pill,
+.exercise-intro-card .exercise-difficulty-badge {
+  margin-bottom: 14px;
+}
+
+.exercise-endless-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.exercise-endless-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.exercise-endless-stop {
+  padding: 8px 16px !important;
+  font-size: 0.82rem;
+}
+
+.exercise-endless-stats {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.exercise-endless-stats span {
+  background: var(--mateka-bg-card-2);
+  border: 1px solid var(--mateka-border-soft);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--text-soft);
 }

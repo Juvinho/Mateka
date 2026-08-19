@@ -28,12 +28,16 @@ import AuthCardFlip from './components/AuthCardFlip'
 import MatrixDisplay from './components/MatrixDisplay'
 import ModulosPage from './pages/ModulosPage'
 import ExerciseSessionPage from './pages/ExerciseSessionPage'
+import EndlessSessionPage from './pages/EndlessSessionPage'
 import { useAmbience } from './hooks/useAmbience'
 import { useScrollProgress } from './hooks/useScrollProgress'
 import { useScrollVelocity } from './hooks/useScrollVelocity'
 import { LESSON_BY_ID } from './data/matrizes/units'
 import { EXERCISE_SET_BY_ID } from './data/matrizes/exerciseSets'
+import type { Difficulty } from './data/matrizes/endlessBank'
 import { useMatrizesProgress } from './state/useMatrizesProgress'
+
+const ENDLESS_DIFFICULTIES: Difficulty[] = ['easy', 'medium', 'hard']
 
 const DerivativeVisualizer = lazy(() => import('./components/DerivativeVisualizer'))
 const IntegralVisualizer = lazy(() => import('./components/IntegralVisualizer'))
@@ -324,6 +328,9 @@ const App = () => {
   const activeExerciseSet = activeHash.startsWith('#exercicio-')
     ? EXERCISE_SET_BY_ID[activeHash.slice('#exercicio-'.length)]
     : undefined
+  const activeEndlessDifficulty = activeHash.startsWith('#endless-')
+    ? ENDLESS_DIFFICULTIES.find((d) => d === activeHash.slice('#endless-'.length))
+    : undefined
   const isAuthRoute = activeHash === '#login' || activeHash === '#register'
   const isModulosRoute = activeHash === '#modulos' || activeHash.startsWith('#modulos/')
 
@@ -356,6 +363,10 @@ const App = () => {
 
   if (activeExerciseSet) {
     return <ExerciseSessionPage exerciseSet={activeExerciseSet} onNavigate={navigateTo} />
+  }
+
+  if (activeEndlessDifficulty) {
+    return <EndlessSessionPage difficulty={activeEndlessDifficulty} onNavigate={navigateTo} />
   }
 
   return (
