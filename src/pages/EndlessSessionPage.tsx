@@ -1,5 +1,6 @@
 import { useCallback, useRef, useState } from 'react'
 import ExerciseRenderer from '../components/exercise/ExerciseRenderer'
+import ScratchPad from '../components/exercise/ScratchPad'
 import type { Exercise } from '../data/exerciseTypes'
 import { ENDLESS_BANK, shuffle, type Difficulty } from '../data/matrizes/endlessBank'
 import { gradeExercise, type ExerciseAnswer } from '../lib/grading'
@@ -49,6 +50,7 @@ const EndlessSessionPage = ({ difficulty, onNavigate }: Props) => {
   }, [])
 
   const accuracyPct = answered > 0 ? Math.round((correctCount / answered) * 100) : 0
+  const needsScratchpad = currentExercise.kind === 'matrix-fill' || currentExercise.kind === 'matrix-builder'
 
   if (status === 'intro') {
     return (
@@ -98,8 +100,16 @@ const EndlessSessionPage = ({ difficulty, onNavigate }: Props) => {
         </div>
 
         <div className="exercise-session-card">
-          <ExerciseRenderer key={`${currentExercise.id}-${index}`} exercise={currentExercise} onAnswer={handleAnswer} disabled={feedback !== null} />
+          <ExerciseRenderer
+            key={`${currentExercise.id}-${index}`}
+            exercise={currentExercise}
+            onAnswer={handleAnswer}
+            disabled={feedback !== null}
+            requireDimensionPick={currentExercise.kind === 'matrix-builder'}
+          />
         </div>
+
+        {needsScratchpad && <ScratchPad key={`scratch-${currentExercise.id}-${index}`} />}
 
         {feedback && (
           <div className={`exercise-feedback ${feedback.correct ? 'is-correct' : 'is-incorrect'}`}>

@@ -9,9 +9,10 @@ type Props = {
   exercise: Exercise
   onAnswer: (answer: ExerciseAnswer) => void
   disabled?: boolean
+  requireDimensionPick?: boolean
 }
 
-const ExerciseRenderer = ({ exercise, onAnswer, disabled }: Props) => {
+const ExerciseRenderer = ({ exercise, onAnswer, disabled, requireDimensionPick }: Props) => {
   switch (exercise.kind) {
     case 'multiple-choice':
       return <MultipleChoiceQuestion exercise={exercise} onSubmit={onAnswer} disabled={disabled} />
@@ -20,7 +21,14 @@ const ExerciseRenderer = ({ exercise, onAnswer, disabled }: Props) => {
     case 'matrix-fill':
       return <MatrixFillQuestion exercise={exercise} onSubmit={onAnswer} disabled={disabled} />
     case 'matrix-builder':
-      return <MatrixBuilderQuestion exercise={exercise} onSubmit={onAnswer} disabled={disabled} />
+      return (
+        <MatrixBuilderQuestion
+          exercise={exercise}
+          onSubmit={onAnswer}
+          disabled={disabled}
+          requireDimensionPick={requireDimensionPick}
+        />
+      )
   }
 }
 

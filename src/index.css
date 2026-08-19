@@ -5122,6 +5122,90 @@ select {
   margin: 4px 0 16px;
 }
 
+.dimension-picker {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin: 4px 0 18px;
+}
+
+.dimension-picker label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--text-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.dimension-picker input {
+  width: 72px;
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 1rem;
+  background: rgba(2, 6, 23, 0.6);
+  border: 1px solid var(--mateka-border-soft);
+  border-radius: 8px;
+  color: var(--text-main);
+  padding: 10px 6px;
+}
+
+.dimension-picker input:focus {
+  outline: none;
+  border-color: var(--mateka-cyan-dim);
+}
+
+/* ── Scratchpad ── */
+.scratchpad {
+  margin-top: 16px;
+}
+
+.scratchpad-toggle {
+  border: 1px solid var(--mateka-border-soft);
+  background: rgba(15, 23, 42, 0.6);
+  color: var(--text-soft);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  border-radius: 999px;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: border-color 160ms ease, color 160ms ease;
+}
+
+.scratchpad-toggle:hover {
+  border-color: var(--mateka-border-cyan);
+  color: var(--text-main);
+}
+
+.scratchpad-area {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  background: rgba(2, 6, 23, 0.55);
+  border: 1px dashed var(--mateka-border-soft);
+  border-radius: 12px;
+  padding: 14px;
+  color: var(--text-main);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.scratchpad-area:focus {
+  outline: none;
+  border-color: var(--mateka-cyan-dim);
+  border-style: solid;
+}
+
+.scratchpad-area::placeholder {
+  color: var(--text-soft);
+}
+
 .exercise-matrix-input {
   border: 1px solid var(--mateka-border-soft);
   background: rgba(2, 6, 23, 0.6);
