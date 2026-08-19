@@ -5204,6 +5204,38 @@ select {
   background: rgba(244, 114, 182, 0.14);
 }
 
+.scratchpad-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.scratchpad-tool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border: 1px solid var(--mateka-border-soft);
+  background: rgba(15, 23, 42, 0.6);
+  color: var(--text-soft);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 160ms ease, background-color 160ms ease, transform 120ms ease;
+}
+
+.scratchpad-tool:hover {
+  transform: translateY(-1px);
+}
+
+.scratchpad-tool.is-active {
+  border-color: currentColor;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 0 1px currentColor inset;
+}
+
 .scratchpad-canvas {
   display: block;
   width: 100%;
@@ -5214,6 +5246,10 @@ select {
   border-radius: 12px;
   cursor: crosshair;
   touch-action: none;
+}
+
+.scratchpad-canvas.is-erasing {
+  cursor: cell;
 }
 
 .exercise-matrix-input {
