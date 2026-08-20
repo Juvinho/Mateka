@@ -8,7 +8,7 @@
 
 <br/><br/>
 
-# Mateka!
+<img src="logo-exports/mateka-logo-completo.png" alt="Mateka!" width="420" />
 
 ### *Não decore. Visualize.*
 
@@ -241,6 +241,10 @@ http://localhost:5173/#modulos/calculo-diferencial
 ---
 
 ## Mascote
+
+<div align="center">
+<img src="parareadme/icone.png" alt="Emy-chan" width="160" />
+</div>
 
 **Emy-chan** — chibi anime com cabelo roxo/rosa, olhos azuis e hoodie navy com detalhes pink. Aparece no onboarding do primeiro acesso para guiar o novo usuário pela plataforma.
 
