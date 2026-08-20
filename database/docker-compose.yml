@@ -1,0 +1,20 @@
+services:
+  db:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: mateka
+      POSTGRES_PASSWORD: mateka_dev_password
+      POSTGRES_DB: mateka
+    ports:
+      - '5432:5432'
+    volumes:
+      - mateka_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U mateka -d mateka']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mateka_pgdata:

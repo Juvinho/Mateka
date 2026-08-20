@@ -39,6 +39,24 @@ A filosofia central é simples: **você não aprende matemática lendo — você
 
 ---
 
+## Estrutura do repositório
+
+Monorepo com três workspaces npm, separados por responsabilidade:
+
+```
+/frontend   → App React + Vite (tudo que hoje já funciona, sem backend real)
+/backend    → Reservado para a API (auth, progresso, exercícios) — ainda não implementado
+/database   → Schema Postgres + Prisma (migrations, seed, testes de integridade)
+```
+
+`npm install` na raiz configura os três de uma vez. Os scripts do dia a dia
+(`npm run dev`, `npm run build`, `npm run db:migrate`, etc.) continuam
+funcionando normalmente a partir da raiz — eles só delegam pro workspace
+certo. Veja [`database/README.md`](database/README.md) para o setup do banco
+e [`backend/README.md`](backend/README.md) para o status da API.
+
+---
+
 ## Funcionalidades
 
 ### Visualizações interativas
@@ -119,6 +137,8 @@ O logo é composto por um ícone com gradiente **cyan → purple → pink** e o 
 ---
 
 ## Estrutura do projeto
+
+Dentro de `frontend/`:
 
 ```
 src/
@@ -245,10 +265,11 @@ A proposta nasceu da observação de que alunos de cursos de exatas consistentem
 - [x] Quiz rápido com feedback de acerto/erro
 - [x] Ripple background interativo
 - [x] Dropdown de perfil com SVG inline
-- [ ] Backend — Python + Node.js + PostgreSQL
+- [x] Mascote Emy-chan no onboarding, nas lições e nos exercícios
+- [x] Schema de banco de dados (Postgres + Prisma) com migrations e seed
+- [ ] Backend — API Node.js consumindo o schema em `/database`
 - [ ] Autenticação real (JWT)
-- [ ] Progresso persistido em banco de dados
-- [ ] Mascote Emy-chan no onboarding
+- [ ] Progresso persistido em banco de dados (hoje é só `localStorage`)
 - [ ] Modo offline (PWA)
 
 ---

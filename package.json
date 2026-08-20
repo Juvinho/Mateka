@@ -2,36 +2,22 @@
   "name": "mateka-tg",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
+  "workspaces": [
+    "frontend",
+    "backend",
+    "database"
+  ],
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "@gsap/react": "^2.1.1",
-    "gsap": "^3.12.5",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "split-type": "^0.3.4"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.17.0",
-    "@tailwindcss/vite": "^4.0.0",
-    "@types/node": "^24.12.2",
-    "@types/react": "^19.0.2",
-    "@types/react-dom": "^19.0.2",
-    "@vitejs/plugin-react": "^4.3.4",
-    "autoprefixer": "^10.5.0",
-    "eslint": "^9.17.0",
-    "eslint-plugin-react-hooks": "^7.0.1",
-    "eslint-plugin-react-refresh": "^0.5.2",
-    "globals": "^17.4.0",
-    "postcss": "^8.5.9",
-    "tailwindcss": "^4.0.0",
-    "typescript": "^5.7.2",
-    "typescript-eslint": "^8.18.2",
-    "vite": "^6.0.5"
+    "dev": "npm run dev --workspace=frontend",
+    "build": "npm run build --workspace=frontend",
+    "lint": "npm run lint --workspace=frontend",
+    "preview": "npm run preview --workspace=frontend",
+    "db:up": "npm run db:up --workspace=database",
+    "db:down": "npm run db:down --workspace=database",
+    "db:migrate": "npm run db:migrate --workspace=database",
+    "db:generate": "npm run db:generate --workspace=database",
+    "db:seed": "npm run db:seed --workspace=database",
+    "db:studio": "npm run db:studio --workspace=database",
+    "test:db": "npm run test:db --workspace=database"
   }
 }

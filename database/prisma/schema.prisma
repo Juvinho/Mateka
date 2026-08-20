@@ -1,0 +1,287 @@
+// Mateka! — schema de banco de dados (autenticação, conteúdo, exercícios e progresso).
+//
+// IMPORTANTE: o Prisma Schema Language não tem sintaxe para CHECK constraints,
+// CREATE EXTENSION ou CREATE TRIGGER. Esses três recursos existem no banco real
+// mas não aparecem aqui — eles são adicionados por SQL puro, à mão, dentro do
+// arquivo de migration (prisma/migrations/<timestamp>_init/migration.sql), logo
+// após o SQL que o Prisma gera a partir deste schema. Esse é o fluxo oficial do
+// Prisma para customizar migrations (`prisma migrate dev --create-only` e depois
+// editar o .sql gerado). Migrations futuras (`prisma migrate dev`) não tentam
+// desfazer esse SQL extra porque o diff do Prisma é sempre contra este schema —
+// como CHECK/trigger/extension não têm representação aqui, o Prisma nunca "vê"
+// eles como algo a remover.
+//
+// Cada CHECK constraint documentado nos comentários abaixo é a fonte de verdade
+// (está de fato no banco); os testes em /database/tests provam isso na prática.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ========== MÓDULO 1: AUTENTICAÇÃO ==========
+
+/// CHECK email_format: email deve bater com um padrão simples de e-mail.
+/// CHECK password_or_oauth: auth_provider='email' exige password_hash NOT NULL;
+///   qualquer outro provider exige password_hash NULL.
+/// CHECK role_valid: role IN ('student', 'admin').
+///
+/// RN-11 (aplicação): após 5 tentativas de login malsucedidas consecutivas,
+///   setar lockedUntil = now() + 15min. Zerar failedLoginAttempts no login
+///   bem-sucedido. Nenhuma dessas regras é um CHECK — é lógica de aplicação.
+model User {
+  id                  String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email               String    @unique
+  emailVerified       Boolean   @default(false) @map("email_verified")
+  passwordHash        String?   @map("password_hash")
+  authProvider        String    @default("email") @map("auth_provider")
+  displayName         String    @map("display_name")
+  role                String    @default("student")
+  failedLoginAttempts Int       @default(0) @map("failed_login_attempts") @db.SmallInt
+  lockedUntil         DateTime? @map("locked_until") @db.Timestamptz
+  createdAt           DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  // Mantido atualizado por trigger de banco (set_updated_at), não pelo Prisma —
+  // por isso não leva @updatedAt aqui (evita duas fontes de verdade).
+  updatedAt           DateTime  @default(now()) @map("updated_at") @db.Timestamptz
+
+  sessions           Session[]
+  verificationTokens VerificationToken[]
+  exerciseAttempts   ExerciseAttempt[]
+  lessonProgress     LessonProgress[]
+  unitUnlocks        UnitUnlock[]
+  streakLog          StreakLog[]
+  emyAppearanceLogs  EmyAppearanceLog[]
+
+  @@map("users")
+}
+
+/// CHECK expires_in_future: expires_at > created_at.
+model Session {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  /// Hash do token de sessão — o valor em texto puro só existe no cookie do
+  /// cliente, nunca é persistido aqui.
+  tokenHash String   @unique @map("token_hash")
+  ipAddress String?  @map("ip_address") @db.Inet
+  userAgent String?  @map("user_agent")
+  expiresAt DateTime @map("expires_at") @db.Timestamptz
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  @@index([userId], map: "idx_sessions_user")
+  @@index([expiresAt], map: "idx_sessions_expiry")
+  @@map("sessions")
+}
+
+/// CHECK purpose_valid: purpose IN ('email_verify', 'password_reset').
+///
+/// RN-12 (aplicação): tokens de purpose='password_reset' expiram em 1h;
+///   purpose='email_verify' expiram em 24h. Validar usedAt IS NULL antes de
+///   aceitar qualquer token (nenhuma dessas regras é um CHECK).
+model VerificationToken {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId    String    @map("user_id") @db.Uuid
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String    @unique @map("token_hash")
+  purpose   String
+  expiresAt DateTime  @map("expires_at") @db.Timestamptz
+  usedAt    DateTime? @map("used_at") @db.Timestamptz
+
+  @@map("verification_tokens")
+}
+
+// ========== MÓDULO 2: CONTEÚDO ==========
+
+/// CHECK level_valid: level IN ('ensino_medio', 'universitario').
+model Subject {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  slug        String    @unique
+  title       String
+  iconSymbol  String?   @map("icon_symbol")
+  level       String
+  description String?
+  orderIndex  Int       @map("order_index")
+  createdAt   DateTime? @default(now()) @map("created_at") @db.Timestamptz
+
+  units Unit[]
+
+  @@map("subjects")
+}
+
+model Unit {
+  id              String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  subjectId       String  @map("subject_id") @db.Uuid
+  subject         Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  number          Int     @db.SmallInt
+  title           String
+  lockedByDefault Boolean @default(true) @map("locked_by_default")
+
+  lessons     Lesson[]
+  exercises   Exercise[]
+  unitUnlocks UnitUnlock[]
+
+  @@unique([subjectId, number])
+  @@map("units")
+}
+
+model Lesson {
+  id           String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  unitId       String  @map("unit_id") @db.Uuid
+  unit         Unit    @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  slug         String
+  title        String
+  description  String?
+  durationMin  Int     @map("duration_min") @db.SmallInt
+  orderIndex   Int     @map("order_index")
+  contentBody  String? @map("content_body")
+  widgetType   String? @map("widget_type")
+  widgetConfig Json?   @map("widget_config")
+
+  tags     LessonTag[]
+  progress LessonProgress[]
+
+  @@unique([unitId, slug])
+  @@unique([unitId, orderIndex])
+  @@map("lessons")
+}
+
+/// CHECK tag_valid: tag IN ('video', 'interactive', 'exercise').
+model LessonTag {
+  lessonId String @map("lesson_id") @db.Uuid
+  lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  tag      String
+
+  @@id([lessonId, tag])
+  @@map("lesson_tags")
+}
+
+// ========== MÓDULO 3: EXERCÍCIOS E QUIZ ==========
+
+/// CHECK difficulty_valid: difficulty IN ('easy', 'medium', 'hard').
+/// CHECK points_by_difficulty: easy 30–50, medium 60–90, hard 120–150.
+///
+/// RN-13 (aplicação): alterar `points` depois de publicado NÃO recalcula
+///   pontuações já gravadas em ExerciseAttempt — o histórico é imutável por
+///   design. Nunca implementar lógica de "recalcular pontos retroativos".
+model Exercise {
+  id            String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  unitId        String @map("unit_id") @db.Uuid
+  unit          Unit   @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  iconSymbol    String @map("icon_symbol")
+  difficulty    String
+  title         String
+  description   String
+  durationMin   Int    @map("duration_min") @db.SmallInt
+  questionCount Int    @map("question_count") @db.SmallInt
+  points        Int    @db.SmallInt
+  orderIndex    Int    @map("order_index")
+
+  questions ExerciseQuestion[]
+  attempts  ExerciseAttempt[]
+
+  @@map("exercises")
+}
+
+model ExerciseQuestion {
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  exerciseId     String   @map("exercise_id") @db.Uuid
+  exercise       Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+  prompt         String
+  formulaDisplay String?  @map("formula_display")
+  correctAnswer  Json     @map("correct_answer")
+  options        Json?
+  explanation    String?
+  orderIndex     Int      @map("order_index")
+
+  attempts ExerciseAttempt[]
+
+  @@unique([exerciseId, orderIndex])
+  @@map("exercise_questions")
+}
+
+/// APPEND-ONLY: esta tabela registra tentativas de exercício e nunca deve
+/// sofrer UPDATE — só INSERT e SELECT. Reforçado por trigger de banco
+/// (ver migration.sql: forbid_update / exercise_attempts_no_update).
+model ExerciseAttempt {
+  id              String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId          String            @map("user_id") @db.Uuid
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  exerciseId      String            @map("exercise_id") @db.Uuid
+  exercise        Exercise          @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+  questionId      String?           @map("question_id") @db.Uuid
+  question        ExerciseQuestion? @relation(fields: [questionId], references: [id], onDelete: SetNull)
+  submittedAnswer Json              @map("submitted_answer")
+  isCorrect       Boolean           @map("is_correct")
+  attemptedAt     DateTime          @default(now()) @map("attempted_at") @db.Timestamptz
+
+  @@index([userId, attemptedAt], map: "idx_attempts_user_time")
+  @@index([exerciseId], map: "idx_attempts_exercise")
+  @@map("exercise_attempts")
+}
+
+// ========== MÓDULO 4: PROGRESSO E STREAK ==========
+
+/// CHECK status_valid: status IN ('not_started', 'in-progress', 'done').
+/// CHECK completed_consistency: status='done' <=> completedAt IS NOT NULL.
+/// CHECK accuracy_range: accuracy IS NULL OR accuracy BETWEEN 0 AND 100.
+model LessonProgress {
+  userId      String    @map("user_id") @db.Uuid
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lessonId    String    @map("lesson_id") @db.Uuid
+  lesson      Lesson    @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  status      String    @default("not_started")
+  accuracy    Int?      @db.SmallInt
+  completedAt DateTime? @map("completed_at") @db.Timestamptz
+  // Mantido atualizado por trigger de banco (set_updated_at), não pelo Prisma.
+  updatedAt   DateTime  @default(now()) @map("updated_at") @db.Timestamptz
+
+  @@id([userId, lessonId])
+  @@map("lesson_progress")
+}
+
+model UnitUnlock {
+  userId     String   @map("user_id") @db.Uuid
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  unitId     String   @map("unit_id") @db.Uuid
+  unit       Unit     @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  unlockedAt DateTime @default(now()) @map("unlocked_at") @db.Timestamptz
+
+  @@id([userId, unitId])
+  @@map("unit_unlocks")
+}
+
+/// APPEND-ONLY: um registro por (user, dia) que o usuário praticou — nunca
+/// sofre UPDATE, só INSERT e SELECT. Reforçado por trigger de banco
+/// (ver migration.sql: forbid_update / streak_log_no_update).
+model StreakLog {
+  userId       String   @map("user_id") @db.Uuid
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  activityDate DateTime @map("activity_date") @db.Date
+
+  @@id([userId, activityDate])
+  @@index([userId, activityDate(sort: Desc)], map: "idx_streak_user_date")
+  @@map("streak_log")
+}
+
+// ========== MÓDULO 5: EMY-CHAN (analytics opcional) ==========
+
+/// CHECK context_valid: context IN ('onboarding', 'callout', 'error_streak_3',
+///   'celebration_unit', 'celebration_module', 'streak_7').
+///
+/// Esta tabela é só analytics. O cooldown da Emy-chan (RN-09, 4min entre
+/// aparições) é controlado em memória de sessão no FRONTEND — não usar esta
+/// tabela para nenhuma lógica de cooldown.
+model EmyAppearanceLog {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId     String   @map("user_id") @db.Uuid
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  context    String
+  occurredAt DateTime @default(now()) @map("occurred_at") @db.Timestamptz
+
+  @@index([userId, occurredAt], map: "idx_emy_log_user")
+  @@map("emy_appearance_log")
+}
