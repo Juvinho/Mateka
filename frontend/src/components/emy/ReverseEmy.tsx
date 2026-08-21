@@ -29,7 +29,7 @@ export function ReverseEmy() {
           >
             &times;
           </button>
-          Emy-Dark aqui... Deixe suas anotações bem aqui.
+          Mii Aqui...Deixe suas anotações bem aqui.
         </div>
       )}
       <button
