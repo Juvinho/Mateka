@@ -49,6 +49,9 @@ import cansadaImg from './assets/mascot/cansada.webp'
 import policialImg from './assets/mascot/policial.webp'
 import sobrecarregadaImg from './assets/mascot/sobrecarregada.webp'
 import gamerImg from './assets/mascot/gamer.webp'
+import { EmyCallout } from './components/emy/EmyCallout'
+import { ReverseEmy } from './components/emy/ReverseEmy'
+import { VirtualNotebook } from './components/VirtualNotebook'
 
 const ENDLESS_DIFFICULTIES: Difficulty[] = ['easy', 'medium', 'hard']
 
@@ -458,211 +461,225 @@ const App = () => {
     setLoadingVisible(false)
   }, [])
 
+
   if (isAuthRoute) {
     const initialView = window.location.hash === '#register' ? 'register' : 'login'
     return <AuthCardFlip view={initialView} onFlip={(v) => navigateTo(`#${v}`)} />
   }
 
-  if (isModulosRoute) {
-    return <ModulosPage key="matrizes" config={MATRIZES_MODULE_CONFIG} onNavigate={navigateTo} />
-  }
+  const renderPageContent = () => {
+    if (isModulosRoute) {
+      return <ModulosPage key="matrizes" config={MATRIZES_MODULE_CONFIG} onNavigate={navigateTo} />
+    }
 
-  if (isBasicosRoute) {
-    return <ModulosPage key="basicos" config={BASICOS_MODULE_CONFIG} onNavigate={navigateTo} />
-  }
+    if (isBasicosRoute) {
+      return <ModulosPage key="basicos" config={BASICOS_MODULE_CONFIG} onNavigate={navigateTo} />
+    }
 
-  if (activeExerciseSet && activeExerciseModuleId) {
+    if (activeExerciseSet && activeExerciseModuleId) {
+      return (
+        <ExerciseSessionPage
+          key={`${activeExerciseModuleId}-${activeExerciseSet.id}`}
+          exerciseSet={activeExerciseSet}
+          moduleId={activeExerciseModuleId}
+          onNavigate={navigateTo}
+        />
+      )
+    }
+
+    if (resolvedEndless) {
+      return (
+        <EndlessSessionPage
+          key={`${resolvedEndless.moduleId}-${resolvedEndless.difficulty}`}
+          difficulty={resolvedEndless.difficulty}
+          moduleId={resolvedEndless.moduleId}
+          bank={resolvedEndless.bank[resolvedEndless.difficulty]}
+          onNavigate={navigateTo}
+        />
+      )
+    }
+
     return (
-      <ExerciseSessionPage
-        key={`${activeExerciseModuleId}-${activeExerciseSet.id}`}
-        exerciseSet={activeExerciseSet}
-        moduleId={activeExerciseModuleId}
-        onNavigate={navigateTo}
-      />
-    )
-  }
+      <div className="app-shell">
+        <BackgroundCanvas ambienceActive={ambienceEnabled} intensityBoost={professorMode ? 0.5 : 0} />
+        <FloatingEquations />
+        <MathTrail boostSymbols={scrollBoosting || professorMode} />
+        <ClickBurst />
 
-  if (resolvedEndless) {
-    return (
-      <EndlessSessionPage
-        key={`${resolvedEndless.moduleId}-${resolvedEndless.difficulty}`}
-        difficulty={resolvedEndless.difficulty}
-        moduleId={resolvedEndless.moduleId}
-        bank={resolvedEndless.bank[resolvedEndless.difficulty]}
-        onNavigate={navigateTo}
-      />
+        {konamiFlashVisible ? <div className="konami-flash-overlay" aria-hidden="true" /> : null}
+        {professorMessageVisible ? (
+          <div className="professor-mode-banner" role="status" aria-live="polite">
+            🎓 MODO PROFESSOR ATIVADO
+          </div>
+        ) : null}
+
+        <div className="scroll-progress-bar" style={{ transform: `scaleX(${progress})` }} />
+
+        {loadingVisible ? <LoadingScreen onComplete={handleLoadingComplete} /> : null}
+
+        <div className={`app-content ${loadingVisible ? 'is-loading' : 'is-ready'}`}>
+          <NavBar
+            ambienceEnabled={ambienceEnabled}
+            onToggleAmbience={onToggleAmbience}
+            onNavigate={navigateTo}
+          />
+
+          {activeLesson ? (
+            <main className="lesson-shell">
+              <section className="lesson-view reveal is-visible" data-reveal>
+                <p className="section-kicker">{MODULE_LABEL[activeLessonModuleId ?? ''] ?? ''}</p>
+                <h1>{activeLesson.title}</h1>
+                {activeLesson.intro.map((paragraph, i) => (
+                  <p key={`intro-${i}`}>{paragraph}</p>
+                ))}
+                {activeLesson.examples && activeLesson.examples.length > 0 ? (
+                  <div className="lesson-examples-row">
+                    {activeLesson.examples.map((ex) => (
+                      <MatrixDisplay key={ex.label} label={ex.label} matrix={ex.matrix} />
+                    ))}
+                  </div>
+                ) : null}
+                {activeLesson.after?.map((paragraph, i) => (
+                  <p key={`after-${i}`}>{paragraph}</p>
+                ))}
+                {activeLesson.interactiveWidget ? <InteractiveWidgetHost widget={activeLesson.interactiveWidget} /> : null}
+                <div className="lesson-actions">
+                  <button
+                    type="button"
+                    className="btn-primary"
+                    onClick={() => navigateTo(`#exercicio-${activeLesson.exerciseSetId}`)}
+                    aria-label="Praticar exercícios"
+                  >
+                    Praticar exercícios →
+                  </button>
+                  <button
+                    type="button"
+                    className="btn-secondary"
+                    onClick={() => navigateTo('#hero')}
+                    aria-label="Voltar para a landing page"
+                  >
+                    Landing Principal
+                  </button>
+                </div>
+              </section>
+              <LessonNarrator key={activeLesson.id} lessonId={activeLesson.id} />
+            </main>
+          ) : activeLessonTitle ? (
+            <main className="lesson-shell">
+              <section className="lesson-view reveal is-visible" data-reveal>
+                <p className="section-kicker">Modo aula</p>
+                <h1>{activeLessonTitle}</h1>
+                <p>
+                  Este hash route já está funcional com History API nativa. Aqui você pode plugar o
+                  player de aula, quizzes e progresso por módulo.
+                </p>
+                <div className="lesson-actions">
+                  <button
+                    type="button"
+                    className="btn-primary"
+                    onClick={() => navigateTo('#conteudos')}
+                    aria-label="Voltar para os módulos"
+                  >
+                    Voltar para Módulos
+                  </button>
+                  <button
+                    type="button"
+                    className="btn-secondary"
+                    onClick={() => navigateTo('#hero')}
+                    aria-label="Voltar para a landing page"
+                  >
+                    Landing Principal
+                  </button>
+                </div>
+              </section>
+            </main>
+          ) : isEasterEggRoute ? (
+            <ErrorPageView
+              code="220"
+              title="Emy tá só esperando a marretada."
+              message="A Emy está esperando o Saltitão dar uma marretada no computador pra resolver esse erro — a boa e velha força bruta."
+              mascotSrc={gamerImg}
+              mascotAlt="Emy-chan de moletom de tubarão, jogando videogame tranquila"
+              primaryAction={{ label: 'Voltar para o início', onClick: () => navigateTo('#hero') }}
+              secondaryAction={{ label: 'Ver módulos', onClick: () => navigateTo('#modulos') }}
+            />
+          ) : isForbiddenRoute ? (
+            <ErrorPageView
+              code="403"
+              tone="danger"
+              title="Emy mandou parar bem aqui."
+              message="Você não tem permissão para acessar essa página. Se acha que isso é engano, entra na conta certa e tenta de novo."
+              mascotSrc={policialImg}
+              mascotAlt="Emy-chan fardada de policial, mandando parar com uma placa de PARE"
+              primaryAction={{ label: 'Fazer login', onClick: () => navigateTo('#login') }}
+              secondaryAction={{ label: 'Voltar para o início', onClick: () => navigateTo('#hero') }}
+            />
+          ) : isTooManyRequestsRoute ? (
+            <ErrorPageView
+              code="429"
+              tone="warning"
+              title="Calma, muita coisa de uma vez só."
+              message="Foram pedidos demais em pouco tempo e a Emy não deu conta de todos. Espera um instante e tenta de novo."
+              mascotSrc={sobrecarregadaImg}
+              mascotAlt="Emy-chan sobrecarregada, segurando uma pilha enorme de papéis"
+              primaryAction={{ label: 'Tentar novamente', onClick: () => window.location.reload() }}
+              secondaryAction={{ label: 'Voltar para o início', onClick: () => navigateTo('#hero') }}
+            />
+          ) : isNotFoundRoute ? (
+            <ErrorPageView
+              code="404"
+              title="Emy procurou tanto que cansou."
+              message="A página que você tentou acessar não existe (ou mudou de lugar). Bora voltar pra um lugar que existe de verdade?"
+              mascotSrc={cansadaImg}
+              mascotAlt="Emy-chan deitada no chão, exausta de tanto procurar"
+              primaryAction={{ label: 'Voltar para o início', onClick: () => navigateTo('#hero') }}
+              secondaryAction={{ label: 'Ver módulos', onClick: () => navigateTo('#modulos') }}
+            />
+          ) : (
+            <main>
+              <HeroSection onNavigate={navigateTo} />
+              <StatsBar />
+              <WhyItMatters />
+              <VideoIntro />
+              <WavePlayground />
+
+              <PlaygroundErrorBoundary name="Playground de Derivadas">
+                <Suspense
+                  fallback={<div className="lazy-loading">Carregando visualizador de derivadas...</div>}
+                >
+                  <DerivativeVisualizer />
+                </Suspense>
+              </PlaygroundErrorBoundary>
+
+              <PlaygroundErrorBoundary name="Playground de Integrais">
+                <Suspense
+                  fallback={<div className="lazy-loading">Carregando visualizador de integrais...</div>}
+                >
+                  <IntegralVisualizer />
+                </Suspense>
+              </PlaygroundErrorBoundary>
+
+              <ModuleGrid onNavigate={navigateTo} />
+              <StatsCounter />
+              <TestimonialSection />
+              <Footer onNavigate={navigateTo} />
+            </main>
+          )}
+        </div>
+      </div>
     )
   }
 
   return (
-    <div className="app-shell">
-      <BackgroundCanvas ambienceActive={ambienceEnabled} intensityBoost={professorMode ? 0.5 : 0} />
-      <FloatingEquations />
-      <MathTrail boostSymbols={scrollBoosting || professorMode} />
-      <ClickBurst />
-
-      {konamiFlashVisible ? <div className="konami-flash-overlay" aria-hidden="true" /> : null}
-      {professorMessageVisible ? (
-        <div className="professor-mode-banner" role="status" aria-live="polite">
-          🎓 MODO PROFESSOR ATIVADO
-        </div>
-      ) : null}
-
-      <div className="scroll-progress-bar" style={{ transform: `scaleX(${progress})` }} />
-
-      {loadingVisible ? <LoadingScreen onComplete={handleLoadingComplete} /> : null}
-
-      <div className={`app-content ${loadingVisible ? 'is-loading' : 'is-ready'}`}>
-        <NavBar
-          ambienceEnabled={ambienceEnabled}
-          onToggleAmbience={onToggleAmbience}
-          onNavigate={navigateTo}
-        />
-
-        {activeLesson ? (
-          <main className="lesson-shell">
-            <section className="lesson-view reveal is-visible" data-reveal>
-              <p className="section-kicker">{MODULE_LABEL[activeLessonModuleId ?? ''] ?? ''}</p>
-              <h1>{activeLesson.title}</h1>
-              {activeLesson.intro.map((paragraph, i) => (
-                <p key={`intro-${i}`}>{paragraph}</p>
-              ))}
-              {activeLesson.examples && activeLesson.examples.length > 0 ? (
-                <div className="lesson-examples-row">
-                  {activeLesson.examples.map((ex) => (
-                    <MatrixDisplay key={ex.label} label={ex.label} matrix={ex.matrix} />
-                  ))}
-                </div>
-              ) : null}
-              {activeLesson.after?.map((paragraph, i) => (
-                <p key={`after-${i}`}>{paragraph}</p>
-              ))}
-              {activeLesson.interactiveWidget ? <InteractiveWidgetHost widget={activeLesson.interactiveWidget} /> : null}
-              <div className="lesson-actions">
-                <button
-                  type="button"
-                  className="btn-primary"
-                  onClick={() => navigateTo(`#exercicio-${activeLesson.exerciseSetId}`)}
-                  aria-label="Praticar exercícios"
-                >
-                  Praticar exercícios →
-                </button>
-                <button
-                  type="button"
-                  className="btn-secondary"
-                  onClick={() => navigateTo('#hero')}
-                  aria-label="Voltar para a landing page"
-                >
-                  Landing Principal
-                </button>
-              </div>
-            </section>
-            <LessonNarrator key={activeLesson.id} lessonId={activeLesson.id} />
-          </main>
-        ) : activeLessonTitle ? (
-          <main className="lesson-shell">
-            <section className="lesson-view reveal is-visible" data-reveal>
-              <p className="section-kicker">Modo aula</p>
-              <h1>{activeLessonTitle}</h1>
-              <p>
-                Este hash route já está funcional com History API nativa. Aqui você pode plugar o
-                player de aula, quizzes e progresso por módulo.
-              </p>
-              <div className="lesson-actions">
-                <button
-                  type="button"
-                  className="btn-primary"
-                  onClick={() => navigateTo('#conteudos')}
-                  aria-label="Voltar para os módulos"
-                >
-                  Voltar para Módulos
-                </button>
-                <button
-                  type="button"
-                  className="btn-secondary"
-                  onClick={() => navigateTo('#hero')}
-                  aria-label="Voltar para a landing page"
-                >
-                  Landing Principal
-                </button>
-              </div>
-            </section>
-          </main>
-        ) : isEasterEggRoute ? (
-          <ErrorPageView
-            code="220"
-            title="Emy tá só esperando a marretada."
-            message="A Emy está esperando o Saltitão dar uma marretada no computador pra resolver esse erro — a boa e velha força bruta."
-            mascotSrc={gamerImg}
-            mascotAlt="Emy-chan de moletom de tubarão, jogando videogame tranquila"
-            primaryAction={{ label: 'Voltar para o início', onClick: () => navigateTo('#hero') }}
-            secondaryAction={{ label: 'Ver módulos', onClick: () => navigateTo('#modulos') }}
-          />
-        ) : isForbiddenRoute ? (
-          <ErrorPageView
-            code="403"
-            tone="danger"
-            title="Emy mandou parar bem aqui."
-            message="Você não tem permissão para acessar essa página. Se acha que isso é engano, entra na conta certa e tenta de novo."
-            mascotSrc={policialImg}
-            mascotAlt="Emy-chan fardada de policial, mandando parar com uma placa de PARE"
-            primaryAction={{ label: 'Fazer login', onClick: () => navigateTo('#login') }}
-            secondaryAction={{ label: 'Voltar para o início', onClick: () => navigateTo('#hero') }}
-          />
-        ) : isTooManyRequestsRoute ? (
-          <ErrorPageView
-            code="429"
-            tone="warning"
-            title="Calma, muita coisa de uma vez só."
-            message="Foram pedidos demais em pouco tempo e a Emy não deu conta de todos. Espera um instante e tenta de novo."
-            mascotSrc={sobrecarregadaImg}
-            mascotAlt="Emy-chan sobrecarregada, segurando uma pilha enorme de papéis"
-            primaryAction={{ label: 'Tentar novamente', onClick: () => window.location.reload() }}
-            secondaryAction={{ label: 'Voltar para o início', onClick: () => navigateTo('#hero') }}
-          />
-        ) : isNotFoundRoute ? (
-          <ErrorPageView
-            code="404"
-            title="Emy procurou tanto que cansou."
-            message="A página que você tentou acessar não existe (ou mudou de lugar). Bora voltar pra um lugar que existe de verdade?"
-            mascotSrc={cansadaImg}
-            mascotAlt="Emy-chan deitada no chão, exausta de tanto procurar"
-            primaryAction={{ label: 'Voltar para o início', onClick: () => navigateTo('#hero') }}
-            secondaryAction={{ label: 'Ver módulos', onClick: () => navigateTo('#modulos') }}
-          />
-        ) : (
-          <main>
-            <HeroSection onNavigate={navigateTo} />
-            <StatsBar />
-            <WhyItMatters />
-            <VideoIntro />
-            <WavePlayground />
-
-            <PlaygroundErrorBoundary name="Playground de Derivadas">
-              <Suspense
-                fallback={<div className="lazy-loading">Carregando visualizador de derivadas...</div>}
-              >
-                <DerivativeVisualizer />
-              </Suspense>
-            </PlaygroundErrorBoundary>
-
-            <PlaygroundErrorBoundary name="Playground de Integrais">
-              <Suspense
-                fallback={<div className="lazy-loading">Carregando visualizador de integrais...</div>}
-              >
-                <IntegralVisualizer />
-              </Suspense>
-            </PlaygroundErrorBoundary>
-
-            <ModuleGrid onNavigate={navigateTo} />
-            <StatsCounter />
-            <TestimonialSection />
-            <Footer onNavigate={navigateTo} />
-          </main>
-        )}
-      </div>
-    </div>
+    <>
+      {renderPageContent()}
+      {/* Global Emy-chan, Emy-Dark, and Virtual Notebook — present on all non-auth routes */}
+      <EmyCallout activeHash={activeHash} />
+      <ReverseEmy />
+      <VirtualNotebook />
+    </>
   )
 }
 
 export default App
+
