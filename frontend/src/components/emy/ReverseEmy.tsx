@@ -4,10 +4,11 @@ import { EmyAvatar } from './EmyAvatar';
 import negativeEmyImg from '../../assets/mascot/negative-emy.png';
 
 /**
- * Emy-Dark — the dark/red counterpart of Emy-chan.
- * Fixed to the bottom-left corner, she acts as the gateway to the Virtual Notebook.
- * Clicking her avatar toggles the notebook open/closed.
- * A speech bubble prompt can be independently toggled.
+ * Mii-chan — the quieter companion who keeps the smart notebook.
+ * Mounted by App.tsx only inside sections (module hubs, lessons), and only
+ * once a module's first-time intro has been seen (see `showMii` in App.tsx).
+ * Clicking her avatar toggles the notebook open/closed; a speech bubble
+ * prompt can be independently toggled.
  */
 export function ReverseEmy() {
   const { toggle, isOpen } = useNotebook();
@@ -25,11 +26,11 @@ export function ReverseEmy() {
           <button
             className="emy-callout__close"
             onClick={toggleBubble}
-            aria-label="Fechar mensagem da Emy-Dark"
+            aria-label="Fechar mensagem da Mii-chan"
           >
             &times;
           </button>
-          Mii Aqui...Deixe suas anotações bem aqui.
+          Oi, sou a Mii-chan! Deixe suas anotações aqui. 📝
         </div>
       )}
       <button
@@ -37,7 +38,7 @@ export function ReverseEmy() {
         onClick={toggle}
         aria-label={isOpen ? 'Fechar Caderno Virtual' : 'Abrir Caderno Virtual'}
       >
-        <EmyAvatar size="medium" imgSrc={negativeEmyImg} className="reverse-emy-avatar" />
+        <EmyAvatar size="medium" imgSrc={negativeEmyImg} className="reverse-emy-avatar" alt="Mii-chan" />
       </button>
     </div>
   );

@@ -1,7 +1,7 @@
 {
   "name": "mateka-tg",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.4.2",
   "workspaces": [
     "frontend",
     "backend",
@@ -9,6 +9,8 @@
   ],
   "scripts": {
     "dev": "npm run dev --workspace=frontend",
+    "dev:api": "npm run dev --workspace=backend",
+    "dev:all": "npm run db:up && concurrently -n api,web -c green,cyan \"npm:dev:api\" \"npm:dev\"",
     "build": "npm run build --workspace=frontend",
     "lint": "npm run lint --workspace=frontend",
     "preview": "npm run preview --workspace=frontend",
@@ -19,5 +21,8 @@
     "db:seed": "npm run db:seed --workspace=database",
     "db:studio": "npm run db:studio --workspace=database",
     "test:db": "npm run test:db --workspace=database"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
   }
 }

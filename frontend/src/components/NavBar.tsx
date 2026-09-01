@@ -13,6 +13,7 @@ type NavBarProps = {
   ambienceEnabled: boolean
   onToggleAmbience: () => void
   onNavigate: (hash: string) => void
+  isAuthenticated?: boolean
 }
 
 type NavItem = {
@@ -59,7 +60,7 @@ const navItems: NavItem[] = [
   },
 ]
 
-const NavBar = ({ ambienceEnabled, onToggleAmbience, onNavigate }: NavBarProps) => {
+const NavBar = ({ ambienceEnabled, onToggleAmbience, onNavigate, isAuthenticated }: NavBarProps) => {
   const [scrolled, setScrolled] = useState(false)
   const [activeItemId, setActiveItemId] = useState('hero')
   const [hoveredItemId, setHoveredItemId] = useState<string | null>(null)
@@ -252,13 +253,13 @@ const NavBar = ({ ambienceEnabled, onToggleAmbience, onNavigate }: NavBarProps) 
           ref={ctaButtonRef}
           type="button"
           className="navbar-cta"
-          onClick={() => onNavigate('#login')}
+          onClick={() => onNavigate(isAuthenticated ? '#perfil' : '#login')}
           onMouseMove={onCtaMouseMove}
           onMouseLeave={onCtaMouseLeave}
-          aria-label="Começar agora — ir para o login"
+          aria-label={isAuthenticated ? 'Acessar perfil' : 'Começar agora — ir para o login'}
           data-cursor
         >
-          <span ref={ctaTextRef}>Começar Agora</span>
+          <span ref={ctaTextRef}>{isAuthenticated ? 'Acessar Perfil' : 'Começar Agora'}</span>
         </button>
       </div>
     </header>

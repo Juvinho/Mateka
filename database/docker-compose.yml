@@ -5,13 +5,13 @@ services:
     environment:
       POSTGRES_USER: mateka
       POSTGRES_PASSWORD: mateka_dev_password
-      POSTGRES_DB: mateka
+      POSTGRES_DB: Mateka
     ports:
       - '5432:5432'
     volumes:
       - mateka_pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U mateka -d mateka']
+      test: ['CMD-SHELL', 'pg_isready -U mateka -d Mateka']
       interval: 5s
       timeout: 5s
       retries: 5

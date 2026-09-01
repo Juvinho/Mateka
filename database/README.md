@@ -20,7 +20,7 @@ sobe isolado via Docker:
 npm run db:up
 ```
 
-Isso sobe um Postgres 15 em `localhost:5432` (usuário `mateka`, banco `mateka`
+Isso sobe um Postgres 15 em `localhost:5432` (usuário `mateka`, banco `Mateka`
 — veja `docker-compose.yml`). Para derrubar: `npm run db:down`.
 
 Copie o `.env.example` para `.env` (o `.env` real nunca é commitado — já está

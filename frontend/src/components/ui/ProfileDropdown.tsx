@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useAuth } from '../../state/useAuth'
 
 type ProfileDropdownProps = {
   initials: string
@@ -93,6 +94,7 @@ const separatorStyle: React.CSSProperties = {
 }
 
 const ProfileDropdown = ({ initials }: ProfileDropdownProps) => {
+  const { logout, user } = useAuth()
   const [open, setOpen] = useState(false)
   const wrapperRef = useRef<HTMLDivElement | null>(null)
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
@@ -116,7 +118,10 @@ const ProfileDropdown = ({ initials }: ProfileDropdownProps) => {
     {
       icon: <IconUser />,
       label: 'Meu Perfil',
-      action: () => setOpen(false),
+      action: () => {
+        setOpen(false)
+        window.location.hash = '#perfil'
+      },
     },
     {
       icon: <IconSettings />,
@@ -126,17 +131,28 @@ const ProfileDropdown = ({ initials }: ProfileDropdownProps) => {
     {
       icon: <IconModules />,
       label: 'Meus Módulos',
-      action: () => setOpen(false),
+      action: () => {
+        setOpen(false)
+        window.location.hash = '#modulos'
+      },
     },
     {
       icon: <IconTrophy />,
       label: 'Conquistas',
-      action: () => setOpen(false),
+      action: () => {
+        setOpen(false)
+        window.location.hash = '#perfil'
+      },
     },
     {
       icon: <IconLogout />,
       label: 'Sair',
-      action: () => setOpen(false),
+      action: () => {
+        setOpen(false)
+        void logout().then(() => {
+          window.location.hash = '#hero'
+        })
+      },
       danger: true,
       separator: true,
     },
@@ -151,9 +167,19 @@ const ProfileDropdown = ({ initials }: ProfileDropdownProps) => {
         aria-label="Abrir menu do perfil"
         aria-expanded={open}
         aria-haspopup="menu"
-        style={{ cursor: 'pointer', background: 'none', border: '2px solid rgba(34,211,238,0.28)' }}
+        style={
+          user?.avatarUrl
+            ? {
+                cursor: 'pointer',
+                border: '2px solid rgba(34,211,238,0.28)',
+                backgroundImage: `url(${user.avatarUrl})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }
+            : { cursor: 'pointer', background: 'none', border: '2px solid rgba(34,211,238,0.28)' }
+        }
       >
-        {initials}
+        {user?.avatarUrl ? null : initials}
       </button>
 
       {open && (

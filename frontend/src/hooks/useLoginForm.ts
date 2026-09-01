@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react'
+import { useAuth } from '../state/useAuth'
 
 export type LoginStatus = 'idle' | 'loading' | 'success'
 export type FocusedField = 'email' | 'password' | 'captcha' | null
@@ -22,6 +23,7 @@ export type LoginErrors = {
   email?: string
   password?: string
   captcha?: string
+  form?: string
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -68,6 +70,7 @@ type UseLoginFormReturn = {
 }
 
 export const useLoginForm = (): UseLoginFormReturn => {
+  const { refresh } = useAuth()
   const [email, setEmailState] = useState('')
   const [password, setPasswordState] = useState('')
   const [captcha, setCaptchaState] = useState('')
@@ -119,11 +122,34 @@ export const useLoginForm = (): UseLoginFormReturn => {
     setErrors({})
     setStatus('loading')
 
-    await new Promise((resolve) => setTimeout(resolve, 1400))
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ email: email.trim(), password }),
+      })
 
-    setStatus('success')
-    return true
-  }, [email, password, captcha, captchaRequired])
+      if (!response.ok) {
+        const body = await response.json().catch(() => null)
+        setErrors({ password: body?.message ?? 'Não foi possível entrar. Tente novamente.' })
+        setStatus('idle')
+        setAttempts((n) => n + 1)
+        return false
+      }
+
+      // Refresh the shared auth context before declaring success — otherwise
+      // the redirect that follows fires while the context still thinks
+      // there's no session, and a gated destination bounces right back.
+      await refresh()
+      setStatus('success')
+      return true
+    } catch {
+      setErrors({ form: 'Não foi possível conectar ao servidor. Tente novamente.' })
+      setStatus('idle')
+      return false
+    }
+  }, [email, password, captcha, captchaRequired, refresh])
 
   const resetStatus = useCallback(() => {
     setStatus('idle')

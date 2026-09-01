@@ -18,6 +18,7 @@ import type { UnitContent, LessonContent } from '../data/lessonTypes'
 import type { ExerciseSet, Exercise, Difficulty } from '../data/exerciseTypes'
 import type { TrackNode } from '../data/trackUtils'
 import { useModuleProgress } from '../state/useModuleProgress'
+import { useAuth } from '../state/useAuth'
 
 const ENDLESS_DIFFICULTIES: Difficulty[] = ['easy', 'medium', 'hard']
 const ENDLESS_LABEL: Record<Difficulty, string> = { easy: 'Fácil', medium: 'Médio', hard: 'Difícil' }
@@ -82,6 +83,15 @@ const ModulosPage = ({ config, onNavigate }: ModulosPageProps) => {
   )
 
   const { state, streakCount, averageAccuracy } = useModuleProgress(moduleId)
+  const { user } = useAuth()
+
+  const userInitials = useMemo(() => {
+    const parts = user?.displayName.trim().split(/\s+/).filter(Boolean) ?? []
+    if (parts.length === 0) return 'U'
+    const first = parts[0]![0]!
+    const last = parts.length > 1 ? parts[parts.length - 1]![0] : ''
+    return (first + last).toUpperCase()
+  }, [user])
 
   const [activeTab, setActiveTab]     = useState<TabId>('aulas')
   const [displayedTab, setDisplayedTab] = useState<TabId>('aulas')
@@ -300,7 +310,7 @@ const ModulosPage = ({ config, onNavigate }: ModulosPageProps) => {
       <ModuleHeader
         moduleName={name}
         streak={streakCount}
-        userInitials="JF"
+        userInitials={userInitials}
       />
 
       <ModuleHero
