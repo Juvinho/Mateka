@@ -72,6 +72,20 @@ afterAll(async () => {
   await prisma.$disconnect()
 })
 
+describe('users.email_format', () => {
+  it('rejects an email without an @ or a TLD', async () => {
+    await expect(
+      prisma.user.create({
+        data: {
+          email: `not-an-email-${Date.now()}`,
+          passwordHash: 'some-bcrypt-hash',
+          displayName: 'Bad Email User',
+        },
+      }),
+    ).rejects.toThrow()
+  })
+})
+
 describe('users.password_or_oauth', () => {
   it('rejects auth_provider=email with password_hash=NULL', async () => {
     await expect(
@@ -97,6 +111,99 @@ describe('users.password_or_oauth', () => {
     })
     expect(user.id).toBeTruthy()
     await prisma.user.delete({ where: { id: user.id } })
+  })
+})
+
+describe('users.role_valid', () => {
+  it('rejects role=teacher (not in student/admin)', async () => {
+    await expect(
+      prisma.user.create({
+        data: {
+          email: `bad-role-${Date.now()}@mateka.dev`,
+          passwordHash: 'some-bcrypt-hash',
+          displayName: 'Bad Role User',
+          role: 'teacher',
+        },
+      }),
+    ).rejects.toThrow()
+  })
+})
+
+describe('sessions.expires_in_future', () => {
+  it('rejects expires_at before created_at', async () => {
+    const createdAt = new Date()
+    const expiresAt = new Date(createdAt.getTime() - 60 * 60 * 1000)
+
+    await expect(
+      prisma.session.create({
+        data: {
+          userId,
+          tokenHash: `expired-session-${Date.now()}`,
+          createdAt,
+          expiresAt,
+        },
+      }),
+    ).rejects.toThrow()
+  })
+})
+
+describe('verification_tokens.purpose_valid', () => {
+  it('rejects purpose=account_deletion (not in email_verify/password_reset)', async () => {
+    await expect(
+      prisma.verificationToken.create({
+        data: {
+          userId,
+          tokenHash: `bad-purpose-${Date.now()}`,
+          purpose: 'account_deletion',
+          expiresAt: new Date(Date.now() + 60 * 60 * 1000),
+        },
+      }),
+    ).rejects.toThrow()
+  })
+})
+
+describe('subjects.level_valid', () => {
+  it('rejects level=fundamental (not in ensino_medio/universitario)', async () => {
+    await expect(
+      prisma.subject.create({
+        data: {
+          slug: `bad-level-${Date.now()}`,
+          title: 'Bad Level Subject',
+          level: 'fundamental',
+          orderIndex: 998,
+        },
+      }),
+    ).rejects.toThrow()
+  })
+})
+
+describe('lesson_tags.tag_valid', () => {
+  it('rejects tag=quiz (not in video/interactive/exercise)', async () => {
+    await expect(
+      prisma.lessonTag.create({
+        data: { lessonId, tag: 'quiz' },
+      }),
+    ).rejects.toThrow()
+  })
+})
+
+describe('exercises.difficulty_valid', () => {
+  it('rejects difficulty=impossible (not in easy/medium/hard)', async () => {
+    await expect(
+      prisma.exercise.create({
+        data: {
+          unitId,
+          iconSymbol: '#',
+          difficulty: 'impossible',
+          title: 'Invalid Difficulty Exercise',
+          description: 'Should be rejected by difficulty_valid.',
+          durationMin: 5,
+          questionCount: 0,
+          points: 40,
+          orderIndex: 3,
+        },
+      }),
+    ).rejects.toThrow()
   })
 })
 
@@ -136,6 +243,20 @@ describe('lessons unique (unit_id, order_index)', () => {
   })
 })
 
+describe('lesson_progress.status_valid', () => {
+  it('rejects status=paused (not in not_started/in-progress/done)', async () => {
+    await expect(
+      prisma.lessonProgress.create({
+        data: {
+          userId,
+          lessonId,
+          status: 'paused',
+        },
+      }),
+    ).rejects.toThrow()
+  })
+})
+
 describe('lesson_progress.completed_consistency', () => {
   it('rejects status=done with completed_at=NULL', async () => {
     await expect(
@@ -161,6 +282,30 @@ describe('lesson_progress.completed_consistency', () => {
     })
     expect(progress.completedAt).not.toBeNull()
     await prisma.lessonProgress.delete({ where: { userId_lessonId: { userId, lessonId } } })
+  })
+})
+
+describe('lesson_progress.accuracy_range', () => {
+  it('rejects accuracy=150 (outside 0–100)', async () => {
+    await expect(
+      prisma.lessonProgress.create({
+        data: {
+          userId,
+          lessonId,
+          accuracy: 150,
+        },
+      }),
+    ).rejects.toThrow()
+  })
+})
+
+describe('emy_appearance_log.context_valid', () => {
+  it('rejects context=random_event (not in the closed set of known contexts)', async () => {
+    await expect(
+      prisma.emyAppearanceLog.create({
+        data: { userId, context: 'random_event' },
+      }),
+    ).rejects.toThrow()
   })
 })
 
