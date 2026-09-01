@@ -2,5 +2,28 @@
   "name": "backend",
   "private": true,
   "version": "0.0.0",
-  "description": "Reserved for the Mateka! API layer — not implemented yet. See backend/README.md."
+  "type": "module",
+  "description": "API do Mateka! — autenticação (registro/login) e, futuramente, progresso/exercícios, consumindo o Prisma Client compartilhado em /database.",
+  "scripts": {
+    "dev": "tsx watch src/index.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.3",
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^17.4.2",
+    "express": "^4.21.2",
+    "multer": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/cookie-parser": "^1.4.9",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^4.17.23",
+    "@types/multer": "^2.2.0",
+    "@types/node": "^24.12.2",
+    "tsx": "^4.23.12",
+    "typescript": "^5.7.2"
+  }
 }

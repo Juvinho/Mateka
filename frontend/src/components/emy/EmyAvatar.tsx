@@ -6,13 +6,14 @@ interface EmyAvatarProps {
   size?: 'small' | 'medium';
   className?: string;
   imgSrc?: string;
+  alt?: string;
 }
 
 /**
- * Animated avatar for Emy-chan and Emy-Dark.
+ * Animated avatar shared by Emy-chan and Mii-chan.
  * Applies a gentle floating + breathing effect unless the user prefers reduced motion.
  */
-export function EmyAvatar({ size = 'medium', className = '', imgSrc = emyPeaceImg }: EmyAvatarProps) {
+export function EmyAvatar({ size = 'medium', className = '', imgSrc = emyPeaceImg, alt = 'Emy-chan' }: EmyAvatarProps) {
   const avatarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -49,7 +50,7 @@ export function EmyAvatar({ size = 'medium', className = '', imgSrc = emyPeaceIm
       ref={avatarRef}
       className={`emy-avatar emy-avatar--${size} ${className}`}
     >
-      <img src={imgSrc} alt="Emy-chan" />
+      <img src={imgSrc} alt={alt} />
     </div>
   );
 }

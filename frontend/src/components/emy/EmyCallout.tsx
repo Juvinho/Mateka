@@ -5,48 +5,30 @@ import { EmyAvatar } from './EmyAvatar';
 
 interface EmyCalloutProps {
   activeHash: string;
+  onNavigate?: (hash: string) => void;
 }
 
+// Only reachable while EmyCallout is mounted, i.e. on the home page — so this
+// only needs to tell the landing-page hashes apart, not every route.
 function pickMessage(activeHash: string): string {
-  if (activeHash === '#hero' || activeHash === '' || activeHash === '#') {
-    return 'Olá! Eu sou a Emy-chan 💜 Bem-vindo ao Matéka!';
-  }
-  if (activeHash === '#modulos' || activeHash.startsWith('#modulos/')) {
-    return 'Bora estudar! Você está indo muito bem! 🔥';
-  }
-  if (activeHash === '#basicos') {
-    return 'Conceitos básicos são a base de tudo! 📐';
-  }
   if (activeHash === '#conteudos') {
     return 'Escolha um módulo e comece sua jornada! ✨';
   }
-  if (activeHash.startsWith('#aula-')) {
-    return 'Foca na aula! Qualquer dúvida, estou aqui 📚';
-  }
-  if (activeHash.startsWith('#exercicio-')) {
-    return 'Hora de praticar! Você consegue! 💪';
-  }
-  if (activeHash.startsWith('#endless-')) {
-    return 'Modo infinito! Vai com tudo! 🚀';
-  }
-  return 'Estou aqui se precisar de ajuda! 📚';
+  return 'Olá! Eu sou a Emy-chan 💜 Bem-vindo ao Matéka!';
 }
 
 /**
- * Emy-chan's fixed bottom-right callout.
- *
- * The AVATAR is always visible — it never unmounts or hides. This ensures Emy-chan
- * is a permanent global UI element regardless of route, navigation, or user actions.
- *
- * The SPEECH BUBBLE is independently toggleable:
- *   - Clicking the avatar toggles it open/closed.
+ * Emy-chan's fixed bottom-right callout — mounted by App.tsx on the home
+ * page only (see `isHomeRoute`). The bubble carries a CTA into the
+ * "Conheça Emy" page (`onNavigate`), separate from its open/close toggle:
+ *   - Clicking the avatar toggles the bubble open/closed.
  *   - Clicking × closes the bubble (Emy's avatar stays visible).
  *   - The bubble message updates whenever the active route changes.
  *
  * Rendered into document.body via a portal so `position: fixed` always resolves
  * relative to the real viewport, even when an ancestor has a CSS filter/transform.
  */
-export function EmyCallout({ activeHash }: EmyCalloutProps) {
+export function EmyCallout({ activeHash, onNavigate }: EmyCalloutProps) {
   const [bubbleOpen, setBubbleOpen] = useState(true);
   const message = pickMessage(activeHash);
   const bubbleRef = useRef<HTMLDivElement>(null);
@@ -118,7 +100,16 @@ export function EmyCallout({ activeHash }: EmyCalloutProps) {
           >
             &times;
           </button>
-          {message}
+          <p className="emy-callout__message">{message}</p>
+          {onNavigate ? (
+            <button
+              type="button"
+              className="emy-callout__cta"
+              onClick={() => onNavigate('#conheca-emy')}
+            >
+              Conheça a Emy →
+            </button>
+          ) : null}
         </div>
       )}
       <button

@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from 'react'
+import { useAuth } from '../state/useAuth'
 
 export interface RegisterForm {
   name: string
@@ -14,11 +15,13 @@ export interface RegisterErrors {
   institution?: string
   password?: string
   confirmPassword?: string
+  form?: string
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 export const useRegisterForm = () => {
+  const { refresh } = useAuth()
   const [form, setForm] = useState<RegisterForm>({
     name: '',
     email: '',
@@ -72,10 +75,39 @@ export const useRegisterForm = () => {
 
     setErrors({})
     setStatus('loading')
-    await new Promise((r) => setTimeout(r, 900))
-    setStatus('success')
-    return true
-  }, [validate])
+
+    try {
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          name: form.name.trim(),
+          email: form.email.trim(),
+          password: form.password,
+        }),
+      })
+
+      if (!response.ok) {
+        const body = await response.json().catch(() => null)
+        const field = body?.field as keyof RegisterErrors | undefined
+        setErrors(field ? { [field]: body.message } : { form: body?.message ?? 'Não foi possível criar a conta.' })
+        setStatus('idle')
+        return false
+      }
+
+      // Same reasoning as useLoginForm: refresh the shared auth context
+      // before declaring success, so a redirect right after doesn't bounce
+      // off the gate for still looking like a guest.
+      await refresh()
+      setStatus('success')
+      return true
+    } catch {
+      setErrors({ form: 'Não foi possível conectar ao servidor. Tente novamente.' })
+      setStatus('idle')
+      return false
+    }
+  }, [validate, form, refresh])
 
   const reset = useCallback(() => {
     setStatus('idle')

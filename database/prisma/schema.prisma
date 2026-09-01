@@ -41,6 +41,8 @@ model User {
   authProvider        String    @default("email") @map("auth_provider")
   displayName         String    @map("display_name")
   role                String    @default("student")
+  avatarUrl           String?   @map("avatar_url")
+  bannerUrl           String?   @map("banner_url")
   failedLoginAttempts Int       @default(0) @map("failed_login_attempts") @db.SmallInt
   lockedUntil         DateTime? @map("locked_until") @db.Timestamptz
   createdAt           DateTime  @default(now()) @map("created_at") @db.Timestamptz

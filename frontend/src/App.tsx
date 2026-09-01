@@ -32,6 +32,9 @@ import ErrorPageView from './components/ErrorPageView'
 import ModulosPage from './pages/ModulosPage'
 import ExerciseSessionPage from './pages/ExerciseSessionPage'
 import EndlessSessionPage from './pages/EndlessSessionPage'
+import ConhecaEmyPage from './pages/ConhecaEmyPage'
+import PerfilPage from './pages/PerfilPage'
+import { useAuth } from './state/useAuth'
 import { useAmbience } from './hooks/useAmbience'
 import { useScrollProgress } from './hooks/useScrollProgress'
 import { useScrollVelocity } from './hooks/useScrollVelocity'
@@ -75,6 +78,8 @@ const KNOWN_EXACT_HASHES = new Set([
   '#register',
   '#modulos',
   '#basicos',
+  '#conheca-emy',
+  '#perfil',
 ])
 const KNOWN_DYNAMIC_PREFIXES = ['#modulos/', '#aula-', '#exercicio-', '#endless-']
 // Dedicated hashes to preview each error page on demand, without needing to
@@ -137,6 +142,10 @@ const lessonTitles: Record<string, string> = {
   '#aula-2': 'Aula 2 — Pré-Cálculo Visual',
 }
 
+// Where to send a guest who tries a gated route, so login can bounce them
+// back instead of dumping them on the home page.
+const AUTH_REDIRECT_KEY = 'mateka:auth:redirect'
+
 const KONAMI_SEQUENCE = [
   'ArrowUp',
   'ArrowUp',
@@ -167,6 +176,7 @@ const App = () => {
   const progress = useScrollProgress()
   const scrollBoosting = useScrollVelocity()
   const { enabled: ambienceEnabled, toggle: toggleAmbience } = useAmbience()
+  const { status: authStatus } = useAuth()
 
   const reducedMotion = useMemo(
     () =>
@@ -422,6 +432,8 @@ const App = () => {
   const isAuthRoute = activeHash === '#login' || activeHash === '#register'
   const isModulosRoute = activeHash === '#modulos' || activeHash.startsWith('#modulos/')
   const isBasicosRoute = activeHash === '#basicos'
+  const isConhecaEmyRoute = activeHash === '#conheca-emy'
+  const isPerfilRoute = activeHash === '#perfil'
   // 404 covers two cases: a dynamic-id route (aula/exercicio/endless) whose id
   // didn't resolve to anything, or a hash that isn't part of the app's known
   // route set at all (typo'd/stale link, or the dedicated #404 test route).
@@ -439,6 +451,80 @@ const App = () => {
     !isTooManyRequestsRoute &&
     !isEasterEggRoute &&
     (activeHash === FORCED_NOT_FOUND_HASH || isUnresolvedDynamicRoute || !isKnownRoute)
+
+  // Registration exists now, so modules (and everything inside them — lessons,
+  // exercises, endless mode) require a session. Deep links are covered too:
+  // resolving straight to #aula-x/#exercicio-x/#endless-x is gated the same
+  // way as the module hub itself.
+  const isGatedRoute =
+    isModulosRoute ||
+    isBasicosRoute ||
+    isPerfilRoute ||
+    Boolean(activeLesson) ||
+    Boolean(activeLessonTitle) ||
+    Boolean(activeExerciseSet) ||
+    Boolean(resolvedEndless)
+
+  // Guest hitting a gated route: remember where they were headed and bounce
+  // to login. Already-authenticated user landing on #login/#register: send
+  // them onward instead of showing the form again.
+  useEffect(() => {
+    if (!isGatedRoute || authStatus !== 'guest') return
+    try {
+      sessionStorage.setItem(AUTH_REDIRECT_KEY, activeHash)
+    } catch {
+      // ignore write failures (private browsing, storage full, etc.)
+    }
+    navigateTo('#login')
+  }, [isGatedRoute, authStatus, activeHash, navigateTo])
+
+  useEffect(() => {
+    if (!isAuthRoute || authStatus !== 'authenticated') return
+    navigateTo('#hero')
+  }, [isAuthRoute, authStatus, navigateTo])
+
+  // Emy-chan's small callout is a home-only element now — everywhere else
+  // (sections, exercises, error pages, the "Conheça Emy" page itself) she's
+  // only reachable through that page. "Home" is whatever falls through to
+  // the full landing page below, i.e. none of the other named routes.
+  const isHomeRoute =
+    !isModulosRoute &&
+    !isBasicosRoute &&
+    !isConhecaEmyRoute &&
+    !isPerfilRoute &&
+    !activeExerciseSet &&
+    !resolvedEndless &&
+    !activeLesson &&
+    !activeLessonTitle &&
+    !isEasterEggRoute &&
+    !isForbiddenRoute &&
+    !isTooManyRequestsRoute &&
+    !isNotFoundRoute
+
+  // Mii-chan (the small notebook-gateway avatar) lives in the sections —
+  // module hubs and lesson pages — but not on the home page or during
+  // exercises, and not on a module's very first visit: that's when the big
+  // Emy-chan intro is doing the explaining, so the small avatar stays out
+  // of the way until the module has been seen at least once.
+  const isSectionRoute = isModulosRoute || isBasicosRoute || Boolean(activeLesson) || Boolean(activeLessonTitle)
+  const currentSectionModuleConfig = isModulosRoute
+    ? MATRIZES_MODULE_CONFIG
+    : isBasicosRoute
+      ? BASICOS_MODULE_CONFIG
+      : activeLessonModuleId === 'matrizes'
+        ? MATRIZES_MODULE_CONFIG
+        : activeLessonModuleId === 'conceitos-basicos'
+          ? BASICOS_MODULE_CONFIG
+          : undefined
+  const hasSeenCurrentModuleIntro = (() => {
+    if (!currentSectionModuleConfig?.IntroComponent) return true
+    try {
+      return localStorage.getItem(`mateka:${currentSectionModuleConfig.moduleId}:introSeen`) === 'true'
+    } catch {
+      return true
+    }
+  })()
+  const showMii = isSectionRoute && hasSeenCurrentModuleIntro
 
   const { markLessonSeen: markMatrizesLessonSeen } = useModuleProgress('matrizes')
   const { markLessonSeen: markBasicosLessonSeen } = useModuleProgress('conceitos-basicos')
@@ -464,16 +550,51 @@ const App = () => {
 
   if (isAuthRoute) {
     const initialView = window.location.hash === '#register' ? 'register' : 'login'
-    return <AuthCardFlip view={initialView} onFlip={(v) => navigateTo(`#${v}`)} />
+    const goToIntendedDestination = () => {
+      let redirect = '#hero'
+      try {
+        const stored = sessionStorage.getItem(AUTH_REDIRECT_KEY)
+        if (stored) {
+          redirect = stored
+          sessionStorage.removeItem(AUTH_REDIRECT_KEY)
+        }
+      } catch {
+        // ignore read/write failures — falls back to #hero
+      }
+      navigateTo(redirect)
+    }
+    return (
+      <AuthCardFlip
+        view={initialView}
+        onFlip={(v) => navigateTo(`#${v}`)}
+        onAuthenticated={goToIntendedDestination}
+      />
+    )
   }
 
   const renderPageContent = () => {
+    if (isGatedRoute && authStatus !== 'authenticated') {
+      return (
+        <div className="auth-gate-notice">
+          <div className="lazy-loading">Verificando sessão...</div>
+        </div>
+      )
+    }
+
     if (isModulosRoute) {
       return <ModulosPage key="matrizes" config={MATRIZES_MODULE_CONFIG} onNavigate={navigateTo} />
     }
 
     if (isBasicosRoute) {
       return <ModulosPage key="basicos" config={BASICOS_MODULE_CONFIG} onNavigate={navigateTo} />
+    }
+
+    if (isConhecaEmyRoute) {
+      return <ConhecaEmyPage onNavigate={navigateTo} />
+    }
+
+    if (isPerfilRoute) {
+      return <PerfilPage onNavigate={navigateTo} />
     }
 
     if (activeExerciseSet && activeExerciseModuleId) {
@@ -522,6 +643,7 @@ const App = () => {
             ambienceEnabled={ambienceEnabled}
             onToggleAmbience={onToggleAmbience}
             onNavigate={navigateTo}
+            isAuthenticated={authStatus === 'authenticated'}
           />
 
           {activeLesson ? (
@@ -673,9 +795,11 @@ const App = () => {
   return (
     <>
       {renderPageContent()}
-      {/* Global Emy-chan, Emy-Dark, and Virtual Notebook — present on all non-auth routes */}
-      <EmyCallout activeHash={activeHash} />
-      <ReverseEmy />
+      {/* Emy-chan's callout: home only. Mii-chan: sections, once the module's
+          intro has been seen. The notebook itself stays mounted everywhere so
+          an already-open one can still be closed from a page Mii isn't on. */}
+      {isHomeRoute ? <EmyCallout activeHash={activeHash} onNavigate={navigateTo} /> : null}
+      {showMii ? <ReverseEmy /> : null}
       <VirtualNotebook />
     </>
   )

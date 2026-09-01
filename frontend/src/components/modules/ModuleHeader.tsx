@@ -14,7 +14,13 @@ const ModuleHeader = ({ moduleName, streak, userInitials = 'U' }: ModuleHeaderPr
         <MatekaLogo onClick={() => { window.location.hash = '#hero' }} ariaLabel="Ir para o início" />
 
         <nav className="modulos-breadcrumb" aria-label="Caminho de navegação">
-          <span>Dashboard</span>
+          <button
+            type="button"
+            className="modulos-breadcrumb-link"
+            onClick={() => { window.location.hash = '#perfil' }}
+          >
+            Dashboard
+          </button>
           <span className="modulos-breadcrumb-sep" aria-hidden="true">›</span>
           <span className="modulos-breadcrumb-current">{moduleName}</span>
         </nav>

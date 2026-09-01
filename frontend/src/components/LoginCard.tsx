@@ -415,6 +415,12 @@ const LoginCard = ({ onSuccess, onLogoClick, onCreateAccount, isVisible }: Login
             </button>
           </div>
 
+          {form.errors.form ? (
+            <span className="login-error is-visible login-error-form" role="alert">
+              {form.errors.form}
+            </span>
+          ) : null}
+
           <button
             ref={submitRef}
             type="submit"

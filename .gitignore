@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# User-uploaded content — not source, shouldn't be committed
+backend/uploads/
+
 # Environment variables — never commit real secrets/connection strings
 .env
 .env.*

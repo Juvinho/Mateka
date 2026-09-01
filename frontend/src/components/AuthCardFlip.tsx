@@ -6,9 +6,10 @@ import LoginBackground from './LoginBackground'
 type Props = {
   view?: 'login' | 'register'
   onFlip?: (v: 'login' | 'register') => void
+  onAuthenticated?: () => void
 }
 
-export default function AuthCardFlip({ view: propView, onFlip }: Props) {
+export default function AuthCardFlip({ view: propView, onFlip, onAuthenticated }: Props) {
   const [view, setView] = useState<'login' | 'register'>(
     propView || (window.location.hash === '#register' ? 'register' : 'login')
   )
@@ -95,7 +96,7 @@ export default function AuthCardFlip({ view: propView, onFlip }: Props) {
               WebkitBackfaceVisibility: 'hidden',
             }}>
               <LoginCard
-                onSuccess={() => {}}
+                onSuccess={() => onAuthenticated?.()}
                 onLogoClick={() => {}}
                 onCreateAccount={() => flipTo('register')}
                 isVisible={view === 'login'}
@@ -111,7 +112,7 @@ export default function AuthCardFlip({ view: propView, onFlip }: Props) {
               transform: 'rotateY(180deg)',
             }}>
               <RegisterPage
-                onSuccess={() => flipTo('login')}
+                onSuccess={() => onAuthenticated?.()}
                 onBack={() => flipTo('login')}
                 isVisible={view === 'register'}
               />

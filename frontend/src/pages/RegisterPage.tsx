@@ -39,15 +39,15 @@ const RegisterPage = ({ onSuccess, onBack, isVisible }: RegisterPageProps) => {
   )
 
   useEffect(() => {
-    if (form.isSuccess) {
-      if (!reducedMotion) {
-        const el = cardRef.current
-        if (el) {
-          gsap.to(el, { scale: 1.02, duration: 0.3, ease: 'power2.out', yoyo: true, repeat: 1 })
-        }
+    if (!form.isSuccess) return
+    if (!reducedMotion) {
+      const el = cardRef.current
+      if (el) {
+        gsap.to(el, { scale: 1.02, duration: 0.3, ease: 'power2.out', yoyo: true, repeat: 1 })
       }
-      if (onSuccess) onSuccess()
     }
+    const timeout = window.setTimeout(() => onSuccess?.(), 700)
+    return () => window.clearTimeout(timeout)
   }, [form.isSuccess, onSuccess, reducedMotion])
 
   useEffect(() => {
@@ -298,6 +298,12 @@ const RegisterPage = ({ onSuccess, onBack, isVisible }: RegisterPageProps) => {
 
           <div className="register-progress" style={{ width: `${progress}%` }} />
           <span className="step-counter">{filledFields}/5 campos</span>
+
+          {form.errors.form ? (
+            <span className="login-error is-visible login-error-form" role="alert">
+              {form.errors.form}
+            </span>
+          ) : null}
 
           <button
             ref={submitRef}
