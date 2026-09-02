@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const elementosExercises: Exercise[] = [
+  {
+    id: 'es3-e1',
+    kind: 'multiple-choice',
+    prompt: 'Um prisma tem quantas bases?',
+    choices: [
+      { id: 'a', label: '2' },
+      { id: 'b', label: '1' },
+      { id: 'c', label: '3' },
+      { id: 'd', label: '6' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O prisma tem duas bases paralelas e congruentes.',
+  },
+  {
+    id: 'es3-e2',
+    kind: 'multiple-choice',
+    prompt: 'As faces laterais de um prisma reto são sempre:',
+    choices: [
+      { id: 'a', label: 'Retângulos' },
+      { id: 'b', label: 'Triângulos' },
+      { id: 'c', label: 'Círculos' },
+      { id: 'd', label: 'Trapézios' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'No prisma reto, as faces laterais são retângulos.',
+  },
+  {
+    id: 'es3-e3',
+    kind: 'multiple-choice',
+    prompt: 'Um prisma é classificado como reto quando:',
+    choices: [
+      { id: 'a', label: 'As faces laterais são perpendiculares às bases' },
+      { id: 'b', label: 'A base é um triângulo' },
+      { id: 'c', label: 'Tem exatamente 6 faces' },
+      { id: 'd', label: 'É sempre regular' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Prisma reto tem faces laterais perpendiculares às bases.',
+  },
+  {
+    id: 'es3-e4',
+    kind: 'multiple-choice',
+    prompt: 'Um prisma regular é um prisma reto com:',
+    choices: [
+      { id: 'a', label: 'Base regular' },
+      { id: 'b', label: 'Altura igual ao lado da base' },
+      { id: 'c', label: 'Apenas 4 faces laterais' },
+      { id: 'd', label: 'Base circular' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Prisma regular = prisma reto + base regular.',
+  },
+  {
+    id: 'es3-e5',
+    kind: 'multiple-choice',
+    prompt: 'Um prisma de base hexagonal tem quantas faces laterais?',
+    choices: [
+      { id: 'a', label: '6' },
+      { id: 'b', label: '5' },
+      { id: 'c', label: '12' },
+      { id: 'd', label: '8' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Uma face lateral por lado da base — hexágono tem 6 lados.',
+  },
+]
+
+const areaVolumeExercises: Exercise[] = [
+  {
+    id: 'es4-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a fórmula do volume de um prisma?',
+    choices: [
+      { id: 'a', label: 'Área da base × altura' },
+      { id: 'b', label: '(Área da base × altura)/3' },
+      { id: 'c', label: 'Perímetro da base × altura' },
+      { id: 'd', label: 'Área da base²' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Volume do prisma = área da base × altura.',
+  },
+  {
+    id: 'es4-e2',
+    kind: 'multiple-choice',
+    prompt: 'Um prisma tem base de área 20cm² e altura 8cm. Qual é o volume?',
+    choices: [
+      { id: 'a', label: '160cm³' },
+      { id: 'b', label: '28cm³' },
+      { id: 'c', label: '2,5cm³' },
+      { id: 'd', label: '320cm³' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '20 × 8 = 160cm³.',
+  },
+  {
+    id: 'es4-e3',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a fórmula do volume de um cubo de aresta a?',
+    choices: [
+      { id: 'a', label: 'a³' },
+      { id: 'b', label: 'a²' },
+      { id: 'c', label: '6a²' },
+      { id: 'd', label: '4a' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Volume do cubo = aresta ao cubo.',
+  },
+  {
+    id: 'es4-e4',
+    kind: 'multiple-choice',
+    prompt: 'Um cubo tem aresta 5cm. Qual é o seu volume?',
+    choices: [
+      { id: 'a', label: '125cm³' },
+      { id: 'b', label: '25cm³' },
+      { id: 'c', label: '15cm³' },
+      { id: 'd', label: '30cm³' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '5³ = 125cm³.',
+  },
+  {
+    id: 'es4-e5',
+    kind: 'multiple-choice',
+    prompt: 'Um paralelepípedo tem dimensões 4cm, 5cm e 6cm. Qual é o volume?',
+    choices: [
+      { id: 'a', label: '120cm³' },
+      { id: 'b', label: '15cm³' },
+      { id: 'c', label: '60cm³' },
+      { id: 'd', label: '20cm³' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '4 × 5 × 6 = 120cm³.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'es2x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Um prisma tem base triangular de área 12cm² e altura 10cm. Qual é o volume?',
+    choices: [
+      { id: 'a', label: '120cm³' },
+      { id: 'b', label: '40cm³' },
+      { id: 'c', label: '22cm³' },
+      { id: 'd', label: '60cm³' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '12 × 10 = 120cm³.',
+  },
+  {
+    id: 'es2x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Um cubo tem volume 64cm³. Qual é a medida da sua aresta?',
+    choices: [
+      { id: 'a', label: '4cm' },
+      { id: 'b', label: '8cm' },
+      { id: 'c', label: '16cm' },
+      { id: 'd', label: '21,3cm' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '4³ = 64.',
+  },
+  {
+    id: 'es2x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Um prisma tem volume 300cm³ e altura 15cm. Qual é a área da base?',
+    choices: [
+      { id: 'a', label: '20cm²' },
+      { id: 'b', label: '4500cm²' },
+      { id: 'c', label: '285cm²' },
+      { id: 'd', label: '315cm²' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '300 ÷ 15 = 20cm².',
+  },
+  {
+    id: 'es2x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Um paralelepípedo tem volume 240cm³, com duas dimensões 6cm e 5cm. Qual é a terceira?',
+    choices: [
+      { id: 'a', label: '8cm' },
+      { id: 'b', label: '4cm' },
+      { id: 'c', label: '40cm' },
+      { id: 'd', label: '30cm' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '240 ÷ (6×5) = 8cm.',
+  },
+  {
+    id: 'es2x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Dois prismas têm a mesma base, mas um tem o dobro da altura do outro. Qual é a relação entre seus volumes?',
+    choices: [
+      { id: 'a', label: 'O volume também dobra' },
+      { id: 'b', label: 'O volume é o mesmo' },
+      { id: 'c', label: 'O volume quadruplica' },
+      { id: 'd', label: 'O volume reduz à metade' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Volume é proporcional à altura, para mesma base.',
+  },
+]
+
+export const ESPACIAL_UNIT2_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-prismas-elementos',
+    unitNumber: 2,
+    icon: '▭',
+    difficulty: 'easy',
+    title: 'Elementos do Prisma',
+    description: 'Duas bases paralelas, ligadas por paralelogramos.',
+    points: 40,
+    exercises: elementosExercises,
+  },
+  {
+    id: 'ex-prismas-area-volume',
+    unitNumber: 2,
+    icon: 'V=Ab·h',
+    difficulty: 'medium',
+    title: 'Área e Volume do Prisma',
+    description: 'Quanto material forma a superfície, e quanto cabe dentro.',
+    points: 60,
+    exercises: areaVolumeExercises,
+  },
+  {
+    id: 'ex-prismas-desafio',
+    unitNumber: 2,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Prismas',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 2.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

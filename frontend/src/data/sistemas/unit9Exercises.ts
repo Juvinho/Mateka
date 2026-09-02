@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const cramer2x2Exercises: Exercise[] = [
+  {
+    id: 'sl17-e1',
+    kind: 'multiple-choice',
+    prompt: 'Na Regra de Cramer, o que é D?',
+    choices: [
+      { id: 'a', label: 'O determinante da matriz dos coeficientes' },
+      { id: 'b', label: 'O determinante da matriz b' },
+      { id: 'c', label: 'A soma das incógnitas' },
+      { id: 'd', label: 'O número de equações' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'D é o determinante de A, a matriz dos coeficientes do sistema.',
+  },
+  {
+    id: 'sl17-e2',
+    kind: 'multiple-choice',
+    prompt: 'Para o sistema 2x + y = 16, x + 3y = 23, qual é o valor de D?',
+    choices: [
+      { id: 'a', label: '5' },
+      { id: 'b', label: '6' },
+      { id: 'c', label: '7' },
+      { id: 'd', label: '8' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'D = det([[2,1],[1,3]]) = 2·3 − 1·1 = 6 − 1 = 5.',
+  },
+  {
+    id: 'sl17-e3',
+    kind: 'multiple-choice',
+    prompt: 'Para calcular Dx, qual coluna da matriz A é substituída por b?',
+    choices: [
+      { id: 'a', label: 'A primeira coluna (coeficientes de x)' },
+      { id: 'b', label: 'A segunda coluna (coeficientes de y)' },
+      { id: 'c', label: 'Nenhuma, Dx = D' },
+      { id: 'd', label: 'Ambas as colunas' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Dx troca a coluna dos coeficientes de x pela coluna b, mantendo a coluna de y intacta.',
+  },
+  {
+    id: 'sl17-e4',
+    kind: 'multiple-choice',
+    prompt: 'Se D = 5 e Dx = 25, qual é o valor de x?',
+    choices: [
+      { id: 'a', label: '5' },
+      { id: 'b', label: '25' },
+      { id: 'c', label: '0.2' },
+      { id: 'd', label: '20' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'x = Dx / D = 25 / 5 = 5.',
+  },
+  {
+    id: 'sl17-e5',
+    kind: 'multiple-choice',
+    prompt: 'Se D = 0 na Regra de Cramer, o que isso significa?',
+    choices: [
+      { id: 'a', label: 'O sistema não é SPD; não dá para dividir por zero' },
+      { id: 'b', label: 'x e y são sempre zero' },
+      { id: 'c', label: 'O sistema tem infinitas colunas' },
+      { id: 'd', label: 'A matriz A é inválida' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'D = 0 impede a divisão Dx/D e Dy/D — o sistema é SPI ou SI, nunca SPD.',
+  },
+]
+
+const cramer3x3Exercises: Exercise[] = [
+  {
+    id: 'sl18-e1',
+    kind: 'multiple-choice',
+    prompt: 'Para o sistema x + y + z = 6, 2x − y + z = 3, x + 2y − z = 2, qual é o valor de D (determinante de A)?',
+    choices: [
+      { id: 'a', label: '7' },
+      { id: 'b', label: '6' },
+      { id: 'c', label: '5' },
+      { id: 'd', label: '3' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Calculando por Sarrus: det([[1,1,1],[2,−1,1],[1,2,−1]]) = 7.',
+  },
+  {
+    id: 'sl18-e2',
+    kind: 'multiple-choice',
+    prompt: 'Para o mesmo sistema, sabendo que Dx = 7, qual é o valor de x?',
+    choices: [
+      { id: 'a', label: '1' },
+      { id: 'b', label: '7' },
+      { id: 'c', label: '0' },
+      { id: 'd', label: '49' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'x = Dx / D = 7 / 7 = 1.',
+  },
+  {
+    id: 'sl18-e3',
+    kind: 'multiple-choice',
+    prompt: 'Sabendo que Dy = 14 e D = 7, qual é o valor de y?',
+    choices: [
+      { id: 'a', label: '2' },
+      { id: 'b', label: '14' },
+      { id: 'c', label: '7' },
+      { id: 'd', label: '21' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'y = Dy / D = 14 / 7 = 2.',
+  },
+  {
+    id: 'sl18-e4',
+    kind: 'multiple-choice',
+    prompt: 'Sabendo que Dz = 21 e D = 7, qual é o valor de z?',
+    choices: [
+      { id: 'a', label: '3' },
+      { id: 'b', label: '21' },
+      { id: 'c', label: '14' },
+      { id: 'd', label: '7' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'z = Dz / D = 21 / 7 = 3.',
+  },
+  {
+    id: 'sl18-e5',
+    kind: 'multiple-choice',
+    prompt: 'Na Regra de Cramer para sistemas 3×3, quantos determinantes 3×3 você precisa calcular no total (incluindo D)?',
+    choices: [
+      { id: 'a', label: '4' },
+      { id: 'b', label: '3' },
+      { id: 'c', label: '2' },
+      { id: 'd', label: '9' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'São necessários D, Dx, Dy e Dz — quatro determinantes ao todo.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'sl9x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Para o sistema x + y = 8, x − y = 2, qual é o valor de D?',
+    choices: [
+      { id: 'a', label: '−2' },
+      { id: 'b', label: '2' },
+      { id: 'c', label: '0' },
+      { id: 'd', label: '1' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'D = det([[1,1],[1,−1]]) = 1·(−1) − 1·1 = −2.',
+  },
+  {
+    id: 'sl9x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Continuando o sistema acima, Dx = det([[8,1],[2,−1]]) = 8·(−1) − 1·2 = −10. Qual é o valor de x?',
+    choices: [
+      { id: 'a', label: '5' },
+      { id: 'b', label: '−5' },
+      { id: 'c', label: '10' },
+      { id: 'd', label: '−10' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'x = Dx / D = −10 / −2 = 5.',
+  },
+  {
+    id: 'sl9x-e3',
+    kind: 'multiple-choice',
+    prompt: 'E Dy = det([[1,8],[1,2]]) = 1·2 − 8·1 = −6. Qual é o valor de y?',
+    choices: [
+      { id: 'a', label: '3' },
+      { id: 'b', label: '−3' },
+      { id: 'c', label: '6' },
+      { id: 'd', label: '−6' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'y = Dy / D = −6 / −2 = 3.',
+  },
+  {
+    id: 'sl9x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Verifique: o par (5, 3) satisfaz x + y = 8 e x − y = 2?',
+    choices: [
+      { id: 'a', label: 'Sim, satisfaz as duas' },
+      { id: 'b', label: 'Só a primeira' },
+      { id: 'c', label: 'Só a segunda' },
+      { id: 'd', label: 'Não satisfaz nenhuma' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '5+3=8 ✓ e 5−3=2 ✓.',
+  },
+  {
+    id: 'sl9x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Se um sistema 3×3 tem D = 0, o que a Regra de Cramer permite concluir?',
+    choices: [
+      { id: 'a', label: 'O sistema não é SPD — é SPI ou SI, mas a regra sozinha não diz qual' },
+      { id: 'b', label: 'O sistema é sempre impossível' },
+      { id: 'c', label: 'O sistema é sempre indeterminado' },
+      { id: 'd', label: 'x = y = z = 0' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'D = 0 só descarta SPD; para saber se é SPI ou SI é preciso investigar mais (como no escalonamento).',
+  },
+]
+
+export const SISTEMAS_UNIT9_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-cramer-2x2',
+    unitNumber: 9,
+    icon: 'D',
+    difficulty: 'easy',
+    title: 'Regra de Cramer 2×2',
+    description: 'Resolvendo um sistema 2×2 direto, usando só determinantes.',
+    points: 40,
+    exercises: cramer2x2Exercises,
+  },
+  {
+    id: 'ex-cramer-3x3',
+    unitNumber: 9,
+    icon: 'D₃',
+    difficulty: 'medium',
+    title: 'Regra de Cramer 3×3',
+    description: 'A mesma ideia, agora com determinantes 3×3.',
+    points: 60,
+    exercises: cramer3x3Exercises,
+  },
+  {
+    id: 'ex-cramer-desafio',
+    unitNumber: 9,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Regra de Cramer',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 9.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

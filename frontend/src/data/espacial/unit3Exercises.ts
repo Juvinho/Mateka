@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const elementosExercises: Exercise[] = [
+  {
+    id: 'es5-e1',
+    kind: 'multiple-choice',
+    prompt: 'Uma pirâmide tem quantas bases?',
+    choices: [
+      { id: 'a', label: '1' },
+      { id: 'b', label: '2' },
+      { id: 'c', label: '3' },
+      { id: 'd', label: 'Depende do tipo' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A pirâmide tem uma única base.',
+  },
+  {
+    id: 'es5-e2',
+    kind: 'multiple-choice',
+    prompt: 'As faces laterais de uma pirâmide são sempre:',
+    choices: [
+      { id: 'a', label: 'Triângulos' },
+      { id: 'b', label: 'Retângulos' },
+      { id: 'c', label: 'Trapézios' },
+      { id: 'd', label: 'Círculos' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'As faces laterais convergem para o vértice, formando triângulos.',
+  },
+  {
+    id: 'es5-e3',
+    kind: 'multiple-choice',
+    prompt: 'O ponto onde todas as faces laterais de uma pirâmide se encontram é chamado de:',
+    choices: [
+      { id: 'a', label: 'Vértice (ou ápice)' },
+      { id: 'b', label: 'Base' },
+      { id: 'c', label: 'Aresta' },
+      { id: 'd', label: 'Apótema' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O vértice (ápice) é o ponto comum a todas as faces laterais.',
+  },
+  {
+    id: 'es5-e4',
+    kind: 'multiple-choice',
+    prompt: 'Uma pirâmide regular tem:',
+    choices: [
+      { id: 'a', label: 'Base regular e vértice projetado sobre o centro da base' },
+      { id: 'b', label: 'Base circular' },
+      { id: 'c', label: 'Todas as faces iguais a retângulos' },
+      { id: 'd', label: 'Duas bases paralelas' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Pirâmide regular tem base regular com o vértice centrado sobre ela.',
+  },
+  {
+    id: 'es5-e5',
+    kind: 'multiple-choice',
+    prompt: 'Uma pirâmide de base quadrada tem quantas faces laterais?',
+    choices: [
+      { id: 'a', label: '4' },
+      { id: 'b', label: '5' },
+      { id: 'c', label: '3' },
+      { id: 'd', label: '8' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Uma face lateral triangular por lado da base — quadrado tem 4 lados.',
+  },
+]
+
+const areaVolumeExercises: Exercise[] = [
+  {
+    id: 'es6-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a fórmula do volume de uma pirâmide?',
+    choices: [
+      { id: 'a', label: '(Área da base × altura)/3' },
+      { id: 'b', label: 'Área da base × altura' },
+      { id: 'c', label: '(Área da base × altura)/2' },
+      { id: 'd', label: 'Área da base²' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Volume da pirâmide = (área da base × altura)/3.',
+  },
+  {
+    id: 'es6-e2',
+    kind: 'multiple-choice',
+    prompt: 'Uma pirâmide tem base de área 30cm² e altura 9cm. Qual é o volume?',
+    choices: [
+      { id: 'a', label: '90cm³' },
+      { id: 'b', label: '270cm³' },
+      { id: 'c', label: '39cm³' },
+      { id: 'd', label: '135cm³' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(30×9)/3 = 90cm³.',
+  },
+  {
+    id: 'es6-e3',
+    kind: 'multiple-choice',
+    prompt: 'O volume de uma pirâmide é sempre qual fração do prisma de mesma base e altura?',
+    choices: [
+      { id: 'a', label: 'Um terço' },
+      { id: 'b', label: 'Metade' },
+      { id: 'c', label: 'Dois terços' },
+      { id: 'd', label: 'O mesmo volume' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A pirâmide tem sempre 1/3 do volume do prisma correspondente.',
+  },
+  {
+    id: 'es6-e4',
+    kind: 'multiple-choice',
+    prompt: 'Um prisma e uma pirâmide têm a mesma base e mesma altura. Se o volume do prisma é 240cm³, qual é o volume da pirâmide?',
+    choices: [
+      { id: 'a', label: '80cm³' },
+      { id: 'b', label: '120cm³' },
+      { id: 'c', label: '720cm³' },
+      { id: 'd', label: '40cm³' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '240 ÷ 3 = 80cm³.',
+  },
+  {
+    id: 'es6-e5',
+    kind: 'multiple-choice',
+    prompt: 'Uma pirâmide tem volume 60cm³ e altura 9cm. Qual é a área da sua base?',
+    choices: [
+      { id: 'a', label: '20cm²' },
+      { id: 'b', label: '6,67cm²' },
+      { id: 'c', label: '540cm²' },
+      { id: 'd', label: '180cm²' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(60×3)/9 = 20cm².',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'es3x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Uma pirâmide de base quadrada com lado 6cm (área 36cm²) e altura 10cm. Qual é o volume?',
+    choices: [
+      { id: 'a', label: '120cm³' },
+      { id: 'b', label: '360cm³' },
+      { id: 'c', label: '60cm³' },
+      { id: 'd', label: '216cm³' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(36×10)/3 = 120cm³.',
+  },
+  {
+    id: 'es3x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Se três pirâmides idênticas formam um prisma, e o prisma tem volume 90cm³, qual é o volume de cada pirâmide?',
+    choices: [
+      { id: 'a', label: '30cm³' },
+      { id: 'b', label: '270cm³' },
+      { id: 'c', label: '45cm³' },
+      { id: 'd', label: '90cm³' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '90 ÷ 3 = 30cm³.',
+  },
+  {
+    id: 'es3x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Uma pirâmide tem volume 100cm³ e área da base 30cm². Qual é sua altura?',
+    choices: [
+      { id: 'a', label: '10cm' },
+      { id: 'b', label: '3,33cm' },
+      { id: 'c', label: '1000cm' },
+      { id: 'd', label: '3cm' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(100×3)/30 = 10cm.',
+  },
+  {
+    id: 'es3x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Uma pirâmide de base triangular (área 15cm²) tem altura 12cm. Qual é o volume?',
+    choices: [
+      { id: 'a', label: '60cm³' },
+      { id: 'b', label: '180cm³' },
+      { id: 'c', label: '90cm³' },
+      { id: 'd', label: '45cm³' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(15×12)/3 = 60cm³.',
+  },
+  {
+    id: 'es3x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Se dobrarmos a altura de uma pirâmide, mantendo a mesma base, o que acontece com o volume?',
+    choices: [
+      { id: 'a', label: 'O volume também dobra' },
+      { id: 'b', label: 'O volume fica igual' },
+      { id: 'c', label: 'O volume quadruplica' },
+      { id: 'd', label: 'O volume reduz à metade' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Volume é proporcional à altura, para a mesma base.',
+  },
+]
+
+export const ESPACIAL_UNIT3_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-piramides-elementos',
+    unitNumber: 3,
+    icon: '△▽',
+    difficulty: 'easy',
+    title: 'Elementos da Pirâmide',
+    description: 'Uma base e um vértice comum às faces laterais.',
+    points: 40,
+    exercises: elementosExercises,
+  },
+  {
+    id: 'ex-piramides-area-volume',
+    unitNumber: 3,
+    icon: 'V=Ab·h/3',
+    difficulty: 'medium',
+    title: 'Área e Volume da Pirâmide',
+    description: 'Por que a pirâmide é sempre um terço do prisma.',
+    points: 60,
+    exercises: areaVolumeExercises,
+  },
+  {
+    id: 'ex-piramides-desafio',
+    unitNumber: 3,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Pirâmides',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 3.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

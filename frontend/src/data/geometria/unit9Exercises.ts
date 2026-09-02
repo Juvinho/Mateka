@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const hiperboleExercises: Exercise[] = [
+  {
+    id: 'ga17-e1',
+    kind: 'multiple-choice',
+    prompt: 'Uma hipérbole é definida como o conjunto de pontos cuja... a dois focos é constante.',
+    choices: [
+      { id: 'a', label: 'Diferença (em módulo) das distâncias' },
+      { id: 'b', label: 'Soma das distâncias' },
+      { id: 'c', label: 'Produto das distâncias' },
+      { id: 'd', label: 'Razão das distâncias' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Na hipérbole, |d₁ − d₂| = 2a, diferente da soma constante da elipse.',
+  },
+  {
+    id: 'ga17-e2',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a relação entre a, b e c numa hipérbole?',
+    choices: [
+      { id: 'a', label: 'c² = a² + b²' },
+      { id: 'b', label: 'a² = b² + c²' },
+      { id: 'c', label: 'b² = a² + c²' },
+      { id: 'd', label: 'a = b + c' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Na hipérbole, c é o maior valor: c² = a² + b².',
+  },
+  {
+    id: 'ga17-e3',
+    kind: 'multiple-choice',
+    prompt: 'Na equação x²/16 − y²/9 = 1, qual é o valor de a?',
+    choices: [
+      { id: 'a', label: '4' },
+      { id: 'b', label: '16' },
+      { id: 'c', label: '3' },
+      { id: 'd', label: '9' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'a² = 16, então a = 4.',
+  },
+  {
+    id: 'ga17-e4',
+    kind: 'multiple-choice',
+    prompt: 'O que diferencia a equação da hipérbole da equação da elipse?',
+    choices: [
+      { id: 'a', label: 'O sinal de menos entre os termos' },
+      { id: 'b', label: 'O valor de a' },
+      { id: 'c', label: 'A presença do centro' },
+      { id: 'd', label: 'Nada, são a mesma equação' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A elipse soma os termos (+); a hipérbole subtrai (−).',
+  },
+  {
+    id: 'ga17-e5',
+    kind: 'multiple-choice',
+    prompt: 'As retas que a hipérbole se aproxima sem nunca tocar são chamadas de:',
+    choices: [
+      { id: 'a', label: 'Assíntotas' },
+      { id: 'b', label: 'Diretrizes' },
+      { id: 'c', label: 'Focos' },
+      { id: 'd', label: 'Tangentes' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'As assíntotas guiam o comportamento da hipérbole longe do centro.',
+  },
+]
+
+const parabolaExercises: Exercise[] = [
+  {
+    id: 'ga18-e1',
+    kind: 'multiple-choice',
+    prompt: 'Uma parábola é definida como o conjunto de pontos equidistantes de:',
+    choices: [
+      { id: 'a', label: 'Um foco e uma reta diretriz' },
+      { id: 'b', label: 'Dois focos' },
+      { id: 'c', label: 'Um centro e um raio' },
+      { id: 'd', label: 'Duas retas paralelas' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Essa é a definição clássica da parábola, diferente das outras cônicas (que usam dois focos).',
+  },
+  {
+    id: 'ga18-e2',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a forma reduzida da parábola com foco sobre o eixo x?',
+    choices: [
+      { id: 'a', label: 'y² = 4px' },
+      { id: 'b', label: 'x² = 4py' },
+      { id: 'c', label: 'x²/a² + y²/b² = 1' },
+      { id: 'd', label: 'x² − y² = 1' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Com foco no eixo x, a equação reduzida é y² = 4px.',
+  },
+  {
+    id: 'ga18-e3',
+    kind: 'multiple-choice',
+    prompt: 'A função quadrática y = ax² + bx + c, do módulo de Pré-Cálculo, representa geometricamente qual curva?',
+    choices: [
+      { id: 'a', label: 'Uma parábola' },
+      { id: 'b', label: 'Uma elipse' },
+      { id: 'c', label: 'Uma hipérbole' },
+      { id: 'd', label: 'Uma circunferência' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Toda função quadrática tem como gráfico uma parábola.',
+  },
+  {
+    id: 'ga18-e4',
+    kind: 'multiple-choice',
+    prompt: 'Na equação da hipérbole x²/a² − y²/b² = 1, quais são as assíntotas?',
+    choices: [
+      { id: 'a', label: 'y = ±(b/a)x' },
+      { id: 'b', label: 'y = ±(a/b)x' },
+      { id: 'c', label: 'y = ax + b' },
+      { id: 'd', label: 'y = a/x' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'As assíntotas de uma hipérbole horizontal são y = ±(b/a)x.',
+  },
+  {
+    id: 'ga18-e5',
+    kind: 'multiple-choice',
+    prompt: 'Qual das quatro cônicas deste módulo é definida por um único foco (não dois)?',
+    choices: [
+      { id: 'a', label: 'A parábola' },
+      { id: 'b', label: 'A elipse' },
+      { id: 'c', label: 'A hipérbole' },
+      { id: 'd', label: 'A circunferência' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A parábola usa um foco e uma diretriz, não dois focos.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'ga9x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Uma hipérbole tem a=4 e b=3. Qual é o valor de c?',
+    choices: [
+      { id: 'a', label: '5' },
+      { id: 'b', label: '25' },
+      { id: 'c', label: '7' },
+      { id: 'd', label: '1' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'c² = a²+b² = 16+9 = 25, então c=5.',
+  },
+  {
+    id: 'ga9x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Continuando a hipérbole acima (a=4, b=3), quais são as assíntotas?',
+    choices: [
+      { id: 'a', label: 'y = ±(3/4)x' },
+      { id: 'b', label: 'y = ±(4/3)x' },
+      { id: 'c', label: 'y = ±4x' },
+      { id: 'd', label: 'y = ±3x' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Assíntotas y = ±(b/a)x = ±(3/4)x.',
+  },
+  {
+    id: 'ga9x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Na equação y² = 12x, qual é o valor de p?',
+    choices: [
+      { id: 'a', label: '4p = 12, então p = 3' },
+      { id: 'b', label: '4p = 12, então p = 12' },
+      { id: 'c', label: 'p = 4' },
+      { id: 'd', label: 'p = 12' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Comparando com y²=4px: 4p=12 → p=3.',
+  },
+  {
+    id: 'ga9x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Das quatro cônicas do módulo, qual é um caso particular da elipse quando os focos coincidem?',
+    choices: [
+      { id: 'a', label: 'A circunferência' },
+      { id: 'b', label: 'A hipérbole' },
+      { id: 'c', label: 'A parábola' },
+      { id: 'd', label: 'Nenhuma delas' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Com c=0, a elipse vira uma circunferência.',
+  },
+  {
+    id: 'ga9x-e5',
+    kind: 'multiple-choice',
+    prompt: 'O que todas as quatro cônicas deste módulo têm em comum, na forma como foram definidas?',
+    choices: [
+      { id: 'a', label: 'Todas são definidas por uma propriedade envolvendo distâncias' },
+      { id: 'b', label: 'Todas têm dois focos' },
+      { id: 'c', label: 'Todas têm assíntotas' },
+      { id: 'd', label: 'Todas são fechadas, como um círculo' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Circunferência, elipse, hipérbole e parábola são todas definidas por condições de distância.',
+  },
+]
+
+export const GEOMETRIA_UNIT9_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-conicas-hiperbole',
+    unitNumber: 9,
+    icon: 'x²-y²',
+    difficulty: 'easy',
+    title: 'Hipérbole',
+    description: 'Diferença constante de distâncias a dois focos.',
+    points: 40,
+    exercises: hiperboleExercises,
+  },
+  {
+    id: 'ex-conicas-parabola',
+    unitNumber: 9,
+    icon: 'y²=4px',
+    difficulty: 'medium',
+    title: 'Parábola',
+    description: 'Um foco, uma diretriz — a cônica que fecha o módulo.',
+    points: 60,
+    exercises: parabolaExercises,
+  },
+  {
+    id: 'ex-conicas-desafio',
+    unitNumber: 9,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Hipérbole e Parábola',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 9.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

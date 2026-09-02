@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const eliminacaoExercises: Exercise[] = [
+  {
+    id: 'sl5-e1',
+    kind: 'multiple-choice',
+    prompt: 'Somando as equações x + y = 10 e x − y = 4, o que obtemos?',
+    choices: [
+      { id: 'a', label: '2x = 14' },
+      { id: 'b', label: '2y = 14' },
+      { id: 'c', label: '2x − 2y = 14' },
+      { id: 'd', label: 'x + y = 14' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Somando membro a membro: (x+y)+(x−y) = 10+4 → 2x = 14 — o y se cancela.',
+  },
+  {
+    id: 'sl5-e2',
+    kind: 'multiple-choice',
+    prompt: 'No sistema acima (x + y = 10, x − y = 4), qual é o valor de x?',
+    choices: [
+      { id: 'a', label: '7' },
+      { id: 'b', label: '3' },
+      { id: 'c', label: '14' },
+      { id: 'd', label: '10' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '2x = 14 → x = 7.',
+  },
+  {
+    id: 'sl5-e3',
+    kind: 'multiple-choice',
+    prompt: 'E qual é o valor de y nesse mesmo sistema?',
+    choices: [
+      { id: 'a', label: '3' },
+      { id: 'b', label: '7' },
+      { id: 'c', label: '10' },
+      { id: 'd', label: '4' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Substituindo x = 7 em x + y = 10: y = 3.',
+  },
+  {
+    id: 'sl5-e4',
+    kind: 'multiple-choice',
+    prompt: 'Somando 2x + y = 7 e −2x + 3y = 5, o que acontece com a variável x?',
+    choices: [
+      { id: 'a', label: 'Ela se cancela, pois os coeficientes são opostos' },
+      { id: 'b', label: 'Ela dobra' },
+      { id: 'c', label: 'Ela vira y' },
+      { id: 'd', label: 'Nada muda' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '2x e −2x são opostos — ao somar, se cancelam, restando só uma equação em y.',
+  },
+  {
+    id: 'sl5-e5',
+    kind: 'multiple-choice',
+    prompt: 'Some as equações 3x − y = 10 e −3x + y = −10. O que você obtém?',
+    choices: [
+      { id: 'a', label: '0 = 0, mostrando que são a mesma reta (SPI)' },
+      { id: 'b', label: '6x − 2y = 0' },
+      { id: 'c', label: '0 = 20' },
+      { id: 'd', label: 'x = y' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Essas equações são a mesma multiplicada por −1; a soma dá 0 = 0, um sistema indeterminado.',
+  },
+]
+
+const multiplicacaoExercises: Exercise[] = [
+  {
+    id: 'sl6-e1',
+    kind: 'multiple-choice',
+    prompt: 'Para eliminar y no sistema x + y = 7 e 2x − 3y = −1, por qual número devemos multiplicar a primeira equação antes de somar?',
+    choices: [
+      { id: 'a', label: '3' },
+      { id: 'b', label: '2' },
+      { id: 'c', label: '−3' },
+      { id: 'd', label: '1' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Multiplicando x+y=7 por 3, obtemos 3x+3y=21; somando com 2x−3y=−1, o y se cancela.',
+  },
+  {
+    id: 'sl6-e2',
+    kind: 'multiple-choice',
+    prompt: 'Depois de multiplicar e somar (sistema acima), qual é o valor de x?',
+    choices: [
+      { id: 'a', label: '4' },
+      { id: 'b', label: '5' },
+      { id: 'c', label: '3' },
+      { id: 'd', label: '7' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '3x + 3y = 21 somado com 2x − 3y = −1 dá 5x = 20 → x = 4.',
+  },
+  {
+    id: 'sl6-e3',
+    kind: 'multiple-choice',
+    prompt: 'E qual é o valor de y nesse mesmo sistema (x = 4)?',
+    choices: [
+      { id: 'a', label: '3' },
+      { id: 'b', label: '4' },
+      { id: 'c', label: '1' },
+      { id: 'd', label: '7' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Substituindo x = 4 em x + y = 7: y = 3.',
+  },
+  {
+    id: 'sl6-e4',
+    kind: 'multiple-choice',
+    prompt: 'No sistema 3x + 2y = 12 e x + y = 5, por qual número multiplicamos a segunda equação para eliminar y ao somar com a primeira?',
+    choices: [
+      { id: 'a', label: '−2' },
+      { id: 'b', label: '2' },
+      { id: 'c', label: '−3' },
+      { id: 'd', label: '3' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Multiplicando x+y=5 por −2 obtemos −2x−2y=−10; somando com 3x+2y=12, o y se cancela, restando x=2.',
+  },
+  {
+    id: 'sl6-e5',
+    kind: 'multiple-choice',
+    prompt: 'Continuando o sistema 3x + 2y = 12, x + y = 5 (x = 2), qual é o valor de y?',
+    choices: [
+      { id: 'a', label: '3' },
+      { id: 'b', label: '2' },
+      { id: 'c', label: '4' },
+      { id: 'd', label: '5' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Substituindo x = 2 em x + y = 5: y = 3.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'sl3x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Resolva por adição: x + y = 12 e x − y = 2. Qual é a solução?',
+    choices: [
+      { id: 'a', label: '(7, 5)' },
+      { id: 'b', label: '(5, 7)' },
+      { id: 'c', label: '(6, 6)' },
+      { id: 'd', label: '(8, 4)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Somando: 2x = 14 → x = 7; substituindo, y = 5.',
+  },
+  {
+    id: 'sl3x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Para eliminar x no sistema 2x + y = 11 e 4x − 3y = 7, por qual número multiplicamos a primeira equação?',
+    choices: [
+      { id: 'a', label: '−2' },
+      { id: 'b', label: '2' },
+      { id: 'c', label: '−4' },
+      { id: 'd', label: '4' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Multiplicando 2x+y=11 por −2: −4x−2y=−22; somando com 4x−3y=7, o x se cancela.',
+  },
+  {
+    id: 'sl3x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Continuando o sistema acima, qual é o valor de y?',
+    choices: [
+      { id: 'a', label: '3' },
+      { id: 'b', label: '4' },
+      { id: 'c', label: '2' },
+      { id: 'd', label: '5' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '−4x−2y+4x−3y = −22+7 → −5y = −15 → y = 3.',
+  },
+  {
+    id: 'sl3x-e4',
+    kind: 'multiple-choice',
+    prompt: 'E qual é o valor de x nesse mesmo sistema (y = 3)?',
+    choices: [
+      { id: 'a', label: '4' },
+      { id: 'b', label: '3' },
+      { id: 'c', label: '5' },
+      { id: 'd', label: '2' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Substituindo y = 3 em 2x + y = 11: 2x = 8 → x = 4.',
+  },
+  {
+    id: 'sl3x-e5',
+    kind: 'multiple-choice',
+    prompt: 'O sistema 4x + 6y = 20 e 2x + 3y = 8, ao ser preparado para eliminação (multiplicando a segunda equação por −2), resulta em qual situação?',
+    choices: [
+      { id: 'a', label: '0 = 4, sistema impossível (SI)' },
+      { id: 'b', label: '0 = 0, sistema indeterminado (SPI)' },
+      { id: 'c', label: 'x = 4, sistema determinado' },
+      { id: 'd', label: 'y = 4, sistema determinado' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '−2(2x+3y=8) dá −4x−6y=−16; somando com 4x+6y=20 obtemos 0=4 — uma contradição, o sistema é SI.',
+  },
+]
+
+export const SISTEMAS_UNIT3_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-adicao-eliminacao',
+    unitNumber: 3,
+    icon: '+',
+    difficulty: 'easy',
+    title: 'Eliminação por Adição',
+    description: 'Somando equações para eliminar uma variável.',
+    points: 40,
+    exercises: eliminacaoExercises,
+  },
+  {
+    id: 'ex-adicao-multiplicacao',
+    unitNumber: 3,
+    icon: '×',
+    difficulty: 'medium',
+    title: 'Preparando os Coeficientes',
+    description: 'Multiplicando equações antes de somar.',
+    points: 60,
+    exercises: multiplicacaoExercises,
+  },
+  {
+    id: 'ex-adicao-desafio',
+    unitNumber: 3,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Método da Adição',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 3.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

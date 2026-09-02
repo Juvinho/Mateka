@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const pontoExercises: Exercise[] = [
+  {
+    id: 'ga13-e1',
+    kind: 'multiple-choice',
+    prompt: 'Para a circunferência de centro (0,0) e raio 5, o ponto (3,4) é interior, exterior ou está sobre ela?',
+    choices: [
+      { id: 'a', label: 'Está sobre a circunferência' },
+      { id: 'b', label: 'É interior' },
+      { id: 'c', label: 'É exterior' },
+      { id: 'd', label: 'Não é possível saber' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Distância até o centro: √(9+16)=5, igual ao raio.',
+  },
+  {
+    id: 'ga13-e2',
+    kind: 'multiple-choice',
+    prompt: 'Para a mesma circunferência (centro (0,0), raio 5), o ponto (1,1) é interior, exterior ou está sobre ela?',
+    choices: [
+      { id: 'a', label: 'É interior' },
+      { id: 'b', label: 'É exterior' },
+      { id: 'c', label: 'Está sobre a circunferência' },
+      { id: 'd', label: 'Não é possível saber' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Distância = √2 ≈ 1,41, menor que o raio 5 — ponto interior.',
+  },
+  {
+    id: 'ga13-e3',
+    kind: 'multiple-choice',
+    prompt: 'Para a circunferência de centro (0,0) e raio 5, o ponto (10,0) é interior, exterior ou está sobre ela?',
+    choices: [
+      { id: 'a', label: 'É exterior' },
+      { id: 'b', label: 'É interior' },
+      { id: 'c', label: 'Está sobre a circunferência' },
+      { id: 'd', label: 'É o centro' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Distância = 10, maior que o raio 5 — ponto exterior.',
+  },
+  {
+    id: 'ga13-e4',
+    kind: 'multiple-choice',
+    prompt: 'Como se compara a distância de um ponto interior ao centro, em relação ao raio?',
+    choices: [
+      { id: 'a', label: 'É menor que o raio' },
+      { id: 'b', label: 'É igual ao raio' },
+      { id: 'c', label: 'É maior que o raio' },
+      { id: 'd', label: 'Não tem relação com o raio' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Pontos interiores estão mais próximos do centro do que o raio.',
+  },
+  {
+    id: 'ga13-e5',
+    kind: 'multiple-choice',
+    prompt: 'Se um ponto está exatamente sobre a circunferência, sua distância até o centro é:',
+    choices: [
+      { id: 'a', label: 'Igual ao raio' },
+      { id: 'b', label: 'Menor que o raio' },
+      { id: 'c', label: 'Maior que o raio' },
+      { id: 'd', label: 'Sempre zero' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Essa é a própria definição da circunferência.',
+  },
+]
+
+const retaExercises: Exercise[] = [
+  {
+    id: 'ga14-e1',
+    kind: 'multiple-choice',
+    prompt: 'A reta y=0 em relação à circunferência x²+y²=9 (centro na origem, raio 3) é:',
+    choices: [
+      { id: 'a', label: 'Secante (cruza em 2 pontos)' },
+      { id: 'b', label: 'Tangente (toca em 1 ponto)' },
+      { id: 'c', label: 'Externa (não toca)' },
+      { id: 'd', label: 'Não é possível determinar' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A distância do centro (0,0) até a reta y=0 é 0, menor que o raio 3 — secante.',
+  },
+  {
+    id: 'ga14-e2',
+    kind: 'multiple-choice',
+    prompt: 'Se a distância de uma reta até o centro de uma circunferência é igual ao raio, a reta é:',
+    choices: [
+      { id: 'a', label: 'Tangente' },
+      { id: 'b', label: 'Secante' },
+      { id: 'c', label: 'Externa' },
+      { id: 'd', label: 'Passa pelo centro' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'd = r define exatamente o caso tangente, com um único ponto em comum.',
+  },
+  {
+    id: 'ga14-e3',
+    kind: 'multiple-choice',
+    prompt: 'Se a distância de uma reta até o centro é maior que o raio, a reta é:',
+    choices: [
+      { id: 'a', label: 'Externa' },
+      { id: 'b', label: 'Secante' },
+      { id: 'c', label: 'Tangente' },
+      { id: 'd', label: 'Coincide com a circunferência' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'd > r significa que a reta nunca chega perto o suficiente para tocar a circunferência.',
+  },
+  {
+    id: 'ga14-e4',
+    kind: 'multiple-choice',
+    prompt: 'Quantos pontos em comum tem uma reta secante com a circunferência?',
+    choices: [
+      { id: 'a', label: '2' },
+      { id: 'b', label: '1' },
+      { id: 'c', label: '0' },
+      { id: 'd', label: 'Infinitos' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Uma reta secante cruza a circunferência em dois pontos.',
+  },
+  {
+    id: 'ga14-e5',
+    kind: 'multiple-choice',
+    prompt: 'O comportamento secante/tangente/externa de uma reta com uma circunferência lembra qual outro conceito já visto no módulo?',
+    choices: [
+      { id: 'a', label: 'O discriminante de uma equação do segundo grau (positivo/zero/negativo)' },
+      { id: 'b', label: 'O coeficiente angular' },
+      { id: 'c', label: 'O ponto médio' },
+      { id: 'd', label: 'A razão de secção' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Substituir a reta na equação da circunferência gera uma equação do 2º grau, e o sinal do discriminante decide o caso.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'ga7x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Para a circunferência x²+y²=25, o ponto (0,5) é interior, exterior ou está sobre ela?',
+    choices: [
+      { id: 'a', label: 'Está sobre a circunferência' },
+      { id: 'b', label: 'É interior' },
+      { id: 'c', label: 'É exterior' },
+      { id: 'd', label: 'É o centro' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Distância até (0,0) é 5, igual ao raio.',
+  },
+  {
+    id: 'ga7x-e2',
+    kind: 'multiple-choice',
+    prompt: 'A reta x=10 em relação à circunferência x²+y²=9 (raio 3) é:',
+    choices: [
+      { id: 'a', label: 'Externa' },
+      { id: 'b', label: 'Secante' },
+      { id: 'c', label: 'Tangente' },
+      { id: 'd', label: 'Passa pelo centro' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A distância do centro (0,0) até x=10 é 10, maior que o raio 3.',
+  },
+  {
+    id: 'ga7x-e3',
+    kind: 'multiple-choice',
+    prompt: 'A reta x=3 em relação à circunferência x²+y²=9 (raio 3, centro na origem) é:',
+    choices: [
+      { id: 'a', label: 'Tangente' },
+      { id: 'b', label: 'Secante' },
+      { id: 'c', label: 'Externa' },
+      { id: 'd', label: 'Não intercepta' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A distância do centro até x=3 é exatamente 3, igual ao raio — tangente.',
+  },
+  {
+    id: 'ga7x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Para a circunferência de centro (2,2) e raio 4, o ponto (2,2) é:',
+    choices: [
+      { id: 'a', label: 'Interior (é o próprio centro)' },
+      { id: 'b', label: 'Exterior' },
+      { id: 'c', label: 'Está sobre a circunferência' },
+      { id: 'd', label: 'Não pertence ao plano' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A distância do centro até ele mesmo é 0, sempre menor que o raio.',
+  },
+  {
+    id: 'ga7x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Quantos pontos em comum tem uma reta tangente com uma circunferência?',
+    choices: [
+      { id: 'a', label: '1' },
+      { id: 'b', label: '2' },
+      { id: 'c', label: '0' },
+      { id: 'd', label: 'Infinitos' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A reta tangente toca a circunferência em um único ponto.',
+  },
+]
+
+export const GEOMETRIA_UNIT7_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-posicoescirc-ponto',
+    unitNumber: 7,
+    icon: '•○',
+    difficulty: 'easy',
+    title: 'Ponto e Circunferência',
+    description: 'Classificando um ponto como interior, exterior ou sobre a circunferência.',
+    points: 40,
+    exercises: pontoExercises,
+  },
+  {
+    id: 'ex-posicoescirc-reta',
+    unitNumber: 7,
+    icon: '/○',
+    difficulty: 'medium',
+    title: 'Reta e Circunferência',
+    description: 'Classificando como secante, tangente ou externa.',
+    points: 60,
+    exercises: retaExercises,
+  },
+  {
+    id: 'ex-posicoescirc-desafio',
+    unitNumber: 7,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Posições com a Circunferência',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 7.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

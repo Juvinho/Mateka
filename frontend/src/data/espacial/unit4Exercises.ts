@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const elementosExercises: Exercise[] = [
+  {
+    id: 'es7-e1',
+    kind: 'multiple-choice',
+    prompt: 'Um cilindro tem quantas bases?',
+    choices: [
+      { id: 'a', label: '2, circulares' },
+      { id: 'b', label: '1, circular' },
+      { id: 'c', label: '2, quadradas' },
+      { id: 'd', label: 'Nenhuma base' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O cilindro tem duas bases circulares congruentes.',
+  },
+  {
+    id: 'es7-e2',
+    kind: 'multiple-choice',
+    prompt: 'A geratriz de um cilindro reto tem o mesmo comprimento que:',
+    choices: [
+      { id: 'a', label: 'A altura' },
+      { id: 'b', label: 'O raio' },
+      { id: 'c', label: 'O diâmetro' },
+      { id: 'd', label: 'A área lateral' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'No cilindro reto, geratriz = altura.',
+  },
+  {
+    id: 'es7-e3',
+    kind: 'multiple-choice',
+    prompt: 'Um cilindro reto com raio 3cm e altura 10cm tem geratriz de quanto?',
+    choices: [
+      { id: 'a', label: '10cm' },
+      { id: 'b', label: '3cm' },
+      { id: 'c', label: '13cm' },
+      { id: 'd', label: '7cm' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'No cilindro reto, g = h = 10cm.',
+  },
+  {
+    id: 'es7-e4',
+    kind: 'multiple-choice',
+    prompt: 'A superfície lateral de um cilindro é:',
+    choices: [
+      { id: 'a', label: 'Curva' },
+      { id: 'b', label: 'Formada por triângulos' },
+      { id: 'c', label: 'Formada por retângulos planos separados' },
+      { id: 'd', label: 'Formada por um único ponto' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A superfície lateral do cilindro é curva.',
+  },
+  {
+    id: 'es7-e5',
+    kind: 'multiple-choice',
+    prompt: 'Num cilindro oblíquo, a geratriz é:',
+    choices: [
+      { id: 'a', label: 'Maior que a altura, pois é inclinada' },
+      { id: 'b', label: 'Igual à altura' },
+      { id: 'c', label: 'Menor que a altura' },
+      { id: 'd', label: 'Igual ao raio' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Sendo inclinada, a geratriz do cilindro oblíquo é maior que a altura.',
+  },
+]
+
+const areaVolumeExercises: Exercise[] = [
+  {
+    id: 'es8-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a fórmula do volume do cilindro?',
+    choices: [
+      { id: 'a', label: 'πr²h' },
+      { id: 'b', label: '2πrh' },
+      { id: 'c', label: 'πrh' },
+      { id: 'd', label: '2πr²h' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Volume do cilindro = πr²h.',
+  },
+  {
+    id: 'es8-e2',
+    kind: 'multiple-choice',
+    prompt: 'Um cilindro tem raio 2cm e altura 5cm. Qual é o volume (em termos de π)?',
+    choices: [
+      { id: 'a', label: '20π cm³' },
+      { id: 'b', label: '10π cm³' },
+      { id: 'c', label: '4π cm³' },
+      { id: 'd', label: '40π cm³' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'π(2²)(5) = 20π.',
+  },
+  {
+    id: 'es8-e3',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a fórmula da área total do cilindro?',
+    choices: [
+      { id: 'a', label: '2πr² + 2πrh' },
+      { id: 'b', label: 'πr²h' },
+      { id: 'c', label: 'πr² + πrh' },
+      { id: 'd', label: '4πr²' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Área total = duas bases (2πr²) + área lateral (2πrh).',
+  },
+  {
+    id: 'es8-e4',
+    kind: 'multiple-choice',
+    prompt: 'Um cilindro tem raio 3cm e altura 4cm. Qual é sua área total (em termos de π)?',
+    choices: [
+      { id: 'a', label: '42π cm²' },
+      { id: 'b', label: '24π cm²' },
+      { id: 'c', label: '12π cm²' },
+      { id: 'd', label: '36π cm²' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '2π(9) + 2π(3)(4) = 18π + 24π = 42π.',
+  },
+  {
+    id: 'es8-e5',
+    kind: 'multiple-choice',
+    prompt: 'A área lateral de um cilindro, quando planificada, forma:',
+    choices: [
+      { id: 'a', label: 'Um retângulo' },
+      { id: 'b', label: 'Um triângulo' },
+      { id: 'c', label: 'Um círculo' },
+      { id: 'd', label: 'Um setor circular' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Desenrolada, a lateral do cilindro forma um retângulo.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'es4x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Um cilindro tem volume 50π cm³ e altura 2cm. Qual é o raio?',
+    choices: [
+      { id: 'a', label: '5cm' },
+      { id: 'b', label: '25cm' },
+      { id: 'c', label: '10cm' },
+      { id: 'd', label: '2,5cm' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'πr²(2)=50π → r²=25 → r=5.',
+  },
+  {
+    id: 'es4x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Um cilindro tem raio 4cm e altura 6cm. Qual é sua área lateral (em termos de π)?',
+    choices: [
+      { id: 'a', label: '48π cm²' },
+      { id: 'b', label: '24π cm²' },
+      { id: 'c', label: '96π cm²' },
+      { id: 'd', label: '16π cm²' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '2π(4)(6) = 48π.',
+  },
+  {
+    id: 'es4x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Um cilindro tem área total 130π cm² e raio 5cm. Qual é a altura?',
+    choices: [
+      { id: 'a', label: '8cm' },
+      { id: 'b', label: '13cm' },
+      { id: 'c', label: '4cm' },
+      { id: 'd', label: '26cm' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '130π = 2π(25) + 2π(5)h = 50π + 10πh → h=8.',
+  },
+  {
+    id: 'es4x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Dois cilindros têm o mesmo raio, mas um tem o triplo da altura do outro. Qual é a relação entre seus volumes?',
+    choices: [
+      { id: 'a', label: 'O volume também triplica' },
+      { id: 'b', label: 'O volume é o mesmo' },
+      { id: 'c', label: 'O volume aumenta 9 vezes' },
+      { id: 'd', label: 'O volume reduz a um terço' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Volume é proporcional à altura, para mesmo raio.',
+  },
+  {
+    id: 'es4x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Um cilindro tem raio 6cm e altura 6cm. Qual é o seu volume (em termos de π)?',
+    choices: [
+      { id: 'a', label: '216π cm³' },
+      { id: 'b', label: '36π cm³' },
+      { id: 'c', label: '72π cm³' },
+      { id: 'd', label: '108π cm³' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'π(36)(6) = 216π.',
+  },
+]
+
+export const ESPACIAL_UNIT4_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-cilindro-elementos',
+    unitNumber: 4,
+    icon: '⬭',
+    difficulty: 'easy',
+    title: 'Elementos do Cilindro',
+    description: 'Duas bases circulares, ligadas por uma superfície curva.',
+    points: 40,
+    exercises: elementosExercises,
+  },
+  {
+    id: 'ex-cilindro-area-volume',
+    unitNumber: 4,
+    icon: 'V=πr²h',
+    difficulty: 'medium',
+    title: 'Área e Volume do Cilindro',
+    description: 'Quanto de metal forma a lata, e quanto ela guarda.',
+    points: 60,
+    exercises: areaVolumeExercises,
+  },
+  {
+    id: 'ex-cilindro-desafio',
+    unitNumber: 4,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Cilindro',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 4.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

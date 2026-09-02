@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const introExercises: Exercise[] = [
+  {
+    id: 'sl11-e1',
+    kind: 'multiple-choice',
+    prompt: 'Quantas incógnitas tem um sistema 3×3 típico?',
+    choices: [
+      { id: 'a', label: '3' },
+      { id: 'b', label: '2' },
+      { id: 'c', label: '9' },
+      { id: 'd', label: '6' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Um sistema 3×3 tem três equações e três incógnitas (geralmente x, y, z).',
+  },
+  {
+    id: 'sl11-e2',
+    kind: 'multiple-choice',
+    prompt: 'Geometricamente, cada equação de um sistema 3×3 representa:',
+    choices: [
+      { id: 'a', label: 'Um plano no espaço' },
+      { id: 'b', label: 'Uma reta no plano' },
+      { id: 'c', label: 'Um ponto' },
+      { id: 'd', label: 'Uma curva' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Com três variáveis, cada equação linear passa a representar um plano no espaço tridimensional.',
+  },
+  {
+    id: 'sl11-e3',
+    kind: 'multiple-choice',
+    prompt: 'A solução de um sistema 3×3 é representada por:',
+    choices: [
+      { id: 'a', label: 'Uma tripla ordenada (x, y, z)' },
+      { id: 'b', label: 'Um par (x, y)' },
+      { id: 'c', label: 'Um único número' },
+      { id: 'd', label: 'Uma matriz 3×3' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Com três incógnitas, a solução precisa especificar um valor para cada uma: (x, y, z).',
+  },
+  {
+    id: 'sl11-e4',
+    kind: 'multiple-choice',
+    prompt: 'O ponto (1, 2, 3) satisfaz a equação x + y + z = 6?',
+    choices: [
+      { id: 'a', label: 'Sim, pois 1+2+3=6' },
+      { id: 'b', label: 'Não, pois a soma dá 5' },
+      { id: 'c', label: 'Não, falta uma incógnita' },
+      { id: 'd', label: 'Sim, mas só parcialmente' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '1 + 2 + 3 = 6 — a igualdade se mantém.',
+  },
+  {
+    id: 'sl11-e5',
+    kind: 'multiple-choice',
+    prompt: 'Um sistema 3×3 precisa, no mínimo, de quantas equações para ter chance de solução única?',
+    choices: [
+      { id: 'a', label: '3' },
+      { id: 'b', label: '2' },
+      { id: 'c', label: '1' },
+      { id: 'd', label: '9' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Assim como em 2×2, é preciso ao menos tantas equações independentes quanto incógnitas.',
+  },
+]
+
+const substituicaoExercises: Exercise[] = [
+  {
+    id: 'sl12-e1',
+    kind: 'multiple-choice',
+    prompt: 'No sistema x + y + z = 6, 2x − y + z = 3, x + 2y − z = 2, isolando z na primeira equação, obtemos:',
+    choices: [
+      { id: 'a', label: 'z = 6 − x − y' },
+      { id: 'b', label: 'z = 6 + x + y' },
+      { id: 'c', label: 'z = x + y − 6' },
+      { id: 'd', label: 'z = 6 − x + y' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Isolando z em x+y+z=6: z = 6 − x − y.',
+  },
+  {
+    id: 'sl12-e2',
+    kind: 'multiple-choice',
+    prompt: 'Substituindo z = 6 − x − y na segunda equação (2x − y + z = 3), qual equação em x e y resulta?',
+    choices: [
+      { id: 'a', label: 'x − 2y = −3' },
+      { id: 'b', label: 'x + 2y = 3' },
+      { id: 'c', label: '3x − y = 3' },
+      { id: 'd', label: 'x − y = −3' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '2x − y + (6−x−y) = 3 → x − 2y + 6 = 3 → x − 2y = −3.',
+  },
+  {
+    id: 'sl12-e3',
+    kind: 'multiple-choice',
+    prompt: 'Substituindo z = 6 − x − y na terceira equação (x + 2y − z = 2), qual equação resulta?',
+    choices: [
+      { id: 'a', label: '2x + 3y = 8' },
+      { id: 'b', label: 'x + 3y = 8' },
+      { id: 'c', label: '2x + y = 8' },
+      { id: 'd', label: '3x + 2y = 8' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'x + 2y − (6−x−y) = 2 → 2x + 3y − 6 = 2 → 2x + 3y = 8.',
+  },
+  {
+    id: 'sl12-e4',
+    kind: 'multiple-choice',
+    prompt: 'Resolvendo o sistema 2×2 restante, x − 2y = −3 e 2x + 3y = 8, qual é o valor de y?',
+    choices: [
+      { id: 'a', label: '2' },
+      { id: 'b', label: '3' },
+      { id: 'c', label: '1' },
+      { id: 'd', label: '4' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Isolando x = 2y−3 e substituindo: 2(2y−3)+3y=8 → 7y=14 → y=2.',
+  },
+  {
+    id: 'sl12-e5',
+    kind: 'multiple-choice',
+    prompt: 'Com y = 2 e x = 2y − 3 = 1, qual é o valor de z?',
+    choices: [
+      { id: 'a', label: '3' },
+      { id: 'b', label: '2' },
+      { id: 'c', label: '1' },
+      { id: 'd', label: '6' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'z = 6 − x − y = 6 − 1 − 2 = 3.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'sl6x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Verifique: o ponto (1, 2, 3) satisfaz a equação x + y + z = 6?',
+    choices: [
+      { id: 'a', label: 'Sim' },
+      { id: 'b', label: 'Não, a soma dá 5' },
+      { id: 'c', label: 'Não, falta multiplicar' },
+      { id: 'd', label: 'Sim, mas só se z = 0' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '1 + 2 + 3 = 6.',
+  },
+  {
+    id: 'sl6x-e2',
+    kind: 'multiple-choice',
+    prompt: 'O ponto (1, 2, 3) satisfaz 2x − y + z = 3?',
+    choices: [
+      { id: 'a', label: 'Sim, pois 2(1) − 2 + 3 = 3' },
+      { id: 'b', label: 'Não, pois dá 4' },
+      { id: 'c', label: 'Não, pois dá 2' },
+      { id: 'd', label: 'Sim, mas só aproximadamente' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '2(1) − 2 + 3 = 2 − 2 + 3 = 3.',
+  },
+  {
+    id: 'sl6x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Num sistema 3×3, cada equação representa geometricamente um:',
+    choices: [
+      { id: 'a', label: 'Plano' },
+      { id: 'b', label: 'Ponto' },
+      { id: 'c', label: 'Reta' },
+      { id: 'd', label: 'Cubo' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Com três variáveis, cada equação linear representa um plano no espaço.',
+  },
+  {
+    id: 'sl6x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Se um sistema 3×3 tem infinitas soluções, ele é classificado como:',
+    choices: [
+      { id: 'a', label: 'SPI' },
+      { id: 'b', label: 'SPD' },
+      { id: 'c', label: 'SI' },
+      { id: 'd', label: 'Indefinido' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Infinitas soluções corresponde à classificação possível e indeterminado, SPI.',
+  },
+  {
+    id: 'sl6x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Resolvendo x + y + z = 6, 2x − y + z = 3 e x + 2y − z = 2 eliminando z primeiro, qual sistema 2×2 (em x, y) resulta?',
+    choices: [
+      { id: 'a', label: 'x − 2y = −3 e 2x + 3y = 8' },
+      { id: 'b', label: 'x + y = 6 e 2x − y = 3' },
+      { id: 'c', label: 'x − 2y = 3 e 2x + 3y = −8' },
+      { id: 'd', label: '2x + y = 8 e x − y = −3' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Substituindo z = 6−x−y nas duas outras equações, chegamos a x − 2y = −3 e 2x + 3y = 8.',
+  },
+]
+
+export const SISTEMAS_UNIT6_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-sistemas3x3-intro',
+    unitNumber: 6,
+    icon: '³',
+    difficulty: 'easy',
+    title: 'Sistemas com Três Incógnitas',
+    description: 'O que muda quando o sistema ganha uma terceira variável.',
+    points: 40,
+    exercises: introExercises,
+  },
+  {
+    id: 'ex-sistemas3x3-substituicao',
+    unitNumber: 6,
+    icon: 'xyz',
+    difficulty: 'medium',
+    title: 'Substituição Encadeada',
+    description: 'Reduzindo um sistema 3×3 a um sistema 2×2 já conhecido.',
+    points: 60,
+    exercises: substituicaoExercises,
+  },
+  {
+    id: 'ex-sistemas3x3-desafio',
+    unitNumber: 6,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Sistemas 3×3',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 6.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

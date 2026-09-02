@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const paralelasExercises: Exercise[] = [
+  {
+    id: 'ga7-e1',
+    kind: 'multiple-choice',
+    prompt: 'As retas y = 3x + 1 e y = 3x − 5 são paralelas?',
+    choices: [
+      { id: 'a', label: 'Sim, pois têm o mesmo coeficiente angular' },
+      { id: 'b', label: 'Não, os coeficientes lineares são diferentes' },
+      { id: 'c', label: 'Não, são perpendiculares' },
+      { id: 'd', label: 'Sim, pois são a mesma reta' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Ambas têm m=3 — mesmo coeficiente angular, retas paralelas.',
+  },
+  {
+    id: 'ga7-e2',
+    kind: 'multiple-choice',
+    prompt: 'As retas y = 2x + 1 e y = 3x + 1 são paralelas?',
+    choices: [
+      { id: 'a', label: 'Não, os coeficientes angulares são diferentes' },
+      { id: 'b', label: 'Sim' },
+      { id: 'c', label: 'Sim, pois têm o mesmo n' },
+      { id: 'd', label: 'Não é possível saber' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'm=2 e m=3 são diferentes — as retas não são paralelas.',
+  },
+  {
+    id: 'ga7-e3',
+    kind: 'multiple-choice',
+    prompt: 'Duas retas com m₁ = 5 e m₂ = 5 são...',
+    choices: [
+      { id: 'a', label: 'Paralelas' },
+      { id: 'b', label: 'Perpendiculares' },
+      { id: 'c', label: 'Concorrentes num ângulo qualquer' },
+      { id: 'd', label: 'Não é possível saber' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Mesmo coeficiente angular define retas paralelas.',
+  },
+  {
+    id: 'ga7-e4',
+    kind: 'multiple-choice',
+    prompt: 'Se duas retas paralelas têm também o mesmo coeficiente linear n, elas são:',
+    choices: [
+      { id: 'a', label: 'Coincidentes (a mesma reta)' },
+      { id: 'b', label: 'Perpendiculares' },
+      { id: 'c', label: 'Concorrentes' },
+      { id: 'd', label: 'Impossível ter isso' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Mesmo m e mesmo n significam que é literalmente a mesma reta.',
+  },
+  {
+    id: 'ga7-e5',
+    kind: 'multiple-choice',
+    prompt: 'Qual reta é paralela a y = 4x − 2?',
+    choices: [
+      { id: 'a', label: 'y = 4x + 7' },
+      { id: 'b', label: 'y = −4x − 2' },
+      { id: 'c', label: 'y = 2x − 2' },
+      { id: 'd', label: 'y = 1/4 x − 2' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Precisa ter o mesmo m=4 e n diferente — y=4x+7 atende.',
+  },
+]
+
+const perpendicularesExercises: Exercise[] = [
+  {
+    id: 'ga8-e1',
+    kind: 'multiple-choice',
+    prompt: 'Se m₁ = 2, qual é o coeficiente angular de uma reta perpendicular a ela?',
+    choices: [
+      { id: 'a', label: '−1/2' },
+      { id: 'b', label: '2' },
+      { id: 'c', label: '1/2' },
+      { id: 'd', label: '−2' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'm₁·m₂=−1 → 2·m₂=−1 → m₂=−1/2.',
+  },
+  {
+    id: 'ga8-e2',
+    kind: 'multiple-choice',
+    prompt: 'As retas y = 3x + 1 e y = −1/3 x + 2 são perpendiculares?',
+    choices: [
+      { id: 'a', label: 'Sim, pois m₁·m₂ = −1' },
+      { id: 'b', label: 'Não' },
+      { id: 'c', label: 'Sim, pois têm o mesmo n' },
+      { id: 'd', label: 'Não é possível saber' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '3 · (−1/3) = −1, confirmando a perpendicularidade.',
+  },
+  {
+    id: 'ga8-e3',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o coeficiente angular de uma reta perpendicular a y = −4x + 1?',
+    choices: [
+      { id: 'a', label: '1/4' },
+      { id: 'b', label: '4' },
+      { id: 'c', label: '−1/4' },
+      { id: 'd', label: '−4' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'm₂ = −1/m₁ = −1/(−4) = 1/4.',
+  },
+  {
+    id: 'ga8-e4',
+    kind: 'multiple-choice',
+    prompt: 'Uma reta horizontal (m=0) é perpendicular a qual tipo de reta?',
+    choices: [
+      { id: 'a', label: 'Uma reta vertical' },
+      { id: 'b', label: 'Outra reta horizontal' },
+      { id: 'c', label: 'Qualquer reta com m=1' },
+      { id: 'd', label: 'Nenhuma reta' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Horizontal e vertical formam sempre um ângulo reto entre si.',
+  },
+  {
+    id: 'ga8-e5',
+    kind: 'multiple-choice',
+    prompt: 'As retas y = 2x e y = 2x − 5 são:',
+    choices: [
+      { id: 'a', label: 'Paralelas, não perpendiculares' },
+      { id: 'b', label: 'Perpendiculares' },
+      { id: 'c', label: 'A mesma reta' },
+      { id: 'd', label: 'Não é possível saber' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Mesmo m=2, n diferente — paralelas distintas.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'ga4x-e1',
+    kind: 'multiple-choice',
+    prompt: 'As retas 2x − y + 1 = 0 e 4x − 2y + 6 = 0 são...',
+    choices: [
+      { id: 'a', label: 'Paralelas (mesmo m, retas distintas)' },
+      { id: 'b', label: 'Perpendiculares' },
+      { id: 'c', label: 'A mesma reta' },
+      { id: 'd', label: 'Concorrentes num ângulo qualquer' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'As duas têm m=2, mas n diferente (1 e 3) — paralelas distintas.',
+  },
+  {
+    id: 'ga4x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o coeficiente angular de uma reta perpendicular à reta que passa por (0,0) e (4,2)?',
+    choices: [
+      { id: 'a', label: '−2' },
+      { id: 'b', label: '2' },
+      { id: 'c', label: '−0,5' },
+      { id: 'd', label: '0,5' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'm₁=2/4=0,5; m₂=−1/0,5=−2.',
+  },
+  {
+    id: 'ga4x-e3',
+    kind: 'multiple-choice',
+    prompt: 'As retas x + y − 3 = 0 e x − y + 1 = 0 são perpendiculares?',
+    choices: [
+      { id: 'a', label: 'Sim, pois m₁·m₂ = −1' },
+      { id: 'b', label: 'Não, são paralelas' },
+      { id: 'c', label: 'Não, são a mesma reta' },
+      { id: 'd', label: 'Não é possível determinar' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Primeira: y=−x+3, m₁=−1. Segunda: y=x+1, m₂=1. Produto = −1.',
+  },
+  {
+    id: 'ga4x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Duas retas distintas e não paralelas sempre...',
+    choices: [
+      { id: 'a', label: 'Se cruzam em exatamente um ponto' },
+      { id: 'b', label: 'Nunca se cruzam' },
+      { id: 'c', label: 'Se cruzam em infinitos pontos' },
+      { id: 'd', label: 'São sempre perpendiculares' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Não sendo paralelas, elas necessariamente se cruzam em um único ponto.',
+  },
+  {
+    id: 'ga4x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Se m₁ · m₂ = −1, o que podemos concluir sobre as duas retas?',
+    choices: [
+      { id: 'a', label: 'São perpendiculares' },
+      { id: 'b', label: 'São paralelas' },
+      { id: 'c', label: 'São a mesma reta' },
+      { id: 'd', label: 'Não têm relação especial' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Essa é exatamente a condição de perpendicularidade.',
+  },
+]
+
+export const GEOMETRIA_UNIT4_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-posicoesretas-paralelas',
+    unitNumber: 4,
+    icon: '∥',
+    difficulty: 'easy',
+    title: 'Retas Paralelas',
+    description: 'Reconhecendo retas que nunca se encontram.',
+    points: 40,
+    exercises: paralelasExercises,
+  },
+  {
+    id: 'ex-posicoesretas-perpendiculares',
+    unitNumber: 4,
+    icon: '⊥',
+    difficulty: 'medium',
+    title: 'Retas Perpendiculares',
+    description: 'Retas que se cruzam formando um ângulo reto.',
+    points: 60,
+    exercises: perpendicularesExercises,
+  },
+  {
+    id: 'ex-posicoesretas-desafio',
+    unitNumber: 4,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Posições Relativas entre Retas',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 4.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

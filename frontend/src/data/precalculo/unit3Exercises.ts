@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const verticeExercises: Exercise[] = [
+  {
+    id: 'pc5-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a forma geral de uma função quadrática?',
+    choices: [
+      { id: 'a', label: 'f(x) = ax² + bx + c' },
+      { id: 'b', label: 'f(x) = ax + b' },
+      { id: 'c', label: 'f(x) = a/x' },
+      { id: 'd', label: 'f(x) = aˣ' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A função quadrática tem a forma f(x) = ax² + bx + c, com a ≠ 0.',
+  },
+  {
+    id: 'pc5-e2',
+    kind: 'multiple-choice',
+    prompt: 'O gráfico de uma função quadrática é sempre:',
+    choices: [
+      { id: 'a', label: 'Uma reta' },
+      { id: 'b', label: 'Uma parábola' },
+      { id: 'c', label: 'Um círculo' },
+      { id: 'd', label: 'Uma hipérbole' },
+    ],
+    correctChoiceId: 'b',
+    explanation: 'Toda função do tipo f(x) = ax² + bx + c tem como gráfico uma parábola.',
+  },
+  {
+    id: 'pc5-e3',
+    kind: 'multiple-choice',
+    prompt: 'Se a &gt; 0 numa função quadrática, a concavidade da parábola é:',
+    choices: [
+      { id: 'a', label: 'Para cima' },
+      { id: 'b', label: 'Para baixo' },
+      { id: 'c', label: 'Não tem concavidade' },
+      { id: 'd', label: 'Depende de c' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Quando a &gt; 0, a parábola abre para cima e tem um ponto de mínimo.',
+  },
+  {
+    id: 'pc5-e4',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a coordenada x do vértice de f(x) = 2x² − 8x + 3?',
+    choices: [
+      { id: 'a', label: '2' },
+      { id: 'b', label: '4' },
+      { id: 'c', label: '−2' },
+      { id: 'd', label: '8' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'xᵥ = −b/(2a) = −(−8)/(2·2) = 8/4 = 2.',
+  },
+  {
+    id: 'pc5-e5',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a coordenada y do vértice de f(x) = x² − 6x + 5?',
+    choices: [
+      { id: 'a', label: '−4' },
+      { id: 'b', label: '5' },
+      { id: 'c', label: '−9' },
+      { id: 'd', label: '4' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'xᵥ = 6/2 = 3, e yᵥ = f(3) = 9 − 18 + 5 = −4.',
+  },
+]
+
+const raizesExercises: Exercise[] = [
+  {
+    id: 'pc6-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o discriminante (Δ) de f(x) = x² − 5x + 6?',
+    choices: [
+      { id: 'a', label: '1' },
+      { id: 'b', label: '−1' },
+      { id: 'c', label: '11' },
+      { id: 'd', label: '49' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Δ = b² − 4ac = (−5)² − 4(1)(6) = 25 − 24 = 1.',
+  },
+  {
+    id: 'pc6-e2',
+    kind: 'multiple-choice',
+    prompt: 'Quantas raízes reais tem f(x) = x² + 2x + 5?',
+    choices: [
+      { id: 'a', label: '0' },
+      { id: 'b', label: '1' },
+      { id: 'c', label: '2' },
+      { id: 'd', label: 'Infinitas' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Δ = 4 − 20 = −16 &lt; 0, então a função não tem raiz real.',
+  },
+  {
+    id: 'pc6-e3',
+    kind: 'multiple-choice',
+    prompt: 'Quais são as raízes de f(x) = x² − 5x + 6?',
+    choices: [
+      { id: 'a', label: 'x = 2 e x = 3' },
+      { id: 'b', label: 'x = 1 e x = 6' },
+      { id: 'c', label: 'x = −2 e x = −3' },
+      { id: 'd', label: 'x = 5 e x = 6' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Com Δ = 1, x = (5 ± 1)/2, dando x = 3 ou x = 2.',
+  },
+  {
+    id: 'pc6-e4',
+    kind: 'multiple-choice',
+    prompt: 'Se Δ = 0 para uma função quadrática, quantas raízes reais distintas ela tem?',
+    choices: [
+      { id: 'a', label: '0' },
+      { id: 'b', label: '1' },
+      { id: 'c', label: '2' },
+      { id: 'd', label: 'Infinitas' },
+    ],
+    correctChoiceId: 'b',
+    explanation: 'Quando Δ = 0, a fórmula de Bhaskara dá uma única raiz (raiz dupla): x = −b/(2a).',
+  },
+  {
+    id: 'pc6-e5',
+    kind: 'multiple-choice',
+    prompt: 'Quais são as raízes de f(x) = x² − 9?',
+    choices: [
+      { id: 'a', label: 'x = 3 e x = −3' },
+      { id: 'b', label: 'x = 9 e x = −9' },
+      { id: 'c', label: 'x = 3 apenas' },
+      { id: 'd', label: 'Não tem raiz real' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'x² − 9 = 0 → x² = 9 → x = 3 ou x = −3.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'pc3x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o vértice de f(x) = x² − 2x − 3?',
+    choices: [
+      { id: 'a', label: '(1, −4)' },
+      { id: 'b', label: '(−1, −4)' },
+      { id: 'c', label: '(1, 4)' },
+      { id: 'd', label: '(2, −3)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'xᵥ = 2/2 = 1, e yᵥ = f(1) = 1 − 2 − 3 = −4.',
+  },
+  {
+    id: 'pc3x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Uma bola é lançada e sua altura segue h(t) = −5t² + 20t. Em que instante t ela atinge a altura máxima?',
+    choices: [
+      { id: 'a', label: 't = 2' },
+      { id: 'b', label: 't = 4' },
+      { id: 'c', label: 't = 1' },
+      { id: 'd', label: 't = 5' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'tᵥ = −20/(2·(−5)) = −20/−10 = 2.',
+  },
+  {
+    id: 'pc3x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Continuando o problema anterior: qual é a altura máxima atingida pela bola?',
+    choices: [
+      { id: 'a', label: '20' },
+      { id: 'b', label: '10' },
+      { id: 'c', label: '40' },
+      { id: 'd', label: '5' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'h(2) = −5(2)² + 20(2) = −20 + 40 = 20.',
+  },
+  {
+    id: 'pc3x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Para f(x) = −x² + 4x − 4, qual é o discriminante?',
+    choices: [
+      { id: 'a', label: '0' },
+      { id: 'b', label: '16' },
+      { id: 'c', label: '−16' },
+      { id: 'd', label: '8' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Δ = 4² − 4(−1)(−4) = 16 − 16 = 0.',
+  },
+  {
+    id: 'pc3x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Quantas raízes reais tem a função do exercício anterior (f(x) = −x² + 4x − 4), e qual é (são)?',
+    choices: [
+      { id: 'a', label: 'Uma raiz, x = 2' },
+      { id: 'b', label: 'Duas raízes, x = 2 e x = −2' },
+      { id: 'c', label: 'Nenhuma raiz real' },
+      { id: 'd', label: 'Uma raiz, x = −2' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Como Δ = 0, há uma raiz dupla: x = −b/(2a) = −4/(2·(−1)) = 2.',
+  },
+]
+
+export const PRECALCULO_UNIT3_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-quadratica-vertice',
+    unitNumber: 3,
+    icon: '⌣',
+    difficulty: 'easy',
+    title: 'A Parábola: Forma e Vértice',
+    description: 'A função f(x) = ax² + bx + c e o formato de parábola do seu gráfico.',
+    points: 40,
+    exercises: verticeExercises,
+  },
+  {
+    id: 'ex-quadratica-raizes',
+    unitNumber: 3,
+    icon: '√',
+    difficulty: 'medium',
+    title: 'Raízes e o Discriminante',
+    description: 'Fórmula de Bhaskara e o que o valor de Δ revela sobre a parábola.',
+    points: 60,
+    exercises: raizesExercises,
+  },
+  {
+    id: 'ex-quadratica-desafio',
+    unitNumber: 3,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Função Quadrática',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 3.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

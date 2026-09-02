@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const planoExercises: Exercise[] = [
+  {
+    id: 'ga1-e1',
+    kind: 'multiple-choice',
+    prompt: 'Em qual quadrante está o ponto (3, −2)?',
+    choices: [
+      { id: 'a', label: 'IV' },
+      { id: 'b', label: 'I' },
+      { id: 'c', label: 'II' },
+      { id: 'd', label: 'III' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'x positivo e y negativo colocam o ponto no quarto quadrante.',
+  },
+  {
+    id: 'ga1-e2',
+    kind: 'multiple-choice',
+    prompt: 'Em qual quadrante está o ponto (−5, −1)?',
+    choices: [
+      { id: 'a', label: 'III' },
+      { id: 'b', label: 'I' },
+      { id: 'c', label: 'II' },
+      { id: 'd', label: 'IV' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'x negativo e y negativo colocam o ponto no terceiro quadrante.',
+  },
+  {
+    id: 'ga1-e3',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a origem do plano cartesiano?',
+    choices: [
+      { id: 'a', label: '(0, 0)' },
+      { id: 'b', label: '(1, 1)' },
+      { id: 'c', label: '(0, 1)' },
+      { id: 'd', label: '(1, 0)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A origem é o ponto onde os dois eixos se cruzam, (0, 0).',
+  },
+  {
+    id: 'ga1-e4',
+    kind: 'multiple-choice',
+    prompt: 'O ponto (0, 4) está em qual eixo?',
+    choices: [
+      { id: 'a', label: 'Eixo y' },
+      { id: 'b', label: 'Eixo x' },
+      { id: 'c', label: 'Nenhum eixo' },
+      { id: 'd', label: 'Na origem' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Quando x = 0, o ponto está sobre o eixo y.',
+  },
+  {
+    id: 'ga1-e5',
+    kind: 'multiple-choice',
+    prompt: 'Em qual quadrante está o ponto (2, 5)?',
+    choices: [
+      { id: 'a', label: 'I' },
+      { id: 'b', label: 'II' },
+      { id: 'c', label: 'III' },
+      { id: 'd', label: 'IV' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'x positivo e y positivo colocam o ponto no primeiro quadrante.',
+  },
+]
+
+const distanciaExercises: Exercise[] = [
+  {
+    id: 'ga2-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a distância entre A(1, 2) e B(4, 6)?',
+    choices: [
+      { id: 'a', label: '5' },
+      { id: 'b', label: '7' },
+      { id: 'c', label: '4' },
+      { id: 'd', label: '25' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Δx=3, Δy=4, d = √(3²+4²) = √25 = 5.',
+  },
+  {
+    id: 'ga2-e2',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a distância entre A(0, 0) e B(3, 4)?',
+    choices: [
+      { id: 'a', label: '5' },
+      { id: 'b', label: '3' },
+      { id: 'c', label: '4' },
+      { id: 'd', label: '7' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'd = √(3²+4²) = √25 = 5.',
+  },
+  {
+    id: 'ga2-e3',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a distância entre A(2, 3) e B(2, 8)?',
+    choices: [
+      { id: 'a', label: '5' },
+      { id: 'b', label: '0' },
+      { id: 'c', label: '2' },
+      { id: 'd', label: '8' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Δx=0, Δy=5, d = √(0+25) = 5.',
+  },
+  {
+    id: 'ga2-e4',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a distância entre A(−1, 1) e B(2, 5)?',
+    choices: [
+      { id: 'a', label: '5' },
+      { id: 'b', label: '4' },
+      { id: 'c', label: '3' },
+      { id: 'd', label: '7' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Δx=3, Δy=4, d = √(9+16) = 5.',
+  },
+  {
+    id: 'ga2-e5',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a distância entre A(0, 0) e B(6, 8)?',
+    choices: [
+      { id: 'a', label: '10' },
+      { id: 'b', label: '14' },
+      { id: 'c', label: '8' },
+      { id: 'd', label: '6' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'd = √(6²+8²) = √100 = 10.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'ga1x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Em qual quadrante está o ponto (−3, 4)?',
+    choices: [
+      { id: 'a', label: 'II' },
+      { id: 'b', label: 'I' },
+      { id: 'c', label: 'III' },
+      { id: 'd', label: 'IV' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'x negativo e y positivo colocam o ponto no segundo quadrante.',
+  },
+  {
+    id: 'ga1x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a distância entre A(1, 1) e B(4, 5)?',
+    choices: [
+      { id: 'a', label: '5' },
+      { id: 'b', label: '4' },
+      { id: 'c', label: '3' },
+      { id: 'd', label: '7' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Δx=3, Δy=4, d = √(9+16) = 5.',
+  },
+  {
+    id: 'ga1x-e3',
+    kind: 'multiple-choice',
+    prompt: 'O ponto (7, 0) está sobre qual eixo?',
+    choices: [
+      { id: 'a', label: 'Eixo x' },
+      { id: 'b', label: 'Eixo y' },
+      { id: 'c', label: 'Nenhum' },
+      { id: 'd', label: 'Na origem' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Quando y = 0, o ponto está sobre o eixo x.',
+  },
+  {
+    id: 'ga1x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a distância entre A(−2, −3) e B(−2, 1)?',
+    choices: [
+      { id: 'a', label: '4' },
+      { id: 'b', label: '1' },
+      { id: 'c', label: '3' },
+      { id: 'd', label: '2' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Δx=0, Δy=4, d = √(0+16) = 4.',
+  },
+  {
+    id: 'ga1x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a distância entre A(3, 4) e B(0, 0)?',
+    choices: [
+      { id: 'a', label: '5' },
+      { id: 'b', label: '3' },
+      { id: 'c', label: '4' },
+      { id: 'd', label: '7' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'd = √(3²+4²) = √25 = 5.',
+  },
+]
+
+export const GEOMETRIA_UNIT1_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-coordenadas-plano',
+    unitNumber: 1,
+    icon: 'xy',
+    difficulty: 'easy',
+    title: 'O Plano Cartesiano',
+    description: 'Localizando pontos e reconhecendo quadrantes.',
+    points: 40,
+    exercises: planoExercises,
+  },
+  {
+    id: 'ex-coordenadas-distancia',
+    unitNumber: 1,
+    icon: 'd',
+    difficulty: 'medium',
+    title: 'Distância entre Pontos',
+    description: 'Aplicando o Teorema de Pitágoras em coordenadas.',
+    points: 60,
+    exercises: distanciaExercises,
+  },
+  {
+    id: 'ex-coordenadas-desafio',
+    unitNumber: 1,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Coordenadas e Distância',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 1.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

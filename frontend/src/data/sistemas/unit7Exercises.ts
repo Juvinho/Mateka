@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const triangularExercises: Exercise[] = [
+  {
+    id: 'sl13-e1',
+    kind: 'multiple-choice',
+    prompt: 'Escalonar um sistema significa transformá-lo, usando operações elementares, em uma forma:',
+    choices: [
+      { id: 'a', label: 'Triangular' },
+      { id: 'b', label: 'Circular' },
+      { id: 'c', label: 'Quadrática' },
+      { id: 'd', label: 'Exponencial' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A forma triangular é o objetivo do escalonamento: cada equação, de cima para baixo, com uma incógnita a menos.',
+  },
+  {
+    id: 'sl13-e2',
+    kind: 'multiple-choice',
+    prompt: 'Qual das opções abaixo é uma operação elementar válida no escalonamento?',
+    choices: [
+      { id: 'a', label: 'Somar um múltiplo de uma equação a outra' },
+      { id: 'b', label: 'Elevar uma equação ao quadrado' },
+      { id: 'c', label: 'Dividir só um dos lados da equação' },
+      { id: 'd', label: 'Remover uma equação do sistema' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'As operações elementares são: trocar equações de posição, multiplicar uma equação por um número não-nulo, e somar um múltiplo de uma equação a outra.',
+  },
+  {
+    id: 'sl13-e3',
+    kind: 'multiple-choice',
+    prompt: 'No sistema x + y + z = 6, 2x − y + z = 3, x + 2y − z = 2, ao fazer R2 ← R2 − 2R1, qual equação resulta?',
+    choices: [
+      { id: 'a', label: '−3y − z = −9' },
+      { id: 'b', label: '−y + z = −9' },
+      { id: 'c', label: '3y + z = 9' },
+      { id: 'd', label: '−3y + z = 3' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(2x−y+z) − 2(x+y+z) = 3 − 2(6) → −3y − z = −9.',
+  },
+  {
+    id: 'sl13-e4',
+    kind: 'multiple-choice',
+    prompt: 'Fazendo R3 ← R3 − R1 no mesmo sistema, qual equação resulta?',
+    choices: [
+      { id: 'a', label: 'y − 2z = −4' },
+      { id: 'b', label: 'y + 2z = 4' },
+      { id: 'c', label: '2y − z = −4' },
+      { id: 'd', label: '−y − 2z = 4' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(x+2y−z) − (x+y+z) = 2 − 6 → y − 2z = −4.',
+  },
+  {
+    id: 'sl13-e5',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o objetivo final do escalonamento, antes da substituição regressiva?',
+    choices: [
+      { id: 'a', label: 'Deixar a última equação com uma única incógnita' },
+      { id: 'b', label: 'Deixar todas as equações iguais' },
+      { id: 'c', label: 'Eliminar todas as incógnitas' },
+      { id: 'd', label: 'Transformar o sistema em uma inequação' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A forma triangular deixa a última equação com uma incógnita só, pronta para ser resolvida direto.',
+  },
+]
+
+const regressivaExercises: Exercise[] = [
+  {
+    id: 'sl14-e1',
+    kind: 'multiple-choice',
+    prompt: 'Na forma triangular x + y + z = 6, −3y − z = −9, −7z = −21, qual é o valor de z?',
+    choices: [
+      { id: 'a', label: '3' },
+      { id: 'b', label: '21' },
+      { id: 'c', label: '7' },
+      { id: 'd', label: '−3' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '−7z = −21 → z = 3.',
+  },
+  {
+    id: 'sl14-e2',
+    kind: 'multiple-choice',
+    prompt: 'Substituindo z = 3 em −3y − z = −9, qual é o valor de y?',
+    choices: [
+      { id: 'a', label: '2' },
+      { id: 'b', label: '3' },
+      { id: 'c', label: '4' },
+      { id: 'd', label: '1' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '−3y − 3 = −9 → −3y = −6 → y = 2.',
+  },
+  {
+    id: 'sl14-e3',
+    kind: 'multiple-choice',
+    prompt: 'Substituindo y = 2 e z = 3 em x + y + z = 6, qual é o valor de x?',
+    choices: [
+      { id: 'a', label: '1' },
+      { id: 'b', label: '2' },
+      { id: 'c', label: '0' },
+      { id: 'd', label: '3' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'x + 2 + 3 = 6 → x = 1.',
+  },
+  {
+    id: 'sl14-e4',
+    kind: 'multiple-choice',
+    prompt: 'A substituição regressiva sempre começa por qual equação da forma triangular?',
+    choices: [
+      { id: 'a', label: 'A última, que tem uma única incógnita' },
+      { id: 'b', label: 'A primeira' },
+      { id: 'c', label: 'A do meio' },
+      { id: 'd', label: 'Qualquer uma, a ordem não importa' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Começar pela última equação (uma incógnita) permite ir subindo, cada vez com menos incógnitas desconhecidas.',
+  },
+  {
+    id: 'sl14-e5',
+    kind: 'multiple-choice',
+    prompt: 'Depois da substituição regressiva completa no sistema deste módulo, qual é a solução final?',
+    choices: [
+      { id: 'a', label: '(1, 2, 3)' },
+      { id: 'b', label: '(3, 2, 1)' },
+      { id: 'c', label: '(2, 1, 3)' },
+      { id: 'd', label: '(1, 3, 2)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'x = 1, y = 2, z = 3, na ordem (x, y, z).',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'sl7x-e1',
+    kind: 'multiple-choice',
+    prompt: 'No sistema x + y + z = 6, 2x − y + z = 3, x + 2y − z = 2, depois de escalonar completamente, qual é o valor de z?',
+    choices: [
+      { id: 'a', label: '3' },
+      { id: 'b', label: '−3' },
+      { id: 'c', label: '9' },
+      { id: 'd', label: '21' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A forma triangular final dá −7z = −21 → z = 3.',
+  },
+  {
+    id: 'sl7x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Se ao escalonar um sistema você chega em uma linha do tipo 0 = 5, o sistema é:',
+    choices: [
+      { id: 'a', label: 'Impossível (SI)' },
+      { id: 'b', label: 'Indeterminado (SPI)' },
+      { id: 'c', label: 'Determinado (SPD)' },
+      { id: 'd', label: 'Precisa de mais uma equação' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Uma contradição como 0 = 5 mostra que o sistema não tem solução — impossível, SI.',
+  },
+  {
+    id: 'sl7x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Se ao escalonar um sistema você chega em uma linha do tipo 0 = 0, o sistema é:',
+    choices: [
+      { id: 'a', label: 'Indeterminado (SPI), com infinitas soluções' },
+      { id: 'b', label: 'Impossível (SI)' },
+      { id: 'c', label: 'Determinado (SPD)' },
+      { id: 'd', label: 'Inválido, precisa refazer' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Uma linha nula (0 = 0) indica uma equação redundante — o sistema tem infinitas soluções.',
+  },
+  {
+    id: 'sl7x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a vantagem do escalonamento em relação à substituição encadeada para sistemas maiores?',
+    choices: [
+      { id: 'a', label: 'Segue sempre o mesmo roteiro fixo, sem decisões criativas a cada passo' },
+      { id: 'b', label: 'É mais rápido só para sistemas 2×2' },
+      { id: 'c', label: 'Não precisa de operações elementares' },
+      { id: 'd', label: 'Elimina a necessidade de verificar a solução' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O escalonamento organiza a eliminação num processo sistemático, útil especialmente quando o sistema cresce.',
+  },
+  {
+    id: 'sl7x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Depois de obter a forma triangular x + y + z = 6, −3y − z = −9, −7z = −21, a substituição regressiva encontra x, y e z nessa ordem:',
+    choices: [
+      { id: 'a', label: 'z, depois y, depois x' },
+      { id: 'b', label: 'x, depois y, depois z' },
+      { id: 'c', label: 'y, depois x, depois z' },
+      { id: 'd', label: 'Todos ao mesmo tempo' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A substituição regressiva parte da última equação (z) e sobe até a primeira (x).',
+  },
+]
+
+export const SISTEMAS_UNIT7_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-escalonamento-triangular',
+    unitNumber: 7,
+    icon: '△',
+    difficulty: 'easy',
+    title: 'Forma Triangular',
+    description: 'Operações elementares até chegar numa forma em degraus.',
+    points: 40,
+    exercises: triangularExercises,
+  },
+  {
+    id: 'ex-escalonamento-regressiva',
+    unitNumber: 7,
+    icon: '↓',
+    difficulty: 'medium',
+    title: 'Substituição Regressiva',
+    description: 'Da forma triangular até a solução completa.',
+    points: 60,
+    exercises: regressivaExercises,
+  },
+  {
+    id: 'ex-escalonamento-desafio',
+    unitNumber: 7,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Escalonamento',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 7.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

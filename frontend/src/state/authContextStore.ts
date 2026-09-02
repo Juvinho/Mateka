@@ -8,6 +8,7 @@ export type AuthUser = {
   createdAt: string
   avatarUrl: string | null
   bannerUrl: string | null
+  bio: string | null
 }
 
 export type AuthStatus = 'loading' | 'authenticated' | 'guest'

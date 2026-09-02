@@ -34,6 +34,7 @@ import ExerciseSessionPage from './pages/ExerciseSessionPage'
 import EndlessSessionPage from './pages/EndlessSessionPage'
 import ConhecaEmyPage from './pages/ConhecaEmyPage'
 import PerfilPage from './pages/PerfilPage'
+import UserProfilePage from './pages/UserProfilePage'
 import { useAuth } from './state/useAuth'
 import { useAmbience } from './hooks/useAmbience'
 import { useScrollProgress } from './hooks/useScrollProgress'
@@ -44,6 +45,21 @@ import { MATRIZES_MODULE_CONFIG } from './data/matrizes/moduleConfig'
 import { BASICOS_LESSON_BY_ID } from './data/basicos/units'
 import { BASICOS_EXERCISE_SET_BY_ID } from './data/basicos/exerciseSets'
 import { BASICOS_MODULE_CONFIG } from './data/basicos/moduleConfig'
+import { PRECALCULO_LESSON_BY_ID } from './data/precalculo/units'
+import { PRECALCULO_EXERCISE_SET_BY_ID } from './data/precalculo/exerciseSets'
+import { PRECALCULO_MODULE_CONFIG } from './data/precalculo/moduleConfig'
+import { SISTEMAS_LESSON_BY_ID } from './data/sistemas/units'
+import { SISTEMAS_EXERCISE_SET_BY_ID } from './data/sistemas/exerciseSets'
+import { SISTEMAS_MODULE_CONFIG } from './data/sistemas/moduleConfig'
+import { GEOMETRIA_LESSON_BY_ID } from './data/geometria/units'
+import { GEOMETRIA_EXERCISE_SET_BY_ID } from './data/geometria/exerciseSets'
+import { GEOMETRIA_MODULE_CONFIG } from './data/geometria/moduleConfig'
+import { PLANA_LESSON_BY_ID } from './data/plana/units'
+import { PLANA_EXERCISE_SET_BY_ID } from './data/plana/exerciseSets'
+import { PLANA_MODULE_CONFIG } from './data/plana/moduleConfig'
+import { ESPACIAL_LESSON_BY_ID } from './data/espacial/units'
+import { ESPACIAL_EXERCISE_SET_BY_ID } from './data/espacial/exerciseSets'
+import { ESPACIAL_MODULE_CONFIG } from './data/espacial/moduleConfig'
 import type { Difficulty, Exercise } from './data/exerciseTypes'
 import type { LessonContent } from './data/lessonTypes'
 import type { ExerciseSet } from './data/exerciseTypes'
@@ -61,6 +77,11 @@ const ENDLESS_DIFFICULTIES: Difficulty[] = ['easy', 'medium', 'hard']
 const MODULE_LABEL: Record<string, string> = {
   matrizes: 'Matrizes',
   'conceitos-basicos': 'Conceitos Básicos',
+  'pre-calculo': 'Pré-Cálculo',
+  'sistemas-lineares': 'Sistemas Lineares',
+  'geometria-analitica': 'Geometria Analítica',
+  'geometria-plana': 'Geometria Plana',
+  'geometria-espacial': 'Geometria Espacial',
 }
 
 // Every hash the app actually knows how to route — used to decide when to
@@ -78,10 +99,15 @@ const KNOWN_EXACT_HASHES = new Set([
   '#register',
   '#modulos',
   '#basicos',
+  '#pre-calculo',
+  '#sistemas-lineares',
+  '#geometria-analitica',
+  '#geometria-plana',
+  '#geometria-espacial',
   '#conheca-emy',
   '#perfil',
 ])
-const KNOWN_DYNAMIC_PREFIXES = ['#modulos/', '#aula-', '#exercicio-', '#endless-']
+const KNOWN_DYNAMIC_PREFIXES = ['#modulos/', '#aula-', '#exercicio-', '#endless-', '#usuario-']
 // Dedicated hashes to preview each error page on demand, without needing to
 // actually break a link or hit a real permission/rate-limit wall (this app
 // has no live auth enforcement or backend rate limiting yet — these are the
@@ -100,6 +126,16 @@ function resolveLesson(hash: string): { lesson: LessonContent; moduleId: string 
   if (matrizes) return { lesson: matrizes, moduleId: 'matrizes' }
   const basicos = BASICOS_LESSON_BY_ID[id]
   if (basicos) return { lesson: basicos, moduleId: 'conceitos-basicos' }
+  const precalculo = PRECALCULO_LESSON_BY_ID[id]
+  if (precalculo) return { lesson: precalculo, moduleId: 'pre-calculo' }
+  const sistemas = SISTEMAS_LESSON_BY_ID[id]
+  if (sistemas) return { lesson: sistemas, moduleId: 'sistemas-lineares' }
+  const geometria = GEOMETRIA_LESSON_BY_ID[id]
+  if (geometria) return { lesson: geometria, moduleId: 'geometria-analitica' }
+  const plana = PLANA_LESSON_BY_ID[id]
+  if (plana) return { lesson: plana, moduleId: 'geometria-plana' }
+  const espacial = ESPACIAL_LESSON_BY_ID[id]
+  if (espacial) return { lesson: espacial, moduleId: 'geometria-espacial' }
   return undefined
 }
 
@@ -110,6 +146,16 @@ function resolveExerciseSet(hash: string): { set: ExerciseSet; moduleId: string 
   if (matrizes) return { set: matrizes, moduleId: 'matrizes' }
   const basicos = BASICOS_EXERCISE_SET_BY_ID[id]
   if (basicos) return { set: basicos, moduleId: 'conceitos-basicos' }
+  const precalculo = PRECALCULO_EXERCISE_SET_BY_ID[id]
+  if (precalculo) return { set: precalculo, moduleId: 'pre-calculo' }
+  const sistemas = SISTEMAS_EXERCISE_SET_BY_ID[id]
+  if (sistemas) return { set: sistemas, moduleId: 'sistemas-lineares' }
+  const geometria = GEOMETRIA_EXERCISE_SET_BY_ID[id]
+  if (geometria) return { set: geometria, moduleId: 'geometria-analitica' }
+  const plana = PLANA_EXERCISE_SET_BY_ID[id]
+  if (plana) return { set: plana, moduleId: 'geometria-plana' }
+  const espacial = ESPACIAL_EXERCISE_SET_BY_ID[id]
+  if (espacial) return { set: espacial, moduleId: 'geometria-espacial' }
   return undefined
 }
 
@@ -129,7 +175,17 @@ function resolveEndless(
       ? MATRIZES_MODULE_CONFIG
       : moduleId === BASICOS_MODULE_CONFIG.moduleId
         ? BASICOS_MODULE_CONFIG
-        : undefined
+        : moduleId === PRECALCULO_MODULE_CONFIG.moduleId
+          ? PRECALCULO_MODULE_CONFIG
+          : moduleId === SISTEMAS_MODULE_CONFIG.moduleId
+            ? SISTEMAS_MODULE_CONFIG
+            : moduleId === GEOMETRIA_MODULE_CONFIG.moduleId
+              ? GEOMETRIA_MODULE_CONFIG
+              : moduleId === PLANA_MODULE_CONFIG.moduleId
+                ? PLANA_MODULE_CONFIG
+                : moduleId === ESPACIAL_MODULE_CONFIG.moduleId
+                  ? ESPACIAL_MODULE_CONFIG
+                  : undefined
   if (!config?.endlessBank) return undefined
   return { moduleId, difficulty, bank: config.endlessBank }
 }
@@ -139,7 +195,6 @@ const IntegralVisualizer = lazy(() => import('./components/IntegralVisualizer'))
 
 const lessonTitles: Record<string, string> = {
   '#aula-1': 'Aula 1 — Conceitos Básicos',
-  '#aula-2': 'Aula 2 — Pré-Cálculo Visual',
 }
 
 // Where to send a guest who tries a gated route, so login can bounce them
@@ -432,8 +487,15 @@ const App = () => {
   const isAuthRoute = activeHash === '#login' || activeHash === '#register'
   const isModulosRoute = activeHash === '#modulos' || activeHash.startsWith('#modulos/')
   const isBasicosRoute = activeHash === '#basicos'
+  const isPreCalculoRoute = activeHash === '#pre-calculo'
+  const isSistemasRoute = activeHash === '#sistemas-lineares'
+  const isGeometriaRoute = activeHash === '#geometria-analitica'
+  const isPlanaRoute = activeHash === '#geometria-plana'
+  const isEspacialRoute = activeHash === '#geometria-espacial'
   const isConhecaEmyRoute = activeHash === '#conheca-emy'
   const isPerfilRoute = activeHash === '#perfil'
+  const isUserProfileRoute = activeHash.startsWith('#usuario-')
+  const viewedUserId = isUserProfileRoute ? activeHash.slice('#usuario-'.length) : undefined
   // 404 covers two cases: a dynamic-id route (aula/exercicio/endless) whose id
   // didn't resolve to anything, or a hash that isn't part of the app's known
   // route set at all (typo'd/stale link, or the dedicated #404 test route).
@@ -459,7 +521,13 @@ const App = () => {
   const isGatedRoute =
     isModulosRoute ||
     isBasicosRoute ||
+    isPreCalculoRoute ||
+    isSistemasRoute ||
+    isGeometriaRoute ||
+    isPlanaRoute ||
+    isEspacialRoute ||
     isPerfilRoute ||
+    isUserProfileRoute ||
     Boolean(activeLesson) ||
     Boolean(activeLessonTitle) ||
     Boolean(activeExerciseSet) ||
@@ -490,8 +558,14 @@ const App = () => {
   const isHomeRoute =
     !isModulosRoute &&
     !isBasicosRoute &&
+    !isPreCalculoRoute &&
+    !isSistemasRoute &&
+    !isGeometriaRoute &&
+    !isPlanaRoute &&
+    !isEspacialRoute &&
     !isConhecaEmyRoute &&
     !isPerfilRoute &&
+    !isUserProfileRoute &&
     !activeExerciseSet &&
     !resolvedEndless &&
     !activeLesson &&
@@ -502,20 +576,50 @@ const App = () => {
     !isNotFoundRoute
 
   // Mii-chan (the small notebook-gateway avatar) lives in the sections —
-  // module hubs and lesson pages — but not on the home page or during
-  // exercises, and not on a module's very first visit: that's when the big
-  // Emy-chan intro is doing the explaining, so the small avatar stays out
-  // of the way until the module has been seen at least once.
-  const isSectionRoute = isModulosRoute || isBasicosRoute || Boolean(activeLesson) || Boolean(activeLessonTitle)
+  // module hubs, lesson pages, and exercises — but not on the home page,
+  // and not on a module's very first visit: that's when the big Emy-chan
+  // intro is doing the explaining, so the small avatar stays out of the way
+  // until the module has been seen at least once.
+  const isSectionRoute =
+    isModulosRoute ||
+    isBasicosRoute ||
+    isPreCalculoRoute ||
+    isSistemasRoute ||
+    isGeometriaRoute ||
+    isPlanaRoute ||
+    isEspacialRoute ||
+    Boolean(activeLesson) ||
+    Boolean(activeLessonTitle) ||
+    Boolean(activeExerciseSet)
   const currentSectionModuleConfig = isModulosRoute
     ? MATRIZES_MODULE_CONFIG
     : isBasicosRoute
       ? BASICOS_MODULE_CONFIG
-      : activeLessonModuleId === 'matrizes'
-        ? MATRIZES_MODULE_CONFIG
-        : activeLessonModuleId === 'conceitos-basicos'
-          ? BASICOS_MODULE_CONFIG
-          : undefined
+      : isPreCalculoRoute
+        ? PRECALCULO_MODULE_CONFIG
+        : isSistemasRoute
+          ? SISTEMAS_MODULE_CONFIG
+          : isGeometriaRoute
+            ? GEOMETRIA_MODULE_CONFIG
+            : isPlanaRoute
+              ? PLANA_MODULE_CONFIG
+              : isEspacialRoute
+                ? ESPACIAL_MODULE_CONFIG
+                : activeLessonModuleId === 'matrizes'
+                  ? MATRIZES_MODULE_CONFIG
+                  : activeLessonModuleId === 'conceitos-basicos'
+                    ? BASICOS_MODULE_CONFIG
+                    : activeLessonModuleId === 'pre-calculo'
+                      ? PRECALCULO_MODULE_CONFIG
+                      : activeLessonModuleId === 'sistemas-lineares'
+                        ? SISTEMAS_MODULE_CONFIG
+                        : activeLessonModuleId === 'geometria-analitica'
+                          ? GEOMETRIA_MODULE_CONFIG
+                          : activeLessonModuleId === 'geometria-plana'
+                            ? PLANA_MODULE_CONFIG
+                            : activeLessonModuleId === 'geometria-espacial'
+                              ? ESPACIAL_MODULE_CONFIG
+                              : undefined
   const hasSeenCurrentModuleIntro = (() => {
     if (!currentSectionModuleConfig?.IntroComponent) return true
     try {
@@ -528,12 +632,32 @@ const App = () => {
 
   const { markLessonSeen: markMatrizesLessonSeen } = useModuleProgress('matrizes')
   const { markLessonSeen: markBasicosLessonSeen } = useModuleProgress('conceitos-basicos')
+  const { markLessonSeen: markPreCalculoLessonSeen } = useModuleProgress('pre-calculo')
+  const { markLessonSeen: markSistemasLessonSeen } = useModuleProgress('sistemas-lineares')
+  const { markLessonSeen: markGeometriaLessonSeen } = useModuleProgress('geometria-analitica')
+  const { markLessonSeen: markPlanaLessonSeen } = useModuleProgress('geometria-plana')
+  const { markLessonSeen: markEspacialLessonSeen } = useModuleProgress('geometria-espacial')
 
   useEffect(() => {
     if (!activeLesson || !activeLessonModuleId) return
     if (activeLessonModuleId === 'matrizes') markMatrizesLessonSeen(activeLesson.id)
-    else markBasicosLessonSeen(activeLesson.id)
-  }, [activeLesson, activeLessonModuleId, markMatrizesLessonSeen, markBasicosLessonSeen])
+    else if (activeLessonModuleId === 'conceitos-basicos') markBasicosLessonSeen(activeLesson.id)
+    else if (activeLessonModuleId === 'pre-calculo') markPreCalculoLessonSeen(activeLesson.id)
+    else if (activeLessonModuleId === 'sistemas-lineares') markSistemasLessonSeen(activeLesson.id)
+    else if (activeLessonModuleId === 'geometria-analitica') markGeometriaLessonSeen(activeLesson.id)
+    else if (activeLessonModuleId === 'geometria-plana') markPlanaLessonSeen(activeLesson.id)
+    else if (activeLessonModuleId === 'geometria-espacial') markEspacialLessonSeen(activeLesson.id)
+  }, [
+    activeLesson,
+    activeLessonModuleId,
+    markMatrizesLessonSeen,
+    markBasicosLessonSeen,
+    markPreCalculoLessonSeen,
+    markSistemasLessonSeen,
+    markGeometriaLessonSeen,
+    markPlanaLessonSeen,
+    markEspacialLessonSeen,
+  ])
 
   useEffect(() => {
     if (!import.meta.env.DEV) return
@@ -589,12 +713,36 @@ const App = () => {
       return <ModulosPage key="basicos" config={BASICOS_MODULE_CONFIG} onNavigate={navigateTo} />
     }
 
+    if (isPreCalculoRoute) {
+      return <ModulosPage key="pre-calculo" config={PRECALCULO_MODULE_CONFIG} onNavigate={navigateTo} />
+    }
+
+    if (isSistemasRoute) {
+      return <ModulosPage key="sistemas-lineares" config={SISTEMAS_MODULE_CONFIG} onNavigate={navigateTo} />
+    }
+
+    if (isGeometriaRoute) {
+      return <ModulosPage key="geometria-analitica" config={GEOMETRIA_MODULE_CONFIG} onNavigate={navigateTo} />
+    }
+
+    if (isPlanaRoute) {
+      return <ModulosPage key="geometria-plana" config={PLANA_MODULE_CONFIG} onNavigate={navigateTo} />
+    }
+
+    if (isEspacialRoute) {
+      return <ModulosPage key="geometria-espacial" config={ESPACIAL_MODULE_CONFIG} onNavigate={navigateTo} />
+    }
+
     if (isConhecaEmyRoute) {
       return <ConhecaEmyPage onNavigate={navigateTo} />
     }
 
     if (isPerfilRoute) {
       return <PerfilPage onNavigate={navigateTo} />
+    }
+
+    if (isUserProfileRoute && viewedUserId) {
+      return <UserProfilePage key={viewedUserId} userId={viewedUserId} onNavigate={navigateTo} />
     }
 
     if (activeExerciseSet && activeExerciseModuleId) {

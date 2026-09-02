@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const definicaoExercises: Exercise[] = [
+  {
+    id: 'pc11-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a forma geral de uma função exponencial?',
+    choices: [
+      { id: 'a', label: 'f(x) = aˣ, com a &gt; 0 e a ≠ 1' },
+      { id: 'b', label: 'f(x) = ax' },
+      { id: 'c', label: 'f(x) = xᵃ' },
+      { id: 'd', label: 'f(x) = ax²' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A função exponencial tem a variável no expoente: f(x) = aˣ, com base a &gt; 0 e a ≠ 1.',
+  },
+  {
+    id: 'pc11-e2',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o valor de f(3) para f(x) = 2ˣ?',
+    choices: [
+      { id: 'a', label: '8' },
+      { id: 'b', label: '6' },
+      { id: 'c', label: '9' },
+      { id: 'd', label: '5' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'f(3) = 2³ = 8.',
+  },
+  {
+    id: 'pc11-e3',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o domínio de qualquer função exponencial f(x) = aˣ (a &gt; 0, a ≠ 1)?',
+    choices: [
+      { id: 'a', label: 'Todo ℝ' },
+      { id: 'b', label: '(0, +∞)' },
+      { id: 'c', label: 'ℝ − {0}' },
+      { id: 'd', label: '[0, +∞)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Diferente do logaritmo, a função exponencial aceita qualquer número real como expoente.',
+  },
+  {
+    id: 'pc11-e4',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a imagem de qualquer função exponencial f(x) = aˣ (a &gt; 0, a ≠ 1)?',
+    choices: [
+      { id: 'a', label: 'Todo ℝ' },
+      { id: 'b', label: '(0, +∞)' },
+      { id: 'c', label: '[0, +∞)' },
+      { id: 'd', label: 'ℝ − {1}' },
+    ],
+    correctChoiceId: 'b',
+    explanation: 'Potência de base positiva nunca é zero nem negativa — a imagem é sempre (0, +∞).',
+  },
+  {
+    id: 'pc11-e5',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o valor de f(0) para qualquer função exponencial f(x) = aˣ?',
+    choices: [
+      { id: 'a', label: '1' },
+      { id: 'b', label: '0' },
+      { id: 'c', label: 'a' },
+      { id: 'd', label: 'Depende de a' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Todo número diferente de zero elevado a 0 é igual a 1: f(0) = a⁰ = 1.',
+  },
+]
+
+const crescimentoExercises: Exercise[] = [
+  {
+    id: 'pc12-e1',
+    kind: 'multiple-choice',
+    prompt: 'Se f(x) = 3ˣ, a função é:',
+    choices: [
+      { id: 'a', label: 'Crescente' },
+      { id: 'b', label: 'Decrescente' },
+      { id: 'c', label: 'Constante' },
+      { id: 'd', label: 'Depende de x' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Como a base 3 &gt; 1, a função é crescente.',
+  },
+  {
+    id: 'pc12-e2',
+    kind: 'multiple-choice',
+    prompt: 'Se f(x) = (1/2)ˣ, a função é:',
+    choices: [
+      { id: 'a', label: 'Decrescente' },
+      { id: 'b', label: 'Crescente' },
+      { id: 'c', label: 'Constante' },
+      { id: 'd', label: 'Não definida' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Como a base está entre 0 e 1 (0 &lt; 1/2 &lt; 1), a função é decrescente.',
+  },
+  {
+    id: 'pc12-e3',
+    kind: 'multiple-choice',
+    prompt: 'Um carro de R$ 40.000 perde 15% do valor a cada ano. Qual é a base a da função exponencial V(x) = 40000 · aˣ?',
+    choices: [
+      { id: 'a', label: '0,85' },
+      { id: 'b', label: '0,15' },
+      { id: 'c', label: '1,15' },
+      { id: 'd', label: '15' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Se perde 15%, sobra 85% do valor a cada ano — a base é 1 − 0,15 = 0,85.',
+  },
+  {
+    id: 'pc12-e4',
+    kind: 'multiple-choice',
+    prompt: 'Um investimento de R$ 1.000 rende 10% ao ano, compostos. Qual é o valor depois de 2 anos, usando M(x) = 1000 · (1,10)ˣ?',
+    choices: [
+      { id: 'a', label: 'R$ 1.210' },
+      { id: 'b', label: 'R$ 1.200' },
+      { id: 'c', label: 'R$ 1.100' },
+      { id: 'd', label: 'R$ 1.000' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'M(2) = 1000 · (1,10)² = 1000 · 1,21 = 1210.',
+  },
+  {
+    id: 'pc12-e5',
+    kind: 'multiple-choice',
+    prompt: 'Para qual valor de a a função f(x) = aˣ seria constante?',
+    choices: [
+      { id: 'a', label: 'Nenhum — a definição de função exponencial exige a ≠ 1' },
+      { id: 'b', label: 'a = 0' },
+      { id: 'c', label: 'a = 1' },
+      { id: 'd', label: 'a = −1' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Com a = 1, f(x) = 1ˣ = 1 seria de fato constante — mas por isso mesmo a definição de função exponencial exclui a = 1 explicitamente.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'pc6x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Se f(x) = 5ˣ, qual é f(2)?',
+    choices: [
+      { id: 'a', label: '25' },
+      { id: 'b', label: '10' },
+      { id: 'c', label: '7' },
+      { id: 'd', label: '32' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'f(2) = 5² = 25.',
+  },
+  {
+    id: 'pc6x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Qual das bases abaixo gera uma função exponencial decrescente?',
+    choices: [
+      { id: 'a', label: '0,3' },
+      { id: 'b', label: '3' },
+      { id: 'c', label: '1,5' },
+      { id: 'd', label: '2' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Apenas bases entre 0 e 1 geram funções exponenciais decrescentes — as outras três opções são maiores que 1.',
+  },
+  {
+    id: 'pc6x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Uma população de bactérias dobra a cada hora, começando com 100. Qual função representa a população P(t) após t horas?',
+    choices: [
+      { id: 'a', label: 'P(t) = 100 · 2ᵗ' },
+      { id: 'b', label: 'P(t) = 100 + 2t' },
+      { id: 'c', label: 'P(t) = 2 · 100ᵗ' },
+      { id: 'd', label: 'P(t) = 200ᵗ' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '"Dobrar a cada hora" é multiplicar por 2 repetidamente — exatamente o padrão de uma exponencial de base 2.',
+  },
+  {
+    id: 'pc6x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Continuando o problema anterior (P(t) = 100 · 2ᵗ): qual é a população depois de 3 horas?',
+    choices: [
+      { id: 'a', label: '800' },
+      { id: 'b', label: '300' },
+      { id: 'c', label: '600' },
+      { id: 'd', label: '1.000' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'P(3) = 100 · 2³ = 100 · 8 = 800.',
+  },
+  {
+    id: 'pc6x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o ponto onde o gráfico de qualquer função exponencial f(x) = aˣ cruza o eixo y?',
+    choices: [
+      { id: 'a', label: '(0, 1)' },
+      { id: 'b', label: '(1, 0)' },
+      { id: 'c', label: '(0, 0)' },
+      { id: 'd', label: '(1, 1)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Todo gráfico de f(x) = aˣ passa por (0, 1), já que f(0) = a⁰ = 1 para qualquer base válida.',
+  },
+]
+
+export const PRECALCULO_UNIT6_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-exponencial-definicao',
+    unitNumber: 6,
+    icon: 'aˣ',
+    difficulty: 'easy',
+    title: 'Potências e a Função Exponencial',
+    description: 'A função f(x) = aˣ e por que ela cresce de um jeito tão diferente.',
+    points: 40,
+    exercises: definicaoExercises,
+  },
+  {
+    id: 'ex-exponencial-crescimento',
+    unitNumber: 6,
+    icon: '↗',
+    difficulty: 'medium',
+    title: 'Crescimento e Decaimento',
+    description: 'O papel da base a: quando a função cresce e quando decai.',
+    points: 60,
+    exercises: crescimentoExercises,
+  },
+  {
+    id: 'ex-exponencial-desafio',
+    unitNumber: 6,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Função Exponencial',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 6.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

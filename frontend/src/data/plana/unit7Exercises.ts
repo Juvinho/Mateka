@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const trianguloQuadrilateroExercises: Exercise[] = [
+  {
+    id: 'pl13-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a fórmula da área do triângulo?',
+    choices: [
+      { id: 'a', label: '(base × altura)/2' },
+      { id: 'b', label: 'base × altura' },
+      { id: 'c', label: '(base + altura)/2' },
+      { id: 'd', label: 'base²' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Área do triângulo = (base × altura)/2.',
+  },
+  {
+    id: 'pl13-e2',
+    kind: 'multiple-choice',
+    prompt: 'Um triângulo tem base 10cm e altura 6cm. Qual é a área?',
+    choices: [
+      { id: 'a', label: '30cm²' },
+      { id: 'b', label: '60cm²' },
+      { id: 'c', label: '16cm²' },
+      { id: 'd', label: '8cm²' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(10×6)/2 = 30cm².',
+  },
+  {
+    id: 'pl13-e3',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a fórmula da área do losango, com diagonais D e d?',
+    choices: [
+      { id: 'a', label: '(D × d)/2' },
+      { id: 'b', label: 'D × d' },
+      { id: 'c', label: '(D + d)/2' },
+      { id: 'd', label: 'D²' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A área do losango é o produto das diagonais dividido por 2.',
+  },
+  {
+    id: 'pl13-e4',
+    kind: 'multiple-choice',
+    prompt: 'Um losango tem diagonais 8cm e 5cm. Qual é a área?',
+    choices: [
+      { id: 'a', label: '20cm²' },
+      { id: 'b', label: '40cm²' },
+      { id: 'c', label: '13cm²' },
+      { id: 'd', label: '6,5cm²' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(8×5)/2 = 20cm².',
+  },
+  {
+    id: 'pl13-e5',
+    kind: 'multiple-choice',
+    prompt: 'Um paralelogramo tem base 7cm e altura 4cm. Qual é a área?',
+    choices: [
+      { id: 'a', label: '28cm²' },
+      { id: 'b', label: '14cm²' },
+      { id: 'c', label: '11cm²' },
+      { id: 'd', label: '22cm²' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Área do paralelogramo = base × altura = 7×4 = 28cm².',
+  },
+]
+
+const poligonosRegularesExercises: Exercise[] = [
+  {
+    id: 'pl14-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a fórmula da área de um polígono regular, com perímetro P e apótema m?',
+    choices: [
+      { id: 'a', label: '(P × m)/2' },
+      { id: 'b', label: 'P × m' },
+      { id: 'c', label: '(P + m)/2' },
+      { id: 'd', label: 'P²' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Área = (perímetro × apótema)/2.',
+  },
+  {
+    id: 'pl14-e2',
+    kind: 'multiple-choice',
+    prompt: 'O apótema de um polígono regular é:',
+    choices: [
+      { id: 'a', label: 'A distância do centro ao ponto médio de um lado' },
+      { id: 'b', label: 'A distância do centro a um vértice' },
+      { id: 'c', label: 'O comprimento de um lado' },
+      { id: 'd', label: 'A soma de todos os lados' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O apótema é o segmento perpendicular do centro até o meio de um lado.',
+  },
+  {
+    id: 'pl14-e3',
+    kind: 'multiple-choice',
+    prompt: 'Um hexágono regular tem lado 4cm (perímetro 24cm) e apótema 2√3cm. Qual é a área?',
+    choices: [
+      { id: 'a', label: '24√3 cm²' },
+      { id: 'b', label: '48√3 cm²' },
+      { id: 'c', label: '12√3 cm²' },
+      { id: 'd', label: '24 cm²' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(24 × 2√3)/2 = 24√3.',
+  },
+  {
+    id: 'pl14-e4',
+    kind: 'multiple-choice',
+    prompt: 'A fórmula da área de um polígono regular vem de dividi-lo em:',
+    choices: [
+      { id: 'a', label: 'Triângulos idênticos a partir do centro' },
+      { id: 'b', label: 'Retângulos' },
+      { id: 'c', label: 'Círculos inscritos' },
+      { id: 'd', label: 'Trapézios' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Cada triângulo tem base = lado do polígono e altura = apótema.',
+  },
+  {
+    id: 'pl14-e5',
+    kind: 'multiple-choice',
+    prompt: 'Um quadrado de lado 6cm tem perímetro 24cm e apótema 3cm. Qual é sua área pela fórmula do polígono regular?',
+    choices: [
+      { id: 'a', label: '36cm²' },
+      { id: 'b', label: '24cm²' },
+      { id: 'c', label: '18cm²' },
+      { id: 'd', label: '72cm²' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(24×3)/2 = 36cm² — bate com lado² = 6² = 36.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'pl7x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Um trapézio tem base maior 12cm, base menor 6cm, e altura 5cm. Qual é a área?',
+    choices: [
+      { id: 'a', label: '45cm²' },
+      { id: 'b', label: '90cm²' },
+      { id: 'c', label: '30cm²' },
+      { id: 'd', label: '18cm²' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '((12+6)×5)/2 = 45cm².',
+  },
+  {
+    id: 'pl7x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Um triângulo equilátero tem lado 6cm e altura 3√3cm. Qual é a área?',
+    choices: [
+      { id: 'a', label: '9√3 cm²' },
+      { id: 'b', label: '18√3 cm²' },
+      { id: 'c', label: '3√3 cm²' },
+      { id: 'd', label: '6√3 cm²' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(6×3√3)/2 = 9√3.',
+  },
+  {
+    id: 'pl7x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Um losango tem área 24cm² e uma diagonal de 8cm. Qual é a outra diagonal?',
+    choices: [
+      { id: 'a', label: '6cm' },
+      { id: 'b', label: '3cm' },
+      { id: 'c', label: '12cm' },
+      { id: 'd', label: '48cm' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '24 = (8×d)/2 → d = 6.',
+  },
+  {
+    id: 'pl7x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Um pentágono regular tem perímetro 20cm e apótema 2,75cm. Qual é a área?',
+    choices: [
+      { id: 'a', label: '27,5cm²' },
+      { id: 'b', label: '55cm²' },
+      { id: 'c', label: '11cm²' },
+      { id: 'd', label: '5,5cm²' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(20×2,75)/2 = 27,5cm².',
+  },
+  {
+    id: 'pl7x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Um paralelogramo e um triângulo têm a mesma base e a mesma altura. Qual é a relação entre suas áreas?',
+    choices: [
+      { id: 'a', label: 'A área do triângulo é metade da área do paralelogramo' },
+      { id: 'b', label: 'As áreas são iguais' },
+      { id: 'c', label: 'A área do paralelogramo é metade da do triângulo' },
+      { id: 'd', label: 'Não há relação entre elas' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Área do triângulo = (b×h)/2; área do paralelogramo = b×h — o dobro.',
+  },
+]
+
+export const PLANA_UNIT7_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-area-triangulos-quadrilateros',
+    unitNumber: 7,
+    icon: 'A=bh/2',
+    difficulty: 'easy',
+    title: 'Área de Triângulos e Quadriláteros',
+    description: 'As fórmulas de área das figuras mais comuns.',
+    points: 40,
+    exercises: trianguloQuadrilateroExercises,
+  },
+  {
+    id: 'ex-area-poligonos-regulares',
+    unitNumber: 7,
+    icon: 'Pm/2',
+    difficulty: 'medium',
+    title: 'Área de Polígonos Regulares',
+    description: 'Usando o apótema para qualquer polígono regular.',
+    points: 60,
+    exercises: poligonosRegularesExercises,
+  },
+  {
+    id: 'ex-area-desafio',
+    unitNumber: 7,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Área de Figuras Planas',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 7.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

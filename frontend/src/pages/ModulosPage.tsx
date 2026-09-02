@@ -3,6 +3,7 @@ import type { ComponentType } from 'react'
 import gsap from 'gsap'
 
 import RippleBackground from '../components/ui/RippleBackground'
+import { PlaygroundErrorBoundary } from '../components/PlaygroundErrorBoundary'
 import ModuleHeader from '../components/modules/ModuleHeader'
 import ModuleHero from '../components/modules/ModuleHero'
 import ModuleProgress from '../components/modules/ModuleProgress'
@@ -23,13 +24,14 @@ import { useAuth } from '../state/useAuth'
 const ENDLESS_DIFFICULTIES: Difficulty[] = ['easy', 'medium', 'hard']
 const ENDLESS_LABEL: Record<Difficulty, string> = { easy: 'Fácil', medium: 'Médio', hard: 'Difícil' }
 
-type TabId = 'aulas' | 'exercicios' | 'quiz' | 'endless'
+type TabId = 'aulas' | 'exercicios' | 'quiz' | 'endless' | 'playground'
 
 const TAB_LABELS: Record<TabId, string> = {
   aulas: 'Aulas',
   exercicios: 'Exercícios',
   quiz: 'Quiz Rápido',
   endless: 'Modo Endless',
+  playground: 'Playground',
 }
 
 export type ModuleConfig = {
@@ -46,6 +48,7 @@ export type ModuleConfig = {
   endlessBank?: Record<Difficulty, Exercise[]>
   quizQuestions?: QuizQuestionData[]
   IntroComponent?: ComponentType
+  PlaygroundComponent?: ComponentType
 }
 
 type ModulosPageProps = {
@@ -68,14 +71,16 @@ const ModulosPage = ({ config, onNavigate }: ModulosPageProps) => {
     endlessBank,
     quizQuestions,
     IntroComponent,
+    PlaygroundComponent,
   } = config
 
   const tabs = useMemo<TabId[]>(() => {
     const list: TabId[] = ['aulas', 'exercicios']
     if (quizQuestions && quizQuestions.length > 0) list.push('quiz')
     if (endlessBank) list.push('endless')
+    if (PlaygroundComponent) list.push('playground')
     return list
-  }, [quizQuestions, endlessBank])
+  }, [quizQuestions, endlessBank, PlaygroundComponent])
 
   const reducedMotion = useMemo(
     () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
@@ -267,6 +272,19 @@ const ModulosPage = ({ config, onNavigate }: ModulosPageProps) => {
   const progressPct = track.length > 0 ? Math.round((completedTrackNodes / track.length) * 100) : 0
   const accuracyPct = Math.round(averageAccuracy * 100)
 
+  // The single source of truth for "what's next" — reused by the Continuar
+  // button's click handler and by its label/color below, so the two can
+  // never disagree with each other about what "next" means.
+  const firstIncomplete = useMemo(
+    () => track.find((node) => !state.completedNodeIds[node.id]),
+    [track, state.completedNodeIds],
+  )
+  const nextIsChallenge = useMemo(() => {
+    if (!firstIncomplete || firstIncomplete.kind !== 'exercise') return false
+    const set = exerciseSets.find((s) => s.id === firstIncomplete.id)
+    return set?.difficulty === 'hard'
+  }, [firstIncomplete, exerciseSets])
+
   const streakDays = useMemo(() => {
     const lastDate = state.streak.lastPracticedISODate
     if (!lastDate || state.streak.count === 0) return Array<boolean>(7).fill(false)
@@ -293,7 +311,6 @@ const ModulosPage = ({ config, onNavigate }: ModulosPageProps) => {
   }
 
   const handleContinue = () => {
-    const firstIncomplete = track.find((node) => !state.completedNodeIds[node.id])
     if (!firstIncomplete) return
     onNavigate?.(firstIncomplete.kind === 'lesson' ? `#aula-${firstIncomplete.id}` : `#exercicio-${firstIncomplete.id}`)
   }
@@ -322,6 +339,8 @@ const ModulosPage = ({ config, onNavigate }: ModulosPageProps) => {
         totalLessons={allLessons.length}
         completedLessons={completedLessonsCount}
         accuracy={accuracyPct}
+        allComplete={!firstIncomplete}
+        isNextChallenge={nextIsChallenge}
         onContinue={handleContinue}
       />
 
@@ -426,6 +445,12 @@ const ModulosPage = ({ config, onNavigate }: ModulosPageProps) => {
               ))}
             </div>
           </>
+        )}
+
+        {displayedTab === 'playground' && PlaygroundComponent && (
+          <PlaygroundErrorBoundary name={`Playground — ${name}`}>
+            <PlaygroundComponent />
+          </PlaygroundErrorBoundary>
         )}
       </div>
     </div>

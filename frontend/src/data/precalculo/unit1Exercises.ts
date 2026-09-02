@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const fundamentosExercises: Exercise[] = [
+  {
+    id: 'pc1-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual das opções abaixo é a definição de função?',
+    choices: [
+      { id: 'a', label: 'Uma regra que associa cada elemento do domínio a exatamente um elemento do contradomínio' },
+      { id: 'b', label: 'Uma equação que sempre tem duas soluções' },
+      { id: 'c', label: 'Um gráfico em forma de reta' },
+      { id: 'd', label: 'Uma tabela com números' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Função é uma relação onde cada entrada tem exatamente uma saída correspondente — é essa unicidade que define uma função.',
+  },
+  {
+    id: 'pc1-e2',
+    kind: 'multiple-choice',
+    prompt: 'Se f(x) = 3x − 1, qual é o valor de f(4)?',
+    choices: [
+      { id: 'a', label: '11' },
+      { id: 'b', label: '12' },
+      { id: 'c', label: '13' },
+      { id: 'd', label: '10' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Substituindo x por 4: f(4) = 3(4) − 1 = 12 − 1 = 11.',
+  },
+  {
+    id: 'pc1-e3',
+    kind: 'multiple-choice',
+    prompt: 'Se g(x) = x² + 2, qual é o valor de g(−3)?',
+    choices: [
+      { id: 'a', label: '9' },
+      { id: 'b', label: '−7' },
+      { id: 'c', label: '11' },
+      { id: 'd', label: '7' },
+    ],
+    correctChoiceId: 'c',
+    explanation: 'g(−3) = (−3)² + 2 = 9 + 2 = 11. Atenção: (−3)² = 9, não −9.',
+  },
+  {
+    id: 'pc1-e4',
+    kind: 'multiple-choice',
+    prompt: 'O que é o domínio de uma função?',
+    choices: [
+      { id: 'a', label: 'O conjunto de todos os valores possíveis de saída' },
+      { id: 'b', label: 'O conjunto de todos os valores de entrada para os quais a função está definida' },
+      { id: 'c', label: 'O gráfico da função' },
+      { id: 'd', label: 'O valor de f(0)' },
+    ],
+    correctChoiceId: 'b',
+    explanation: 'O domínio é o conjunto de entradas válidas (x); o conjunto de saídas é chamado de imagem.',
+  },
+  {
+    id: 'pc1-e5',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a imagem da função f(x) = x², considerando domínio real?',
+    choices: [
+      { id: 'a', label: 'Todos os reais' },
+      { id: 'b', label: 'Só números positivos' },
+      { id: 'c', label: 'Números maiores ou iguais a zero' },
+      { id: 'd', label: 'Só números negativos' },
+    ],
+    correctChoiceId: 'c',
+    explanation: 'Como todo número ao quadrado é maior ou igual a zero, a imagem de f(x) = x² é o intervalo [0, +∞).',
+  },
+]
+
+const dominioExercises: Exercise[] = [
+  {
+    id: 'pc2-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o domínio de f(x) = 1/(x − 5)?',
+    choices: [
+      { id: 'a', label: 'Todo ℝ' },
+      { id: 'b', label: 'ℝ − {5}' },
+      { id: 'c', label: 'ℝ − {0}' },
+      { id: 'd', label: 'x > 5' },
+    ],
+    correctChoiceId: 'b',
+    explanation: 'O denominador não pode ser zero: x − 5 ≠ 0, ou seja, x ≠ 5. O domínio é todo real, exceto 5.',
+  },
+  {
+    id: 'pc2-e2',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o domínio de g(x) = √(x − 1)?',
+    choices: [
+      { id: 'a', label: '[1, +∞)' },
+      { id: 'b', label: '(−∞, 1]' },
+      { id: 'c', label: 'Todo ℝ' },
+      { id: 'd', label: 'ℝ − {1}' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Para a raiz quadrada ser real, o radicando precisa ser ≥ 0: x − 1 ≥ 0, então x ≥ 1.',
+  },
+  {
+    id: 'pc2-e3',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o domínio de h(x) = 1/(x + 2) + 3?',
+    choices: [
+      { id: 'a', label: 'ℝ − {−2}' },
+      { id: 'b', label: 'ℝ − {2}' },
+      { id: 'c', label: 'ℝ − {3}' },
+      { id: 'd', label: 'Todo ℝ' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O denominador x + 2 não pode ser zero, então x ≠ −2. A constante +3 fora da fração não afeta o domínio.',
+  },
+  {
+    id: 'pc2-e4',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o domínio de f(x) = √(4 − x)?',
+    choices: [
+      { id: 'a', label: '[4, +∞)' },
+      { id: 'b', label: '(−∞, 4]' },
+      { id: 'c', label: 'Todo ℝ' },
+      { id: 'd', label: 'ℝ − {4}' },
+    ],
+    correctChoiceId: 'b',
+    explanation: 'Precisamos de 4 − x ≥ 0, o que dá x ≤ 4, ou seja, o intervalo (−∞, 4].',
+  },
+  {
+    id: 'pc2-e5',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o domínio de f(x) = 1/√(x − 3)?',
+    choices: [
+      { id: 'a', label: '[3, +∞)' },
+      { id: 'b', label: '(3, +∞)' },
+      { id: 'c', label: 'ℝ − {3}' },
+      { id: 'd', label: '(−∞, 3)' },
+    ],
+    correctChoiceId: 'b',
+    explanation: 'Como a raiz está no denominador, ela não pode ser zero nem negativa: precisamos de x − 3 > 0 (estritamente), então x > 3.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'pc1x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Se f(x) = 2x − 3, para qual valor de x temos f(x) = 7?',
+    choices: [
+      { id: 'a', label: '5' },
+      { id: 'b', label: '4' },
+      { id: 'c', label: '2' },
+      { id: 'd', label: '7' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Resolvendo 2x − 3 = 7: 2x = 10, então x = 5.',
+  },
+  {
+    id: 'pc1x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o domínio de f(x) = 1/(x² − 4)?',
+    choices: [
+      { id: 'a', label: 'ℝ − {4}' },
+      { id: 'b', label: 'ℝ − {2, −2}' },
+      { id: 'c', label: 'ℝ − {2}' },
+      { id: 'd', label: 'Todo ℝ' },
+    ],
+    correctChoiceId: 'b',
+    explanation: 'x² − 4 = 0 quando x² = 4, ou seja, x = 2 ou x = −2. O domínio exclui esses dois valores.',
+  },
+  {
+    id: 'pc1x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Se f(x) = x² − 1, quais valores de x satisfazem f(x) = 0?',
+    choices: [
+      { id: 'a', label: 'x = 1 apenas' },
+      { id: 'b', label: 'x = 1 ou x = −1' },
+      { id: 'c', label: 'x = 0' },
+      { id: 'd', label: 'Nenhum valor real' },
+    ],
+    correctChoiceId: 'b',
+    explanation: 'x² − 1 = 0 → x² = 1 → x = 1 ou x = −1.',
+  },
+  {
+    id: 'pc1x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a imagem de f(x) = −x² + 5, para x real?',
+    choices: [
+      { id: 'a', label: '[5, +∞)' },
+      { id: 'b', label: '(−∞, 5]' },
+      { id: 'c', label: 'Todo ℝ' },
+      { id: 'd', label: '[0, 5]' },
+    ],
+    correctChoiceId: 'b',
+    explanation: 'Como x² ≥ 0, temos −x² ≤ 0, logo −x² + 5 ≤ 5. A imagem é (−∞, 5].',
+  },
+  {
+    id: 'pc1x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o domínio de f(x) = √(x + 3) / (x − 1)?',
+    choices: [
+      { id: 'a', label: '[−3, +∞) − {1}' },
+      { id: 'b', label: '(−∞, −3]' },
+      { id: 'c', label: 'ℝ − {1}' },
+      { id: 'd', label: '[−3, +∞)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Precisamos de duas condições ao mesmo tempo: x + 3 ≥ 0 (para a raiz) e x − 1 ≠ 0 (para o denominador). Juntando: x ≥ −3 e x ≠ 1.',
+  },
+]
+
+export const PRECALCULO_UNIT1_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-intro-funcoes-fundamentos',
+    unitNumber: 1,
+    icon: 'f(x)',
+    difficulty: 'easy',
+    title: 'Funções: Fundamentos',
+    description: 'Relação entre conjuntos, domínio, imagem e a notação f(x).',
+    points: 40,
+    exercises: fundamentosExercises,
+  },
+  {
+    id: 'ex-intro-funcoes-dominio',
+    unitNumber: 1,
+    icon: '∅',
+    difficulty: 'medium',
+    title: 'Domínio na Prática',
+    description: 'Calculando o domínio de funções racionais e radicais.',
+    points: 60,
+    exercises: dominioExercises,
+  },
+  {
+    id: 'ex-intro-funcoes-desafio',
+    unitNumber: 1,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Introdução às Funções',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 1.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

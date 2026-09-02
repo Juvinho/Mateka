@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const definicaoExercises: Exercise[] = [
+  {
+    id: 'pc3-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a forma geral de uma função afim?',
+    choices: [
+      { id: 'a', label: 'f(x) = ax + b' },
+      { id: 'b', label: 'f(x) = ax² + b' },
+      { id: 'c', label: 'f(x) = a/x' },
+      { id: 'd', label: 'f(x) = aˣ' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A função afim tem a forma f(x) = ax + b, com a e b constantes reais.',
+  },
+  {
+    id: 'pc3-e2',
+    kind: 'multiple-choice',
+    prompt: 'Na função f(x) = 5x − 2, qual é o coeficiente linear?',
+    choices: [
+      { id: 'a', label: '5' },
+      { id: 'b', label: '−2' },
+      { id: 'c', label: '2' },
+      { id: 'd', label: '−5' },
+    ],
+    correctChoiceId: 'b',
+    explanation: 'O coeficiente linear é o termo constante b, aqui igual a −2.',
+  },
+  {
+    id: 'pc3-e3',
+    kind: 'multiple-choice',
+    prompt: 'Na função f(x) = −3x + 7, qual é o coeficiente angular?',
+    choices: [
+      { id: 'a', label: '7' },
+      { id: 'b', label: '3' },
+      { id: 'c', label: '−3' },
+      { id: 'd', label: '−7' },
+    ],
+    correctChoiceId: 'c',
+    explanation: 'O coeficiente angular é o número que multiplica x, aqui igual a −3.',
+  },
+  {
+    id: 'pc3-e4',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o valor de f(0) para f(x) = 4x − 9?',
+    choices: [
+      { id: 'a', label: '4' },
+      { id: 'b', label: '−9' },
+      { id: 'c', label: '0' },
+      { id: 'd', label: '9' },
+    ],
+    correctChoiceId: 'b',
+    explanation: 'f(0) = 4(0) − 9 = −9. Esse valor é exatamente o coeficiente linear b — o ponto onde a reta cruza o eixo y.',
+  },
+  {
+    id: 'pc3-e5',
+    kind: 'multiple-choice',
+    prompt: 'O gráfico de qualquer função afim é sempre:',
+    choices: [
+      { id: 'a', label: 'Uma parábola' },
+      { id: 'b', label: 'Uma reta' },
+      { id: 'c', label: 'Uma curva exponencial' },
+      { id: 'd', label: 'Um círculo' },
+    ],
+    correctChoiceId: 'b',
+    explanation: 'Toda função do tipo f(x) = ax + b tem como gráfico uma reta.',
+  },
+]
+
+const taxaVariacaoExercises: Exercise[] = [
+  {
+    id: 'pc4-e1',
+    kind: 'multiple-choice',
+    prompt: 'Uma reta passa pelos pontos (1, 3) e (3, 9). Qual é o coeficiente angular?',
+    choices: [
+      { id: 'a', label: '3' },
+      { id: 'b', label: '2' },
+      { id: 'c', label: '6' },
+      { id: 'd', label: '1/3' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'a = (9 − 3)/(3 − 1) = 6/2 = 3.',
+  },
+  {
+    id: 'pc4-e2',
+    kind: 'multiple-choice',
+    prompt: 'Se a = −2 numa função afim f(x) = ax + b, a função é:',
+    choices: [
+      { id: 'a', label: 'Crescente' },
+      { id: 'b', label: 'Decrescente' },
+      { id: 'c', label: 'Constante' },
+      { id: 'd', label: 'Não é possível saber' },
+    ],
+    correctChoiceId: 'b',
+    explanation: 'Coeficiente angular negativo (a &lt; 0) significa que f(x) diminui conforme x aumenta — a função é decrescente.',
+  },
+  {
+    id: 'pc4-e3',
+    kind: 'multiple-choice',
+    prompt: 'Uma corrida de táxi custa R$ 10 para 3 km e R$ 16 para 6 km. Qual é a taxa por km (coeficiente angular)?',
+    choices: [
+      { id: 'a', label: '2' },
+      { id: 'b', label: '3' },
+      { id: 'c', label: '6' },
+      { id: 'd', label: '1,5' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'a = (16 − 10)/(6 − 3) = 6/3 = 2 reais por km.',
+  },
+  {
+    id: 'pc4-e4',
+    kind: 'multiple-choice',
+    prompt: 'Continuando o problema anterior (taxa de R$ 2/km): qual é a bandeirada (coeficiente linear b)?',
+    choices: [
+      { id: 'a', label: '4' },
+      { id: 'b', label: '6' },
+      { id: 'c', label: '2' },
+      { id: 'd', label: '10' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Substituindo o ponto (3, 10) em C(x) = 2x + b: 10 = 2(3) + b, então b = 4.',
+  },
+  {
+    id: 'pc4-e5',
+    kind: 'multiple-choice',
+    prompt: 'Uma reta passa por (0, 5) e (2, 1). Qual é a função afim correspondente?',
+    choices: [
+      { id: 'a', label: 'f(x) = −2x + 5' },
+      { id: 'b', label: 'f(x) = 2x + 5' },
+      { id: 'c', label: 'f(x) = −2x − 5' },
+      { id: 'd', label: 'f(x) = 5x − 2' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'a = (1 − 5)/(2 − 0) = −4/2 = −2. Como a reta passa por (0, 5), o coeficiente linear é b = 5. Logo f(x) = −2x + 5.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'pc2x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Se f(x) = 3x − 1 e f(k) = 11, qual é o valor de k?',
+    choices: [
+      { id: 'a', label: '4' },
+      { id: 'b', label: '3' },
+      { id: 'c', label: '12' },
+      { id: 'd', label: '10/3' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Resolvendo 3k − 1 = 11: 3k = 12, então k = 4.',
+  },
+  {
+    id: 'pc2x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Qual das funções abaixo é decrescente?',
+    choices: [
+      { id: 'a', label: 'f(x) = 2x + 1' },
+      { id: 'b', label: 'f(x) = −x + 4' },
+      { id: 'c', label: 'f(x) = 5' },
+      { id: 'd', label: 'f(x) = x²' },
+    ],
+    correctChoiceId: 'b',
+    explanation: 'f(x) = −x + 4 tem coeficiente angular negativo (a = −1). f(x) = 5 é constante (a = 0), e f(x) = x² nem é afim.',
+  },
+  {
+    id: 'pc2x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Uma empresa tem custo fixo de R$ 500 e custo de R$ 20 por unidade produzida. Qual função representa o custo total C(x) para x unidades?',
+    choices: [
+      { id: 'a', label: 'C(x) = 20x + 500' },
+      { id: 'b', label: 'C(x) = 500x + 20' },
+      { id: 'c', label: 'C(x) = 20x − 500' },
+      { id: 'd', label: 'C(x) = 500x' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O custo fixo (500) é o coeficiente linear, e o custo por unidade (20) é o coeficiente angular que multiplica x.',
+  },
+  {
+    id: 'pc2x-e4',
+    kind: 'multiple-choice',
+    prompt: 'As retas f(x) = 2x + 1 e g(x) = 2x − 3 são:',
+    choices: [
+      { id: 'a', label: 'Paralelas' },
+      { id: 'b', label: 'Perpendiculares' },
+      { id: 'c', label: 'Coincidentes' },
+      { id: 'd', label: 'Se cruzam em um ponto' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Como têm o mesmo coeficiente angular (a = 2) mas coeficientes lineares diferentes, as retas são paralelas — nunca se cruzam.',
+  },
+  {
+    id: 'pc2x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Para qual valor de x a função f(x) = −4x + 12 tem f(x) = 0 (a raiz da função)?',
+    choices: [
+      { id: 'a', label: '3' },
+      { id: 'b', label: '4' },
+      { id: 'c', label: '12' },
+      { id: 'd', label: '−3' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Resolvendo −4x + 12 = 0: −4x = −12, então x = 3.',
+  },
+]
+
+export const PRECALCULO_UNIT2_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-afim-definicao',
+    unitNumber: 2,
+    icon: '↗',
+    difficulty: 'easy',
+    title: 'Função Afim: Definição',
+    description: 'A função do tipo f(x) = ax + b e sua reta no plano cartesiano.',
+    points: 40,
+    exercises: definicaoExercises,
+  },
+  {
+    id: 'ex-afim-taxa-variacao',
+    unitNumber: 2,
+    icon: 'Δ',
+    difficulty: 'medium',
+    title: 'Taxa de Variação',
+    description: 'O que o coeficiente angular representa e como usá-lo em problemas reais.',
+    points: 60,
+    exercises: taxaVariacaoExercises,
+  },
+  {
+    id: 'ex-afim-desafio',
+    unitNumber: 2,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Função Afim',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 2.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

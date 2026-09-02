@@ -10,6 +10,8 @@ type ModuleHeroProps = {
   totalLessons: number
   completedLessons: number
   accuracy: number
+  allComplete: boolean
+  isNextChallenge: boolean
   onContinue: () => void
 }
 
@@ -22,6 +24,8 @@ const ModuleHero = ({
   totalLessons,
   completedLessons,
   accuracy,
+  allComplete,
+  isNextChallenge,
   onContinue,
 }: ModuleHeroProps) => {
   const reducedMotion = useMemo(
@@ -101,8 +105,7 @@ const ModuleHero = ({
     return () => { tl.kill() }
   }, [reducedMotion, progress, completedLessons, totalLessons, accuracy])
 
-  const allDone = completedLessons === totalLessons
-  const ctaLabel = allDone ? 'REVISAR MÓDULO →' : 'CONTINUAR AULA →'
+  const ctaLabel = allComplete ? 'REVISAR MÓDULO →' : isNextChallenge ? 'FAZER PROVA →' : 'CONTINUAR AULA →'
   const hidden = !reducedMotion
 
   return (
@@ -174,7 +177,11 @@ const ModuleHero = ({
           className="modulos-hero-actions"
           style={{ opacity: hidden ? 0 : 1, transform: hidden ? 'translateY(16px)' : 'none' }}
         >
-          <button type="button" className="modulos-cta-btn" onClick={onContinue}>
+          <button
+            type="button"
+            className={`modulos-cta-btn${isNextChallenge && !allComplete ? ' modulos-cta-btn--challenge' : ''}`}
+            onClick={onContinue}
+          >
             {ctaLabel}
           </button>
         </div>

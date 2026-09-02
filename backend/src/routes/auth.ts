@@ -64,7 +64,7 @@ router.post('/register', asyncHandler(async (req: Request, res: Response) => {
 }))
 
 router.post('/login', asyncHandler(async (req: Request, res: Response) => {
-  const { email, password } = req.body ?? {}
+  const { email, password, rememberMe } = req.body ?? {}
 
   if (typeof email !== 'string' || typeof password !== 'string' || !email || !password) {
     res.status(400).json({ error: 'validation_error', message: 'Informe email e senha.' })
@@ -114,7 +114,7 @@ router.post('/login', asyncHandler(async (req: Request, res: Response) => {
     data: { failedLoginAttempts: 0, lockedUntil: null },
   })
 
-  await createSession(user.id, req, res)
+  await createSession(user.id, req, res, { rememberMe: rememberMe === true })
   res.status(200).json({ user: toSafeUser(user) })
 }))
 

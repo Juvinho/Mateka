@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const somaExercises: Exercise[] = [
+  {
+    id: 'pl9-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a fórmula da soma dos ângulos internos de um polígono de n lados?',
+    choices: [
+      { id: 'a', label: '(n − 2) × 180°' },
+      { id: 'b', label: 'n × 180°' },
+      { id: 'c', label: '(n − 2) × 360°' },
+      { id: 'd', label: 'n × 90°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A soma dos ângulos internos é (n−2)×180°.',
+  },
+  {
+    id: 'pl9-e2',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a soma dos ângulos internos de um pentágono (5 lados)?',
+    choices: [
+      { id: 'a', label: '540°' },
+      { id: 'b', label: '360°' },
+      { id: 'c', label: '720°' },
+      { id: 'd', label: '180°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(5−2)×180° = 540°.',
+  },
+  {
+    id: 'pl9-e3',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a soma dos ângulos internos de um hexágono (6 lados)?',
+    choices: [
+      { id: 'a', label: '720°' },
+      { id: 'b', label: '540°' },
+      { id: 'c', label: '360°' },
+      { id: 'd', label: '900°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(6−2)×180° = 720°.',
+  },
+  {
+    id: 'pl9-e4',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a soma dos ângulos externos de qualquer polígono convexo?',
+    choices: [
+      { id: 'a', label: '360°, sempre' },
+      { id: 'b', label: 'Depende do número de lados' },
+      { id: 'c', label: '180°' },
+      { id: 'd', label: '(n−2)×180°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A soma dos ângulos externos é sempre 360°, independente de n.',
+  },
+  {
+    id: 'pl9-e5',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a soma dos ângulos internos de um quadrilátero (4 lados)?',
+    choices: [
+      { id: 'a', label: '360°' },
+      { id: 'b', label: '180°' },
+      { id: 'c', label: '540°' },
+      { id: 'd', label: '720°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(4−2)×180° = 360°.',
+  },
+]
+
+const diagonaisExercises: Exercise[] = [
+  {
+    id: 'pl10-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a fórmula do número de diagonais de um polígono de n lados?',
+    choices: [
+      { id: 'a', label: 'n(n−3)/2' },
+      { id: 'b', label: 'n(n−1)/2' },
+      { id: 'c', label: 'n² − 3' },
+      { id: 'd', label: '(n−2)×180°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Número de diagonais = n(n−3)/2.',
+  },
+  {
+    id: 'pl10-e2',
+    kind: 'multiple-choice',
+    prompt: 'Quantas diagonais tem um hexágono (n=6)?',
+    choices: [
+      { id: 'a', label: '9' },
+      { id: 'b', label: '6' },
+      { id: 'c', label: '12' },
+      { id: 'd', label: '3' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '6×3/2 = 9.',
+  },
+  {
+    id: 'pl10-e3',
+    kind: 'multiple-choice',
+    prompt: 'Quantas diagonais tem um pentágono (n=5)?',
+    choices: [
+      { id: 'a', label: '5' },
+      { id: 'b', label: '10' },
+      { id: 'c', label: '3' },
+      { id: 'd', label: '4' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '5×2/2 = 5.',
+  },
+  {
+    id: 'pl10-e4',
+    kind: 'multiple-choice',
+    prompt: 'Um polígono é regular quando:',
+    choices: [
+      { id: 'a', label: 'Todos os lados e todos os ângulos são iguais' },
+      { id: 'b', label: 'Só os lados são iguais' },
+      { id: 'c', label: 'Só os ângulos são iguais' },
+      { id: 'd', label: 'Tem no máximo 4 lados' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Regular exige lados e ângulos todos iguais.',
+  },
+  {
+    id: 'pl10-e5',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o ângulo interno de um hexágono regular?',
+    choices: [
+      { id: 'a', label: '120°' },
+      { id: 'b', label: '108°' },
+      { id: 'c', label: '90°' },
+      { id: 'd', label: '135°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(6−2)×180°/6 = 120°.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'pl5x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Um polígono regular tem ângulo interno de 144°. Quantos lados ele tem?',
+    choices: [
+      { id: 'a', label: '10' },
+      { id: 'b', label: '8' },
+      { id: 'c', label: '12' },
+      { id: 'd', label: '9' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(n−2)×180/n=144 → 180n−360=144n → 36n=360 → n=10.',
+  },
+  {
+    id: 'pl5x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Quantas diagonais tem um octógono (n=8)?',
+    choices: [
+      { id: 'a', label: '20' },
+      { id: 'b', label: '16' },
+      { id: 'c', label: '12' },
+      { id: 'd', label: '28' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '8×5/2 = 20.',
+  },
+  {
+    id: 'pl5x-e3',
+    kind: 'multiple-choice',
+    prompt: 'A soma dos ângulos internos de um polígono é 1080°. Quantos lados ele tem?',
+    choices: [
+      { id: 'a', label: '8' },
+      { id: 'b', label: '6' },
+      { id: 'c', label: '10' },
+      { id: 'd', label: '9' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(n−2)×180=1080 → n−2=6 → n=8.',
+  },
+  {
+    id: 'pl5x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Um polígono regular tem 12 lados. Qual é o seu ângulo interno?',
+    choices: [
+      { id: 'a', label: '150°' },
+      { id: 'b', label: '144°' },
+      { id: 'c', label: '160°' },
+      { id: 'd', label: '140°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(12−2)×180°/12 = 150°.',
+  },
+  {
+    id: 'pl5x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Um triângulo (n=3) tem quantas diagonais?',
+    choices: [
+      { id: 'a', label: '0' },
+      { id: 'b', label: '1' },
+      { id: 'c', label: '3' },
+      { id: 'd', label: '2' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '3×0/2 = 0 — um triângulo não tem diagonais.',
+  },
+]
+
+export const PLANA_UNIT5_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-poligonos-soma',
+    unitNumber: 5,
+    icon: 'Σ∠',
+    difficulty: 'easy',
+    title: 'Soma dos Ângulos de um Polígono',
+    description: 'Generalizando os 180° do triângulo.',
+    points: 40,
+    exercises: somaExercises,
+  },
+  {
+    id: 'ex-poligonos-diagonais',
+    unitNumber: 5,
+    icon: '⬠',
+    difficulty: 'medium',
+    title: 'Diagonais e Polígonos Regulares',
+    description: 'Contando diagonais e ângulos internos.',
+    points: 60,
+    exercises: diagonaisExercises,
+  },
+  {
+    id: 'ex-poligonos-desafio',
+    unitNumber: 5,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Polígonos',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 5.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

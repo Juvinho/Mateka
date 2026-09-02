@@ -61,13 +61,13 @@ const moduleCards: ModuleCard[] = [
     lessonHash: '#modulos',
   },
   {
-    id: 'pre-calculus',
+    id: 'pre-calculo',
     title: 'Pré-Cálculo',
     icon: 'f(x)',
-    accent: 'purple',
-    description: 'Funções, transformações e leitura gráfica rápida.',
+    accent: 'cyan',
+    description: 'Funções, exponenciais e logaritmos — a ponte entre o básico e o cálculo.',
     difficulty: 'Ensino Médio',
-    lessonHash: '#aula-2',
+    lessonHash: '#pre-calculo',
   },
   {
     id: 'differential',
@@ -128,37 +128,6 @@ const ModulePreviewCanvas = ({ moduleId, active }: { moduleId: string; active: b
         context.fillStyle = i % 2 === 0 ? 'rgba(34,211,238,0.85)' : 'rgba(244,114,182,0.8)'
         context.fillRect(x, y, 6.2, h)
       }
-    }
-
-    const drawPreCalculus = (t: number): void => {
-      context.strokeStyle = 'rgba(148,163,184,0.36)'
-      context.lineWidth = 1
-      context.beginPath()
-      context.moveTo(8, 68)
-      context.lineTo(72, 68)
-      context.moveTo(40, 10)
-      context.lineTo(40, 72)
-      context.stroke()
-
-      context.strokeStyle = '#a855f7'
-      context.lineWidth = 2
-      context.beginPath()
-      for (let px = 10; px <= 70; px += 1) {
-        const nx = (px - 40) / 14
-        const y = 66 - nx * nx * 8
-        if (px === 10) context.moveTo(px, y)
-        else context.lineTo(px, y)
-      }
-      context.stroke()
-
-      const loop = (t * 0.00025) % 1
-      const px = 10 + loop * 60
-      const nx = (px - 40) / 14
-      const py = 66 - nx * nx * 8
-      context.fillStyle = '#22d3ee'
-      context.beginPath()
-      context.arc(px, py, 3.4, 0, Math.PI * 2)
-      context.fill()
     }
 
     const drawDifferential = (t: number): void => {
@@ -222,6 +191,36 @@ const ModulePreviewCanvas = ({ moduleId, active }: { moduleId: string; active: b
         const curveY = 58 - (xNorm * xNorm * 16 + Math.sin(xNorm * Math.PI * 2) * 4)
         context.fillRect(x, curveY, Math.max(1, barWidth - 1), 68 - curveY)
       }
+    }
+
+    const drawPreCalculo = (t: number): void => {
+      const sampleX = 10 + ((t * 0.00022) % 1) * 60
+
+      context.strokeStyle = 'rgba(148,163,184,0.36)'
+      context.lineWidth = 1
+      context.beginPath()
+      context.moveTo(8, 68)
+      context.lineTo(72, 68)
+      context.stroke()
+
+      context.strokeStyle = '#22d3ee'
+      context.lineWidth = 2
+      context.beginPath()
+      for (let px = 8; px <= 72; px += 1) {
+        const xNorm = (px - 40) / 32
+        const y = 68 - xNorm * xNorm * 52
+        if (px === 8) context.moveTo(px, y)
+        else context.lineTo(px, y)
+      }
+      context.stroke()
+
+      const xNorm = (sampleX - 40) / 32
+      const y = 68 - xNorm * xNorm * 52
+
+      context.fillStyle = '#f472b6'
+      context.beginPath()
+      context.arc(sampleX, y, 3.2, 0, Math.PI * 2)
+      context.fill()
     }
 
     const drawMatrix = (t: number): void => {
@@ -308,7 +307,7 @@ const ModulePreviewCanvas = ({ moduleId, active }: { moduleId: string; active: b
 
       if (moduleId === 'basic-concepts') drawBasicConcepts(time)
       else if (moduleId === 'matrizes') drawMatrix(time)
-      else if (moduleId === 'pre-calculus') drawPreCalculus(time)
+      else if (moduleId === 'pre-calculo') drawPreCalculo(time)
       else if (moduleId === 'differential') drawDifferential(time)
       else if (moduleId === 'integral') drawIntegral(time)
       else drawTrig(time)

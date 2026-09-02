@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const classificacaoExercises: Exercise[] = [
+  {
+    id: 'pl3-e1',
+    kind: 'multiple-choice',
+    prompt: 'Um triângulo com os três lados iguais é chamado de:',
+    choices: [
+      { id: 'a', label: 'Equilátero' },
+      { id: 'b', label: 'Isósceles' },
+      { id: 'c', label: 'Escaleno' },
+      { id: 'd', label: 'Retângulo' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Equilátero tem os três lados iguais.',
+  },
+  {
+    id: 'pl3-e2',
+    kind: 'multiple-choice',
+    prompt: 'Um triângulo com dois lados iguais é chamado de:',
+    choices: [
+      { id: 'a', label: 'Isósceles' },
+      { id: 'b', label: 'Equilátero' },
+      { id: 'c', label: 'Escaleno' },
+      { id: 'd', label: 'Obtusângulo' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Isósceles tem exatamente dois lados iguais.',
+  },
+  {
+    id: 'pl3-e3',
+    kind: 'multiple-choice',
+    prompt: 'Um triângulo com um ângulo de 90° é chamado de:',
+    choices: [
+      { id: 'a', label: 'Retângulo' },
+      { id: 'b', label: 'Acutângulo' },
+      { id: 'c', label: 'Obtusângulo' },
+      { id: 'd', label: 'Equilátero' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Um ângulo reto (90°) define o triângulo retângulo.',
+  },
+  {
+    id: 'pl3-e4',
+    kind: 'multiple-choice',
+    prompt: 'Um triângulo com todos os ângulos agudos é chamado de:',
+    choices: [
+      { id: 'a', label: 'Acutângulo' },
+      { id: 'b', label: 'Retângulo' },
+      { id: 'c', label: 'Obtusângulo' },
+      { id: 'd', label: 'Escaleno' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Todos os ângulos menores que 90° define o triângulo acutângulo.',
+  },
+  {
+    id: 'pl3-e5',
+    kind: 'multiple-choice',
+    prompt: 'Um triângulo equilátero é sempre:',
+    choices: [
+      { id: 'a', label: 'Acutângulo' },
+      { id: 'b', label: 'Retângulo' },
+      { id: 'c', label: 'Obtusângulo' },
+      { id: 'd', label: 'Escaleno' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Todo triângulo equilátero tem os três ângulos de 60° — sempre acutângulo.',
+  },
+]
+
+const somaExercises: Exercise[] = [
+  {
+    id: 'pl4-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a soma dos ângulos internos de qualquer triângulo?',
+    choices: [
+      { id: 'a', label: '180°' },
+      { id: 'b', label: '360°' },
+      { id: 'c', label: '90°' },
+      { id: 'd', label: '270°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A soma dos ângulos internos de qualquer triângulo é sempre 180°.',
+  },
+  {
+    id: 'pl4-e2',
+    kind: 'multiple-choice',
+    prompt: 'Um triângulo tem ângulos de 50° e 60°. Qual é o terceiro ângulo?',
+    choices: [
+      { id: 'a', label: '70°' },
+      { id: 'b', label: '110°' },
+      { id: 'c', label: '60°' },
+      { id: 'd', label: '180°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '180° − 50° − 60° = 70°.',
+  },
+  {
+    id: 'pl4-e3',
+    kind: 'multiple-choice',
+    prompt: 'Um triângulo tem ângulos de 90° e 40°. Qual é o terceiro?',
+    choices: [
+      { id: 'a', label: '50°' },
+      { id: 'b', label: '130°' },
+      { id: 'c', label: '40°' },
+      { id: 'd', label: '90°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '180° − 90° − 40° = 50°.',
+  },
+  {
+    id: 'pl4-e4',
+    kind: 'multiple-choice',
+    prompt: 'O ângulo externo de um triângulo é igual a:',
+    choices: [
+      { id: 'a', label: 'Soma dos dois ângulos internos não adjacentes' },
+      { id: 'b', label: 'O próprio ângulo interno adjacente' },
+      { id: 'c', label: 'Sempre 180°' },
+      { id: 'd', label: 'Metade do ângulo interno adjacente' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O ângulo externo soma os dois ângulos internos não adjacentes a ele.',
+  },
+  {
+    id: 'pl4-e5',
+    kind: 'multiple-choice',
+    prompt: 'Um triângulo tem ângulos internos 55° e 65°. Qual é o ângulo externo adjacente ao terceiro ângulo?',
+    choices: [
+      { id: 'a', label: '120°' },
+      { id: 'b', label: '60°' },
+      { id: 'c', label: '180°' },
+      { id: 'd', label: '90°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '55° + 65° = 120°.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'pl2x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Um triângulo isósceles tem os dois ângulos da base iguais a 70° cada. Qual é o terceiro ângulo?',
+    choices: [
+      { id: 'a', label: '40°' },
+      { id: 'b', label: '70°' },
+      { id: 'c', label: '110°' },
+      { id: 'd', label: '180°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '180° − 70° − 70° = 40°.',
+  },
+  {
+    id: 'pl2x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Um triângulo retângulo tem um ângulo agudo de 35°. Qual é o outro ângulo agudo?',
+    choices: [
+      { id: 'a', label: '55°' },
+      { id: 'b', label: '65°' },
+      { id: 'c', label: '145°' },
+      { id: 'd', label: '35°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '90° − 35° = 55° (os dois agudos somam 90°).',
+  },
+  {
+    id: 'pl2x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Um triângulo tem ângulos na razão 1:2:3. Quais são as medidas?',
+    choices: [
+      { id: 'a', label: '30°, 60°, 90°' },
+      { id: 'b', label: '20°, 40°, 60°' },
+      { id: 'c', label: '45°, 60°, 75°' },
+      { id: 'd', label: '30°, 50°, 100°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '1+2+3=6 partes; 180/6=30 por parte: 30°, 60°, 90°.',
+  },
+  {
+    id: 'pl2x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Pode um triângulo ter dois ângulos obtusos?',
+    choices: [
+      { id: 'a', label: 'Não, a soma ultrapassaria 180°' },
+      { id: 'b', label: 'Sim, sempre' },
+      { id: 'c', label: 'Sim, se for escaleno' },
+      { id: 'd', label: 'Só se for equilátero' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Dois ângulos maiores que 90° já somariam mais de 180°.',
+  },
+  {
+    id: 'pl2x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Um triângulo equilátero tem quanto em cada ângulo interno?',
+    choices: [
+      { id: 'a', label: '60°' },
+      { id: 'b', label: '90°' },
+      { id: 'c', label: '45°' },
+      { id: 'd', label: '120°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '180°/3 = 60° em cada ângulo.',
+  },
+]
+
+export const PLANA_UNIT2_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-triangulos-classificacao',
+    unitNumber: 2,
+    icon: '△',
+    difficulty: 'easy',
+    title: 'Classificação de Triângulos',
+    description: 'Por lados e por ângulos.',
+    points: 40,
+    exercises: classificacaoExercises,
+  },
+  {
+    id: 'ex-triangulos-soma',
+    unitNumber: 2,
+    icon: '180°',
+    difficulty: 'medium',
+    title: 'Soma dos Ângulos Internos',
+    description: 'A propriedade mais usada de todo triângulo.',
+    points: 60,
+    exercises: somaExercises,
+  },
+  {
+    id: 'ex-triangulos-desafio',
+    unitNumber: 2,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Triângulos',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 2.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

@@ -8,6 +8,7 @@ export type SafeUser = {
   createdAt: string
   avatarUrl: string | null
   bannerUrl: string | null
+  bio: string | null
 }
 
 export function toSafeUser(user: User): SafeUser {
@@ -19,5 +20,6 @@ export function toSafeUser(user: User): SafeUser {
     createdAt: user.createdAt.toISOString(),
     avatarUrl: user.avatarUrl,
     bannerUrl: user.bannerUrl,
+    bio: user.bio,
   }
 }

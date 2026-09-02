@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const reduzidaExercises: Exercise[] = [
+  {
+    id: 'ga11-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o centro da circunferência (x−2)² + (y+1)² = 9?',
+    choices: [
+      { id: 'a', label: '(2, −1)' },
+      { id: 'b', label: '(−2, 1)' },
+      { id: 'c', label: '(2, 1)' },
+      { id: 'd', label: '(9, 9)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Na forma (x−a)²+(y−b)²=r², o centro é (a,b) = (2,−1).',
+  },
+  {
+    id: 'ga11-e2',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o raio da circunferência (x−2)² + (y+1)² = 9?',
+    choices: [
+      { id: 'a', label: '3' },
+      { id: 'b', label: '9' },
+      { id: 'c', label: '6' },
+      { id: 'd', label: '4,5' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'r² = 9, então r = 3.',
+  },
+  {
+    id: 'ga11-e3',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a equação da circunferência de centro (0, 0) e raio 5?',
+    choices: [
+      { id: 'a', label: 'x² + y² = 25' },
+      { id: 'b', label: 'x² + y² = 5' },
+      { id: 'c', label: '(x−5)² + (y−5)² = 25' },
+      { id: 'd', label: 'x² + y² = 10' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Com centro na origem: x² + y² = r² = 25.',
+  },
+  {
+    id: 'ga11-e4',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o centro da circunferência x² + (y−3)² = 16?',
+    choices: [
+      { id: 'a', label: '(0, 3)' },
+      { id: 'b', label: '(3, 0)' },
+      { id: 'c', label: '(0, 16)' },
+      { id: 'd', label: '(0, −3)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'x² é o mesmo que (x−0)², então o centro é (0, 3).',
+  },
+  {
+    id: 'ga11-e5',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o raio da circunferência (x+1)² + (y−4)² = 49?',
+    choices: [
+      { id: 'a', label: '7' },
+      { id: 'b', label: '49' },
+      { id: 'c', label: '24,5' },
+      { id: 'd', label: '14' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'r² = 49, então r = 7.',
+  },
+]
+
+const geralExercises: Exercise[] = [
+  {
+    id: 'ga12-e1',
+    kind: 'multiple-choice',
+    prompt: 'A equação geral x² + y² − 4x + 2y − 4 = 0 tem D=−4, E=2, F=−4. Qual é o centro?',
+    choices: [
+      { id: 'a', label: '(2, −1)' },
+      { id: 'b', label: '(−2, 1)' },
+      { id: 'c', label: '(−4, 2)' },
+      { id: 'd', label: '(4, −2)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Centro = (−D/2, −E/2) = (2, −1).',
+  },
+  {
+    id: 'ga12-e2',
+    kind: 'multiple-choice',
+    prompt: 'Continuando a equação acima, qual é o raio?',
+    choices: [
+      { id: 'a', label: '3' },
+      { id: 'b', label: '9' },
+      { id: 'c', label: '6' },
+      { id: 'd', label: '4' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'r = √((D/2)²+(E/2)²−F) = √(4+1+4) = 3.',
+  },
+  {
+    id: 'ga12-e3',
+    kind: 'multiple-choice',
+    prompt: 'Qual técnica é usada para converter a equação geral na reduzida?',
+    choices: [
+      { id: 'a', label: 'Completar quadrados' },
+      { id: 'b', label: 'Fatorar por Bhaskara' },
+      { id: 'c', label: 'Aplicar logaritmo' },
+      { id: 'd', label: 'Multiplicar por −1' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Completar quadrados em x e em y revela o centro e o raio.',
+  },
+  {
+    id: 'ga12-e4',
+    kind: 'multiple-choice',
+    prompt: 'Se, ao calcular o raio, o valor dentro da raiz for negativo, o que isso significa?',
+    choices: [
+      { id: 'a', label: 'A equação não representa nenhuma circunferência real' },
+      { id: 'b', label: 'O raio é negativo' },
+      { id: 'c', label: 'O centro está na origem' },
+      { id: 'd', label: 'A circunferência tem raio zero' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Uma raiz negativa não tem solução real — não existe circunferência nesse caso.',
+  },
+  {
+    id: 'ga12-e5',
+    kind: 'multiple-choice',
+    prompt: 'Se o valor dentro da raiz do raio for exatamente zero, a "circunferência" é, na prática:',
+    choices: [
+      { id: 'a', label: 'Um único ponto' },
+      { id: 'b', label: 'Uma reta' },
+      { id: 'c', label: 'Duas retas paralelas' },
+      { id: 'd', label: 'Impossível de existir' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Raio zero significa que todos os pontos "colapsam" no próprio centro.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'ga6x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o centro e o raio da circunferência (x−5)² + y² = 4?',
+    choices: [
+      { id: 'a', label: 'Centro (5, 0), raio 2' },
+      { id: 'b', label: 'Centro (0, 5), raio 4' },
+      { id: 'c', label: 'Centro (5, 0), raio 4' },
+      { id: 'd', label: 'Centro (−5, 0), raio 2' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Centro (5,0); r²=4 então r=2.',
+  },
+  {
+    id: 'ga6x-e2',
+    kind: 'multiple-choice',
+    prompt: 'A equação x² + y² − 6x − 8y = 0 tem D=−6, E=−8, F=0. Qual é o centro?',
+    choices: [
+      { id: 'a', label: '(3, 4)' },
+      { id: 'b', label: '(−3, −4)' },
+      { id: 'c', label: '(6, 8)' },
+      { id: 'd', label: '(−6, −8)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Centro = (−D/2, −E/2) = (3, 4).',
+  },
+  {
+    id: 'ga6x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Continuando a equação acima, qual é o raio?',
+    choices: [
+      { id: 'a', label: '5' },
+      { id: 'b', label: '25' },
+      { id: 'c', label: '10' },
+      { id: 'd', label: '7' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'r = √(9+16−0) = √25 = 5.',
+  },
+  {
+    id: 'ga6x-e4',
+    kind: 'multiple-choice',
+    prompt: 'O ponto (0, 0) satisfaz a equação x² + y² − 6x − 8y = 0?',
+    choices: [
+      { id: 'a', label: 'Sim, satisfaz a equação' },
+      { id: 'b', label: 'Não' },
+      { id: 'c', label: 'Só satisfaz aproximadamente' },
+      { id: 'd', label: 'É o centro da circunferência' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '0+0−0−0=0 — o ponto satisfaz a equação (está sobre a circunferência).',
+  },
+  {
+    id: 'ga6x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a equação reduzida da circunferência de centro (−3, 2) e raio 6?',
+    choices: [
+      { id: 'a', label: '(x+3)² + (y−2)² = 36' },
+      { id: 'b', label: '(x−3)² + (y+2)² = 36' },
+      { id: 'c', label: '(x+3)² + (y−2)² = 6' },
+      { id: 'd', label: '(x−3)² + (y−2)² = 36' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(x−(−3))²+(y−2)²=6² → (x+3)²+(y−2)²=36.',
+  },
+]
+
+export const GEOMETRIA_UNIT6_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-circunferencia-reduzida',
+    unitNumber: 6,
+    icon: '○',
+    difficulty: 'easy',
+    title: 'Circunferência: Forma Reduzida',
+    description: 'Lendo centro e raio diretamente da equação.',
+    points: 40,
+    exercises: reduzidaExercises,
+  },
+  {
+    id: 'ex-circunferencia-geral',
+    unitNumber: 6,
+    icon: '○²',
+    difficulty: 'medium',
+    title: 'Circunferência: Forma Geral',
+    description: 'Revertendo a forma expandida para encontrar centro e raio.',
+    points: 60,
+    exercises: geralExercises,
+  },
+  {
+    id: 'ex-circunferencia-desafio',
+    unitNumber: 6,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Equação da Circunferência',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 6.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

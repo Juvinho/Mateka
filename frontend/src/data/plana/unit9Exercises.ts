@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const angulosExercises: Exercise[] = [
+  {
+    id: 'pl17-e1',
+    kind: 'multiple-choice',
+    prompt: 'Um ângulo central mede o mesmo que:',
+    choices: [
+      { id: 'a', label: 'O arco que ele determina' },
+      { id: 'b', label: 'A metade do arco que ele determina' },
+      { id: 'c', label: 'O dobro do arco' },
+      { id: 'd', label: 'A metade do raio' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O ângulo central tem a mesma medida do arco correspondente.',
+  },
+  {
+    id: 'pl17-e2',
+    kind: 'multiple-choice',
+    prompt: 'Um ângulo inscrito mede:',
+    choices: [
+      { id: 'a', label: 'A metade do arco que ele determina' },
+      { id: 'b', label: 'O mesmo que o arco' },
+      { id: 'c', label: 'O dobro do arco' },
+      { id: 'd', label: 'Sempre 90°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O ângulo inscrito mede metade do arco correspondente.',
+  },
+  {
+    id: 'pl17-e3',
+    kind: 'multiple-choice',
+    prompt: 'Um ângulo inscrito que enxerga um semicírculo mede:',
+    choices: [
+      { id: 'a', label: '90°, sempre' },
+      { id: 'b', label: '180°, sempre' },
+      { id: 'c', label: '45°' },
+      { id: 'd', label: 'Depende da posição do vértice' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Um arco de 180° gera sempre um ângulo inscrito de 90°.',
+  },
+  {
+    id: 'pl17-e4',
+    kind: 'multiple-choice',
+    prompt: 'Um arco mede 100°. Qual é o ângulo central correspondente?',
+    choices: [
+      { id: 'a', label: '100°' },
+      { id: 'b', label: '50°' },
+      { id: 'c', label: '200°' },
+      { id: 'd', label: '80°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Ângulo central = medida do arco = 100°.',
+  },
+  {
+    id: 'pl17-e5',
+    kind: 'multiple-choice',
+    prompt: 'Um arco mede 100°. Qual é a medida de um ângulo inscrito que enxerga esse arco?',
+    choices: [
+      { id: 'a', label: '50°' },
+      { id: 'b', label: '100°' },
+      { id: 'c', label: '200°' },
+      { id: 'd', label: '25°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Ângulo inscrito = metade do arco = 50°.',
+  },
+]
+
+const potenciaExercises: Exercise[] = [
+  {
+    id: 'pl18-e1',
+    kind: 'multiple-choice',
+    prompt: 'Se duas cordas AB e CD se cruzam num ponto P dentro do círculo, vale a relação:',
+    choices: [
+      { id: 'a', label: 'PA · PB = PC · PD' },
+      { id: 'b', label: 'PA + PB = PC + PD' },
+      { id: 'c', label: 'PA · PB = PC + PD' },
+      { id: 'd', label: 'PA = PC e PB = PD' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O produto dos segmentos de uma corda é igual ao da outra.',
+  },
+  {
+    id: 'pl18-e2',
+    kind: 'multiple-choice',
+    prompt: 'Duas cordas se cruzam: uma delas fica dividida em segmentos de 3 e 8; a outra em segmentos de 4 e x. Qual é o valor de x?',
+    choices: [
+      { id: 'a', label: '6' },
+      { id: 'b', label: '24' },
+      { id: 'c', label: '12' },
+      { id: 'd', label: '4' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '3×8 = 4×x → 24=4x → x=6.',
+  },
+  {
+    id: 'pl18-e3',
+    kind: 'multiple-choice',
+    prompt: 'Uma tangente e uma secante partem do mesmo ponto externo. Qual é a relação entre elas?',
+    choices: [
+      { id: 'a', label: '(tangente)² = (secante inteira) × (parte externa da secante)' },
+      { id: 'b', label: 'tangente = secante inteira' },
+      { id: 'c', label: '(tangente)² = (secante inteira) + (parte externa)' },
+      { id: 'd', label: 'Não há relação entre elas' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Essa é a relação de potência de ponto para tangente e secante.',
+  },
+  {
+    id: 'pl18-e4',
+    kind: 'multiple-choice',
+    prompt: 'Um segmento tangente mede 6cm, partindo de um ponto externo. A parte externa de uma secante do mesmo ponto mede 4cm. Qual é o comprimento total dessa secante?',
+    choices: [
+      { id: 'a', label: '9cm' },
+      { id: 'b', label: '12cm' },
+      { id: 'c', label: '24cm' },
+      { id: 'd', label: '6cm' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '6²=4×L → 36=4L → L=9.',
+  },
+  {
+    id: 'pl18-e5',
+    kind: 'multiple-choice',
+    prompt: 'A relação de potência de um ponto tem sua origem quando aplicamos qual conceito visto neste módulo?',
+    choices: [
+      { id: 'a', label: 'Semelhança de triângulos' },
+      { id: 'b', label: 'Soma dos ângulos internos' },
+      { id: 'c', label: 'Teorema de Pitágoras isolado' },
+      { id: 'd', label: 'Congruência LAL' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'As cordas/secantes formam triângulos semelhantes que geram essa proporção.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'pl9x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Um ângulo inscrito mede 35°. Qual é o arco que ele determina?',
+    choices: [
+      { id: 'a', label: '70°' },
+      { id: 'b', label: '35°' },
+      { id: 'c', label: '17,5°' },
+      { id: 'd', label: '105°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O arco é o dobro do ângulo inscrito: 35×2=70.',
+  },
+  {
+    id: 'pl9x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Duas cordas se cruzam dividindo uma delas em 5 e 6, e a outra em 3 e x. Qual é x?',
+    choices: [
+      { id: 'a', label: '10' },
+      { id: 'b', label: '30' },
+      { id: 'c', label: '15' },
+      { id: 'd', label: '3' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '5×6=3×x → 30=3x → x=10.',
+  },
+  {
+    id: 'pl9x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Um triângulo está inscrito numa circunferência, com um lado sendo o diâmetro. Qual é o ângulo oposto a esse lado?',
+    choices: [
+      { id: 'a', label: '90°' },
+      { id: 'b', label: '60°' },
+      { id: 'c', label: '180°' },
+      { id: 'd', label: 'Depende do triângulo' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O ângulo inscrito que enxerga um diâmetro (semicírculo) é sempre 90°.',
+  },
+  {
+    id: 'pl9x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Uma tangente mede 8cm e a parte externa de uma secante do mesmo ponto mede 4cm. Qual é o comprimento total da secante?',
+    choices: [
+      { id: 'a', label: '16cm' },
+      { id: 'b', label: '20cm' },
+      { id: 'c', label: '12cm' },
+      { id: 'd', label: '32cm' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '8²=4×L → 64=4L → L=16.',
+  },
+  {
+    id: 'pl9x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o ângulo central correspondente a um arco de circunferência inteira (360°)?',
+    choices: [
+      { id: 'a', label: '360°' },
+      { id: 'b', label: '180°' },
+      { id: 'c', label: '90°' },
+      { id: 'd', label: '0°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O ângulo central mede o mesmo que o arco: 360°.',
+  },
+]
+
+export const PLANA_UNIT9_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-metricascirculo-angulos',
+    unitNumber: 9,
+    icon: '∠○',
+    difficulty: 'easy',
+    title: 'Ângulos na Circunferência',
+    description: 'Ângulo central e ângulo inscrito.',
+    points: 40,
+    exercises: angulosExercises,
+  },
+  {
+    id: 'ex-metricascirculo-potencia',
+    unitNumber: 9,
+    icon: 'PA·PB',
+    difficulty: 'medium',
+    title: 'Potência de um Ponto',
+    description: 'Cordas, secantes e tangentes.',
+    points: 60,
+    exercises: potenciaExercises,
+  },
+  {
+    id: 'ex-metricascirculo-desafio',
+    unitNumber: 9,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Relações na Circunferência',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 9.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

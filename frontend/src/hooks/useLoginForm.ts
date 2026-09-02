@@ -55,6 +55,7 @@ type UseLoginFormReturn = {
   email: string
   password: string
   captcha: string
+  rememberMe: boolean
   errors: LoginErrors
   status: LoginStatus
   focused: FocusedField
@@ -64,6 +65,7 @@ type UseLoginFormReturn = {
   setEmail: (value: string) => void
   setPassword: (value: string) => void
   setCaptcha: (value: string) => void
+  setRememberMe: (value: boolean) => void
   setFocused: (field: FocusedField) => void
   submit: () => Promise<boolean>
   resetStatus: () => void
@@ -74,6 +76,7 @@ export const useLoginForm = (): UseLoginFormReturn => {
   const [email, setEmailState] = useState('')
   const [password, setPasswordState] = useState('')
   const [captcha, setCaptchaState] = useState('')
+  const [rememberMe, setRememberMe] = useState(false)
   const [errors, setErrors] = useState<LoginErrors>({})
   const [status, setStatus] = useState<LoginStatus>('idle')
   const [focused, setFocused] = useState<FocusedField>(null)
@@ -127,7 +130,7 @@ export const useLoginForm = (): UseLoginFormReturn => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ email: email.trim(), password }),
+        body: JSON.stringify({ email: email.trim(), password, rememberMe }),
       })
 
       if (!response.ok) {
@@ -149,7 +152,7 @@ export const useLoginForm = (): UseLoginFormReturn => {
       setStatus('idle')
       return false
     }
-  }, [email, password, captcha, captchaRequired, refresh])
+  }, [email, password, captcha, captchaRequired, refresh, rememberMe])
 
   const resetStatus = useCallback(() => {
     setStatus('idle')
@@ -159,6 +162,7 @@ export const useLoginForm = (): UseLoginFormReturn => {
     email,
     password,
     captcha,
+    rememberMe,
     errors,
     status,
     focused,
@@ -168,6 +172,7 @@ export const useLoginForm = (): UseLoginFormReturn => {
     setEmail,
     setPassword,
     setCaptcha,
+    setRememberMe,
     setFocused,
     submit,
     resetStatus,

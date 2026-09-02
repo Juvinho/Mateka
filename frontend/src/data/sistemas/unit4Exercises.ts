@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const retasExercises: Exercise[] = [
+  {
+    id: 'sl7-e1',
+    kind: 'multiple-choice',
+    prompt: 'Em que ponto a reta 2x + y = 16 cruza o eixo y (quando x = 0)?',
+    choices: [
+      { id: 'a', label: '(0, 16)' },
+      { id: 'b', label: '(16, 0)' },
+      { id: 'c', label: '(0, 8)' },
+      { id: 'd', label: '(8, 0)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Com x = 0: y = 16, então o ponto é (0, 16).',
+  },
+  {
+    id: 'sl7-e2',
+    kind: 'multiple-choice',
+    prompt: 'E em que ponto essa mesma reta (2x + y = 16) cruza o eixo x (quando y = 0)?',
+    choices: [
+      { id: 'a', label: '(8, 0)' },
+      { id: 'b', label: '(0, 8)' },
+      { id: 'c', label: '(16, 0)' },
+      { id: 'd', label: '(0, 16)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Com y = 0: 2x = 16 → x = 8, então o ponto é (8, 0).',
+  },
+  {
+    id: 'sl7-e3',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o formato geométrico representado pela equação ax + by = c (com a e b não ambos nulos)?',
+    choices: [
+      { id: 'a', label: 'Uma reta' },
+      { id: 'b', label: 'Uma parábola' },
+      { id: 'c', label: 'Um círculo' },
+      { id: 'd', label: 'Um ponto' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Toda equação linear com duas variáveis representa geometricamente uma reta no plano.',
+  },
+  {
+    id: 'sl7-e4',
+    kind: 'multiple-choice',
+    prompt: 'Onde a reta x − y = 4 cruza o eixo x?',
+    choices: [
+      { id: 'a', label: '(4, 0)' },
+      { id: 'b', label: '(0, 4)' },
+      { id: 'c', label: '(0, −4)' },
+      { id: 'd', label: '(−4, 0)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Com y = 0: x = 4, então o ponto é (4, 0).',
+  },
+  {
+    id: 'sl7-e5',
+    kind: 'multiple-choice',
+    prompt: 'Onde a reta x − y = 4 cruza o eixo y?',
+    choices: [
+      { id: 'a', label: '(0, −4)' },
+      { id: 'b', label: '(0, 4)' },
+      { id: 'c', label: '(−4, 0)' },
+      { id: 'd', label: '(4, 0)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Com x = 0: −y = 4 → y = −4, então o ponto é (0, −4).',
+  },
+]
+
+const intersecaoExercises: Exercise[] = [
+  {
+    id: 'sl8-e1',
+    kind: 'multiple-choice',
+    prompt: 'Duas retas se cruzam em um único ponto. O que isso significa para o sistema que elas representam?',
+    choices: [
+      { id: 'a', label: 'O sistema é SPD, com solução única' },
+      { id: 'b', label: 'O sistema é SPI' },
+      { id: 'c', label: 'O sistema é SI' },
+      { id: 'd', label: 'O sistema não tem interpretação geométrica' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Um único ponto de interseção corresponde a exatamente uma solução — sistema possível e determinado.',
+  },
+  {
+    id: 'sl8-e2',
+    kind: 'multiple-choice',
+    prompt: 'Se as retas de um sistema são paralelas e distintas, quantos pontos de interseção elas têm?',
+    choices: [
+      { id: 'a', label: 'Zero' },
+      { id: 'b', label: 'Um' },
+      { id: 'c', label: 'Infinitos' },
+      { id: 'd', label: 'Dois' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Retas paralelas e distintas nunca se cruzam — zero pontos em comum, sistema impossível (SI).',
+  },
+  {
+    id: 'sl8-e3',
+    kind: 'multiple-choice',
+    prompt: 'As retas 2x + y = 16 e x + 3y = 23 se cruzam no ponto:',
+    choices: [
+      { id: 'a', label: '(5, 6)' },
+      { id: 'b', label: '(6, 5)' },
+      { id: 'c', label: '(8, 0)' },
+      { id: 'd', label: '(0, 16)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(5, 6) satisfaz as duas equações: 2(5)+6=16 e 5+3(6)=23.',
+  },
+  {
+    id: 'sl8-e4',
+    kind: 'multiple-choice',
+    prompt: 'Se duas retas são exatamente a mesma reta, quantos pontos elas compartilham?',
+    choices: [
+      { id: 'a', label: 'Infinitos pontos (toda a reta)' },
+      { id: 'b', label: 'Nenhum ponto' },
+      { id: 'c', label: 'Exatamente um ponto' },
+      { id: 'd', label: 'Exatamente dois pontos' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Retas coincidentes compartilham todos os seus pontos — sistema indeterminado (SPI).',
+  },
+  {
+    id: 'sl8-e5',
+    kind: 'multiple-choice',
+    prompt: 'Geometricamente, resolver um sistema linear 2×2 significa encontrar:',
+    choices: [
+      { id: 'a', label: 'O(s) ponto(s) de interseção entre as retas das equações' },
+      { id: 'b', label: 'A área entre as duas retas' },
+      { id: 'c', label: 'A distância entre as duas retas' },
+      { id: 'd', label: 'O ponto médio entre as duas retas' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A solução do sistema é exatamente o(s) ponto(s) onde as retas se encontram.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'sl4x-e1',
+    kind: 'multiple-choice',
+    prompt: 'As retas x + y = 6 e x − y = 2 se cruzam em que ponto?',
+    choices: [
+      { id: 'a', label: '(4, 2)' },
+      { id: 'b', label: '(2, 4)' },
+      { id: 'c', label: '(3, 3)' },
+      { id: 'd', label: '(6, 0)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Somando as equações: 2x = 8 → x = 4, e y = 2.',
+  },
+  {
+    id: 'sl4x-e2',
+    kind: 'multiple-choice',
+    prompt: 'A reta 3x + y = 9 cruza o eixo x em qual ponto?',
+    choices: [
+      { id: 'a', label: '(3, 0)' },
+      { id: 'b', label: '(0, 3)' },
+      { id: 'c', label: '(0, 9)' },
+      { id: 'd', label: '(9, 0)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Com y = 0: 3x = 9 → x = 3.',
+  },
+  {
+    id: 'sl4x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Se um sistema tem retas com a mesma inclinação mas pontos de cruzamento com os eixos diferentes, o sistema é:',
+    choices: [
+      { id: 'a', label: 'SI (impossível, retas paralelas distintas)' },
+      { id: 'b', label: 'SPD' },
+      { id: 'c', label: 'SPI' },
+      { id: 'd', label: 'Indefinido' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Mesma inclinação mas retas diferentes significa paralelas distintas — nunca se cruzam.',
+  },
+  {
+    id: 'sl4x-e4',
+    kind: 'multiple-choice',
+    prompt: 'As retas y = 2x + 1 e y = 2x − 3 são:',
+    choices: [
+      { id: 'a', label: 'Paralelas e distintas (SI)' },
+      { id: 'b', label: 'A mesma reta (SPI)' },
+      { id: 'c', label: 'Concorrentes num único ponto (SPD)' },
+      { id: 'd', label: 'Perpendiculares' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Mesma inclinação (2) mas interceptos diferentes (1 e −3) — paralelas e distintas.',
+  },
+  {
+    id: 'sl4x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Qual par de retas abaixo representa um sistema SPD (se cruzam em um único ponto)?',
+    choices: [
+      { id: 'a', label: 'y = x + 1 e y = −x + 5' },
+      { id: 'b', label: 'y = 3x + 2 e y = 3x − 4' },
+      { id: 'c', label: 'y = 2x + 1 e 2y = 4x + 2' },
+      { id: 'd', label: 'y = x e y = x + 7' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Inclinações diferentes (1 e −1) garantem um único ponto de interseção; as outras opções são paralelas distintas ou coincidentes.',
+  },
+]
+
+export const SISTEMAS_UNIT4_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-grafico-retas',
+    unitNumber: 4,
+    icon: '/',
+    difficulty: 'easy',
+    title: 'Cada Equação como Reta',
+    description: 'Encontrando onde uma reta cruza os eixos.',
+    points: 40,
+    exercises: retasExercises,
+  },
+  {
+    id: 'ex-grafico-intersecao',
+    unitNumber: 4,
+    icon: '✕',
+    difficulty: 'medium',
+    title: 'Interseção de Retas',
+    description: 'O ponto de encontro entre duas retas é a solução do sistema.',
+    points: 60,
+    exercises: intersecaoExercises,
+  },
+  {
+    id: 'ex-grafico-desafio',
+    unitNumber: 4,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Interpretação Gráfica',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 4.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

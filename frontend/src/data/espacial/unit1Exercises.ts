@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const poliedrosExercises: Exercise[] = [
+  {
+    id: 'es1-e1',
+    kind: 'multiple-choice',
+    prompt: 'O que é um poliedro?',
+    choices: [
+      { id: 'a', label: 'Um sólido cujas faces são todas polígonos planos' },
+      { id: 'b', label: 'Qualquer sólido geométrico' },
+      { id: 'c', label: 'Um sólido com superfície curva' },
+      { id: 'd', label: 'Um polígono em 3D' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Poliedro é definido por ter todas as faces formadas por polígonos planos.',
+  },
+  {
+    id: 'es1-e2',
+    kind: 'multiple-choice',
+    prompt: 'Como se chamam os segmentos onde duas faces de um poliedro se encontram?',
+    choices: [
+      { id: 'a', label: 'Arestas' },
+      { id: 'b', label: 'Vértices' },
+      { id: 'c', label: 'Faces' },
+      { id: 'd', label: 'Diagonais' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Arestas são os segmentos de encontro entre duas faces.',
+  },
+  {
+    id: 'es1-e3',
+    kind: 'multiple-choice',
+    prompt: 'Como se chamam os pontos onde três ou mais arestas se encontram?',
+    choices: [
+      { id: 'a', label: 'Vértices' },
+      { id: 'b', label: 'Arestas' },
+      { id: 'c', label: 'Faces' },
+      { id: 'd', label: 'Centros' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Vértices são os pontos de encontro de três ou mais arestas.',
+  },
+  {
+    id: 'es1-e4',
+    kind: 'multiple-choice',
+    prompt: 'Um cubo tem quantas faces?',
+    choices: [
+      { id: 'a', label: '6' },
+      { id: 'b', label: '8' },
+      { id: 'c', label: '12' },
+      { id: 'd', label: '4' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O cubo tem 6 faces quadradas.',
+  },
+  {
+    id: 'es1-e5',
+    kind: 'multiple-choice',
+    prompt: 'A esfera é um poliedro?',
+    choices: [
+      { id: 'a', label: 'Não, sua superfície é curva, não formada por polígonos' },
+      { id: 'b', label: 'Sim, é um poliedro com infinitas faces' },
+      { id: 'c', label: 'Sim, sempre' },
+      { id: 'd', label: 'Só se for muito grande' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A esfera tem superfície curva, então não é um poliedro.',
+  },
+]
+
+const eulerExercises: Exercise[] = [
+  {
+    id: 'es2-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a Relação de Euler para poliedros convexos?',
+    choices: [
+      { id: 'a', label: 'V − A + F = 2' },
+      { id: 'b', label: 'V + A + F = 2' },
+      { id: 'c', label: 'V − A − F = 2' },
+      { id: 'd', label: 'V × A × F = 2' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A Relação de Euler é V − A + F = 2.',
+  },
+  {
+    id: 'es2-e2',
+    kind: 'multiple-choice',
+    prompt: 'Um cubo tem V=8, A=12, F=6. A Relação de Euler se confirma?',
+    choices: [
+      { id: 'a', label: 'Sim, 8−12+6=2' },
+      { id: 'b', label: 'Não, o resultado é diferente de 2' },
+      { id: 'c', label: 'Só funciona para pirâmides' },
+      { id: 'd', label: 'Não é possível verificar' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '8 − 12 + 6 = 2.',
+  },
+  {
+    id: 'es2-e3',
+    kind: 'multiple-choice',
+    prompt: 'Um poliedro tem V=6, F=8. Quantas arestas ele tem, pela Relação de Euler?',
+    choices: [
+      { id: 'a', label: '12' },
+      { id: 'b', label: '14' },
+      { id: 'c', label: '2' },
+      { id: 'd', label: '8' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '6 − A + 8 = 2 → A = 12.',
+  },
+  {
+    id: 'es2-e4',
+    kind: 'multiple-choice',
+    prompt: 'Um poliedro tem A=9, F=5. Quantos vértices tem, pela Relação de Euler?',
+    choices: [
+      { id: 'a', label: '6' },
+      { id: 'b', label: '4' },
+      { id: 'c', label: '14' },
+      { id: 'd', label: '16' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'V − 9 + 5 = 2 → V = 6.',
+  },
+  {
+    id: 'es2-e5',
+    kind: 'multiple-choice',
+    prompt: 'Uma pirâmide de base quadrada tem V=5, A=8, F=5. A Relação de Euler se confirma?',
+    choices: [
+      { id: 'a', label: 'Sim, 5−8+5=2' },
+      { id: 'b', label: 'Não' },
+      { id: 'c', label: 'Só é válida para prismas' },
+      { id: 'd', label: 'Precisa saber o volume primeiro' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '5 − 8 + 5 = 2.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'es1x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Um poliedro tem 10 vértices e 15 arestas. Quantas faces tem?',
+    choices: [
+      { id: 'a', label: '7' },
+      { id: 'b', label: '5' },
+      { id: 'c', label: '25' },
+      { id: 'd', label: '3' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '10 − 15 + F = 2 → F = 7.',
+  },
+  {
+    id: 'es1x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Um prisma triangular tem quantos vértices, arestas e faces?',
+    choices: [
+      { id: 'a', label: 'V=6, A=9, F=5' },
+      { id: 'b', label: 'V=6, A=6, F=6' },
+      { id: 'c', label: 'V=3, A=9, F=5' },
+      { id: 'd', label: 'V=6, A=9, F=6' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Duas bases triangulares (3 vértices cada) e 3 retângulos laterais.',
+  },
+  {
+    id: 'es1x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Verifique a Relação de Euler para o prisma triangular (V=6, A=9, F=5).',
+    choices: [
+      { id: 'a', label: 'Confirma: 6−9+5=2' },
+      { id: 'b', label: 'Não confirma' },
+      { id: 'c', label: 'Falta informação' },
+      { id: 'd', label: 'Só vale pra pirâmides' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '6 − 9 + 5 = 2.',
+  },
+  {
+    id: 'es1x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Um octaedro tem V=6, A=12. Quantas faces ele tem pela Relação de Euler?',
+    choices: [
+      { id: 'a', label: '8, confirmando a fórmula' },
+      { id: 'b', label: '6' },
+      { id: 'c', label: '12' },
+      { id: 'd', label: '4' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '6 − 12 + F = 2 → F = 8.',
+  },
+  {
+    id: 'es1x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Por que a esfera, o cilindro e o cone não são tratados como poliedros na Relação de Euler?',
+    choices: [
+      { id: 'a', label: 'Porque não são poliedros — têm superfícies curvas, não faces planas' },
+      { id: 'b', label: 'Porque são muito grandes' },
+      { id: 'c', label: 'Porque têm volume maior' },
+      { id: 'd', label: 'A relação vale igualmente para todos os sólidos' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A Relação de Euler é definida para poliedros, sólidos de faces planas.',
+  },
+]
+
+export const ESPACIAL_UNIT1_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-solidos-poliedros',
+    unitNumber: 1,
+    icon: '⬡',
+    difficulty: 'easy',
+    title: 'Poliedros',
+    description: 'Faces, arestas e vértices.',
+    points: 40,
+    exercises: poliedrosExercises,
+  },
+  {
+    id: 'ex-solidos-euler',
+    unitNumber: 1,
+    icon: 'V-A+F',
+    difficulty: 'medium',
+    title: 'Relação de Euler',
+    description: 'A fórmula que conecta vértices, arestas e faces.',
+    points: 60,
+    exercises: eulerExercises,
+  },
+  {
+    id: 'ex-solidos-desafio',
+    unitNumber: 1,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Introdução aos Sólidos',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 1.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

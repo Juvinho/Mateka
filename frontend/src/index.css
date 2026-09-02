@@ -2441,6 +2441,19 @@ select {
   margin-bottom: 14px;
 }
 
+.matrix-lab-dims {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+  max-width: 480px;
+  margin: 0 auto 20px;
+}
+
+.matrix-lab-dims .wave-slider-group {
+  grid-template-columns: 70px 120px auto;
+}
+
 .matrix-lab-row {
   display: flex;
   flex-wrap: wrap;
@@ -4258,6 +4271,15 @@ select {
   box-shadow: 0 0 24px rgba(0, 229, 255, 0.45);
 }
 
+.modulos-cta-btn--challenge {
+  background: #f43f5e;
+  color: #fff;
+}
+
+.modulos-cta-btn--challenge:hover {
+  box-shadow: 0 0 24px rgba(244, 63, 94, 0.5);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .modulos-cta-btn {
     transition: none;
@@ -4371,6 +4393,355 @@ select {
   .modulos-tab-content {
     animation: none;
   }
+}
+
+/* ── Playground tab (fractions) ── */
+.fraction-playground {
+  margin: 22px 0;
+  padding: 22px;
+  background: rgba(2, 6, 23, 0.55);
+  border: 1px solid var(--mateka-border-cyan);
+  border-radius: 16px;
+}
+
+.fraction-playground-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--mateka-cyan-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.fraction-playground-controls {
+  display: grid;
+  gap: 14px;
+  max-width: 420px;
+  margin: 0 auto 28px;
+}
+
+.fraction-playground-visuals {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 28px;
+}
+
+.fraction-playground-pie-wrap {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fraction-playground-pie {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 1px solid var(--mateka-border-soft);
+}
+
+.fraction-playground-fraction {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-main);
+  background: rgba(2, 6, 23, 0.7);
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  justify-content: center;
+}
+
+.fraction-playground-fraction hr {
+  width: 22px;
+  border: none;
+  border-top: 2px solid var(--text-main);
+  margin: 2px 0;
+}
+
+.fraction-playground-bar {
+  display: flex;
+  gap: 3px;
+  width: min(100%, 420px);
+}
+
+.fraction-playground-bar-segment {
+  flex: 1;
+  height: 40px;
+  border-radius: 4px;
+  background: rgba(148, 163, 184, 0.18);
+  border: 1px solid var(--mateka-border-soft);
+}
+
+.fraction-playground-bar-segment.is-filled {
+  background: var(--cyan);
+  border-color: var(--cyan);
+}
+
+.fraction-playground-readouts,
+.function-playground-readouts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
+.fraction-playground-readout,
+.function-playground-readout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 18px;
+  background: rgba(2, 6, 23, 0.6);
+  border: 1px solid var(--mateka-border-soft);
+  border-radius: 10px;
+  min-width: 140px;
+}
+
+.fraction-playground-readout-label,
+.function-playground-readout-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-soft);
+}
+
+.fraction-playground-readout-value,
+.function-playground-readout-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--mateka-cyan-dim);
+}
+
+/* ── Playground tab (function grapher) ── */
+.function-playground {
+  margin: 22px 0;
+  padding: 22px;
+  background: rgba(2, 6, 23, 0.55);
+  border: 1px solid var(--mateka-border-cyan);
+  border-radius: 16px;
+}
+
+.function-playground-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.function-playground-controls {
+  display: grid;
+  gap: 14px;
+  max-width: 420px;
+  margin: 0 auto 24px;
+}
+
+.function-playground-svg {
+  display: block;
+  width: min(100%, 420px);
+  margin: 0 auto 24px;
+  background: rgba(2, 6, 23, 0.6);
+  border: 1px solid var(--mateka-border-soft);
+  border-radius: 12px;
+}
+
+.function-playground-axis {
+  stroke: var(--mateka-border-soft);
+  stroke-width: 0.08;
+}
+
+.function-playground-curve {
+  fill: none;
+  stroke: var(--cyan);
+  stroke-width: 0.2;
+}
+
+.function-playground-vertex {
+  fill: #f472b6;
+}
+
+/* ── Playground tab (linear system solver) ── */
+.system-playground {
+  margin: 22px 0;
+  padding: 22px;
+  background: rgba(2, 6, 23, 0.55);
+  border: 1px solid var(--mateka-border-cyan);
+  border-radius: 16px;
+}
+
+.system-playground-equations {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.system-playground-equations p {
+  margin: 4px 0;
+}
+
+.system-playground-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 32px;
+  margin-bottom: 24px;
+}
+
+.system-playground-line-controls {
+  display: grid;
+  gap: 10px;
+  min-width: 260px;
+}
+
+.system-playground-line-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--mateka-cyan-dim);
+  text-align: center;
+}
+
+.system-playground-line1 {
+  fill: none;
+  stroke: var(--cyan);
+  stroke-width: 0.2;
+}
+
+.system-playground-line2 {
+  fill: none;
+  stroke: #f472b6;
+  stroke-width: 0.2;
+}
+
+/* ── Playground tab (coordinate plane) ── */
+.coordinate-playground {
+  margin: 22px 0;
+  padding: 22px;
+  background: rgba(2, 6, 23, 0.55);
+  border: 1px solid var(--mateka-border-cyan);
+  border-radius: 16px;
+}
+
+.coordinate-playground-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 32px;
+  margin-bottom: 24px;
+}
+
+.coordinate-playground-point-controls {
+  display: grid;
+  gap: 10px;
+  min-width: 260px;
+}
+
+.coordinate-playground-point-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+
+.coordinate-playground-point-label--a {
+  color: var(--cyan);
+}
+
+.coordinate-playground-point-label--b {
+  color: #f472b6;
+}
+
+.coordinate-playground-segment {
+  stroke: var(--text-soft);
+  stroke-width: 0.15;
+}
+
+.coordinate-playground-point--a {
+  fill: var(--cyan);
+}
+
+.coordinate-playground-point--b {
+  fill: #f472b6;
+}
+
+/* ── Playground tab (triangle explorer) ── */
+.triangle-playground {
+  margin: 22px 0;
+  padding: 22px;
+  background: rgba(2, 6, 23, 0.55);
+  border: 1px solid var(--mateka-border-cyan);
+  border-radius: 16px;
+}
+
+.triangle-playground-controls {
+  display: grid;
+  gap: 14px;
+  max-width: 420px;
+  margin: 0 auto 24px;
+}
+
+.triangle-playground-shape {
+  fill: rgba(34, 211, 238, 0.18);
+  stroke: var(--cyan);
+  stroke-width: 0.2;
+}
+
+.triangle-playground-invalid {
+  text-align: center;
+  color: #f472b6;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  padding: 20px;
+}
+
+/* ── Playground tab (cylinder explorer) ── */
+.cylinder-playground {
+  margin: 22px 0;
+  padding: 22px;
+  background: rgba(2, 6, 23, 0.55);
+  border: 1px solid var(--mateka-border-cyan);
+  border-radius: 16px;
+}
+
+.cylinder-playground-controls {
+  display: grid;
+  gap: 14px;
+  max-width: 420px;
+  margin: 0 auto 24px;
+}
+
+.cylinder-playground-body {
+  fill: rgba(34, 211, 238, 0.14);
+  stroke: var(--cyan);
+  stroke-width: 0.15;
+}
+
+.cylinder-playground-cap {
+  fill: rgba(34, 211, 238, 0.28);
+  stroke: var(--cyan);
+  stroke-width: 0.15;
+}
+
+.cylinder-playground-cap--bottom {
+  fill: rgba(2, 6, 23, 0.6);
 }
 
 /* ── UnitSection ── */
@@ -6501,6 +6872,27 @@ select {
   margin: 0 0 2px;
   font-family: 'Syne', sans-serif;
   font-size: clamp(1.4rem, 3vw, 1.9rem);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.creator-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+  color: #3b2405;
+  background: linear-gradient(135deg, #fde68a, #f59e0b);
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.45);
+  white-space: nowrap;
 }
 
 .perfil-summary__email {
@@ -6676,6 +7068,27 @@ select {
   font-size: clamp(1.3rem, 2.4vw, 1.7rem);
 }
 
+.perfil-header__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.perfil-friends-btn {
+  position: relative;
+}
+
+.perfil-friends-btn__dot {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #f43f5e;
+  box-shadow: 0 0 0 2px var(--mateka-bg-card), 0 0 8px rgba(244, 63, 94, 0.7);
+}
+
 .perfil-empty-state {
   display: flex;
   flex-direction: column;
@@ -6784,6 +7197,208 @@ select {
   align-self: flex-start;
 }
 
+/* ── Public profile (UserProfilePage) ── */
+.perfil-bio__display--readonly {
+  cursor: default;
+}
+
+.perfil-bio__display--readonly:hover {
+  border-color: transparent;
+  background: none;
+}
+
+.user-profile-friend-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.perfil-user-not-found {
+  max-width: min(600px, calc(100% - 40px));
+  margin: 80px auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  color: var(--text-soft);
+}
+
+/* ── Friends modal (FriendsModal) ── */
+.friends-modal-panel {
+  width: min(560px, 100%);
+}
+
+.friends-modal-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 16px 24px 0;
+  flex: 0 0 auto;
+}
+
+.friends-modal-tab {
+  flex: 1;
+  padding: 10px 16px;
+  background: transparent;
+  border: 1px solid var(--mateka-border-soft);
+  border-radius: 10px;
+  color: var(--text-soft);
+  font-family: 'Syne', sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.friends-modal-tab:hover {
+  border-color: var(--mateka-border-cyan);
+  color: var(--text-main);
+}
+
+.friends-modal-tab.is-active {
+  background: rgba(34, 211, 238, 0.1);
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+
+.friends-accepted-banner {
+  margin: 16px 24px 0;
+  padding: 12px 14px;
+  background: rgba(34, 211, 238, 0.08);
+  border: 1px solid rgba(34, 211, 238, 0.35);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.friends-accepted-banner p {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--text-main);
+}
+
+.friends-modal-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.friends-modal-error {
+  margin: 12px 24px 0;
+}
+
+.friends-modal-body {
+  padding: 20px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.friends-modal-body .friends-search__input {
+  max-width: none;
+  margin-top: 0;
+}
+
+.friends-search__input {
+  width: 100%;
+  max-width: 420px;
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: rgba(2, 6, 23, 0.6);
+  border: 1px solid var(--mateka-border-soft);
+  border-radius: 10px;
+  color: var(--text-main);
+  font-size: 0.95rem;
+}
+
+.friends-search__input:focus {
+  outline: none;
+  border-color: var(--cyan);
+}
+
+.friends-search__hint {
+  margin-top: 10px;
+  color: var(--text-soft);
+  font-size: 0.85rem;
+}
+
+.friends-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.friends-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.friends-avatar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(2, 6, 23, 0.55);
+  border: 1px solid var(--mateka-border-soft);
+  border-radius: 12px;
+  padding: 8px 14px 8px 8px;
+  cursor: pointer;
+  color: var(--text-main);
+  transition: border-color 150ms ease;
+}
+
+.friends-avatar-row:hover {
+  border-color: var(--mateka-border-cyan);
+}
+
+.friends-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  background: linear-gradient(135deg, var(--cyan), var(--pink));
+  background-size: cover;
+  background-position: center;
+  color: #020617;
+  flex: 0 0 auto;
+}
+
+.friends-avatar__name {
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.friends-request-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(2, 6, 23, 0.4);
+  border: 1px solid var(--mateka-border-soft);
+  border-radius: 12px;
+  padding: 8px;
+}
+
+.friends-request-card .friends-avatar-row {
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  flex: 1;
+}
+
+.friends-request-card__actions {
+  display: flex;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
 @media (max-width: 720px) {
   .perfil-modules-grid {
     grid-template-columns: 1fr;
@@ -6830,7 +7445,14 @@ select {
 .module-picker-panel {
   width: min(520px, 100%);
   max-height: min(600px, calc(100vh - 48px));
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  /* Header/tabs live outside the scrolling region (below) rather than as a
+     sticky child of it — sticky + backdrop-filter + rounded overflow clipping
+     is a known Chromium bug that can paint the sticky element outside the
+     panel's rounded corners on scroll. Keeping the panel itself non-scrolling
+     and clipped sidesteps it entirely. */
+  overflow: hidden;
   background: var(--mateka-bg-card);
   border: 1px solid var(--mateka-border-cyan);
   border-radius: 20px;
@@ -6843,8 +7465,7 @@ select {
   justify-content: space-between;
   padding: 20px 24px;
   border-bottom: 1px solid var(--mateka-border-cyan);
-  position: sticky;
-  top: 0;
+  flex: 0 0 auto;
   background: var(--mateka-bg-card);
 }
 
@@ -6874,6 +7495,9 @@ select {
   flex-direction: column;
   gap: 12px;
   padding: 20px 24px 24px;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
 }
 
 .module-picker-item {

@@ -1,6 +1,7 @@
 import type { QuizQuestionData } from '../../components/modules/QuizQuestion'
 import type { ModuleConfig } from '../../pages/ModulosPage'
 import MatrizesIntro from '../../components/mascot/MatrizesIntro'
+import MatrixExplorerLab from '../../components/labs/MatrixExplorerLab'
 import { ALL_LESSONS, MATRIZES_UNITS } from './units'
 import { ALL_EXERCISE_SETS } from './exerciseSets'
 import { TRACK, isNodeUnlocked } from './track'
@@ -66,4 +67,5 @@ export const MATRIZES_MODULE_CONFIG: ModuleConfig = {
   endlessBank: ENDLESS_BANK,
   quizQuestions: QUIZ_QUESTIONS,
   IntroComponent: MatrizesIntro,
+  PlaygroundComponent: MatrixExplorerLab,
 }

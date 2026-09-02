@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const formulaExercises: Exercise[] = [
+  {
+    id: 'ga3-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o ponto médio entre A(1, 3) e B(5, 7)?',
+    choices: [
+      { id: 'a', label: '(3, 5)' },
+      { id: 'b', label: '(5, 3)' },
+      { id: 'c', label: '(6, 10)' },
+      { id: 'd', label: '(2, 4)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'M = ((1+5)/2, (3+7)/2) = (3, 5).',
+  },
+  {
+    id: 'ga3-e2',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o ponto médio entre A(0, 0) e B(8, 4)?',
+    choices: [
+      { id: 'a', label: '(4, 2)' },
+      { id: 'b', label: '(2, 4)' },
+      { id: 'c', label: '(8, 4)' },
+      { id: 'd', label: '(4, 4)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'M = ((0+8)/2, (0+4)/2) = (4, 2).',
+  },
+  {
+    id: 'ga3-e3',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o ponto médio entre A(−2, 3) e B(4, −1)?',
+    choices: [
+      { id: 'a', label: '(1, 1)' },
+      { id: 'b', label: '(2, 2)' },
+      { id: 'c', label: '(−1, −1)' },
+      { id: 'd', label: '(1, −1)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'M = ((−2+4)/2, (3−1)/2) = (1, 1).',
+  },
+  {
+    id: 'ga3-e4',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o ponto médio entre A(2, 2) e B(2, 8)?',
+    choices: [
+      { id: 'a', label: '(2, 5)' },
+      { id: 'b', label: '(5, 2)' },
+      { id: 'c', label: '(2, 10)' },
+      { id: 'd', label: '(4, 5)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'M = ((2+2)/2, (2+8)/2) = (2, 5).',
+  },
+  {
+    id: 'ga3-e5',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o ponto médio entre A(−3, −3) e B(3, 3)?',
+    choices: [
+      { id: 'a', label: '(0, 0)' },
+      { id: 'b', label: '(3, 3)' },
+      { id: 'c', label: '(−3, −3)' },
+      { id: 'd', label: '(6, 6)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'M = ((−3+3)/2, (−3+3)/2) = (0, 0).',
+  },
+]
+
+const razaoExercises: Exercise[] = [
+  {
+    id: 'ga4-e1',
+    kind: 'multiple-choice',
+    prompt: 'Se r = 1 na fórmula da razão de secção, ela se reduz a qual outra fórmula?',
+    choices: [
+      { id: 'a', label: 'Fórmula do ponto médio' },
+      { id: 'b', label: 'Fórmula da distância' },
+      { id: 'c', label: 'Fórmula da reta' },
+      { id: 'd', label: 'Fórmula do coeficiente angular' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Com r=1, P = ((xA+xB)/2, (yA+yB)/2) — exatamente o ponto médio.',
+  },
+  {
+    id: 'ga4-e2',
+    kind: 'multiple-choice',
+    prompt: 'Dividindo o segmento de A(0, 0) a B(9, 6) na razão r = 2, qual é o ponto P?',
+    choices: [
+      { id: 'a', label: '(6, 4)' },
+      { id: 'b', label: '(4, 6)' },
+      { id: 'c', label: '(3, 2)' },
+      { id: 'd', label: '(9, 6)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'P = ((0+2·9)/3, (0+2·6)/3) = (6, 4).',
+  },
+  {
+    id: 'ga4-e3',
+    kind: 'multiple-choice',
+    prompt: 'Na razão de secção r = AP/PB, se P está mais perto de A do que de B, r é...',
+    choices: [
+      { id: 'a', label: 'Menor que 1' },
+      { id: 'b', label: 'Maior que 1' },
+      { id: 'c', label: 'Igual a 1' },
+      { id: 'd', label: 'Igual a 0' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Se AP < PB, a razão AP/PB é menor que 1.',
+  },
+  {
+    id: 'ga4-e4',
+    kind: 'multiple-choice',
+    prompt: 'Dividindo A(0, 0) e B(10, 0) na razão r = 4, qual é a coordenada x de P?',
+    choices: [
+      { id: 'a', label: '8' },
+      { id: 'b', label: '4' },
+      { id: 'c', label: '2' },
+      { id: 'd', label: '10' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'x = (0 + 4·10)/(1+4) = 40/5 = 8.',
+  },
+  {
+    id: 'ga4-e5',
+    kind: 'multiple-choice',
+    prompt: 'Se r = 0 na fórmula da razão de secção, P coincide com qual ponto?',
+    choices: [
+      { id: 'a', label: 'A' },
+      { id: 'b', label: 'B' },
+      { id: 'c', label: 'O ponto médio' },
+      { id: 'd', label: 'A origem' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Com r=0, P = ((xA+0)/1, (yA+0)/1) = A.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'ga2x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o ponto médio entre A(1, −1) e B(−1, 1)?',
+    choices: [
+      { id: 'a', label: '(0, 0)' },
+      { id: 'b', label: '(1, 1)' },
+      { id: 'c', label: '(−1, −1)' },
+      { id: 'd', label: '(2, 2)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'M = ((1−1)/2, (−1+1)/2) = (0, 0).',
+  },
+  {
+    id: 'ga2x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Se M(4, 4) é o ponto médio de A(2, 2) e B, quais são as coordenadas de B?',
+    choices: [
+      { id: 'a', label: '(6, 6)' },
+      { id: 'b', label: '(2, 2)' },
+      { id: 'c', label: '(8, 8)' },
+      { id: 'd', label: '(4, 4)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '4 = (2+xB)/2 → xB=6; o mesmo raciocínio vale para y.',
+  },
+  {
+    id: 'ga2x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Dividindo A(1, 1) e B(7, 7) na razão r = 1/2, qual é o ponto P?',
+    choices: [
+      { id: 'a', label: '(3, 3)' },
+      { id: 'b', label: '(4, 4)' },
+      { id: 'c', label: '(5, 5)' },
+      { id: 'd', label: '(2, 2)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'P = ((1+0,5·7)/1,5, ...) = (4,5/1,5, ...) = (3, 3).',
+  },
+  {
+    id: 'ga2x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o ponto médio entre A(−5, 2) e B(5, −2)?',
+    choices: [
+      { id: 'a', label: '(0, 0)' },
+      { id: 'b', label: '(5, 2)' },
+      { id: 'c', label: '(−5, −2)' },
+      { id: 'd', label: '(10, 0)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'M = ((−5+5)/2, (2−2)/2) = (0, 0).',
+  },
+  {
+    id: 'ga2x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Se o ponto médio de A(0, 0) e B é (5, 5), quais são as coordenadas de B?',
+    choices: [
+      { id: 'a', label: '(10, 10)' },
+      { id: 'b', label: '(5, 5)' },
+      { id: 'c', label: '(2,5, 2,5)' },
+      { id: 'd', label: '(0, 0)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '5 = (0+xB)/2 → xB=10; o mesmo vale para y.',
+  },
+]
+
+export const GEOMETRIA_UNIT2_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-pontomedio-formula',
+    unitNumber: 2,
+    icon: 'M',
+    difficulty: 'easy',
+    title: 'Ponto Médio',
+    description: 'Encontrando o ponto exatamente no meio de um segmento.',
+    points: 40,
+    exercises: formulaExercises,
+  },
+  {
+    id: 'ex-pontomedio-razao',
+    unitNumber: 2,
+    icon: 'r',
+    difficulty: 'medium',
+    title: 'Razão de Secção',
+    description: 'Dividindo um segmento numa proporção qualquer.',
+    points: 60,
+    exercises: razaoExercises,
+  },
+  {
+    id: 'ex-pontomedio-desafio',
+    unitNumber: 2,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Ponto Médio e Razão de Secção',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 2.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

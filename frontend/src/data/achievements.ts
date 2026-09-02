@@ -29,7 +29,7 @@ export function computeAchievements(input: AchievementInput): Achievement[] {
       id: 'multitarefa',
       icon: '🧭',
       title: 'Multitarefa',
-      description: 'Comece os dois módulos disponíveis.',
+      description: 'Comece pelo menos dois módulos.',
       unlocked: input.startedModuleCount >= 2,
     },
     {

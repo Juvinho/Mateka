@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const paralelogramosExercises: Exercise[] = [
+  {
+    id: 'pl11-e1',
+    kind: 'multiple-choice',
+    prompt: 'Num paralelogramo, os lados opostos são:',
+    choices: [
+      { id: 'a', label: 'Paralelos e iguais' },
+      { id: 'b', label: 'Perpendiculares' },
+      { id: 'c', label: 'Paralelos, mas de tamanhos diferentes' },
+      { id: 'd', label: 'Não têm relação necessária' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Lados opostos de um paralelogramo são sempre paralelos e de mesma medida.',
+  },
+  {
+    id: 'pl11-e2',
+    kind: 'multiple-choice',
+    prompt: 'Num paralelogramo, as diagonais:',
+    choices: [
+      { id: 'a', label: 'Se cortam ao meio' },
+      { id: 'b', label: 'São sempre iguais' },
+      { id: 'c', label: 'São sempre perpendiculares' },
+      { id: 'd', label: 'Não se cruzam' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'As diagonais de um paralelogramo se cruzam no ponto médio de cada uma.',
+  },
+  {
+    id: 'pl11-e3',
+    kind: 'multiple-choice',
+    prompt: 'Um retângulo é um paralelogramo com:',
+    choices: [
+      { id: 'a', label: 'Todos os ângulos retos' },
+      { id: 'b', label: 'Todos os lados iguais' },
+      { id: 'c', label: 'Diagonais perpendiculares' },
+      { id: 'd', label: 'Nenhuma propriedade extra' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O retângulo é definido pelos quatro ângulos retos.',
+  },
+  {
+    id: 'pl11-e4',
+    kind: 'multiple-choice',
+    prompt: 'Um losango é um paralelogramo com:',
+    choices: [
+      { id: 'a', label: 'Todos os lados iguais' },
+      { id: 'b', label: 'Todos os ângulos retos' },
+      { id: 'c', label: 'Apenas um par de lados paralelos' },
+      { id: 'd', label: 'Nenhuma propriedade extra' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O losango é definido pelos quatro lados iguais.',
+  },
+  {
+    id: 'pl11-e5',
+    kind: 'multiple-choice',
+    prompt: 'Um quadrado é:',
+    choices: [
+      { id: 'a', label: 'Um retângulo e um losango ao mesmo tempo' },
+      { id: 'b', label: 'Nem retângulo nem losango' },
+      { id: 'c', label: 'Só um retângulo' },
+      { id: 'd', label: 'Só um losango' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O quadrado reúne as propriedades do retângulo e do losango.',
+  },
+]
+
+const trapeziosExercises: Exercise[] = [
+  {
+    id: 'pl12-e1',
+    kind: 'multiple-choice',
+    prompt: 'Um trapézio tem:',
+    choices: [
+      { id: 'a', label: 'Só um par de lados paralelos' },
+      { id: 'b', label: 'Dois pares de lados paralelos' },
+      { id: 'c', label: 'Nenhum lado paralelo' },
+      { id: 'd', label: 'Todos os lados iguais' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O trapézio tem exatamente um par de lados paralelos (as bases).',
+  },
+  {
+    id: 'pl12-e2',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a fórmula da base média de um trapézio com bases B e b?',
+    choices: [
+      { id: 'a', label: '(B + b)/2' },
+      { id: 'b', label: 'B + b' },
+      { id: 'c', label: '(B − b)/2' },
+      { id: 'd', label: 'B × b' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A base média é a média aritmética das duas bases.',
+  },
+  {
+    id: 'pl12-e3',
+    kind: 'multiple-choice',
+    prompt: 'Um trapézio isósceles tem:',
+    choices: [
+      { id: 'a', label: 'Os lados não paralelos iguais' },
+      { id: 'b', label: 'As duas bases iguais' },
+      { id: 'c', label: 'Todos os lados iguais' },
+      { id: 'd', label: 'Nenhum lado igual' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'No trapézio isósceles, os lados não paralelos (laterais) têm a mesma medida.',
+  },
+  {
+    id: 'pl12-e4',
+    kind: 'multiple-choice',
+    prompt: 'Um trapézio tem base maior 12cm e base menor 8cm. Qual é a base média?',
+    choices: [
+      { id: 'a', label: '10cm' },
+      { id: 'b', label: '20cm' },
+      { id: 'c', label: '4cm' },
+      { id: 'd', label: '8cm' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(12+8)/2 = 10cm.',
+  },
+  {
+    id: 'pl12-e5',
+    kind: 'multiple-choice',
+    prompt: 'Num trapézio isósceles, os ângulos da base maior são:',
+    choices: [
+      { id: 'a', label: 'Iguais entre si' },
+      { id: 'b', label: 'Sempre retos' },
+      { id: 'c', label: 'Suplementares entre si' },
+      { id: 'd', label: 'Diferentes entre si' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A simetria do trapézio isósceles garante ângulos iguais em cada base.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'pl6x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Um paralelogramo tem diagonais de 14cm e 10cm que se cruzam no ponto médio. Em quantas partes iguais cada diagonal é dividida, e quais os tamanhos?',
+    choices: [
+      { id: 'a', label: '7cm e 7cm; 5cm e 5cm' },
+      { id: 'b', label: '14cm e 10cm inteiras' },
+      { id: 'c', label: '3,5cm e 3,5cm; 2,5cm e 2,5cm' },
+      { id: 'd', label: 'Não se dividem ao meio' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Cada diagonal é dividida ao meio: 14/2=7 e 10/2=5.',
+  },
+  {
+    id: 'pl6x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Um losango tem diagonais 6cm e 8cm. Qual é o seu lado (usando Pitágoras nas metades das diagonais)?',
+    choices: [
+      { id: 'a', label: '5cm' },
+      { id: 'b', label: '7cm' },
+      { id: 'c', label: '10cm' },
+      { id: 'd', label: '14cm' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Metades 3 e 4: lado = √(9+16) = 5.',
+  },
+  {
+    id: 'pl6x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Um trapézio tem base média 15cm e base maior 20cm. Qual é a base menor?',
+    choices: [
+      { id: 'a', label: '10cm' },
+      { id: 'b', label: '5cm' },
+      { id: 'c', label: '17,5cm' },
+      { id: 'd', label: '35cm' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '15 = (20+b)/2 → 30=20+b → b=10.',
+  },
+  {
+    id: 'pl6x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Todo quadrado é um losango. Essa afirmação é:',
+    choices: [
+      { id: 'a', label: 'Verdadeira' },
+      { id: 'b', label: 'Falsa' },
+      { id: 'c', label: 'Só às vezes' },
+      { id: 'd', label: 'Depende do tamanho' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Todo quadrado tem os quatro lados iguais, então é sempre um losango.',
+  },
+  {
+    id: 'pl6x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Um paralelogramo tem um ângulo de 70°. Qual é o ângulo adjacente a ele (no mesmo lado)?',
+    choices: [
+      { id: 'a', label: '110°' },
+      { id: 'b', label: '70°' },
+      { id: 'c', label: '20°' },
+      { id: 'd', label: '290°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Ângulos adjacentes num paralelogramo são suplementares: 180−70=110.',
+  },
+]
+
+export const PLANA_UNIT6_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-quadrilateros-paralelogramos',
+    unitNumber: 6,
+    icon: '▱',
+    difficulty: 'easy',
+    title: 'Paralelogramos',
+    description: 'Propriedades e casos especiais: retângulo, losango, quadrado.',
+    points: 40,
+    exercises: paralelogramosExercises,
+  },
+  {
+    id: 'ex-quadrilateros-trapezios',
+    unitNumber: 6,
+    icon: '⏢',
+    difficulty: 'medium',
+    title: 'Trapézios',
+    description: 'Base maior, base menor e base média.',
+    points: 60,
+    exercises: trapeziosExercises,
+  },
+  {
+    id: 'ex-quadrilateros-desafio',
+    unitNumber: 6,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Quadriláteros Notáveis',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 6.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

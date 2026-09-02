@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const definicaoExercises: Exercise[] = [
+  {
+    id: 'ga15-e1',
+    kind: 'multiple-choice',
+    prompt: 'Uma elipse é definida como o conjunto de pontos cuja... a dois focos é constante.',
+    choices: [
+      { id: 'a', label: 'Soma das distâncias' },
+      { id: 'b', label: 'Diferença das distâncias' },
+      { id: 'c', label: 'Produto das distâncias' },
+      { id: 'd', label: 'Razão das distâncias' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A soma das distâncias a F₁ e F₂ é sempre igual a 2a.',
+  },
+  {
+    id: 'ga15-e2',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a relação entre a, b e c numa elipse?',
+    choices: [
+      { id: 'a', label: 'a² = b² + c²' },
+      { id: 'b', label: 'a² = b² − c²' },
+      { id: 'c', label: 'c² = a² + b²' },
+      { id: 'd', label: 'a = b + c' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O semieixo maior é sempre o "hipotenusa" dessa relação: a²=b²+c².',
+  },
+  {
+    id: 'ga15-e3',
+    kind: 'multiple-choice',
+    prompt: 'O que acontece com uma elipse se os dois focos coincidem (c=0)?',
+    choices: [
+      { id: 'a', label: 'Ela vira uma circunferência' },
+      { id: 'b', label: 'Ela desaparece' },
+      { id: 'c', label: 'Ela vira uma reta' },
+      { id: 'd', label: 'Ela vira uma parábola' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Com c=0, a=b, e a equação se torna a de uma circunferência.',
+  },
+  {
+    id: 'ga15-e4',
+    kind: 'multiple-choice',
+    prompt: 'O eixo maior de uma elipse tem comprimento:',
+    choices: [
+      { id: 'a', label: '2a' },
+      { id: 'b', label: 'a' },
+      { id: 'c', label: '2b' },
+      { id: 'd', label: 'a+b' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O eixo maior mede 2a, o dobro do semieixo maior.',
+  },
+  {
+    id: 'ga15-e5',
+    kind: 'multiple-choice',
+    prompt: 'Quanto mais distantes os focos estiverem um do outro, a elipse fica:',
+    choices: [
+      { id: 'a', label: 'Mais achatada' },
+      { id: 'b', label: 'Mais parecida com um círculo' },
+      { id: 'c', label: 'Menor' },
+      { id: 'd', label: 'Sem alteração de formato' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Focos mais distantes (c maior) tornam a elipse mais alongada/achatada.',
+  },
+]
+
+const equacaoExercises: Exercise[] = [
+  {
+    id: 'ga16-e1',
+    kind: 'multiple-choice',
+    prompt: 'Na equação x²/25 + y²/9 = 1, qual é o valor de a?',
+    choices: [
+      { id: 'a', label: '5' },
+      { id: 'b', label: '25' },
+      { id: 'c', label: '3' },
+      { id: 'd', label: '9' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'a² = 25, então a = 5.',
+  },
+  {
+    id: 'ga16-e2',
+    kind: 'multiple-choice',
+    prompt: 'Na mesma equação (x²/25+y²/9=1), sobre qual eixo está o eixo maior?',
+    choices: [
+      { id: 'a', label: 'Eixo x' },
+      { id: 'b', label: 'Eixo y' },
+      { id: 'c', label: 'Nenhum eixo' },
+      { id: 'd', label: 'Não é possível saber' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O maior denominador (25) está sob x, então o eixo maior é o eixo x.',
+  },
+  {
+    id: 'ga16-e3',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a equação reduzida de uma elipse centrada na origem com a=4 e b=2, eixo maior sobre x?',
+    choices: [
+      { id: 'a', label: 'x²/16 + y²/4 = 1' },
+      { id: 'b', label: 'x²/4 + y²/16 = 1' },
+      { id: 'c', label: 'x²/16 + y²/4 = 0' },
+      { id: 'd', label: 'x²/2 + y²/4 = 1' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'a²=16 no denominador de x², b²=4 no de y².',
+  },
+  {
+    id: 'ga16-e4',
+    kind: 'multiple-choice',
+    prompt: 'Na equação x²/4 + y²/16 = 1, sobre qual eixo está o eixo maior?',
+    choices: [
+      { id: 'a', label: 'Eixo y' },
+      { id: 'b', label: 'Eixo x' },
+      { id: 'c', label: 'Nenhum' },
+      { id: 'd', label: 'Ambos' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O maior denominador (16) está sob y — eixo maior sobre y.',
+  },
+  {
+    id: 'ga16-e5',
+    kind: 'multiple-choice',
+    prompt: 'Como se identifica qual eixo é o maior, a partir da equação reduzida?',
+    choices: [
+      { id: 'a', label: 'O maior denominador indica o eixo do eixo maior' },
+      { id: 'b', label: 'O menor denominador indica o eixo maior' },
+      { id: 'c', label: 'Sempre é o eixo x' },
+      { id: 'd', label: 'Depende do sinal dos termos' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O maior denominador corresponde a a², que define o eixo maior.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'ga8x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Uma elipse tem a=5 e c=3. Qual é o valor de b?',
+    choices: [
+      { id: 'a', label: '4' },
+      { id: 'b', label: '16' },
+      { id: 'c', label: '8' },
+      { id: 'd', label: '2' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'b² = a²−c² = 25−9 = 16, então b=4.',
+  },
+  {
+    id: 'ga8x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Na equação x²/9 + y²/4 = 1, quais são os valores de a e b?',
+    choices: [
+      { id: 'a', label: 'a=3, b=2' },
+      { id: 'b', label: 'a=9, b=4' },
+      { id: 'c', label: 'a=2, b=3' },
+      { id: 'd', label: 'a=4, b=9' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'a²=9→a=3; b²=4→b=2.',
+  },
+  {
+    id: 'ga8x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Continuando a elipse acima (a=3, b=2), qual é o valor de c?',
+    choices: [
+      { id: 'a', label: '√5' },
+      { id: 'b', label: '5' },
+      { id: 'c', label: '1' },
+      { id: 'd', label: '13' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'c² = a²−b² = 9−4 = 5, então c=√5.',
+  },
+  {
+    id: 'ga8x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Se a=b numa elipse, o que ela se torna?',
+    choices: [
+      { id: 'a', label: 'Uma circunferência' },
+      { id: 'b', label: 'Uma reta' },
+      { id: 'c', label: 'Uma parábola' },
+      { id: 'd', label: 'Deixa de existir' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Com a=b, c=0 e a curva vira uma circunferência de raio a.',
+  },
+  {
+    id: 'ga8x-e5',
+    kind: 'multiple-choice',
+    prompt: 'O comprimento do eixo menor de uma elipse com b=6 é:',
+    choices: [
+      { id: 'a', label: '12' },
+      { id: 'b', label: '6' },
+      { id: 'c', label: '3' },
+      { id: 'd', label: '36' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O eixo menor mede 2b = 12.',
+  },
+]
+
+export const GEOMETRIA_UNIT8_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-elipse-definicao',
+    unitNumber: 8,
+    icon: 'F₁F₂',
+    difficulty: 'easy',
+    title: 'Definição da Elipse',
+    description: 'Dois focos, uma soma constante de distâncias.',
+    points: 40,
+    exercises: definicaoExercises,
+  },
+  {
+    id: 'ex-elipse-equacao',
+    unitNumber: 8,
+    icon: 'x²/a²',
+    difficulty: 'medium',
+    title: 'Equação Reduzida da Elipse',
+    description: 'Lendo a e b, e identificando a orientação da elipse.',
+    points: 60,
+    exercises: equacaoExercises,
+  },
+  {
+    id: 'ex-elipse-desafio',
+    unitNumber: 8,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Elipse',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 8.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

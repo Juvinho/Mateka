@@ -1,15 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 
-interface WaveDot {
-  x: number
-  y: number
-  label: string
-  color: string
-  labelPosition: 'above' | 'below' | 'right'
-  opacity: number
-  fadeFrames: number
-}
-
 import { WaveSynth, audioIsSupported } from '../utils/audio'
 import { useMagneticButton } from '../hooks/useMagneticButton'
 import { useSpringReveal } from '../hooks/useSpringReveal'
@@ -18,8 +8,6 @@ import { mapRange } from '../utils/math'
 const CANVAS_WIDTH = 1200
 const CANVAS_HEIGHT = 200
 const PHASE_INCREMENT = 0.03
-const DOT_FADE_FRAMES = 20
-const DOT_WRAP_PADDING = 20
 const WAVE_SCALE_X = 62.5
 
 function getWaveY(
@@ -33,40 +21,6 @@ function getWaveY(
   return centerY - amplitude * Math.sin((xCanvas / scaleX) * frequency + phase)
 }
 
-function initDots(frequency: number, scaleX: number): WaveDot[] {
-  const k = scaleX / frequency
-
-  return [
-    {
-      x: (Math.PI / 2) * k,
-      y: 0,
-      label: 'max',
-      color: '#22d3ee',
-      labelPosition: 'above',
-      opacity: 1,
-      fadeFrames: 0,
-    },
-    {
-      x: Math.PI * k,
-      y: 0,
-      label: '0',
-      color: '#ffffff',
-      labelPosition: 'right',
-      opacity: 1,
-      fadeFrames: 0,
-    },
-    {
-      x: ((3 * Math.PI) / 2) * k,
-      y: 0,
-      label: 'min',
-      color: '#f472b6',
-      labelPosition: 'below',
-      opacity: 1,
-      fadeFrames: 0,
-    },
-  ]
-}
-
 const WavePlayground = () => {
   const sectionRef = useRef<HTMLElement | null>(null)
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
@@ -78,7 +32,6 @@ const WavePlayground = () => {
   const [isDraggingAmplitude, setIsDraggingAmplitude] = useState(false)
   const [dragAmplitudePercent, setDragAmplitudePercent] = useState(() => Math.round(0.8 * 100))
 
-  const dotsRef = useRef<WaveDot[]>(initDots(frequency, WAVE_SCALE_X))
   const frequencyRef = useRef(frequency)
   const amplitudeRef = useRef(amplitude)
   const harmonicEnabledRef = useRef(harmonicEnabled)
@@ -145,7 +98,6 @@ const WavePlayground = () => {
   useEffect(() => {
     frequencyRef.current = frequency
     waveSpeedRef.current = (PHASE_INCREMENT * WAVE_SCALE_X) / frequency
-    dotsRef.current = initDots(frequency, WAVE_SCALE_X)
   }, [frequency])
 
   useEffect(() => {
@@ -317,60 +269,6 @@ const WavePlayground = () => {
         context.stroke()
       }
 
-      const dots = dotsRef.current
-
-      for (const dot of dots) {
-        if (!reducedMotion) {
-          dot.x -= waveSpeedRef.current
-
-          if (dot.x < -DOT_WRAP_PADDING) {
-            dot.x = width + DOT_WRAP_PADDING
-            dot.fadeFrames = DOT_FADE_FRAMES
-            dot.opacity = 0
-          }
-
-          if (dot.fadeFrames > 0) {
-            dot.opacity = 1 - dot.fadeFrames / DOT_FADE_FRAMES
-            dot.fadeFrames--
-          } else {
-            dot.opacity = 1
-          }
-        } else {
-          dot.opacity = 1
-        }
-
-        dot.y = getWaveY(dot.x, phase, centerY, maxAmplitudePx, activeFrequency, WAVE_SCALE_X)
-      }
-
-      for (const dot of dots) {
-        const radius = dot.label === '0' ? 5 : 7
-        const finalAlpha = dot.opacity
-
-        context.save()
-        context.globalAlpha = finalAlpha
-        context.shadowBlur = 16
-        context.shadowColor = dot.color
-        context.beginPath()
-        context.fillStyle = dot.color
-        context.arc(dot.x, dot.y, radius, 0, Math.PI * 2)
-        context.fill()
-
-        context.shadowBlur = 0
-        context.font = 'bold 11px monospace'
-        context.fillStyle = dot.color
-        context.textAlign = 'center'
-
-        if (dot.labelPosition === 'above') {
-          context.fillText(dot.label, dot.x, dot.y - 14)
-        } else if (dot.labelPosition === 'below') {
-          context.fillText(dot.label, dot.x, dot.y + 22)
-        } else {
-          context.textAlign = 'left'
-          context.fillText(dot.label, dot.x + 10, dot.y + 4)
-        }
-
-        context.restore()
-      }
 
       if (harmonicActive) {
         context.save()
@@ -488,7 +386,6 @@ const WavePlayground = () => {
   const handleFrequencyChange = (newFrequency: number): void => {
     frequencyRef.current = newFrequency
     waveSpeedRef.current = (PHASE_INCREMENT * WAVE_SCALE_X) / newFrequency
-    dotsRef.current = initDots(newFrequency, WAVE_SCALE_X)
     setFrequency(newFrequency)
   }
 

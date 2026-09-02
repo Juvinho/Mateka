@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState } from 'react'
 import gsap from 'gsap'
 import type { MultipleChoiceExercise } from '../../data/exerciseTypes'
+import { shuffle } from '../../lib/shuffle'
 import ExerciseContext from './ExerciseContext'
 import MatrixGrid from './MatrixGrid'
 
@@ -13,6 +14,11 @@ type Props = {
 const MultipleChoiceQuestion = ({ exercise, onSubmit, disabled }: Props) => {
   const [selected, setSelected] = useState<string | null>(null)
   const [answered, setAnswered] = useState(false)
+  // Shuffled once per mount (ExerciseRenderer keys this component by exercise
+  // id, so a new exercise — or the same one reappearing in Endless mode —
+  // always remounts fresh) so the correct answer isn't always in the same
+  // position.
+  const [shuffledChoices] = useState(() => shuffle(exercise.choices))
 
   const reducedMotion = useMemo(
     () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
@@ -69,7 +75,7 @@ const MultipleChoiceQuestion = ({ exercise, onSubmit, disabled }: Props) => {
       <ExerciseContext items={exercise.context} />
       <p className="exercise-prompt">{exercise.prompt}</p>
       <div className="exercise-choices">
-        {exercise.choices.map((choice) => (
+        {shuffledChoices.map((choice) => (
           <button
             key={choice.id}
             ref={(el) => {

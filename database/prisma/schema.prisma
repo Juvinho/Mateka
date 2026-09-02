@@ -28,7 +28,9 @@ datasource db {
 /// CHECK email_format: email deve bater com um padrão simples de e-mail.
 /// CHECK password_or_oauth: auth_provider='email' exige password_hash NOT NULL;
 ///   qualquer outro provider exige password_hash NULL.
-/// CHECK role_valid: role IN ('student', 'admin').
+/// CHECK role_valid: role IN ('student', 'admin', 'creator'). 'creator' is a
+///   cosmetic badge for the site's creator — same permissions as 'student',
+///   just a visual tag on the profile.
 ///
 /// RN-11 (aplicação): após 5 tentativas de login malsucedidas consecutivas,
 ///   setar lockedUntil = now() + 15min. Zerar failedLoginAttempts no login
@@ -43,6 +45,7 @@ model User {
   role                String    @default("student")
   avatarUrl           String?   @map("avatar_url")
   bannerUrl           String?   @map("banner_url")
+  bio                 String?   @map("bio")
   failedLoginAttempts Int       @default(0) @map("failed_login_attempts") @db.SmallInt
   lockedUntil         DateTime? @map("locked_until") @db.Timestamptz
   createdAt           DateTime  @default(now()) @map("created_at") @db.Timestamptz
@@ -50,13 +53,15 @@ model User {
   // por isso não leva @updatedAt aqui (evita duas fontes de verdade).
   updatedAt           DateTime  @default(now()) @map("updated_at") @db.Timestamptz
 
-  sessions           Session[]
-  verificationTokens VerificationToken[]
-  exerciseAttempts   ExerciseAttempt[]
-  lessonProgress     LessonProgress[]
-  unitUnlocks        UnitUnlock[]
-  streakLog          StreakLog[]
-  emyAppearanceLogs  EmyAppearanceLog[]
+  sessions            Session[]
+  verificationTokens  VerificationToken[]
+  exerciseAttempts    ExerciseAttempt[]
+  lessonProgress      LessonProgress[]
+  unitUnlocks         UnitUnlock[]
+  streakLog           StreakLog[]
+  emyAppearanceLogs   EmyAppearanceLog[]
+  friendshipsSent     Friendship[]         @relation("FriendshipRequester")
+  friendshipsReceived Friendship[]         @relation("FriendshipAddressee")
 
   @@map("users")
 }
@@ -94,6 +99,28 @@ model VerificationToken {
   usedAt    DateTime? @map("used_at") @db.Timestamptz
 
   @@map("verification_tokens")
+}
+
+/// CHECK status_valid: status IN ('pending', 'accepted', 'declined').
+/// CHECK not_self: requester_id <> addressee_id.
+model Friendship {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  requesterId String   @map("requester_id") @db.Uuid
+  requester   User     @relation("FriendshipRequester", fields: [requesterId], references: [id], onDelete: Cascade)
+  addresseeId String   @map("addressee_id") @db.Uuid
+  addressee   User     @relation("FriendshipAddressee", fields: [addresseeId], references: [id], onDelete: Cascade)
+  status      String   @default("pending")
+  // Flips to false whenever `status` becomes 'accepted', so the requester can
+  // be shown a "fulano aceitou seu pedido" notification once — flips back to
+  // true the moment they see it. Meaningless while status is 'pending'.
+  requesterSeenAcceptance Boolean  @default(true) @map("requester_seen_acceptance")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime @default(now()) @map("updated_at") @db.Timestamptz
+
+  @@unique([requesterId, addresseeId])
+  @@index([addresseeId, status], map: "idx_friendships_addressee")
+  @@index([requesterId, status], map: "idx_friendships_requester")
+  @@map("friendships")
 }
 
 // ========== MÓDULO 2: CONTEÚDO ==========

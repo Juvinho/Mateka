@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const axbExercises: Exercise[] = [
+  {
+    id: 'sl15-e1',
+    kind: 'multiple-choice',
+    prompt: 'Na forma Ax = b, o que representa a matriz A?',
+    choices: [
+      { id: 'a', label: 'A matriz dos coeficientes das incógnitas' },
+      { id: 'b', label: 'A matriz das soluções' },
+      { id: 'c', label: 'A matriz dos termos independentes' },
+      { id: 'd', label: 'O vetor das incógnitas' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A é a matriz formada pelos coeficientes que multiplicam as incógnitas em cada equação.',
+  },
+  {
+    id: 'sl15-e2',
+    kind: 'multiple-choice',
+    prompt: 'Na forma Ax = b, o que representa a matriz-coluna b?',
+    choices: [
+      { id: 'a', label: 'Os termos independentes das equações' },
+      { id: 'b', label: 'Os coeficientes das incógnitas' },
+      { id: 'c', label: 'As próprias incógnitas' },
+      { id: 'd', label: 'O determinante do sistema' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'b reúne os valores do lado direito de cada equação, um por linha.',
+  },
+  {
+    id: 'sl15-e3',
+    kind: 'multiple-choice',
+    prompt: 'Para o sistema 2x + y = 16 e x + 3y = 23, qual é a matriz dos coeficientes A?',
+    choices: [
+      { id: 'a', label: '[[2, 1], [1, 3]]' },
+      { id: 'b', label: '[[16, 23]]' },
+      { id: 'c', label: '[[2, 16], [1, 23]]' },
+      { id: 'd', label: '[[1, 2], [3, 1]]' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Cada linha de A tem os coeficientes de x e y de uma equação, na ordem em que aparecem.',
+  },
+  {
+    id: 'sl15-e4',
+    kind: 'multiple-choice',
+    prompt: 'Para o mesmo sistema, qual é a matriz-coluna b?',
+    choices: [
+      { id: 'a', label: '[[16], [23]]' },
+      { id: 'b', label: '[[2], [1]]' },
+      { id: 'c', label: '[[1], [3]]' },
+      { id: 'd', label: '[[23], [16]]' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'b tem os termos independentes de cada equação, na mesma ordem das linhas de A.',
+  },
+  {
+    id: 'sl15-e5',
+    kind: 'multiple-choice',
+    prompt: 'O que a multiplicação Ax deve reproduzir, para que Ax = b represente corretamente o sistema?',
+    choices: [
+      { id: 'a', label: 'O lado esquerdo de cada equação original' },
+      { id: 'b', label: 'O lado direito de cada equação' },
+      { id: 'c', label: 'A soma de todas as incógnitas' },
+      { id: 'd', label: 'O determinante da matriz A' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Ax reproduz exatamente as expressões do lado esquerdo de cada equação (2x+y, x+3y, etc.).',
+  },
+]
+
+const aumentadaExercises: Exercise[] = [
+  {
+    id: 'sl16-e1',
+    kind: 'multiple-choice',
+    prompt: 'A matriz aumentada de um sistema é formada por:',
+    choices: [
+      { id: 'a', label: 'A matriz dos coeficientes com a coluna b anexada à direita' },
+      { id: 'b', label: 'Só a matriz dos coeficientes' },
+      { id: 'c', label: 'Só a coluna b' },
+      { id: 'd', label: 'A matriz A multiplicada por b' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A matriz aumentada junta A e b numa única tabela, reunindo o sistema inteiro.',
+  },
+  {
+    id: 'sl16-e2',
+    kind: 'multiple-choice',
+    prompt: 'Para o sistema 2x + y = 16 e x + 3y = 23, qual é a matriz aumentada?',
+    choices: [
+      { id: 'a', label: '[[2, 1 | 16], [1, 3 | 23]]' },
+      { id: 'b', label: '[[16, 23 | 2]]' },
+      { id: 'c', label: '[[2, 16], [1, 23]]' },
+      { id: 'd', label: '[[1, 3 | 2], [2, 1 | 16]]' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Cada linha reúne os coeficientes de x e y seguidos do termo independente daquela equação.',
+  },
+  {
+    id: 'sl16-e3',
+    kind: 'multiple-choice',
+    prompt: 'Cada linha da matriz aumentada representa:',
+    choices: [
+      { id: 'a', label: 'Uma equação completa do sistema' },
+      { id: 'b', label: 'Uma incógnita do sistema' },
+      { id: 'c', label: 'A solução do sistema' },
+      { id: 'd', label: 'Um determinante' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Coeficientes e termo independente juntos, linha a linha, reproduzem cada equação original.',
+  },
+  {
+    id: 'sl16-e4',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a principal vantagem prática da matriz aumentada?',
+    choices: [
+      { id: 'a', label: 'Permite aplicar o escalonamento diretamente nas linhas, sem reescrever equações inteiras' },
+      { id: 'b', label: 'Elimina a necessidade de resolver o sistema' },
+      { id: 'c', label: 'Troca as incógnitas por letras' },
+      { id: 'd', label: 'Só serve para sistemas 3×3' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O escalonamento pode ser feito com operações nas linhas da matriz aumentada, de forma mais compacta.',
+  },
+  {
+    id: 'sl16-e5',
+    kind: 'multiple-choice',
+    prompt: 'Na matriz aumentada [[1, 2 | 5], [3, −1 | 4]], qual é o sistema original que ela representa?',
+    choices: [
+      { id: 'a', label: 'x + 2y = 5 e 3x − y = 4' },
+      { id: 'b', label: 'x + 3y = 5 e 2x − y = 4' },
+      { id: 'c', label: 'x + 2y = 4 e 3x − y = 5' },
+      { id: 'd', label: '2x + y = 5 e −x + 3y = 4' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Cada linha vira uma equação: coeficiente de x, coeficiente de y, e o termo independente após a barra.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'sl8x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Para o sistema x + y + z = 6, 2x − y + z = 3, x + 2y − z = 2, qual é a matriz dos coeficientes A?',
+    choices: [
+      { id: 'a', label: '[[1,1,1],[2,−1,1],[1,2,−1]]' },
+      { id: 'b', label: '[[1,2,1],[1,−1,2],[1,1,−1]]' },
+      { id: 'c', label: '[[6,3,2],[1,1,1],[2,−1,1]]' },
+      { id: 'd', label: '[[1,1,1],[2,1,1],[1,2,1]]' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Cada linha de A traz os coeficientes de x, y e z de cada equação, na ordem original.',
+  },
+  {
+    id: 'sl8x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Para o mesmo sistema, qual é a matriz-coluna b?',
+    choices: [
+      { id: 'a', label: '[[6],[3],[2]]' },
+      { id: 'b', label: '[[1],[2],[3]]' },
+      { id: 'c', label: '[[2],[3],[6]]' },
+      { id: 'd', label: '[[1],[1],[1]]' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'b traz os termos independentes de cada equação, na mesma ordem das linhas de A.',
+  },
+  {
+    id: 'sl8x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a matriz aumentada do sistema x + y = 7 e 2x − y = 2?',
+    choices: [
+      { id: 'a', label: '[[1, 1 | 7], [2, −1 | 2]]' },
+      { id: 'b', label: '[[1, 2 | 7], [1, −1 | 2]]' },
+      { id: 'c', label: '[[7, 2], [1, −1]]' },
+      { id: 'd', label: '[[1, 1, 7], [−1, 2, 2]]' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Cada linha traz os coeficientes seguidos do termo independente após a barra.',
+  },
+  {
+    id: 'sl8x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Se A = [[3, 0], [0, 3]] e x = [[x], [y]], o que é Ax?',
+    choices: [
+      { id: 'a', label: '[[3x], [3y]]' },
+      { id: 'b', label: '[[3x + y], [x + 3y]]' },
+      { id: 'c', label: '[[x], [y]]' },
+      { id: 'd', label: '[[9x], [9y]]' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Multiplicando linha por coluna: (3·x + 0·y, 0·x + 3·y) = (3x, 3y).',
+  },
+  {
+    id: 'sl8x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Por que a forma Ax = b é útil para conectar sistemas lineares com o que você já sabe sobre matrizes?',
+    choices: [
+      { id: 'a', label: 'Permite usar operações e propriedades de matrizes (como determinantes) para resolver o sistema' },
+      { id: 'b', label: 'Porque troca as incógnitas por números aleatórios' },
+      { id: 'c', label: 'Porque elimina a necessidade de duas equações' },
+      { id: 'd', label: 'Porque só funciona para sistemas impossíveis' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Escrever o sistema como Ax = b abre caminho para ferramentas de matrizes — como a Regra de Cramer, na próxima unidade.',
+  },
+]
+
+export const SISTEMAS_UNIT8_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-matricial-axb',
+    unitNumber: 8,
+    icon: '[A]',
+    difficulty: 'easy',
+    title: 'Sistema como Ax = b',
+    description: 'Reescrevendo um sistema como uma equação entre matrizes.',
+    points: 40,
+    exercises: axbExercises,
+  },
+  {
+    id: 'ex-matricial-aumentada',
+    unitNumber: 8,
+    icon: '[A|b]',
+    difficulty: 'medium',
+    title: 'Matriz Aumentada',
+    description: 'A tabela que resume por completo um sistema linear.',
+    points: 60,
+    exercises: aumentadaExercises,
+  },
+  {
+    id: 'ex-matricial-desafio',
+    unitNumber: 8,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Representação Matricial',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 8.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const isolamentoExercises: Exercise[] = [
+  {
+    id: 'sl3-e1',
+    kind: 'multiple-choice',
+    prompt: 'Isolando y na equação x + y = 9, obtemos:',
+    choices: [
+      { id: 'a', label: 'y = 9 − x' },
+      { id: 'b', label: 'y = 9 + x' },
+      { id: 'c', label: 'y = x − 9' },
+      { id: 'd', label: 'y = −9 − x' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Isolando y: passamos x para o outro lado trocando o sinal, resultando em y = 9 − x.',
+  },
+  {
+    id: 'sl3-e2',
+    kind: 'multiple-choice',
+    prompt: 'Isolando x na equação 2x + y = 10, obtemos:',
+    choices: [
+      { id: 'a', label: 'x = (10 − y) / 2' },
+      { id: 'b', label: 'x = 10 − y / 2' },
+      { id: 'c', label: 'x = (y − 10) / 2' },
+      { id: 'd', label: 'x = 10 − 2y' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Isolando: 2x = 10 − y, e dividindo por 2 dos dois lados: x = (10 − y) / 2.',
+  },
+  {
+    id: 'sl3-e3',
+    kind: 'multiple-choice',
+    prompt: 'Na equação 3x − y = 7, isolando y obtemos:',
+    choices: [
+      { id: 'a', label: 'y = 3x − 7' },
+      { id: 'b', label: 'y = 7 − 3x' },
+      { id: 'c', label: 'y = (7 − x) / 3' },
+      { id: 'd', label: 'y = 7 + 3x' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Isolando y: −y = 7 − 3x, e multiplicando por −1: y = 3x − 7.',
+  },
+  {
+    id: 'sl3-e4',
+    kind: 'multiple-choice',
+    prompt: 'Para isolar x em x + 4y = 12 sem gerar fração, qual é o resultado?',
+    choices: [
+      { id: 'a', label: 'x = 12 − 4y' },
+      { id: 'b', label: 'x = 12 + 4y' },
+      { id: 'c', label: 'x = 4y − 12' },
+      { id: 'd', label: 'x = (12 − y) / 4' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Como x já tem coeficiente 1, basta passar 4y para o outro lado: x = 12 − 4y.',
+  },
+  {
+    id: 'sl3-e5',
+    kind: 'multiple-choice',
+    prompt: 'Qual variável é mais fácil de isolar em 5x + y = 20, sem gerar fração?',
+    choices: [
+      { id: 'a', label: 'y, pois seu coeficiente já é 1' },
+      { id: 'b', label: 'x, pois seu coeficiente já é 1' },
+      { id: 'c', label: 'Nenhuma, ambas geram fração' },
+      { id: 'd', label: 'x e y são igualmente fáceis' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Como y tem coeficiente 1, isolar y não exige dividir nada: y = 20 − 5x.',
+  },
+]
+
+const resolucaoExercises: Exercise[] = [
+  {
+    id: 'sl4-e1',
+    kind: 'multiple-choice',
+    prompt: 'Resolva por substituição: y = x + 1 e 2x + y = 10. Qual é o valor de x?',
+    choices: [
+      { id: 'a', label: '3' },
+      { id: 'b', label: '4' },
+      { id: 'c', label: '2' },
+      { id: 'd', label: '5' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Substituindo: 2x + (x+1) = 10 → 3x = 9 → x = 3.',
+  },
+  {
+    id: 'sl4-e2',
+    kind: 'multiple-choice',
+    prompt: 'Continuando o sistema acima (x = 3), qual é o valor de y?',
+    choices: [
+      { id: 'a', label: '4' },
+      { id: 'b', label: '3' },
+      { id: 'c', label: '5' },
+      { id: 'd', label: '1' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'y = x + 1 = 3 + 1 = 4.',
+  },
+  {
+    id: 'sl4-e3',
+    kind: 'multiple-choice',
+    prompt: 'Resolva por substituição: x = 2y e x + y = 12. Qual é o par (x, y)?',
+    choices: [
+      { id: 'a', label: '(8, 4)' },
+      { id: 'b', label: '(4, 8)' },
+      { id: 'c', label: '(6, 6)' },
+      { id: 'd', label: '(2, 10)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Substituindo: 2y + y = 12 → 3y = 12 → y = 4, e x = 2(4) = 8.',
+  },
+  {
+    id: 'sl4-e4',
+    kind: 'multiple-choice',
+    prompt: 'Resolva por substituição: x + y = 15 e x − y = 3. Isolando x na segunda equação (x = y + 3) e substituindo na primeira, qual é o valor de y?',
+    choices: [
+      { id: 'a', label: '6' },
+      { id: 'b', label: '9' },
+      { id: 'c', label: '3' },
+      { id: 'd', label: '12' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(y+3) + y = 15 → 2y = 12 → y = 6.',
+  },
+  {
+    id: 'sl4-e5',
+    kind: 'multiple-choice',
+    prompt: 'No sistema 3x + 2y = 16 e y = 2, qual é o valor de x?',
+    choices: [
+      { id: 'a', label: '4' },
+      { id: 'b', label: '6' },
+      { id: 'c', label: '5' },
+      { id: 'd', label: '3' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '3x + 2(2) = 16 → 3x + 4 = 16 → 3x = 12 → x = 4.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'sl2x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Resolva por substituição: 2x − y = 1 e x + y = 8. Qual é a solução?',
+    choices: [
+      { id: 'a', label: '(3, 5)' },
+      { id: 'b', label: '(5, 3)' },
+      { id: 'c', label: '(4, 4)' },
+      { id: 'd', label: '(2, 6)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Isolando y = 2x − 1 e substituindo: x + (2x−1) = 8 → 3x = 9 → x = 3, y = 5.',
+  },
+  {
+    id: 'sl2x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Resolva: x = 3y − 2 e 2x + y = 3. Qual é o valor de y?',
+    choices: [
+      { id: 'a', label: '1' },
+      { id: 'b', label: '0' },
+      { id: 'c', label: '2' },
+      { id: 'd', label: '−1' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '2(3y−2) + y = 3 → 6y − 4 + y = 3 → 7y = 7 → y = 1.',
+  },
+  {
+    id: 'sl2x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Se isolarmos x em x − 5y = 0, obtemos x = 5y. Substituindo em 2x + y = 22, qual é o valor de y?',
+    choices: [
+      { id: 'a', label: '2' },
+      { id: 'b', label: '4' },
+      { id: 'c', label: '1' },
+      { id: 'd', label: '11' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '2(5y) + y = 22 → 11y = 22 → y = 2.',
+  },
+  {
+    id: 'sl2x-e4',
+    kind: 'multiple-choice',
+    prompt: 'No sistema y = −x + 6 e 3x − y = 2, qual é a solução?',
+    choices: [
+      { id: 'a', label: '(2, 4)' },
+      { id: 'b', label: '(4, 2)' },
+      { id: 'c', label: '(3, 3)' },
+      { id: 'd', label: '(1, 5)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '3x − (−x+6) = 2 → 4x − 6 = 2 → x = 2, y = −2+6 = 4.',
+  },
+  {
+    id: 'sl2x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Um sistema tem x = 4 − y e 5x + 3y = 12. Qual é o valor de y?',
+    choices: [
+      { id: 'a', label: '4' },
+      { id: 'b', label: '2' },
+      { id: 'c', label: '0' },
+      { id: 'd', label: '−4' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '5(4−y) + 3y = 12 → 20 − 5y + 3y = 12 → −2y = −8 → y = 4.',
+  },
+]
+
+export const SISTEMAS_UNIT2_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-substituicao-isolamento',
+    unitNumber: 2,
+    icon: 'x=',
+    difficulty: 'easy',
+    title: 'Isolando uma Variável',
+    description: 'O primeiro passo do método da substituição.',
+    points: 40,
+    exercises: isolamentoExercises,
+  },
+  {
+    id: 'ex-substituicao-resolucao',
+    unitNumber: 2,
+    icon: '⇄',
+    difficulty: 'medium',
+    title: 'Resolvendo por Substituição',
+    description: 'Substituindo a expressão isolada para resolver o sistema.',
+    points: 60,
+    exercises: resolucaoExercises,
+  },
+  {
+    id: 'ex-substituicao-desafio',
+    unitNumber: 2,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Método da Substituição',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 2.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

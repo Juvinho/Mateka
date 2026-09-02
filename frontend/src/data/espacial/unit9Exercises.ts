@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const combinandoExercises: Exercise[] = [
+  {
+    id: 'es17-e1',
+    kind: 'multiple-choice',
+    prompt: 'Um silo formado por um cilindro com um cone no topo é um exemplo de:',
+    choices: [
+      { id: 'a', label: 'Figura composta, combinando dois sólidos simples' },
+      { id: 'b', label: 'Um sólido puro, sem composição' },
+      { id: 'c', label: 'Uma pirâmide' },
+      { id: 'd', label: 'Uma esfera' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O silo combina um cilindro e um cone — uma figura composta.',
+  },
+  {
+    id: 'es17-e2',
+    kind: 'multiple-choice',
+    prompt: 'Para calcular o volume de uma figura composta, a estratégia é:',
+    choices: [
+      { id: 'a', label: 'Decompor em sólidos simples e somar ou subtrair os volumes conforme o caso' },
+      { id: 'b', label: 'Sempre somar todos os volumes' },
+      { id: 'c', label: 'Sempre multiplicar os volumes' },
+      { id: 'd', label: 'É impossível calcular' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Decompor e combinar (soma ou subtração) resolve qualquer figura composta.',
+  },
+  {
+    id: 'es17-e3',
+    kind: 'multiple-choice',
+    prompt: 'Um silo tem um cilindro de volume 500m³ e um cone no topo de volume 60m³. Qual é o volume total?',
+    choices: [
+      { id: 'a', label: '560m³' },
+      { id: 'b', label: '440m³' },
+      { id: 'c', label: '30000m³' },
+      { id: 'd', label: '500m³' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '500 + 60 = 560m³.',
+  },
+  {
+    id: 'es17-e4',
+    kind: 'multiple-choice',
+    prompt: 'Um cilindro oco (como um tubo) tem seu volume de material calculado:',
+    choices: [
+      { id: 'a', label: 'Volume do cilindro externo menos o volume do cilindro interno (vazio)' },
+      { id: 'b', label: 'Soma dos dois cilindros' },
+      { id: 'c', label: 'Volume do cilindro interno apenas' },
+      { id: 'd', label: 'Não é possível calcular' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O material é o externo menos o vazio interno.',
+  },
+  {
+    id: 'es17-e5',
+    kind: 'multiple-choice',
+    prompt: 'Quando devemos subtrair volumes, em vez de somar, ao calcular uma figura composta?',
+    choices: [
+      { id: 'a', label: 'Quando uma parte foi removida de dentro da outra' },
+      { id: 'b', label: 'Sempre, nunca se soma' },
+      { id: 'c', label: 'Nunca, sempre se soma' },
+      { id: 'd', label: 'Só quando os sólidos são iguais' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Subtração aparece quando há uma cavidade ou parte removida.',
+  },
+]
+
+const praticasExercises: Exercise[] = [
+  {
+    id: 'es18-e1',
+    kind: 'multiple-choice',
+    prompt: 'Empresas de embalagem usam geometria espacial para:',
+    choices: [
+      { id: 'a', label: 'Otimizar o volume com a menor área de material possível' },
+      { id: 'b', label: 'Aumentar sempre o preço do produto' },
+      { id: 'c', label: 'Calcular só o peso da embalagem' },
+      { id: 'd', label: 'Escolher cores da embalagem' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A otimização de material é uma aplicação clássica de geometria espacial.',
+  },
+  {
+    id: 'es18-e2',
+    kind: 'multiple-choice',
+    prompt: 'Um problema clássico de otimização compara embalagens de mesmo volume mas formatos diferentes, buscando:',
+    choices: [
+      { id: 'a', label: 'A menor área total de material' },
+      { id: 'b', label: 'O maior volume possível' },
+      { id: 'c', label: 'A maior altura possível' },
+      { id: 'd', label: 'O maior número de faces' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Minimizar a área de material, mantendo o volume, é o objetivo típico.',
+  },
+  {
+    id: 'es18-e3',
+    kind: 'multiple-choice',
+    prompt: 'Um lápis novo tem formato aproximado de:',
+    choices: [
+      { id: 'a', label: 'Um cilindro com um cone na ponta' },
+      { id: 'b', label: 'Uma esfera' },
+      { id: 'c', label: 'Um cubo' },
+      { id: 'd', label: 'Uma pirâmide' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O corpo é cilíndrico e a ponta apontada lembra um cone.',
+  },
+  {
+    id: 'es18-e4',
+    kind: 'multiple-choice',
+    prompt: 'Engenheiros usam geometria espacial para dimensionar reservatórios de água principalmente para calcular:',
+    choices: [
+      { id: 'a', label: 'A capacidade (volume) do reservatório' },
+      { id: 'b', label: 'A cor da água' },
+      { id: 'c', label: 'A temperatura da água' },
+      { id: 'd', label: 'O peso do reservatório vazio' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A capacidade é diretamente o volume do reservatório.',
+  },
+  {
+    id: 'es18-e5',
+    kind: 'multiple-choice',
+    prompt: 'Ao longo deste módulo, qual relação apareceu repetidamente entre pirâmides/cones e prismas/cilindros de mesma base e altura?',
+    choices: [
+      { id: 'a', label: 'O volume da pirâmide/cone é um terço do prisma/cilindro correspondente' },
+      { id: 'b', label: 'Os volumes são sempre iguais' },
+      { id: 'c', label: 'O volume da pirâmide/cone é o dobro' },
+      { id: 'd', label: 'Não existe relação entre eles' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Essa relação de 1/3 apareceu tanto em pirâmides quanto em cones.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'es9x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Um objeto é formado por uma esfera de volume 36π cm³ sobre um cilindro de volume 100π cm³. Qual é o volume total?',
+    choices: [
+      { id: 'a', label: '136π cm³' },
+      { id: 'b', label: '64π cm³' },
+      { id: 'c', label: '3600π cm³' },
+      { id: 'd', label: '100π cm³' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '36π + 100π = 136π.',
+  },
+  {
+    id: 'es9x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Um tubo cilíndrico oco tem cilindro externo de volume 200cm³ e cilindro interno (vazio) de volume 50cm³. Qual é o volume de material do tubo?',
+    choices: [
+      { id: 'a', label: '150cm³' },
+      { id: 'b', label: '250cm³' },
+      { id: 'c', label: '50cm³' },
+      { id: 'd', label: '10000cm³' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '200 − 50 = 150cm³.',
+  },
+  {
+    id: 'es9x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Uma caixa cúbica de volume 1000cm³ contém uma esfera inscrita de volume aproximado 523,6cm³. Qual é o volume aproximado do espaço vazio?',
+    choices: [
+      { id: 'a', label: 'Aproximadamente 476,4cm³' },
+      { id: 'b', label: 'Aproximadamente 523,6cm³' },
+      { id: 'c', label: 'Aproximadamente 1000cm³' },
+      { id: 'd', label: 'Aproximadamente 0cm³' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '1000 − 523,6 ≈ 476,4cm³.',
+  },
+  {
+    id: 'es9x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Um silo com cilindro de raio 3m, altura 10m, e um cone no topo de mesma base e altura 4m tem qual volume total (em termos de π)?',
+    choices: [
+      { id: 'a', label: '102π m³' },
+      { id: 'b', label: '90π m³' },
+      { id: 'c', label: '12π m³' },
+      { id: 'd', label: '120π m³' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Cilindro: π(9)(10)=90π. Cone: π(9)(4)/3=12π. Total: 102π.',
+  },
+  {
+    id: 'es9x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a ideia central que conecta praticamente todas as unidades deste módulo de Geometria Espacial?',
+    choices: [
+      { id: 'a', label: 'Decompor sólidos complexos em formas simples e conhecidas para calcular área e volume' },
+      { id: 'b', label: 'Todos os sólidos têm o mesmo volume' },
+      { id: 'c', label: 'Só o cubo importa na prática' },
+      { id: 'd', label: 'A Relação de Euler resolve todos os problemas sozinha' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A decomposição em sólidos conhecidos é o fio condutor do módulo inteiro.',
+  },
+]
+
+export const ESPACIAL_UNIT9_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-aplicacoes-combinando',
+    unitNumber: 9,
+    icon: '⬡+△',
+    difficulty: 'easy',
+    title: 'Combinando Sólidos',
+    description: 'A maioria dos objetos reais é uma composição de sólidos.',
+    points: 40,
+    exercises: combinandoExercises,
+  },
+  {
+    id: 'ex-aplicacoes-praticas',
+    unitNumber: 9,
+    icon: '⚙',
+    difficulty: 'medium',
+    title: 'Aplicações Práticas',
+    description: 'Arquitetura, engenharia e embalagens.',
+    points: 60,
+    exercises: praticasExercises,
+  },
+  {
+    id: 'ex-aplicacoes-desafio',
+    unitNumber: 9,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Aplicações e Problemas',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 9.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

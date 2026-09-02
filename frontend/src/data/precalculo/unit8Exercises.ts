@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const termoGeralExercises: Exercise[] = [
+  {
+    id: 'pc15-e1',
+    kind: 'multiple-choice',
+    prompt: 'O que caracteriza uma progressão aritmética (PA)?',
+    choices: [
+      { id: 'a', label: 'A diferença entre termos consecutivos é sempre constante' },
+      { id: 'b', label: 'A razão entre termos consecutivos é sempre constante' },
+      { id: 'c', label: 'Os termos sempre aumentam' },
+      { id: 'd', label: 'Todos os termos são iguais' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Numa PA, cada termo menos o anterior dá sempre o mesmo valor — a razão r.',
+  },
+  {
+    id: 'pc15-e2',
+    kind: 'multiple-choice',
+    prompt: 'Na PA (3, 7, 11, 15, ...), qual é a razão r?',
+    choices: [
+      { id: 'a', label: '4' },
+      { id: 'b', label: '3' },
+      { id: 'c', label: '7' },
+      { id: 'd', label: '11' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'r = 7 − 3 = 4 (confirmado também por 11 − 7 = 4 e 15 − 11 = 4).',
+  },
+  {
+    id: 'pc15-e3',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a fórmula do termo geral de uma PA?',
+    choices: [
+      { id: 'a', label: 'aₙ = a₁ + (n − 1)·r' },
+      { id: 'b', label: 'aₙ = a₁ · rⁿ⁻¹' },
+      { id: 'c', label: 'aₙ = a₁ + n·r' },
+      { id: 'd', label: 'aₙ = a₁ · n' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O termo geral soma a razão (n − 1) vezes ao primeiro termo.',
+  },
+  {
+    id: 'pc15-e4',
+    kind: 'multiple-choice',
+    prompt: 'Na PA (3, 7, 11, 15, ...), qual é o 10º termo?',
+    choices: [
+      { id: 'a', label: '39' },
+      { id: 'b', label: '43' },
+      { id: 'c', label: '35' },
+      { id: 'd', label: '40' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'a₁₀ = 3 + (10 − 1)·4 = 3 + 36 = 39.',
+  },
+  {
+    id: 'pc15-e5',
+    kind: 'multiple-choice',
+    prompt: 'Se uma PA tem a₁ = 5 e r = −2, qual é o 4º termo?',
+    choices: [
+      { id: 'a', label: '−1' },
+      { id: 'b', label: '−6' },
+      { id: 'c', label: '1' },
+      { id: 'd', label: '3' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'a₄ = 5 + (4 − 1)·(−2) = 5 − 6 = −1.',
+  },
+]
+
+const somaExercises: Exercise[] = [
+  {
+    id: 'pc16-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a fórmula da soma dos n primeiros termos de uma PA?',
+    choices: [
+      { id: 'a', label: 'Sₙ = n·(a₁ + aₙ)/2' },
+      { id: 'b', label: 'Sₙ = n · a₁ · r' },
+      { id: 'c', label: 'Sₙ = (a₁ + aₙ)/n' },
+      { id: 'd', label: 'Sₙ = a₁ + aₙ · n' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A soma é "quantidade de termos" vezes "a média entre o primeiro e o último".',
+  },
+  {
+    id: 'pc16-e2',
+    kind: 'multiple-choice',
+    prompt: 'Some os 5 primeiros termos da PA (2, 5, 8, 11, 14).',
+    choices: [
+      { id: 'a', label: '40' },
+      { id: 'b', label: '35' },
+      { id: 'c', label: '45' },
+      { id: 'd', label: '30' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'S₅ = 5·(2 + 14)/2 = 5·8 = 40.',
+  },
+  {
+    id: 'pc16-e3',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a soma dos números naturais de 1 a 100 (o truque de Gauss)?',
+    choices: [
+      { id: 'a', label: '5.050' },
+      { id: 'b', label: '10.100' },
+      { id: 'c', label: '4.950' },
+      { id: 'd', label: '5.000' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'S₁₀₀ = 100·(1 + 100)/2 = 100·50,5 = 5050.',
+  },
+  {
+    id: 'pc16-e4',
+    kind: 'multiple-choice',
+    prompt: 'Uma PA tem a₁ = 4, r = 3, e 8 termos. Qual é a soma de todos eles?',
+    choices: [
+      { id: 'a', label: '116' },
+      { id: 'b', label: '100' },
+      { id: 'c', label: '112' },
+      { id: 'd', label: '120' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'a₈ = 4 + 7·3 = 25. S₈ = 8·(4 + 25)/2 = 8·29/2 = 116.',
+  },
+  {
+    id: 'pc16-e5',
+    kind: 'multiple-choice',
+    prompt: 'Some os números pares de 2 a 20.',
+    choices: [
+      { id: 'a', label: '110' },
+      { id: 'b', label: '100' },
+      { id: 'c', label: '220' },
+      { id: 'd', label: '90' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'É uma PA com a₁ = 2, r = 2, aₙ = 20 e n = 10 termos: S₁₀ = 10·(2 + 20)/2 = 10·11 = 110.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'pc8x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Uma PA tem a₃ = 10 e a₇ = 22. Qual é a razão r?',
+    choices: [
+      { id: 'a', label: '3' },
+      { id: 'b', label: '4' },
+      { id: 'c', label: '12' },
+      { id: 'd', label: '6' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'De a₃ a a₇ são 4 saltos de razão: a₇ − a₃ = 4r → 22 − 10 = 4r → r = 3.',
+  },
+  {
+    id: 'pc8x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Continuando o exercício anterior (r = 3, a₃ = 10): qual é a₁?',
+    choices: [
+      { id: 'a', label: '4' },
+      { id: 'b', label: '1' },
+      { id: 'c', label: '7' },
+      { id: 'd', label: '10' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'a₃ = a₁ + 2r → 10 = a₁ + 6 → a₁ = 4.',
+  },
+  {
+    id: 'pc8x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Quantos termos tem a PA (5, 9, 13, ..., 101)?',
+    choices: [
+      { id: 'a', label: '25' },
+      { id: 'b', label: '24' },
+      { id: 'c', label: '26' },
+      { id: 'd', label: '20' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'r = 4. 101 = 5 + (n − 1)·4 → 96 = (n − 1)·4 → n − 1 = 24 → n = 25.',
+  },
+  {
+    id: 'pc8x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a soma dos 25 termos da PA (5, 9, 13, ..., 101) do exercício anterior?',
+    choices: [
+      { id: 'a', label: '1.325' },
+      { id: 'b', label: '1.300' },
+      { id: 'c', label: '2.650' },
+      { id: 'd', label: '1.200' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'S₂₅ = 25·(5 + 101)/2 = 25·106/2 = 25·53 = 1325.',
+  },
+  {
+    id: 'pc8x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Numa PA, a₁ = 10 e a soma dos 6 primeiros termos é 105. Qual é a razão r?',
+    choices: [
+      { id: 'a', label: '3' },
+      { id: 'b', label: '5' },
+      { id: 'c', label: '15' },
+      { id: 'd', label: '2,5' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'S₆ = 6·(10 + a₆)/2 = 105 → 10 + a₆ = 35 → a₆ = 25. Como a₆ = a₁ + 5r: 10 + 5r = 25 → r = 3.',
+  },
+]
+
+export const PRECALCULO_UNIT8_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-pa-termo-geral',
+    unitNumber: 8,
+    icon: '+r',
+    difficulty: 'easy',
+    title: 'PA: Termo Geral',
+    description: 'Sequências com razão constante e a fórmula para encontrar qualquer termo.',
+    points: 40,
+    exercises: termoGeralExercises,
+  },
+  {
+    id: 'ex-pa-soma',
+    unitNumber: 8,
+    icon: 'Σ',
+    difficulty: 'medium',
+    title: 'Soma de uma PA',
+    description: 'A fórmula de Gauss para somar os n primeiros termos sem somar um por um.',
+    points: 60,
+    exercises: somaExercises,
+  },
+  {
+    id: 'ex-pa-desafio',
+    unitNumber: 8,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Progressão Aritmética',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 8.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

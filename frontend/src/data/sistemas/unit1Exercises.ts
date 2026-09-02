@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const definicaoExercises: Exercise[] = [
+  {
+    id: 'sl1-e1',
+    kind: 'multiple-choice',
+    prompt: 'O que é a solução de um sistema linear com duas incógnitas?',
+    choices: [
+      { id: 'a', label: 'Um par (x, y) que satisfaz todas as equações do sistema ao mesmo tempo' },
+      { id: 'b', label: 'Um valor que resolve qualquer uma das equações' },
+      { id: 'c', label: 'A soma das duas equações' },
+      { id: 'd', label: 'O maior valor entre x e y' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A solução precisa satisfazer todas as equações do sistema ao mesmo tempo, não apenas uma delas.',
+  },
+  {
+    id: 'sl1-e2',
+    kind: 'multiple-choice',
+    prompt: 'Qual das equações abaixo é uma equação linear com duas incógnitas?',
+    choices: [
+      { id: 'a', label: 'x² + y = 10' },
+      { id: 'b', label: '3x + 2y = 12' },
+      { id: 'c', label: 'xy = 20' },
+      { id: 'd', label: 'x/y = 4' },
+    ],
+    correctChoiceId: 'b',
+    explanation: 'Equações lineares não têm potências maiores que 1 nem produto/divisão entre variáveis.',
+  },
+  {
+    id: 'sl1-e3',
+    kind: 'multiple-choice',
+    prompt: 'O par (5, 6) satisfaz a equação 2x + y = 16?',
+    choices: [
+      { id: 'a', label: 'Sim, porque 2(5) + 6 = 16' },
+      { id: 'b', label: 'Não, porque 2(5) + 6 = 17' },
+      { id: 'c', label: 'Sim, porque 5 + 2(6) = 16' },
+      { id: 'd', label: 'Não, a equação não tem solução' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '2(5) + 6 = 10 + 6 = 16 — a igualdade se mantém.',
+  },
+  {
+    id: 'sl1-e4',
+    kind: 'multiple-choice',
+    prompt: 'Quantas equações, no mínimo, um sistema geralmente precisa ter para ter chance de solução única com duas incógnitas?',
+    choices: [
+      { id: 'a', label: '2' },
+      { id: 'b', label: '1' },
+      { id: 'c', label: '3' },
+      { id: 'd', label: '4' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Em geral, é preciso ao menos tantas equações independentes quanto incógnitas para determinar uma solução única.',
+  },
+  {
+    id: 'sl1-e5',
+    kind: 'multiple-choice',
+    prompt: 'Se um par (x, y) satisfaz apenas uma das duas equações de um sistema, ele é considerado solução do sistema?',
+    choices: [
+      { id: 'a', label: 'Não, precisa satisfazer todas as equações ao mesmo tempo' },
+      { id: 'b', label: 'Sim, sempre' },
+      { id: 'c', label: 'Sim, se for a primeira equação' },
+      { id: 'd', label: 'Depende do sinal de x' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A definição de solução de um sistema exige satisfazer todas as equações simultaneamente.',
+  },
+]
+
+const verificacaoExercises: Exercise[] = [
+  {
+    id: 'sl2-e1',
+    kind: 'multiple-choice',
+    prompt: 'Os sistemas x + y = 10 e 2x + 2y = 20 são equivalentes?',
+    choices: [
+      { id: 'a', label: 'Sim, pois a segunda equação é a primeira multiplicada por 2' },
+      { id: 'b', label: 'Não, têm soluções diferentes' },
+      { id: 'c', label: 'Não, uma tem duas incógnitas e outra uma' },
+      { id: 'd', label: 'Sim, mas só se x = y' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Multiplicar uma equação por um número diferente de zero gera uma equação equivalente, com a mesma reta/solução.',
+  },
+  {
+    id: 'sl2-e2',
+    kind: 'multiple-choice',
+    prompt: 'Qual operação abaixo transforma um sistema em outro equivalente (mesma solução)?',
+    choices: [
+      { id: 'a', label: 'Multiplicar uma equação inteira por um número diferente de zero' },
+      { id: 'b', label: 'Multiplicar uma equação por zero' },
+      { id: 'c', label: 'Elevar uma equação ao quadrado' },
+      { id: 'd', label: 'Remover uma das equações' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Multiplicar por zero ou remover equações perde informação; elevar ao quadrado pode introduzir soluções falsas.',
+  },
+  {
+    id: 'sl2-e3',
+    kind: 'multiple-choice',
+    prompt: 'Verifique se (2, 3) é solução do sistema x + y = 5 e 2x − y = 1.',
+    choices: [
+      { id: 'a', label: 'É solução, pois 2+3=5 e 2(2)−3=1' },
+      { id: 'b', label: 'Não é solução, pois 2+3≠5' },
+      { id: 'c', label: 'É solução apenas da primeira equação' },
+      { id: 'd', label: 'Não é solução de nenhuma das duas' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '2+3=5 ✓ e 2(2)−3=4−3=1 ✓ — as duas equações são satisfeitas.',
+  },
+  {
+    id: 'sl2-e4',
+    kind: 'multiple-choice',
+    prompt: 'O sistema 3x + y = 9 e 6x + 2y = 18 tem quantas soluções?',
+    choices: [
+      { id: 'a', label: 'Infinitas, pois as equações são equivalentes' },
+      { id: 'b', label: 'Nenhuma' },
+      { id: 'c', label: 'Exatamente uma' },
+      { id: 'd', label: 'Exatamente duas' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Dividindo a segunda equação por 2 obtemos 3x + y = 9 — a mesma reta da primeira, então infinitas soluções em comum.',
+  },
+  {
+    id: 'sl2-e5',
+    kind: 'multiple-choice',
+    prompt: 'Some as equações x − y = 2 e x + y = 8. Qual equação resulta?',
+    choices: [
+      { id: 'a', label: '2x = 10' },
+      { id: 'b', label: '2y = 10' },
+      { id: 'c', label: 'x = 6' },
+      { id: 'd', label: 'y = 2' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Somando membro a membro: (x−y)+(x+y) = 2+8 → 2x = 10.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'sl1x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual par é solução do sistema x + y = 7 e x − y = 1?',
+    choices: [
+      { id: 'a', label: '(4, 3)' },
+      { id: 'b', label: '(3, 4)' },
+      { id: 'c', label: '(5, 2)' },
+      { id: 'd', label: '(2, 5)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Somando as equações: 2x = 8 → x = 4; substituindo, y = 3.',
+  },
+  {
+    id: 'sl1x-e2',
+    kind: 'multiple-choice',
+    prompt: 'O sistema 2x + 4y = 8 e x + 2y = 5 é:',
+    choices: [
+      { id: 'a', label: 'SI, pois as retas são paralelas e distintas' },
+      { id: 'b', label: 'SPD' },
+      { id: 'c', label: 'SPI' },
+      { id: 'd', label: 'Impossível de determinar' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Dividindo a primeira equação por 2: x + 2y = 4, que conflita com x + 2y = 5 — mesma inclinação, termos diferentes.',
+  },
+  {
+    id: 'sl1x-e3',
+    kind: 'multiple-choice',
+    prompt: 'O ponto (1, −1, 2) satisfaz a primeira equação do sistema x + y + z = 2, 2x − y + z = 5?',
+    choices: [
+      { id: 'a', label: 'Satisfaz as duas equações' },
+      { id: 'b', label: 'Satisfaz só a primeira' },
+      { id: 'c', label: 'Não satisfaz nenhuma' },
+      { id: 'd', label: 'Satisfaz só a segunda' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '1−1+2=2 ✓ e 2(1)−(−1)+2 = 2+1+2 = 5 ✓ — as duas são satisfeitas.',
+  },
+  {
+    id: 'sl1x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Multiplicando a equação x − 2y = 3 por −4, obtemos:',
+    choices: [
+      { id: 'a', label: '−4x + 8y = −12' },
+      { id: 'b', label: '4x − 8y = 3' },
+      { id: 'c', label: '−4x − 8y = −12' },
+      { id: 'd', label: 'x − 2y = −12' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Multiplicando cada termo por −4: −4x + 8y = −12.',
+  },
+  {
+    id: 'sl1x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Qual das alternativas NÃO é uma operação válida para gerar um sistema equivalente?',
+    choices: [
+      { id: 'a', label: 'Elevar ambos os lados de uma equação ao quadrado' },
+      { id: 'b', label: 'Multiplicar uma equação por −1' },
+      { id: 'c', label: 'Somar uma equação a outra' },
+      { id: 'd', label: 'Trocar a ordem das equações' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Elevar ao quadrado pode introduzir soluções que não existiam no sistema original, quebrando a equivalência.',
+  },
+]
+
+export const SISTEMAS_UNIT1_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-intro-sistemas-definicao',
+    unitNumber: 1,
+    icon: '{}',
+    difficulty: 'easy',
+    title: 'Sistemas: Definição',
+    description: 'O que é um sistema linear e o que conta como sua solução.',
+    points: 40,
+    exercises: definicaoExercises,
+  },
+  {
+    id: 'ex-intro-sistemas-verificacao',
+    unitNumber: 1,
+    icon: '✓',
+    difficulty: 'medium',
+    title: 'Verificação de Soluções',
+    description: 'Conferindo soluções e reconhecendo sistemas equivalentes.',
+    points: 60,
+    exercises: verificacaoExercises,
+  },
+  {
+    id: 'ex-intro-sistemas-desafio',
+    unitNumber: 1,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Introdução a Sistemas Lineares',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 1.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

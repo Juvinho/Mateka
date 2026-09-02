@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const definicaoExercises: Exercise[] = [
+  {
+    id: 'pc7-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o valor de |−7|?',
+    choices: [
+      { id: 'a', label: '7' },
+      { id: 'b', label: '−7' },
+      { id: 'c', label: '0' },
+      { id: 'd', label: '14' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O módulo é a distância até zero, sempre não-negativa: |−7| = 7.',
+  },
+  {
+    id: 'pc7-e2',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o valor de |4| + |−4|?',
+    choices: [
+      { id: 'a', label: '8' },
+      { id: 'b', label: '0' },
+      { id: 'c', label: '4' },
+      { id: 'd', label: '−8' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '|4| = 4 e |−4| = 4, então 4 + 4 = 8.',
+  },
+  {
+    id: 'pc7-e3',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o domínio da função f(x) = |x|?',
+    choices: [
+      { id: 'a', label: 'Todo ℝ' },
+      { id: 'b', label: '[0, +∞)' },
+      { id: 'c', label: 'ℝ − {0}' },
+      { id: 'd', label: '(−∞, 0]' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Qualquer número real tem uma distância até zero, então o domínio é todo o ℝ.',
+  },
+  {
+    id: 'pc7-e4',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a imagem da função f(x) = |x|?',
+    choices: [
+      { id: 'a', label: 'Todo ℝ' },
+      { id: 'b', label: '[0, +∞)' },
+      { id: 'c', label: '(−∞, 0]' },
+      { id: 'd', label: 'ℝ − {0}' },
+    ],
+    correctChoiceId: 'b',
+    explanation: 'O módulo nunca é negativo, então a imagem é o intervalo [0, +∞).',
+  },
+  {
+    id: 'pc7-e5',
+    kind: 'multiple-choice',
+    prompt: 'O gráfico de f(x) = |x| tem formato de:',
+    choices: [
+      { id: 'a', label: 'Reta' },
+      { id: 'b', label: 'Parábola' },
+      { id: 'c', label: '"V"' },
+      { id: 'd', label: 'Círculo' },
+    ],
+    correctChoiceId: 'c',
+    explanation: 'O gráfico é formado por duas semirretas que se encontram na origem, formando um "V".',
+  },
+]
+
+const equacoesExercises: Exercise[] = [
+  {
+    id: 'pc8-e1',
+    kind: 'multiple-choice',
+    prompt: 'Quais são as soluções de |x| = 6?',
+    choices: [
+      { id: 'a', label: 'x = 6 ou x = −6' },
+      { id: 'b', label: 'x = 6 apenas' },
+      { id: 'c', label: 'x = 36' },
+      { id: 'd', label: 'Não tem solução' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '|x| = a (com a ≥ 0) equivale a x = a ou x = −a.',
+  },
+  {
+    id: 'pc8-e2',
+    kind: 'multiple-choice',
+    prompt: 'Quais são as soluções de |x − 3| = 5?',
+    choices: [
+      { id: 'a', label: 'x = 8 ou x = −2' },
+      { id: 'b', label: 'x = 2 ou x = 8' },
+      { id: 'c', label: 'x = 8 apenas' },
+      { id: 'd', label: 'x = −8 ou x = 2' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'x − 3 = 5 dá x = 8; x − 3 = −5 dá x = −2.',
+  },
+  {
+    id: 'pc8-e3',
+    kind: 'multiple-choice',
+    prompt: 'Quais são as soluções de |2x + 1| = 7?',
+    choices: [
+      { id: 'a', label: 'x = 3 ou x = −4' },
+      { id: 'b', label: 'x = 3 apenas' },
+      { id: 'c', label: 'x = 4 ou x = −3' },
+      { id: 'd', label: 'x = −3 ou x = 4' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '2x + 1 = 7 dá x = 3; 2x + 1 = −7 dá x = −4.',
+  },
+  {
+    id: 'pc8-e4',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o conjunto solução de |x| &lt; 4?',
+    choices: [
+      { id: 'a', label: '(−4, 4)' },
+      { id: 'b', label: '[−4, 4]' },
+      { id: 'c', label: 'x &gt; 4 ou x &lt; −4' },
+      { id: 'd', label: 'x &lt; 4' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '|x| &lt; a (com a &gt; 0) equivale a −a &lt; x &lt; a.',
+  },
+  {
+    id: 'pc8-e5',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o conjunto solução de |x| &gt; 3?',
+    choices: [
+      { id: 'a', label: 'x &lt; −3 ou x &gt; 3' },
+      { id: 'b', label: '−3 &lt; x &lt; 3' },
+      { id: 'c', label: 'x &gt; 3' },
+      { id: 'd', label: 'x &lt; −3' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '|x| &gt; a equivale a x &lt; −a ou x &gt; a.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'pc4x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Para qual condição em a a equação |x| = a NÃO tem solução real?',
+    choices: [
+      { id: 'a', label: 'a &lt; 0' },
+      { id: 'b', label: 'a &gt; 0' },
+      { id: 'c', label: 'a = 0' },
+      { id: 'd', label: 'Qualquer valor de a' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Como o módulo nunca é negativo, |x| = a só tem solução se a ≥ 0.',
+  },
+  {
+    id: 'pc4x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Quais são as soluções de |x − 2| = 0?',
+    choices: [
+      { id: 'a', label: 'x = 2 (uma única solução)' },
+      { id: 'b', label: 'x = 2 ou x = −2' },
+      { id: 'c', label: 'x = 0' },
+      { id: 'd', label: 'Não tem solução' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Quando a = 0, x = a e x = −a coincidem em x = 2 — uma única solução.',
+  },
+  {
+    id: 'pc4x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o conjunto solução de |2x − 1| ≤ 5?',
+    choices: [
+      { id: 'a', label: '[−2, 3]' },
+      { id: 'b', label: '[−3, 2]' },
+      { id: 'c', label: '(−2, 3)' },
+      { id: 'd', label: '[−4, 6]' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '−5 ≤ 2x − 1 ≤ 5 → −4 ≤ 2x ≤ 6 → −2 ≤ x ≤ 3.',
+  },
+  {
+    id: 'pc4x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o vértice do gráfico de f(x) = |x − 4| + 2?',
+    choices: [
+      { id: 'a', label: '(4, 2)' },
+      { id: 'b', label: '(−4, 2)' },
+      { id: 'c', label: '(4, −2)' },
+      { id: 'd', label: '(2, 4)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '|x − 4| desloca o "V" para x = 4, e o +2 desloca verticalmente para y = 2.',
+  },
+  {
+    id: 'pc4x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o conjunto solução de |3x| ≥ 9?',
+    choices: [
+      { id: 'a', label: 'x ≤ −3 ou x ≥ 3' },
+      { id: 'b', label: '−3 ≤ x ≤ 3' },
+      { id: 'c', label: 'x ≥ 3' },
+      { id: 'd', label: 'x ≤ −3' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '|3x| ≥ 9 equivale a 3x ≥ 9 ou 3x ≤ −9, ou seja, x ≥ 3 ou x ≤ −3.',
+  },
+]
+
+export const PRECALCULO_UNIT4_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-modular-definicao',
+    unitNumber: 4,
+    icon: '|x|',
+    difficulty: 'easy',
+    title: 'O que é Módulo?',
+    description: 'A distância até a origem e a função f(x) = |x|.',
+    points: 40,
+    exercises: definicaoExercises,
+  },
+  {
+    id: 'ex-modular-equacoes',
+    unitNumber: 4,
+    icon: '≤',
+    difficulty: 'medium',
+    title: 'Equações e Inequações Modulares',
+    description: 'Como resolver |x| = a e |x| &lt; a separando em casos.',
+    points: 60,
+    exercises: equacoesExercises,
+  },
+  {
+    id: 'ex-modular-desafio',
+    unitNumber: 4,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Função Modular',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 4.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

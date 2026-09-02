@@ -1,5 +1,100 @@
 # Changelog
 
+## Beta v0.4.3 — 2026-09-02
+
+Tudo isso ainda está no working tree (nada commitado ainda) — construído em
+cima do v0.4.2, no dia 02/09/2026.
+
+### ⏱️ Sessão expira em 24h sem "Manter sessão"
+
+- O checkbox "Manter sessão" do login existia na tela mas não fazia nada —
+  toda sessão durava 30 dias sempre, independente de marcar ou não.
+- Agora ele funciona de verdade: marcado, a sessão dura 30 dias (como
+  antes); desmarcado (padrão), a sessão expira em 24 horas — cookie e a
+  linha correspondente em `sessions` no banco recebem o mesmo prazo.
+- Registro continua com sessão de 30 dias (não tem esse checkbox).
+
+### 🧩 Playgrounds interativos em todos os módulos
+
+- `ModuleConfig` ganhou um novo ponto de extensão: `PlaygroundComponent` —
+  cada módulo pode ter uma aba livre pra experimentar o conceito na prática,
+  sem exercício "certo ou errado".
+- Um playground novo por módulo: Frações (Conceitos Básicos), Sistema Linear
+  (Sistemas Lineares), Função (Pré-Cálculo), Plano de Coordenadas (Geometria
+  Analítica), Triângulo (Geometria Plana) e Cilindro (Geometria Espacial). O
+  Explorador de Matrizes que já existia virou o playground de Matrizes.
+- No playground de Matrizes agora dá pra escolher o número de linhas/colunas
+  com sliders antes de preencher a matriz.
+
+### 📚 Quatro módulos de conteúdo novos
+
+- **Sistemas Lineares** — substituição, adição, gráficos, escalonamento e
+  Regra de Cramer.
+- **Geometria Analítica** — pontos, retas, circunferências e cônicas.
+- **Geometria Plana** — ângulos, triângulos, polígonos e circunferências
+  (geometria clássica, sem coordenadas).
+- **Geometria Espacial** — prismas, pirâmides, cilindros, cones e esferas.
+- Cada um com 9 unidades, 18 aulas e um desafio por unidade — mesmo padrão
+  de acabamento dos módulos que já existiam (Matrizes, Conceitos Básicos,
+  Pré-Cálculo).
+- **Pré-Cálculo** voltou a aparecer na home (tinha sumido do grid principal),
+  com uma prévia animada nova (parábola) ao passar o mouse no card.
+- Alternativas dos exercícios do Pré-Cálculo agora embaralham de posição a
+  cada tentativa, em vez de aparecerem sempre na mesma ordem.
+
+### 👥 Amigos (rede social dentro do Mateka!)
+
+- Busca de usuário por nome, pedido de amizade, aceitar/recusar pedido e
+  desfazer amizade.
+- Perfil público de qualquer usuário (`#usuario-{id}`), acessível a partir
+  da busca, da lista de amigos ou de um pedido pendente.
+- Bio do perfil migrou do `localStorage` pro banco (endpoint dedicado) — antes
+  só existia no navegador do próprio usuário, então nem outra pessoa nem
+  outro dispositivo seu viam a bio que você escreveu.
+- Todo o fluxo (buscar, adicionar, ver pedidos, ver lista de amigos) roda
+  num popup só, com abas "Ver amigos" e "Buscar" — não existe mais uma
+  página cheia só pra isso.
+- **Sininho de notificação**: quando alguém aceita seu pedido de amizade,
+  o botão "Amigos" ganha um pontinho vermelho; abrir o popup mostra um aviso
+  ("🎉 Fulano aceitou seu pedido de amizade!") e o pontinho some — só dentro
+  do app, sem e-mail nem push.
+
+### 🏆 Selo de criador
+
+- Novo valor de `role` (`creator`), com o badge dourado "✦ Criador do
+  Mateka!" ao lado do nome — aparece tanto no seu próprio perfil quanto no
+  perfil público, pra quem visitar.
+
+### 🎯 "Continuar aula" agora avisa quando a próxima etapa é a prova
+
+- Antes, terminar as duas aulas de uma unidade liberava a prova (o exercício
+  difícil) mas o botão continuava dizendo "Continuar aula →", sem deixar
+  claro que já dava pra fazer a prova direto.
+- Agora o botão detecta que a próxima etapa é um desafio e muda pra
+  vermelho com o texto "Fazer prova →".
+
+### 🐛 Bugs corrigidos
+
+- Popup de Amigos: o cabeçalho "vazava" pra fora do popup ao rolar a lista —
+  bug conhecido do Chrome envolvendo `position: sticky` + desfoque do fundo
+  (`backdrop-filter`) + cantos arredondados. Corrigido tirando o cabeçalho e
+  as abas de dentro da área que rola.
+- Cartão de pedido de amizade / resultado de busca esticava pra ocupar a
+  largura inteira do popup, deixando um vão enorme entre o nome e o botão de
+  ação — agora o cartão só ocupa o espaço do próprio conteúdo.
+- Pontinhos de "max / 0 / min" do visualizador de onda da home removidos —
+  poluíam visualmente sem agregar nada.
+
+### ⚠️ Limitações conhecidas
+
+- Notificação de amizade aceita é só dentro do app (pontinho no botão
+  "Amigos") — sem e-mail nem push, e só aparece depois que a página é
+  recarregada ou o popup é reaberto, não em tempo real.
+- Sem notificação nenhuma pra pedido *recebido* (só pra pedido aceito) — pra
+  ver quem te chamou de amigo ainda é preciso abrir o popup e checar a aba
+  "Ver amigos".
+- Sem bloqueio de usuário — só dá pra desfazer amizade/pedido, não impedir
+
 ## Beta v0.4.2 — 2026-09-01
 
 Tudo isso ainda está no working tree (nada commitado ainda) — construído entre

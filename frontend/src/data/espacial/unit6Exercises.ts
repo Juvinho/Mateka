@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const elementosExercises: Exercise[] = [
+  {
+    id: 'es11-e1',
+    kind: 'multiple-choice',
+    prompt: 'Uma esfera é o conjunto de pontos que ficam:',
+    choices: [
+      { id: 'a', label: 'A uma mesma distância de um centro, no espaço' },
+      { id: 'b', label: 'Sobre um plano' },
+      { id: 'c', label: 'A distâncias variáveis de um centro' },
+      { id: 'd', label: 'Alinhados numa reta' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A esfera é definida por uma distância constante r a um centro, em 3D.',
+  },
+  {
+    id: 'es11-e2',
+    kind: 'multiple-choice',
+    prompt: 'O que é um grande círculo de uma esfera?',
+    choices: [
+      { id: 'a', label: 'A seção obtida cortando a esfera exatamente pelo centro' },
+      { id: 'b', label: 'Qualquer corte da esfera' },
+      { id: 'c', label: 'A superfície inteira da esfera' },
+      { id: 'd', label: 'O ponto central da esfera' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O grande círculo é o maior corte circular possível, passando pelo centro.',
+  },
+  {
+    id: 'es11-e3',
+    kind: 'multiple-choice',
+    prompt: 'Uma esfera de raio 6cm tem um grande círculo de que raio?',
+    choices: [
+      { id: 'a', label: '6cm' },
+      { id: 'b', label: '12cm' },
+      { id: 'c', label: '3cm' },
+      { id: 'd', label: '36cm' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O grande círculo tem o mesmo raio da esfera.',
+  },
+  {
+    id: 'es11-e4',
+    kind: 'multiple-choice',
+    prompt: 'O diâmetro de uma esfera é:',
+    choices: [
+      { id: 'a', label: 'O dobro do raio' },
+      { id: 'b', label: 'A metade do raio' },
+      { id: 'c', label: 'Igual ao raio' },
+      { id: 'd', label: 'Igual à área' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Diâmetro = 2r.',
+  },
+  {
+    id: 'es11-e5',
+    kind: 'multiple-choice',
+    prompt: 'A esfera é a versão tridimensional de qual figura plana?',
+    choices: [
+      { id: 'a', label: 'A circunferência' },
+      { id: 'b', label: 'O quadrado' },
+      { id: 'c', label: 'O triângulo' },
+      { id: 'd', label: 'O polígono regular' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A esfera generaliza a circunferência para três dimensões.',
+  },
+]
+
+const areaVolumeExercises: Exercise[] = [
+  {
+    id: 'es12-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a fórmula da área da superfície esférica?',
+    choices: [
+      { id: 'a', label: '4πr²' },
+      { id: 'b', label: 'πr²' },
+      { id: 'c', label: '2πr²' },
+      { id: 'd', label: '(4/3)πr²' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Área da esfera = 4πr².',
+  },
+  {
+    id: 'es12-e2',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a fórmula do volume da esfera?',
+    choices: [
+      { id: 'a', label: '(4/3)πr³' },
+      { id: 'b', label: '4πr³' },
+      { id: 'c', label: 'πr³' },
+      { id: 'd', label: '(4/3)πr²' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Volume da esfera = (4/3)πr³.',
+  },
+  {
+    id: 'es12-e3',
+    kind: 'multiple-choice',
+    prompt: 'Uma esfera de raio 3cm tem qual área de superfície (em termos de π)?',
+    choices: [
+      { id: 'a', label: '36π cm²' },
+      { id: 'b', label: '9π cm²' },
+      { id: 'c', label: '12π cm²' },
+      { id: 'd', label: '27π cm²' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '4π(9) = 36π.',
+  },
+  {
+    id: 'es12-e4',
+    kind: 'multiple-choice',
+    prompt: 'Uma esfera de raio 3cm tem qual volume (em termos de π)?',
+    choices: [
+      { id: 'a', label: '36π cm³' },
+      { id: 'b', label: '27π cm³' },
+      { id: 'c', label: '12π cm³' },
+      { id: 'd', label: '108π cm³' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(4/3)π(27) = 36π.',
+  },
+  {
+    id: 'es12-e5',
+    kind: 'multiple-choice',
+    prompt: 'Segundo Arquimedes, o volume de uma esfera é qual fração do volume do menor cilindro que a contém?',
+    choices: [
+      { id: 'a', label: 'Dois terços' },
+      { id: 'b', label: 'Um terço' },
+      { id: 'c', label: 'Metade' },
+      { id: 'd', label: 'O mesmo volume' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Arquimedes provou que essa razão é sempre 2/3.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'es6x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Uma esfera tem área de superfície 100π cm². Qual é o seu raio?',
+    choices: [
+      { id: 'a', label: '5cm' },
+      { id: 'b', label: '25cm' },
+      { id: 'c', label: '10cm' },
+      { id: 'd', label: '2,5cm' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '4πr²=100π → r²=25 → r=5.',
+  },
+  {
+    id: 'es6x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Uma esfera tem volume 288π cm³. Qual é o seu raio?',
+    choices: [
+      { id: 'a', label: '6cm' },
+      { id: 'b', label: '12cm' },
+      { id: 'c', label: '4cm' },
+      { id: 'd', label: '72cm' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(4/3)πr³=288π → r³=216 → r=6.',
+  },
+  {
+    id: 'es6x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Duas esferas têm raios 2cm e 4cm. Qual é a razão entre seus volumes (maior/menor)?',
+    choices: [
+      { id: 'a', label: '8' },
+      { id: 'b', label: '4' },
+      { id: 'c', label: '2' },
+      { id: 'd', label: '16' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(4/2)³ = 8.',
+  },
+  {
+    id: 'es6x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Duas esferas têm raios 2cm e 4cm. Qual é a razão entre suas áreas (maior/menor)?',
+    choices: [
+      { id: 'a', label: '4' },
+      { id: 'b', label: '2' },
+      { id: 'c', label: '8' },
+      { id: 'd', label: '16' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(4/2)² = 4.',
+  },
+  {
+    id: 'es6x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Uma esfera está inscrita num cilindro cujo raio da base é igual ao raio da esfera, e a altura do cilindro é igual ao diâmetro da esfera. Segundo Arquimedes, o volume da esfera é qual fração do volume desse cilindro?',
+    choices: [
+      { id: 'a', label: 'Dois terços' },
+      { id: 'b', label: 'Três quartos' },
+      { id: 'c', label: 'Metade' },
+      { id: 'd', label: 'Um terço' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A relação de Arquimedes entre esfera e cilindro circunscrito é 2/3.',
+  },
+]
+
+export const ESPACIAL_UNIT6_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-esfera-elementos',
+    unitNumber: 6,
+    icon: '●',
+    difficulty: 'easy',
+    title: 'Elementos da Esfera',
+    description: 'A versão tridimensional da circunferência.',
+    points: 40,
+    exercises: elementosExercises,
+  },
+  {
+    id: 'ex-esfera-area-volume',
+    unitNumber: 6,
+    icon: 'V=4πr³/3',
+    difficulty: 'medium',
+    title: 'Área e Volume da Esfera',
+    description: 'As fórmulas descobertas por Arquimedes.',
+    points: 60,
+    exercises: areaVolumeExercises,
+  },
+  {
+    id: 'ex-esfera-desafio',
+    unitNumber: 6,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Esfera',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 6.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

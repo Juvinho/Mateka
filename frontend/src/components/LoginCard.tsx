@@ -405,8 +405,12 @@ const LoginCard = ({ onSuccess, onLogoClick, onCreateAccount, isVisible }: Login
           ) : null}
 
           <div className="login-row">
-            <label className="login-check">
-              <input type="checkbox" />
+            <label className="login-check" title="Sem isso marcado, sua sessão expira em 24 horas.">
+              <input
+                type="checkbox"
+                checked={form.rememberMe}
+                onChange={(e) => form.setRememberMe(e.target.checked)}
+              />
               <span className="login-check-box" aria-hidden="true" />
               <span>Manter sessão</span>
             </label>

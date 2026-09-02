@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const casosExercises: Exercise[] = [
+  {
+    id: 'pl5-e1',
+    kind: 'multiple-choice',
+    prompt: 'O caso de congruência LAL exige:',
+    choices: [
+      { id: 'a', label: 'Dois lados e o ângulo entre eles' },
+      { id: 'b', label: 'Três ângulos' },
+      { id: 'c', label: 'Um lado e dois ângulos quaisquer' },
+      { id: 'd', label: 'Três lados quaisquer, em qualquer ordem' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'LAL: lado, ângulo (entre eles), lado.',
+  },
+  {
+    id: 'pl5-e2',
+    kind: 'multiple-choice',
+    prompt: 'O caso de congruência LLL exige:',
+    choices: [
+      { id: 'a', label: 'Os três lados' },
+      { id: 'b', label: 'Dois lados e um ângulo' },
+      { id: 'c', label: 'Dois ângulos e um lado' },
+      { id: 'd', label: 'Três ângulos' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'LLL: os três lados correspondentes iguais.',
+  },
+  {
+    id: 'pl5-e3',
+    kind: 'multiple-choice',
+    prompt: 'O caso de congruência ALA exige:',
+    choices: [
+      { id: 'a', label: 'Dois ângulos e o lado entre eles' },
+      { id: 'b', label: 'Três lados' },
+      { id: 'c', label: 'Um ângulo e dois lados quaisquer' },
+      { id: 'd', label: 'Três ângulos quaisquer' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'ALA: ângulo, lado (entre eles), ângulo.',
+  },
+  {
+    id: 'pl5-e4',
+    kind: 'multiple-choice',
+    prompt: 'Dois triângulos congruentes têm:',
+    choices: [
+      { id: 'a', label: 'Mesma forma e o mesmo tamanho' },
+      { id: 'b', label: 'Mesma forma, tamanhos diferentes' },
+      { id: 'c', label: 'Tamanhos iguais, formas diferentes' },
+      { id: 'd', label: 'Nenhuma relação necessária' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Congruência exige forma e tamanho idênticos.',
+  },
+  {
+    id: 'pl5-e5',
+    kind: 'multiple-choice',
+    prompt: 'Se dois triângulos têm os três lados correspondentes iguais, qual caso de congruência se aplica?',
+    choices: [
+      { id: 'a', label: 'LLL' },
+      { id: 'b', label: 'LAL' },
+      { id: 'c', label: 'ALA' },
+      { id: 'd', label: 'Nenhum, precisa também dos ângulos' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Três lados iguais já garante congruência pelo caso LLL.',
+  },
+]
+
+const semelhancaExercises: Exercise[] = [
+  {
+    id: 'pl6-e1',
+    kind: 'multiple-choice',
+    prompt: 'Dois triângulos semelhantes têm:',
+    choices: [
+      { id: 'a', label: 'Ângulos correspondentes iguais e lados proporcionais' },
+      { id: 'b', label: 'Lados iguais e ângulos diferentes' },
+      { id: 'c', label: 'Mesma forma e mesmo tamanho' },
+      { id: 'd', label: 'Nenhuma relação necessária' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Semelhança exige ângulos iguais e lados na mesma proporção.',
+  },
+  {
+    id: 'pl6-e2',
+    kind: 'multiple-choice',
+    prompt: 'O Teorema de Tales relaciona:',
+    choices: [
+      { id: 'a', label: 'Retas paralelas cortando transversais em segmentos proporcionais' },
+      { id: 'b', label: 'A soma dos ângulos internos' },
+      { id: 'c', label: 'O Teorema de Pitágoras' },
+      { id: 'd', label: 'A área de um triângulo' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Tales trata da proporcionalidade gerada por retas paralelas.',
+  },
+  {
+    id: 'pl6-e3',
+    kind: 'multiple-choice',
+    prompt: 'Dois triângulos semelhantes têm razão de semelhança 2. Se um lado do menor mede 5cm, o lado correspondente do maior mede:',
+    choices: [
+      { id: 'a', label: '10cm' },
+      { id: 'b', label: '2,5cm' },
+      { id: 'c', label: '7cm' },
+      { id: 'd', label: '5cm' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '5 × 2 = 10cm.',
+  },
+  {
+    id: 'pl6-e4',
+    kind: 'multiple-choice',
+    prompt: 'Dois triângulos são congruentes. Podemos dizer que também são semelhantes?',
+    choices: [
+      { id: 'a', label: 'Sim, com razão de semelhança 1' },
+      { id: 'b', label: 'Não, são conceitos incompatíveis' },
+      { id: 'c', label: 'Só se forem equiláteros' },
+      { id: 'd', label: 'Não é possível saber' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Congruência é um caso particular de semelhança, com razão 1.',
+  },
+  {
+    id: 'pl6-e5',
+    kind: 'multiple-choice',
+    prompt: 'Se a razão de semelhança entre dois triângulos é 3, e um lado do triângulo maior mede 18cm, qual é o lado correspondente no menor?',
+    choices: [
+      { id: 'a', label: '6cm' },
+      { id: 'b', label: '54cm' },
+      { id: 'c', label: '21cm' },
+      { id: 'd', label: '15cm' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '18 ÷ 3 = 6cm.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'pl3x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Dois triângulos têm lados 3,4,5 e 6,8,10. Eles são semelhantes? Qual a razão?',
+    choices: [
+      { id: 'a', label: 'Sim, razão 2' },
+      { id: 'b', label: 'Não são semelhantes' },
+      { id: 'c', label: 'Sim, razão 3' },
+      { id: 'd', label: 'Sim, mas são congruentes' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Cada lado do segundo é o dobro do correspondente no primeiro.',
+  },
+  {
+    id: 'pl3x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Num feixe de retas paralelas cortado por duas transversais, os segmentos numa transversal medem 3 e 5. Se o segmento correspondente ao de medida 3 na outra transversal mede 6, qual é o correspondente ao de medida 5?',
+    choices: [
+      { id: 'a', label: '10' },
+      { id: 'b', label: '8' },
+      { id: 'c', label: '15' },
+      { id: 'd', label: '6' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '3/6 = 5/x → x = 10.',
+  },
+  {
+    id: 'pl3x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Dois triângulos têm os três ângulos correspondentes iguais (mas lados diferentes). Eles são:',
+    choices: [
+      { id: 'a', label: 'Semelhantes, mas não necessariamente congruentes' },
+      { id: 'b', label: 'Sempre congruentes' },
+      { id: 'c', label: 'Não têm relação' },
+      { id: 'd', label: 'Sempre isósceles' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Ângulos iguais garantem semelhança, não congruência.',
+  },
+  {
+    id: 'pl3x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Qual caso de congruência comprova que dois triângulos com dois ângulos e o lado entre eles iguais são congruentes?',
+    choices: [
+      { id: 'a', label: 'ALA' },
+      { id: 'b', label: 'LAL' },
+      { id: 'c', label: 'LLL' },
+      { id: 'd', label: 'Nenhum, precisa de mais informação' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Essa é exatamente a definição do caso ALA.',
+  },
+  {
+    id: 'pl3x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Um triângulo tem lados 2,3,4. Outro tem lados 4,6,8. Qual é a razão de semelhança entre eles (maior/menor)?',
+    choices: [
+      { id: 'a', label: '2' },
+      { id: 'b', label: '4' },
+      { id: 'c', label: '1,5' },
+      { id: 'd', label: '8' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Cada lado do maior é o dobro do correspondente no menor.',
+  },
+]
+
+export const PLANA_UNIT3_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-congruencia-casos',
+    unitNumber: 3,
+    icon: '≅',
+    difficulty: 'easy',
+    title: 'Casos de Congruência',
+    description: 'LAL, ALA e LLL.',
+    points: 40,
+    exercises: casosExercises,
+  },
+  {
+    id: 'ex-congruencia-semelhanca',
+    unitNumber: 3,
+    icon: '∼',
+    difficulty: 'medium',
+    title: 'Semelhança e Teorema de Tales',
+    description: 'Mesma forma, tamanhos proporcionais.',
+    points: 60,
+    exercises: semelhancaExercises,
+  },
+  {
+    id: 'ex-congruencia-desafio',
+    unitNumber: 3,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Congruência e Semelhança',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 3.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

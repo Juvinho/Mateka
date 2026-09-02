@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const formulaExercises: Exercise[] = [
+  {
+    id: 'ga9-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a distância do ponto (4, 3) até a reta 3x + 4y − 12 = 0?',
+    choices: [
+      { id: 'a', label: '2,4' },
+      { id: 'b', label: '12' },
+      { id: 'c', label: '5' },
+      { id: 'd', label: '0' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'd = |3(4)+4(3)−12| / √(9+16) = 12/5 = 2,4.',
+  },
+  {
+    id: 'ga9-e2',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a fórmula da distância de um ponto (x₀,y₀) até a reta ax+by+c=0?',
+    choices: [
+      { id: 'a', label: '|ax₀+by₀+c| / √(a²+b²)' },
+      { id: 'b', label: '(ax₀+by₀+c) / (a+b)' },
+      { id: 'c', label: '√(ax₀²+by₀²)' },
+      { id: 'd', label: '|a+b+c| / (x₀+y₀)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Essa é a fórmula padrão da distância ponto–reta.',
+  },
+  {
+    id: 'ga9-e3',
+    kind: 'multiple-choice',
+    prompt: 'Por que a fórmula usa valor absoluto (módulo)?',
+    choices: [
+      { id: 'a', label: 'Para a distância ser sempre positiva, não importa o lado da reta' },
+      { id: 'b', label: 'Para simplificar a conta' },
+      { id: 'c', label: 'Porque a e b podem ser negativos' },
+      { id: 'd', label: 'Não há motivo especial' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Sem o módulo, o resultado poderia ser negativo dependendo do lado da reta.',
+  },
+  {
+    id: 'ga9-e4',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a distância do ponto (0, 0) até a reta x + y − 5 = 0?',
+    choices: [
+      { id: 'a', label: '5/√2' },
+      { id: 'b', label: '5' },
+      { id: 'c', label: '0' },
+      { id: 'd', label: '√2' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'd = |0+0−5| / √(1+1) = 5/√2.',
+  },
+  {
+    id: 'ga9-e5',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a distância do ponto (5, 1) até a reta x − 2 = 0?',
+    choices: [
+      { id: 'a', label: '3' },
+      { id: 'b', label: '5' },
+      { id: 'c', label: '1' },
+      { id: 'd', label: '2' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'd = |1(5)+0(1)−2| / √(1+0) = 3.',
+  },
+]
+
+const aplicacoesExercises: Exercise[] = [
+  {
+    id: 'ga10-e1',
+    kind: 'multiple-choice',
+    prompt: 'Para calcular a área de um triângulo usando um lado como base, a altura correspondente é:',
+    choices: [
+      { id: 'a', label: 'A distância do vértice oposto até a reta que contém a base' },
+      { id: 'b', label: 'A distância entre os outros dois vértices' },
+      { id: 'c', label: 'O comprimento do próprio lado da base' },
+      { id: 'd', label: 'A soma dos três lados' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A altura de um triângulo é sempre a distância (perpendicular) do vértice até a reta da base.',
+  },
+  {
+    id: 'ga10-e2',
+    kind: 'multiple-choice',
+    prompt: 'A distância entre duas retas paralelas é calculada:',
+    choices: [
+      { id: 'a', label: 'Escolhendo um ponto de uma reta e calculando sua distância até a outra' },
+      { id: 'b', label: 'Somando os coeficientes lineares' },
+      { id: 'c', label: 'Multiplicando os coeficientes angulares' },
+      { id: 'd', label: 'Não é possível calcular essa distância' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Como as retas paralelas mantêm distância constante, um único ponto já basta para medir.',
+  },
+  {
+    id: 'ga10-e3',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a distância entre as retas paralelas 2x + y − 4 = 0 e 2x + y − 10 = 0, usando o ponto (2, 0) da primeira?',
+    choices: [
+      { id: 'a', label: '6/√5' },
+      { id: 'b', label: '6' },
+      { id: 'c', label: '5' },
+      { id: 'd', label: '6/5' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'd = |2(2)+0−10| / √(4+1) = 6/√5.',
+  },
+  {
+    id: 'ga10-e4',
+    kind: 'multiple-choice',
+    prompt: 'Se a base de um triângulo mede 10 e a altura mede 4, qual é a área?',
+    choices: [
+      { id: 'a', label: '20' },
+      { id: 'b', label: '40' },
+      { id: 'c', label: '14' },
+      { id: 'd', label: '5' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Área = (base × altura)/2 = (10×4)/2 = 20.',
+  },
+  {
+    id: 'ga10-e5',
+    kind: 'multiple-choice',
+    prompt: 'Duas retas paralelas nunca se encontram — por isso a distância entre elas é:',
+    choices: [
+      { id: 'a', label: 'Constante, a mesma em qualquer ponto medido' },
+      { id: 'b', label: 'Sempre zero' },
+      { id: 'c', label: 'Impossível de calcular' },
+      { id: 'd', label: 'Variável, depende do ponto escolhido' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A distância entre retas paralelas é constante em toda a sua extensão.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'ga5x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a distância do ponto (1, 1) até a reta x + y − 4 = 0?',
+    choices: [
+      { id: 'a', label: '√2' },
+      { id: 'b', label: '2' },
+      { id: 'c', label: '4' },
+      { id: 'd', label: '2√2' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'd = |1+1−4| / √2 = 2/√2 = √2.',
+  },
+  {
+    id: 'ga5x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Um triângulo tem base AB = 6 e o vértice C está a uma distância 5 da reta AB. Qual é a área?',
+    choices: [
+      { id: 'a', label: '15' },
+      { id: 'b', label: '30' },
+      { id: 'c', label: '11' },
+      { id: 'd', label: '5' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Área = (6×5)/2 = 15.',
+  },
+  {
+    id: 'ga5x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a distância entre as retas paralelas x + y − 2 = 0 e x + y − 8 = 0, usando o ponto (2, 0) da primeira?',
+    choices: [
+      { id: 'a', label: '3√2' },
+      { id: 'b', label: '6' },
+      { id: 'c', label: '3' },
+      { id: 'd', label: '6√2' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'd = |2+0−8| / √2 = 6/√2 = 3√2.',
+  },
+  {
+    id: 'ga5x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a distância do ponto (0, 0) até a reta 3x + 4y − 15 = 0?',
+    choices: [
+      { id: 'a', label: '3' },
+      { id: 'b', label: '15' },
+      { id: 'c', label: '5' },
+      { id: 'd', label: '4' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'd = |0+0−15| / √(9+16) = 15/5 = 3.',
+  },
+  {
+    id: 'ga5x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Se um ponto está exatamente sobre a reta, qual é a distância dele até a reta?',
+    choices: [
+      { id: 'a', label: '0' },
+      { id: 'b', label: '1' },
+      { id: 'c', label: 'Indefinida' },
+      { id: 'd', label: 'Depende do ponto' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Se o ponto satisfaz a equação da reta, o numerador da fórmula é zero.',
+  },
+]
+
+export const GEOMETRIA_UNIT5_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-distanciaponto-formula',
+    unitNumber: 5,
+    icon: 'd⊥',
+    difficulty: 'easy',
+    title: 'Distância Ponto–Reta',
+    description: 'Medindo o menor caminho entre um ponto e uma reta.',
+    points: 40,
+    exercises: formulaExercises,
+  },
+  {
+    id: 'ex-distanciaponto-aplicacoes',
+    unitNumber: 5,
+    icon: '▲',
+    difficulty: 'medium',
+    title: 'Áreas e Retas Paralelas',
+    description: 'Aplicando a distância ponto–reta em área de triângulos.',
+    points: 60,
+    exercises: aplicacoesExercises,
+  },
+  {
+    id: 'ex-distanciaponto-desafio',
+    unitNumber: 5,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Distância de Ponto a Reta',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 5.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

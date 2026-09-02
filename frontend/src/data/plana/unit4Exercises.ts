@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const pitagorasExercises: Exercise[] = [
+  {
+    id: 'pl7-e1',
+    kind: 'multiple-choice',
+    prompt: 'Num triângulo retângulo, o lado oposto ao ângulo reto é chamado de:',
+    choices: [
+      { id: 'a', label: 'Hipotenusa' },
+      { id: 'b', label: 'Cateto' },
+      { id: 'c', label: 'Base' },
+      { id: 'd', label: 'Altura' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A hipotenusa é o lado oposto ao ângulo reto — o maior dos três.',
+  },
+  {
+    id: 'pl7-e2',
+    kind: 'multiple-choice',
+    prompt: 'O Teorema de Pitágoras afirma que:',
+    choices: [
+      { id: 'a', label: 'a² = b² + c² (a = hipotenusa)' },
+      { id: 'b', label: 'a = b + c' },
+      { id: 'c', label: 'a² = b² − c²' },
+      { id: 'd', label: 'a = b × c' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O quadrado da hipotenusa é igual à soma dos quadrados dos catetos.',
+  },
+  {
+    id: 'pl7-e3',
+    kind: 'multiple-choice',
+    prompt: 'Um triângulo retângulo tem catetos 3 e 4. Qual é a hipotenusa?',
+    choices: [
+      { id: 'a', label: '5' },
+      { id: 'b', label: '7' },
+      { id: 'c', label: '25' },
+      { id: 'd', label: '12' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '√(3²+4²) = √25 = 5.',
+  },
+  {
+    id: 'pl7-e4',
+    kind: 'multiple-choice',
+    prompt: 'Um triângulo retângulo tem catetos 6 e 8. Qual é a hipotenusa?',
+    choices: [
+      { id: 'a', label: '10' },
+      { id: 'b', label: '14' },
+      { id: 'c', label: '48' },
+      { id: 'd', label: '100' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '√(6²+8²) = √100 = 10.',
+  },
+  {
+    id: 'pl7-e5',
+    kind: 'multiple-choice',
+    prompt: 'Um triângulo retângulo tem hipotenusa 13 e um cateto 5. Qual é o outro cateto?',
+    choices: [
+      { id: 'a', label: '12' },
+      { id: 'b', label: '8' },
+      { id: 'c', label: '18' },
+      { id: 'd', label: '169' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '√(13²−5²) = √144 = 12.',
+  },
+]
+
+const relacoesExercises: Exercise[] = [
+  {
+    id: 'pl8-e1',
+    kind: 'multiple-choice',
+    prompt: 'A altura relativa à hipotenusa de um triângulo retângulo divide o triângulo em:',
+    choices: [
+      { id: 'a', label: 'Dois triângulos menores, semelhantes ao original' },
+      { id: 'b', label: 'Dois triângulos congruentes entre si' },
+      { id: 'c', label: 'Um quadrado e um triângulo' },
+      { id: 'd', label: 'Três triângulos iguais' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Os dois triângulos formados são semelhantes entre si e ao original.',
+  },
+  {
+    id: 'pl8-e2',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a relação métrica para a altura h em termos das projeções m e n dos catetos?',
+    choices: [
+      { id: 'a', label: 'h² = m · n' },
+      { id: 'b', label: 'h = m + n' },
+      { id: 'c', label: 'h² = m + n' },
+      { id: 'd', label: 'h = m · n' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A altura é a média geométrica das duas projeções.',
+  },
+  {
+    id: 'pl8-e3',
+    kind: 'multiple-choice',
+    prompt: 'No triângulo 3-4-5, qual é a altura relativa à hipotenusa?',
+    choices: [
+      { id: 'a', label: '2,4' },
+      { id: 'b', label: '3,5' },
+      { id: 'c', label: '5' },
+      { id: 'd', label: '1,2' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'h = (3×4)/5 = 2,4.',
+  },
+  {
+    id: 'pl8-e4',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a relação entre o cateto b, a hipotenusa a e a projeção n desse cateto?',
+    choices: [
+      { id: 'a', label: 'b² = a · n' },
+      { id: 'b', label: 'b = a + n' },
+      { id: 'c', label: 'b² = a − n' },
+      { id: 'd', label: 'b = a · n' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O quadrado de um cateto é igual ao produto da hipotenusa pela projeção desse cateto.',
+  },
+  {
+    id: 'pl8-e5',
+    kind: 'multiple-choice',
+    prompt: 'As relações métricas do triângulo retângulo (h²=mn, b²=an, c²=am) são consequência de qual conceito visto antes?',
+    choices: [
+      { id: 'a', label: 'Semelhança de triângulos' },
+      { id: 'b', label: 'Congruência de triângulos' },
+      { id: 'c', label: 'Soma dos ângulos internos' },
+      { id: 'd', label: 'Ângulos opostos pelo vértice' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A altura divide o triângulo em dois semelhantes ao original, gerando essas proporções.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'pl4x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Um triângulo retângulo tem catetos 9 e 12. Qual é a hipotenusa?',
+    choices: [
+      { id: 'a', label: '15' },
+      { id: 'b', label: '21' },
+      { id: 'c', label: '108' },
+      { id: 'd', label: '225' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '√(81+144) = √225 = 15.',
+  },
+  {
+    id: 'pl4x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Um terreno retangular tem uma diagonal de 10m e um lado de 6m. Qual é o outro lado?',
+    choices: [
+      { id: 'a', label: '8m' },
+      { id: 'b', label: '4m' },
+      { id: 'c', label: '16m' },
+      { id: 'd', label: '64m' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '√(100−36) = √64 = 8.',
+  },
+  {
+    id: 'pl4x-e3',
+    kind: 'multiple-choice',
+    prompt: 'No triângulo retângulo com catetos 6 e 8 (hipotenusa 10), qual é a altura relativa à hipotenusa?',
+    choices: [
+      { id: 'a', label: '4,8' },
+      { id: 'b', label: '5' },
+      { id: 'c', label: '3,5' },
+      { id: 'd', label: '7' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'h = (6×8)/10 = 4,8.',
+  },
+  {
+    id: 'pl4x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Se as projeções dos catetos sobre a hipotenusa são m=3,2 e n=6,8, qual é o valor de h² pela relação h²=m·n?',
+    choices: [
+      { id: 'a', label: '21,76' },
+      { id: 'b', label: '10' },
+      { id: 'c', label: '3,4' },
+      { id: 'd', label: '6,8' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '3,2 × 6,8 = 21,76.',
+  },
+  {
+    id: 'pl4x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Uma escada de 5m está apoiada numa parede, com a base a 3m da parede. A que altura da parede a escada chega?',
+    choices: [
+      { id: 'a', label: '4m' },
+      { id: 'b', label: '2m' },
+      { id: 'c', label: '8m' },
+      { id: 'd', label: '16m' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '√(25−9) = √16 = 4.',
+  },
+]
+
+export const PLANA_UNIT4_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-metricas-pitagoras',
+    unitNumber: 4,
+    icon: 'a²=b²+c²',
+    difficulty: 'easy',
+    title: 'Teorema de Pitágoras',
+    description: 'Catetos, hipotenusa, e a relação mais famosa da geometria.',
+    points: 40,
+    exercises: pitagorasExercises,
+  },
+  {
+    id: 'ex-metricas-relacoes',
+    unitNumber: 4,
+    icon: 'h²=mn',
+    difficulty: 'medium',
+    title: 'Relações Métricas',
+    description: 'Altura, projeções e médias geométricas.',
+    points: 60,
+    exercises: relacoesExercises,
+  },
+  {
+    id: 'ex-metricas-desafio',
+    unitNumber: 4,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Relações Métricas',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 4.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

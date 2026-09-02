@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const solidosExercises: Exercise[] = [
+  {
+    id: 'es15-e1',
+    kind: 'multiple-choice',
+    prompt: 'Um sólido está inscrito em outro quando:',
+    choices: [
+      { id: 'a', label: 'Está totalmente contido dentro dele, tocando suas faces ou vértices' },
+      { id: 'b', label: 'Tem o mesmo volume que o outro' },
+      { id: 'c', label: 'Está ao lado do outro sólido' },
+      { id: 'd', label: 'É maior que o outro sólido' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Inscrito significa contido, tocando as fronteiras do sólido maior.',
+  },
+  {
+    id: 'es15-e2',
+    kind: 'multiple-choice',
+    prompt: 'Uma esfera inscrita num cubo de aresta a tem raio:',
+    choices: [
+      { id: 'a', label: 'a/2' },
+      { id: 'b', label: 'a' },
+      { id: 'c', label: '2a' },
+      { id: 'd', label: 'a√2' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O raio da esfera inscrita é metade da aresta do cubo.',
+  },
+  {
+    id: 'es15-e3',
+    kind: 'multiple-choice',
+    prompt: 'Um cubo de aresta 10cm tem uma esfera inscrita de que raio?',
+    choices: [
+      { id: 'a', label: '5cm' },
+      { id: 'b', label: '10cm' },
+      { id: 'c', label: '20cm' },
+      { id: 'd', label: '2,5cm' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '10/2 = 5cm.',
+  },
+  {
+    id: 'es15-e4',
+    kind: 'multiple-choice',
+    prompt: 'Uma esfera inscrita num cubo toca:',
+    choices: [
+      { id: 'a', label: 'As seis faces do cubo, no meio de cada uma' },
+      { id: 'b', label: 'Os oito vértices do cubo' },
+      { id: 'c', label: 'As doze arestas do cubo' },
+      { id: 'd', label: 'Só o centro do cubo' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A esfera inscrita toca o centro de cada uma das 6 faces.',
+  },
+  {
+    id: 'es15-e5',
+    kind: 'multiple-choice',
+    prompt: 'Um cubo de aresta 6cm tem uma esfera inscrita de que raio?',
+    choices: [
+      { id: 'a', label: '3cm' },
+      { id: 'b', label: '6cm' },
+      { id: 'c', label: '12cm' },
+      { id: 'd', label: '1,5cm' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '6/2 = 3cm.',
+  },
+]
+
+const esferasExercises: Exercise[] = [
+  {
+    id: 'es16-e1',
+    kind: 'multiple-choice',
+    prompt: 'Uma esfera circunscrita a um poliedro:',
+    choices: [
+      { id: 'a', label: 'Passa por todos os vértices do poliedro' },
+      { id: 'b', label: 'Toca só as faces do poliedro' },
+      { id: 'c', label: 'Fica dentro do poliedro' },
+      { id: 'd', label: 'Tem o mesmo volume do poliedro' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A esfera circunscrita envolve o poliedro, passando por todos os vértices.',
+  },
+  {
+    id: 'es16-e2',
+    kind: 'multiple-choice',
+    prompt: 'A diagonal de um cubo de aresta a inscrito numa esfera é igual a:',
+    choices: [
+      { id: 'a', label: 'O diâmetro da esfera circunscrita' },
+      { id: 'b', label: 'O raio da esfera circunscrita' },
+      { id: 'c', label: 'A metade do diâmetro' },
+      { id: 'd', label: 'Não tem relação com a esfera' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A diagonal do cubo é o maior segmento interno, coincidindo com o diâmetro.',
+  },
+  {
+    id: 'es16-e3',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a fórmula da diagonal de um cubo de aresta a?',
+    choices: [
+      { id: 'a', label: 'a√3' },
+      { id: 'b', label: 'a√2' },
+      { id: 'c', label: '2a' },
+      { id: 'd', label: 'a²' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A diagonal do cubo é a√3.',
+  },
+  {
+    id: 'es16-e4',
+    kind: 'multiple-choice',
+    prompt: 'Um cubo de aresta 4cm está inscrito numa esfera. Qual é o raio dessa esfera?',
+    choices: [
+      { id: 'a', label: '2√3 cm' },
+      { id: 'b', label: '4√3 cm' },
+      { id: 'c', label: '4cm' },
+      { id: 'd', label: '√3 cm' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Diagonal = 4√3; raio = diagonal/2 = 2√3.',
+  },
+  {
+    id: 'es16-e5',
+    kind: 'multiple-choice',
+    prompt: 'Um cubo de aresta 2cm está inscrito numa esfera. Qual é o diâmetro dessa esfera?',
+    choices: [
+      { id: 'a', label: '2√3 cm' },
+      { id: 'b', label: '√3 cm' },
+      { id: 'c', label: '4√3 cm' },
+      { id: 'd', label: '4cm' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O diâmetro é igual à diagonal do cubo: 2√3.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'es8x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Um cubo de aresta 6cm tem uma esfera inscrita (tocando as faces). Qual é o raio dessa esfera?',
+    choices: [
+      { id: 'a', label: '3cm' },
+      { id: 'b', label: '6cm' },
+      { id: 'c', label: '3√3 cm' },
+      { id: 'd', label: '6√3 cm' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '6/2 = 3cm.',
+  },
+  {
+    id: 'es8x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Continuando o cubo de aresta 6cm, qual é o raio da esfera circunscrita (que passa pelos vértices)?',
+    choices: [
+      { id: 'a', label: '3√3 cm' },
+      { id: 'b', label: '6√3 cm' },
+      { id: 'c', label: '3cm' },
+      { id: 'd', label: '6cm' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Diagonal = 6√3; raio = diagonal/2 = 3√3.',
+  },
+  {
+    id: 'es8x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Qual é maior: a esfera inscrita ou a esfera circunscrita de um mesmo cubo?',
+    choices: [
+      { id: 'a', label: 'A esfera circunscrita é sempre maior' },
+      { id: 'b', label: 'A esfera inscrita é sempre maior' },
+      { id: 'c', label: 'São sempre iguais' },
+      { id: 'd', label: 'Depende do tamanho do cubo' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A circunscrita (raio a√3/2) é sempre maior que a inscrita (raio a/2).',
+  },
+  {
+    id: 'es8x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Uma esfera circunscrita a um cubo tem raio 3√3 cm. Qual é a aresta do cubo?',
+    choices: [
+      { id: 'a', label: '6cm' },
+      { id: 'b', label: '3cm' },
+      { id: 'c', label: '3√3 cm' },
+      { id: 'd', label: '18cm' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Diagonal = 2×3√3=6√3=a√3 → a=6.',
+  },
+  {
+    id: 'es8x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Por que a diagonal do cubo (não a aresta) é igual ao diâmetro da esfera circunscrita?',
+    choices: [
+      { id: 'a', label: 'Porque a diagonal liga os dois vértices mais distantes do cubo, o maior comprimento interno' },
+      { id: 'b', label: 'Porque a diagonal é sempre igual à aresta' },
+      { id: 'c', label: 'Porque a esfera não toca os vértices' },
+      { id: 'd', label: 'Não há motivo geométrico, é uma coincidência' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A diagonal principal é o maior segmento possível dentro do cubo, coincidindo com o diâmetro.',
+  },
+]
+
+export const ESPACIAL_UNIT8_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-inscricao-solidos',
+    unitNumber: 8,
+    icon: '□○',
+    difficulty: 'easy',
+    title: 'Sólidos Inscritos',
+    description: 'Quando um sólido cabe perfeitamente dentro de outro.',
+    points: 40,
+    exercises: solidosExercises,
+  },
+  {
+    id: 'ex-inscricao-esferas',
+    unitNumber: 8,
+    icon: '○□',
+    difficulty: 'medium',
+    title: 'Sólidos Inscritos em Esferas',
+    description: 'Quando a esfera envolve o sólido, tocando os vértices.',
+    points: 60,
+    exercises: esferasExercises,
+  },
+  {
+    id: 'ex-inscricao-desafio',
+    unitNumber: 8,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Inscrição e Circunscrição',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 8.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

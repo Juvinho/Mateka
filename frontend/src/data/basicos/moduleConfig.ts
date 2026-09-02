@@ -1,4 +1,5 @@
 import type { ModuleConfig } from '../../pages/ModulosPage'
+import FractionPlayground from '../../components/playground/FractionPlayground'
 import { ALL_BASICOS_LESSONS, BASICOS_UNITS } from './units'
 import { basicosExerciseSets } from './exerciseSets'
 import { TRACK, isNodeUnlocked } from './track'
@@ -18,4 +19,5 @@ export const BASICOS_MODULE_CONFIG: ModuleConfig = {
   track: TRACK,
   isNodeUnlocked,
   endlessBank: BASICOS_ENDLESS_BANK,
+  PlaygroundComponent: FractionPlayground,
 }

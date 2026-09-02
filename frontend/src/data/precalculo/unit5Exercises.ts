@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const compostaExercises: Exercise[] = [
+  {
+    id: 'pc9-e1',
+    kind: 'multiple-choice',
+    prompt: 'O que significa (f∘g)(x)?',
+    choices: [
+      { id: 'a', label: 'f(g(x))' },
+      { id: 'b', label: 'g(f(x))' },
+      { id: 'c', label: 'f(x) · g(x)' },
+      { id: 'd', label: 'f(x) + g(x)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(f∘g)(x) significa aplicar g primeiro, e depois aplicar f no resultado: f(g(x)).',
+  },
+  {
+    id: 'pc9-e2',
+    kind: 'multiple-choice',
+    prompt: 'Se f(x) = x + 2 e g(x) = 3x, qual é (f∘g)(x)?',
+    choices: [
+      { id: 'a', label: '3x + 2' },
+      { id: 'b', label: '3x + 6' },
+      { id: 'c', label: '3(x + 2)' },
+      { id: 'd', label: 'x + 6' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(f∘g)(x) = f(g(x)) = f(3x) = 3x + 2.',
+  },
+  {
+    id: 'pc9-e3',
+    kind: 'multiple-choice',
+    prompt: 'Usando f(x) = x + 2 e g(x) = 3x do exercício anterior, qual é (g∘f)(x)?',
+    choices: [
+      { id: 'a', label: '3x + 6' },
+      { id: 'b', label: '3x + 2' },
+      { id: 'c', label: 'x + 6' },
+      { id: 'd', label: '3x' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(g∘f)(x) = g(f(x)) = g(x + 2) = 3(x + 2) = 3x + 6.',
+  },
+  {
+    id: 'pc9-e4',
+    kind: 'multiple-choice',
+    prompt: 'Se f(x) = x² e g(x) = x − 1, qual é (f∘g)(2)?',
+    choices: [
+      { id: 'a', label: '1' },
+      { id: 'b', label: '4' },
+      { id: 'c', label: '3' },
+      { id: 'd', label: '0' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'g(2) = 2 − 1 = 1, e f(1) = 1² = 1.',
+  },
+  {
+    id: 'pc9-e5',
+    kind: 'multiple-choice',
+    prompt: 'É verdade que, em geral, (f∘g)(x) = (g∘f)(x)?',
+    choices: [
+      { id: 'a', label: 'Não, a ordem da composição geralmente importa' },
+      { id: 'b', label: 'Sim, sempre são iguais' },
+      { id: 'c', label: 'Só quando f e g são iguais' },
+      { id: 'd', label: 'Só quando x = 0' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A composição de funções não é comutativa em geral — trocar a ordem costuma dar um resultado diferente.',
+  },
+]
+
+const inversaExercises: Exercise[] = [
+  {
+    id: 'pc10-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a condição para uma função ter inversa?',
+    choices: [
+      { id: 'a', label: 'Ser bijetora' },
+      { id: 'b', label: 'Ser sempre crescente' },
+      { id: 'c', label: 'Ter domínio real' },
+      { id: 'd', label: 'Ser quadrática' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Só funções bijetoras (cada saída vem de uma única entrada) têm inversa.',
+  },
+  {
+    id: 'pc10-e2',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a inversa de f(x) = x + 5?',
+    choices: [
+      { id: 'a', label: 'f⁻¹(x) = x − 5' },
+      { id: 'b', label: 'f⁻¹(x) = x + 5' },
+      { id: 'c', label: 'f⁻¹(x) = −x − 5' },
+      { id: 'd', label: 'f⁻¹(x) = 5 − x' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'y = x + 5 → troca x por y: x = y + 5 → y = x − 5.',
+  },
+  {
+    id: 'pc10-e3',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a inversa de f(x) = 2x + 3?',
+    choices: [
+      { id: 'a', label: 'f⁻¹(x) = (x − 3)/2' },
+      { id: 'b', label: 'f⁻¹(x) = (x + 3)/2' },
+      { id: 'c', label: 'f⁻¹(x) = 2x − 3' },
+      { id: 'd', label: 'f⁻¹(x) = (x − 2)/3' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'y = 2x + 3 → troca: x = 2y + 3 → y = (x − 3)/2.',
+  },
+  {
+    id: 'pc10-e4',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a inversa de f(x) = (x − 4)/3?',
+    choices: [
+      { id: 'a', label: 'f⁻¹(x) = 3x + 4' },
+      { id: 'b', label: 'f⁻¹(x) = 3x − 4' },
+      { id: 'c', label: 'f⁻¹(x) = (x + 4)/3' },
+      { id: 'd', label: 'f⁻¹(x) = x/3 + 4' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'y = (x − 4)/3 → troca: x = (y − 4)/3 → 3x = y − 4 → y = 3x + 4.',
+  },
+  {
+    id: 'pc10-e5',
+    kind: 'multiple-choice',
+    prompt: 'Por que f(x) = x² não tem inversa considerando todo o ℝ como domínio?',
+    choices: [
+      { id: 'a', label: 'Porque não é bijetora — x = 2 e x = −2 dão o mesmo resultado' },
+      { id: 'b', label: 'Porque não tem domínio' },
+      { id: 'c', label: 'Porque cresce demais' },
+      { id: 'd', label: 'Porque é uma parábola' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'f(2) = f(−2) = 4 — duas entradas diferentes dão a mesma saída, então a função não é injetora (nem bijetora) em todo o ℝ.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'pc5x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Se f(x) = 2x e g(x) = x + 3, qual é (f∘g)(1)?',
+    choices: [
+      { id: 'a', label: '8' },
+      { id: 'b', label: '5' },
+      { id: 'c', label: '2' },
+      { id: 'd', label: '6' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'g(1) = 4, e f(4) = 2·4 = 8.',
+  },
+  {
+    id: 'pc5x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Se f(x) = x − 1 e g(x) = x², qual é (g∘f)(3)?',
+    choices: [
+      { id: 'a', label: '4' },
+      { id: 'b', label: '9' },
+      { id: 'c', label: '2' },
+      { id: 'd', label: '8' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'f(3) = 2, e g(2) = 2² = 4.',
+  },
+  {
+    id: 'pc5x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Se f(x) = 3x − 6, qual é f⁻¹(x)?',
+    choices: [
+      { id: 'a', label: 'f⁻¹(x) = (x + 6)/3' },
+      { id: 'b', label: 'f⁻¹(x) = (x − 6)/3' },
+      { id: 'c', label: 'f⁻¹(x) = 3x + 6' },
+      { id: 'd', label: 'f⁻¹(x) = x/3 − 6' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'y = 3x − 6 → troca: x = 3y − 6 → y = (x + 6)/3.',
+  },
+  {
+    id: 'pc5x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Se f⁻¹(x) = (x − 1)/4, qual é f(x)?',
+    choices: [
+      { id: 'a', label: 'f(x) = 4x + 1' },
+      { id: 'b', label: 'f(x) = 4x − 1' },
+      { id: 'c', label: 'f(x) = (x − 1)/4' },
+      { id: 'd', label: 'f(x) = x/4 + 1' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A inversa da inversa é a função original: aplicando a mesma técnica de troca a y = (x − 1)/4, chegamos em f(x) = 4x + 1.',
+  },
+  {
+    id: 'pc5x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Se f(2) = 7 para uma função f invertível, qual é o valor de f⁻¹(7)?',
+    choices: [
+      { id: 'a', label: '2' },
+      { id: 'b', label: '7' },
+      { id: 'c', label: '14' },
+      { id: 'd', label: 'Não é possível saber' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Por definição, se f(2) = 7 então f⁻¹(7) = 2 — a inversa desfaz exatamente o que f faz.',
+  },
+]
+
+export const PRECALCULO_UNIT5_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-composta-calculo',
+    unitNumber: 5,
+    icon: '∘',
+    difficulty: 'easy',
+    title: 'Função Composta',
+    description: 'Aplicar uma função sobre o resultado de outra: (f∘g)(x).',
+    points: 40,
+    exercises: compostaExercises,
+  },
+  {
+    id: 'ex-composta-inversa',
+    unitNumber: 5,
+    icon: 'f⁻¹',
+    difficulty: 'medium',
+    title: 'Função Inversa',
+    description: 'Desfazer o efeito de uma função com f⁻¹(x).',
+    points: 60,
+    exercises: inversaExercises,
+  },
+  {
+    id: 'ex-composta-desafio',
+    unitNumber: 5,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Composição e Inversa',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 5.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

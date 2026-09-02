@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const coeficienteExercises: Exercise[] = [
+  {
+    id: 'ga5-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o coeficiente angular da reta que passa por (1, 5) e (3, 9)?',
+    choices: [
+      { id: 'a', label: '2' },
+      { id: 'b', label: '4' },
+      { id: 'c', label: '1' },
+      { id: 'd', label: '0,5' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'm = (9−5)/(3−1) = 4/2 = 2.',
+  },
+  {
+    id: 'ga5-e2',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o coeficiente angular da reta que passa por (0, 0) e (2, 6)?',
+    choices: [
+      { id: 'a', label: '3' },
+      { id: 'b', label: '6' },
+      { id: 'c', label: '2' },
+      { id: 'd', label: '1/3' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'm = (6−0)/(2−0) = 3.',
+  },
+  {
+    id: 'ga5-e3',
+    kind: 'multiple-choice',
+    prompt: 'Na equação y = 2x + 3, qual é o coeficiente linear n?',
+    choices: [
+      { id: 'a', label: '3' },
+      { id: 'b', label: '2' },
+      { id: 'c', label: '5' },
+      { id: 'd', label: '0' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Na forma y=mx+n, n é o termo somado — aqui, 3.',
+  },
+  {
+    id: 'ga5-e4',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a equação reduzida da reta com m = 2 que passa por (1, 5)?',
+    choices: [
+      { id: 'a', label: 'y = 2x + 3' },
+      { id: 'b', label: 'y = 2x + 5' },
+      { id: 'c', label: 'y = 3x + 2' },
+      { id: 'd', label: 'y = 2x − 3' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '5 = 2(1) + n → n = 3, então y = 2x + 3.',
+  },
+  {
+    id: 'ga5-e5',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o coeficiente angular de uma reta horizontal?',
+    choices: [
+      { id: 'a', label: '0' },
+      { id: 'b', label: '1' },
+      { id: 'c', label: 'Indefinido' },
+      { id: 'd', label: '−1' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Uma reta horizontal não sobe nem desce: m = 0.',
+  },
+]
+
+const geralExercises: Exercise[] = [
+  {
+    id: 'ga6-e1',
+    kind: 'multiple-choice',
+    prompt: 'Convertendo y = 2x + 3 para a forma geral ax + by + c = 0, qual é o resultado?',
+    choices: [
+      { id: 'a', label: '2x − y + 3 = 0' },
+      { id: 'b', label: '2x + y + 3 = 0' },
+      { id: 'c', label: 'x − 2y + 3 = 0' },
+      { id: 'd', label: '2x − y − 3 = 0' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Passando y para o outro lado: 2x − y + 3 = 0.',
+  },
+  {
+    id: 'ga6-e2',
+    kind: 'multiple-choice',
+    prompt: 'A equação geral 3x − y + 6 = 0, convertida para a forma reduzida, fica:',
+    choices: [
+      { id: 'a', label: 'y = 3x + 6' },
+      { id: 'b', label: 'y = −3x + 6' },
+      { id: 'c', label: 'y = 3x − 6' },
+      { id: 'd', label: 'y = 6x + 3' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Isolando y: y = 3x + 6.',
+  },
+  {
+    id: 'ga6-e3',
+    kind: 'multiple-choice',
+    prompt: 'Por que a forma geral consegue representar retas verticais e a reduzida não?',
+    choices: [
+      { id: 'a', label: 'Porque a forma geral não depende de isolar y, o que é impossível numa reta vertical' },
+      { id: 'b', label: 'Porque a forma geral usa números maiores' },
+      { id: 'c', label: 'Porque toda reta vertical tem m = 0' },
+      { id: 'd', label: 'Não há diferença entre as duas formas' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Numa reta vertical, y não pode ser isolado — mas a forma geral não exige isso.',
+  },
+  {
+    id: 'ga6-e4',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a forma geral da reta vertical x = 4?',
+    choices: [
+      { id: 'a', label: 'x − 4 = 0' },
+      { id: 'b', label: 'y − 4 = 0' },
+      { id: 'c', label: '4x = 0' },
+      { id: 'd', label: 'x + y = 4' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'x = 4 reescrita como ax+by+c=0 (com b=0) é x − 4 = 0.',
+  },
+  {
+    id: 'ga6-e5',
+    kind: 'multiple-choice',
+    prompt: 'Na equação geral ax + by + c = 0, se b = 0, que tipo de reta é essa?',
+    choices: [
+      { id: 'a', label: 'Uma reta vertical' },
+      { id: 'b', label: 'Uma reta horizontal' },
+      { id: 'c', label: 'Uma reta com m = 0' },
+      { id: 'd', label: 'Não representa uma reta' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Sem o termo em y, a equação fica ax+c=0, ou seja x=constante — uma reta vertical.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'ga3x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o coeficiente angular da reta 4x − 2y + 6 = 0, na forma reduzida?',
+    choices: [
+      { id: 'a', label: '2' },
+      { id: 'b', label: '4' },
+      { id: 'c', label: '−2' },
+      { id: 'd', label: '0,5' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '−2y = −4x−6 → y = 2x+3, então m = 2.',
+  },
+  {
+    id: 'ga3x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a equação reduzida da reta que passa por (2, 1) e (4, 5)?',
+    choices: [
+      { id: 'a', label: 'y = 2x − 3' },
+      { id: 'b', label: 'y = 2x + 3' },
+      { id: 'c', label: 'y = −2x − 3' },
+      { id: 'd', label: 'y = 3x − 2' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'm=(5−1)/(4−2)=2; 1=2(2)+n → n=−3, então y=2x−3.',
+  },
+  {
+    id: 'ga3x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Converta y = −x + 4 para a forma geral.',
+    choices: [
+      { id: 'a', label: 'x + y − 4 = 0' },
+      { id: 'b', label: 'x − y + 4 = 0' },
+      { id: 'c', label: '−x + y − 4 = 0' },
+      { id: 'd', label: 'x + y + 4 = 0' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Passando tudo para um lado: x + y − 4 = 0.',
+  },
+  {
+    id: 'ga3x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o coeficiente angular de uma reta vertical?',
+    choices: [
+      { id: 'a', label: 'Indefinido' },
+      { id: 'b', label: '0' },
+      { id: 'c', label: '1' },
+      { id: 'd', label: 'Infinito positivo' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A fórmula de m divide por Δx=0 numa reta vertical, o que não é definido.',
+  },
+  {
+    id: 'ga3x-e5',
+    kind: 'multiple-choice',
+    prompt: 'A reta 2x + y − 5 = 0 passa pelo ponto (1, 3)?',
+    choices: [
+      { id: 'a', label: 'Sim, pois 2(1) + 3 − 5 = 0' },
+      { id: 'b', label: 'Não, pois dá 1' },
+      { id: 'c', label: 'Não, pois dá −1' },
+      { id: 'd', label: 'Sim, mas só aproximadamente' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '2(1)+3−5 = 0 — o ponto satisfaz a equação.',
+  },
+]
+
+export const GEOMETRIA_UNIT3_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-reta-coeficiente',
+    unitNumber: 3,
+    icon: 'm',
+    difficulty: 'easy',
+    title: 'Coeficiente Angular',
+    description: 'Medindo a inclinação de uma reta e sua equação reduzida.',
+    points: 40,
+    exercises: coeficienteExercises,
+  },
+  {
+    id: 'ex-reta-geral',
+    unitNumber: 3,
+    icon: 'ax+by',
+    difficulty: 'medium',
+    title: 'Equação Geral da Reta',
+    description: 'Uma forma que representa qualquer reta, inclusive as verticais.',
+    points: 60,
+    exercises: geralExercises,
+  },
+  {
+    id: 'ex-reta-desafio',
+    unitNumber: 3,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Equação da Reta',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 3.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

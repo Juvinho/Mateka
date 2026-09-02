@@ -1,30 +1,29 @@
-import { useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import MatekaLogo from '../components/MatekaLogo'
 import ModulePickerModal from '../components/profile/ModulePickerModal'
 import type { ModuleOption } from '../components/profile/ModulePickerModal'
+import FriendsModal from '../components/social/FriendsModal'
+import { listAcceptedUnseen } from '../lib/socialApi'
 import { useAuth } from '../state/useAuth'
 import { useModuleProgress } from '../state/useModuleProgress'
 import type { ModuleProgressState } from '../state/useModuleProgress'
-import { useProfileBio } from '../hooks/useProfileBio'
 import { resizeImageToBlob } from '../lib/imageResize'
-import { uploadAvatar, uploadBanner, deleteAvatar, deleteBanner } from '../lib/profileApi'
+import { uploadAvatar, uploadBanner, deleteAvatar, deleteBanner, updateBio } from '../lib/profileApi'
 import { computeAchievements } from '../data/achievements'
 import { MATRIZES_MODULE_CONFIG } from '../data/matrizes/moduleConfig'
 import { BASICOS_MODULE_CONFIG } from '../data/basicos/moduleConfig'
+import { PRECALCULO_MODULE_CONFIG } from '../data/precalculo/moduleConfig'
+import { SISTEMAS_MODULE_CONFIG } from '../data/sistemas/moduleConfig'
+import { GEOMETRIA_MODULE_CONFIG } from '../data/geometria/moduleConfig'
+import { PLANA_MODULE_CONFIG } from '../data/plana/moduleConfig'
+import { ESPACIAL_MODULE_CONFIG } from '../data/espacial/moduleConfig'
 import type { ModuleConfig } from './ModulosPage'
+import { initialsFor } from '../lib/initials'
 
 const BIO_MAX_LENGTH = 240
 
 type Props = {
   onNavigate: (hash: string) => void
-}
-
-function initialsFor(displayName: string | undefined): string {
-  const parts = displayName?.trim().split(/\s+/).filter(Boolean) ?? []
-  if (parts.length === 0) return 'U'
-  const first = parts[0]![0]!
-  const last = parts.length > 1 ? parts[parts.length - 1]![0] : ''
-  return (first + last).toUpperCase()
 }
 
 type ModuleCardProps = {
@@ -71,36 +70,103 @@ const PerfilPage = ({ onNavigate }: Props) => {
   const { user, logout, refresh } = useAuth()
   const basicosProgress = useModuleProgress('conceitos-basicos')
   const matrizesProgress = useModuleProgress('matrizes')
-  const { bio, setBio } = useProfileBio(user?.id)
+  const precalculoProgress = useModuleProgress('pre-calculo')
+  const sistemasProgress = useModuleProgress('sistemas-lineares')
+  const geometriaProgress = useModuleProgress('geometria-analitica')
+  const planaProgress = useModuleProgress('geometria-plana')
+  const espacialProgress = useModuleProgress('geometria-espacial')
+  const bio = user?.bio ?? ''
 
   const [pickerOpen, setPickerOpen] = useState(false)
+  const [friendsTab, setFriendsTab] = useState<'amigos' | 'buscar' | null>(null)
+  const [hasUnseenAcceptance, setHasUnseenAcceptance] = useState(false)
+  const handleAcceptedSeen = useCallback(() => setHasUnseenAcceptance(false), [])
+
+  useEffect(() => {
+    let cancelled = false
+    listAcceptedUnseen()
+      .then((users) => { if (!cancelled) setHasUnseenAcceptance(users.length > 0) })
+      .catch(() => {})
+    return () => { cancelled = true }
+  }, [])
   const [imageError, setImageError] = useState<string | null>(null)
   const [avatarUploading, setAvatarUploading] = useState(false)
   const [bannerUploading, setBannerUploading] = useState(false)
   const [bioEditing, setBioEditing] = useState(false)
   const [bioDraft, setBioDraft] = useState('')
+  const [bioSaving, setBioSaving] = useState(false)
   const avatarInputRef = useRef<HTMLInputElement | null>(null)
   const bannerInputRef = useRef<HTMLInputElement | null>(null)
 
   const avatar = user?.avatarUrl ?? null
   const banner = user?.bannerUrl ?? null
 
-  const totalPoints = matrizesProgress.totalPoints + basicosProgress.totalPoints
+  const totalPoints =
+    matrizesProgress.totalPoints +
+    basicosProgress.totalPoints +
+    precalculoProgress.totalPoints +
+    sistemasProgress.totalPoints +
+    geometriaProgress.totalPoints +
+    planaProgress.totalPoints +
+    espacialProgress.totalPoints
   const combinedAccuracy = useMemo(() => {
-    const accuracies = [matrizesProgress.averageAccuracy, basicosProgress.averageAccuracy].filter((a) => a > 0)
+    const accuracies = [
+      matrizesProgress.averageAccuracy,
+      basicosProgress.averageAccuracy,
+      precalculoProgress.averageAccuracy,
+      sistemasProgress.averageAccuracy,
+      geometriaProgress.averageAccuracy,
+      planaProgress.averageAccuracy,
+      espacialProgress.averageAccuracy,
+    ].filter((a) => a > 0)
     if (accuracies.length === 0) return 0
     return accuracies.reduce((sum, a) => sum + a, 0) / accuracies.length
-  }, [matrizesProgress.averageAccuracy, basicosProgress.averageAccuracy])
-  const bestStreak = Math.max(matrizesProgress.streakCount, basicosProgress.streakCount)
+  }, [
+    matrizesProgress.averageAccuracy,
+    basicosProgress.averageAccuracy,
+    precalculoProgress.averageAccuracy,
+    sistemasProgress.averageAccuracy,
+    geometriaProgress.averageAccuracy,
+    planaProgress.averageAccuracy,
+    espacialProgress.averageAccuracy,
+  ])
+  const bestStreak = Math.max(
+    matrizesProgress.streakCount,
+    basicosProgress.streakCount,
+    precalculoProgress.streakCount,
+    sistemasProgress.streakCount,
+    geometriaProgress.streakCount,
+    planaProgress.streakCount,
+    espacialProgress.streakCount,
+  )
 
   const initials = initialsFor(user?.displayName)
   const memberSince = user?.createdAt
     ? new Date(user.createdAt).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })
     : null
 
+  // Single source of truth for "which useModuleProgress result belongs to
+  // which module" — used both to build allModules below and to look up the
+  // right progress when rendering each started module's card, so a new
+  // module can never silently fall through to another one's numbers.
+  const progressByModuleId = {
+    matrizes: matrizesProgress,
+    'conceitos-basicos': basicosProgress,
+    'pre-calculo': precalculoProgress,
+    'sistemas-lineares': sistemasProgress,
+    'geometria-analitica': geometriaProgress,
+    'geometria-plana': planaProgress,
+    'geometria-espacial': espacialProgress,
+  }
+
   const allModules: ModuleOption[] = [
     { config: BASICOS_MODULE_CONFIG, hash: '#basicos', started: Object.keys(basicosProgress.state.completedNodeIds).length > 0 },
     { config: MATRIZES_MODULE_CONFIG, hash: '#modulos', started: Object.keys(matrizesProgress.state.completedNodeIds).length > 0 },
+    { config: PRECALCULO_MODULE_CONFIG, hash: '#pre-calculo', started: Object.keys(precalculoProgress.state.completedNodeIds).length > 0 },
+    { config: SISTEMAS_MODULE_CONFIG, hash: '#sistemas-lineares', started: Object.keys(sistemasProgress.state.completedNodeIds).length > 0 },
+    { config: GEOMETRIA_MODULE_CONFIG, hash: '#geometria-analitica', started: Object.keys(geometriaProgress.state.completedNodeIds).length > 0 },
+    { config: PLANA_MODULE_CONFIG, hash: '#geometria-plana', started: Object.keys(planaProgress.state.completedNodeIds).length > 0 },
+    { config: ESPACIAL_MODULE_CONFIG, hash: '#geometria-espacial', started: Object.keys(espacialProgress.state.completedNodeIds).length > 0 },
   ]
   const startedModules = allModules.filter((m) => m.started)
 
@@ -111,22 +177,60 @@ const PerfilPage = ({ onNavigate }: Props) => {
     const basicosCompletedTrackNodes = BASICOS_MODULE_CONFIG.track.filter(
       (n) => basicosProgress.state.completedNodeIds[n.id],
     ).length
+    const precalculoCompletedTrackNodes = PRECALCULO_MODULE_CONFIG.track.filter(
+      (n) => precalculoProgress.state.completedNodeIds[n.id],
+    ).length
+    const sistemasCompletedTrackNodes = SISTEMAS_MODULE_CONFIG.track.filter(
+      (n) => sistemasProgress.state.completedNodeIds[n.id],
+    ).length
+    const geometriaCompletedTrackNodes = GEOMETRIA_MODULE_CONFIG.track.filter(
+      (n) => geometriaProgress.state.completedNodeIds[n.id],
+    ).length
+    const planaCompletedTrackNodes = PLANA_MODULE_CONFIG.track.filter(
+      (n) => planaProgress.state.completedNodeIds[n.id],
+    ).length
+    const espacialCompletedTrackNodes = ESPACIAL_MODULE_CONFIG.track.filter(
+      (n) => espacialProgress.state.completedNodeIds[n.id],
+    ).length
     const hasCompletedModule =
       (MATRIZES_MODULE_CONFIG.track.length > 0 && matrizesCompletedTrackNodes === MATRIZES_MODULE_CONFIG.track.length) ||
-      (BASICOS_MODULE_CONFIG.track.length > 0 && basicosCompletedTrackNodes === BASICOS_MODULE_CONFIG.track.length)
+      (BASICOS_MODULE_CONFIG.track.length > 0 && basicosCompletedTrackNodes === BASICOS_MODULE_CONFIG.track.length) ||
+      (PRECALCULO_MODULE_CONFIG.track.length > 0 && precalculoCompletedTrackNodes === PRECALCULO_MODULE_CONFIG.track.length) ||
+      (SISTEMAS_MODULE_CONFIG.track.length > 0 && sistemasCompletedTrackNodes === SISTEMAS_MODULE_CONFIG.track.length) ||
+      (GEOMETRIA_MODULE_CONFIG.track.length > 0 && geometriaCompletedTrackNodes === GEOMETRIA_MODULE_CONFIG.track.length) ||
+      (PLANA_MODULE_CONFIG.track.length > 0 && planaCompletedTrackNodes === PLANA_MODULE_CONFIG.track.length) ||
+      (ESPACIAL_MODULE_CONFIG.track.length > 0 && espacialCompletedTrackNodes === ESPACIAL_MODULE_CONFIG.track.length)
 
     const allResults = [
       ...Object.values(matrizesProgress.state.exerciseResults),
       ...Object.values(basicosProgress.state.exerciseResults),
+      ...Object.values(precalculoProgress.state.exerciseResults),
+      ...Object.values(sistemasProgress.state.exerciseResults),
+      ...Object.values(geometriaProgress.state.exerciseResults),
+      ...Object.values(planaProgress.state.exerciseResults),
+      ...Object.values(espacialProgress.state.exerciseResults),
     ]
-    const totalEndlessAnswered = [matrizesProgress.state.endless, basicosProgress.state.endless]
+    const totalEndlessAnswered = [
+      matrizesProgress.state.endless,
+      basicosProgress.state.endless,
+      precalculoProgress.state.endless,
+      sistemasProgress.state.endless,
+      geometriaProgress.state.endless,
+      planaProgress.state.endless,
+      espacialProgress.state.endless,
+    ]
       .flatMap((e) => Object.values(e))
       .reduce((sum, stats) => sum + stats.totalAnswered, 0)
 
     return computeAchievements({
       totalCompletedNodes:
         Object.keys(matrizesProgress.state.completedNodeIds).length +
-        Object.keys(basicosProgress.state.completedNodeIds).length,
+        Object.keys(basicosProgress.state.completedNodeIds).length +
+        Object.keys(precalculoProgress.state.completedNodeIds).length +
+        Object.keys(sistemasProgress.state.completedNodeIds).length +
+        Object.keys(geometriaProgress.state.completedNodeIds).length +
+        Object.keys(planaProgress.state.completedNodeIds).length +
+        Object.keys(espacialProgress.state.completedNodeIds).length,
       startedModuleCount: startedModules.length,
       hasPerfectSet: allResults.some((r) => r.bestAccuracy >= 1),
       bestStreak,
@@ -134,7 +238,18 @@ const PerfilPage = ({ onNavigate }: Props) => {
       totalEndlessAnswered,
       hasCompletedModule,
     })
-  }, [matrizesProgress.state, basicosProgress.state, startedModules.length, bestStreak, totalPoints])
+  }, [
+    matrizesProgress.state,
+    basicosProgress.state,
+    precalculoProgress.state,
+    sistemasProgress.state,
+    geometriaProgress.state,
+    planaProgress.state,
+    espacialProgress.state,
+    startedModules.length,
+    bestStreak,
+    totalPoints,
+  ])
 
   const handleLogout = () => {
     void logout().then(() => onNavigate('#hero'))
@@ -145,9 +260,18 @@ const PerfilPage = ({ onNavigate }: Props) => {
     setBioEditing(true)
   }
 
-  const saveBio = () => {
-    setBio(bioDraft.trim())
-    setBioEditing(false)
+  const saveBio = async () => {
+    setImageError(null)
+    setBioSaving(true)
+    try {
+      await updateBio(bioDraft.trim())
+      await refresh()
+      setBioEditing(false)
+    } catch (err) {
+      setImageError(err instanceof Error ? err.message : 'Não foi possível salvar a bio.')
+    } finally {
+      setBioSaving(false)
+    }
   }
 
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -288,7 +412,14 @@ const PerfilPage = ({ onNavigate }: Props) => {
             />
           </div>
           <div className="perfil-summary__info">
-            <h1>{user?.displayName ?? 'Estudante'}</h1>
+            <h1>
+              {user?.displayName ?? 'Estudante'}
+              {user?.role === 'creator' ? (
+                <span className="creator-badge" title="Criador do Mateka!">
+                  ✦ Criador do Mateka!
+                </span>
+              ) : null}
+            </h1>
             <p className="perfil-summary__email">{user?.email}</p>
             {memberSince ? <p className="perfil-summary__meta">Aluno desde {memberSince}</p> : null}
           </div>
@@ -313,11 +444,11 @@ const PerfilPage = ({ onNavigate }: Props) => {
               />
               <div className="perfil-bio__actions">
                 <span className="perfil-bio__counter">{bioDraft.length}/{BIO_MAX_LENGTH}</span>
-                <button type="button" className="btn-secondary" onClick={() => setBioEditing(false)}>
+                <button type="button" className="btn-secondary" onClick={() => setBioEditing(false)} disabled={bioSaving}>
                   Cancelar
                 </button>
-                <button type="button" className="btn-primary" onClick={saveBio}>
-                  Salvar
+                <button type="button" className="btn-primary" onClick={() => void saveBio()} disabled={bioSaving}>
+                  {bioSaving ? 'Salvando...' : 'Salvar'}
                 </button>
               </div>
             </>
@@ -367,9 +498,15 @@ const PerfilPage = ({ onNavigate }: Props) => {
             <p className="section-kicker">Seus módulos</p>
             <h2>Continue de onde parou.</h2>
           </div>
-          <button type="button" className="btn-secondary" onClick={() => setPickerOpen(true)}>
-            Acessar outros módulos
-          </button>
+          <div className="perfil-header__actions">
+            <button type="button" className="btn-secondary perfil-friends-btn" onClick={() => setFriendsTab('amigos')}>
+              Amigos →
+              {hasUnseenAcceptance ? <span className="perfil-friends-btn__dot" aria-label="Novidades em Amigos" /> : null}
+            </button>
+            <button type="button" className="btn-secondary" onClick={() => setPickerOpen(true)}>
+              Acessar outros módulos
+            </button>
+          </div>
         </div>
 
         {startedModules.length > 0 ? (
@@ -379,8 +516,8 @@ const PerfilPage = ({ onNavigate }: Props) => {
                 key={m.config.moduleId}
                 config={m.config}
                 hash={m.hash}
-                state={m.config.moduleId === 'matrizes' ? matrizesProgress.state : basicosProgress.state}
-                averageAccuracy={m.config.moduleId === 'matrizes' ? matrizesProgress.averageAccuracy : basicosProgress.averageAccuracy}
+                state={progressByModuleId[m.config.moduleId as keyof typeof progressByModuleId].state}
+                averageAccuracy={progressByModuleId[m.config.moduleId as keyof typeof progressByModuleId].averageAccuracy}
                 onNavigate={onNavigate}
               />
             ))}
@@ -403,6 +540,15 @@ const PerfilPage = ({ onNavigate }: Props) => {
             onNavigate(hash)
           }}
           onClose={() => setPickerOpen(false)}
+        />
+      ) : null}
+
+      {friendsTab ? (
+        <FriendsModal
+          initialTab={friendsTab}
+          onNavigate={onNavigate}
+          onClose={() => setFriendsTab(null)}
+          onAcceptedSeen={handleAcceptedSeen}
         />
       ) : null}
     </div>

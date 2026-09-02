@@ -6,6 +6,7 @@ import path from 'node:path'
 import type { NextFunction, Request, Response } from 'express'
 import authRouter from './routes/auth.ts'
 import profileRouter from './routes/profile.ts'
+import socialRouter from './routes/social.ts'
 
 const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN ?? 'http://localhost:5173'
 const UPLOAD_ROOT = path.resolve(import.meta.dirname, '../uploads')
@@ -22,6 +23,7 @@ app.get('/api/health', (_req, res) => {
 
 app.use('/api/auth', authRouter)
 app.use('/api/profile', profileRouter)
+app.use('/api/social', socialRouter)
 // Uploaded avatars/banners — see backend/src/lib/uploads.ts for the writer side.
 app.use('/api/uploads', express.static(UPLOAD_ROOT, { maxAge: '30d', immutable: true }))
 

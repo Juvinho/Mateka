@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const tiposExercises: Exercise[] = [
+  {
+    id: 'pl1-e1',
+    kind: 'multiple-choice',
+    prompt: 'Dois ângulos são complementares quando somam:',
+    choices: [
+      { id: 'a', label: '90°' },
+      { id: 'b', label: '180°' },
+      { id: 'c', label: '360°' },
+      { id: 'd', label: '45°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Complementares somam 90°.',
+  },
+  {
+    id: 'pl1-e2',
+    kind: 'multiple-choice',
+    prompt: 'Dois ângulos são suplementares quando somam:',
+    choices: [
+      { id: 'a', label: '180°' },
+      { id: 'b', label: '90°' },
+      { id: 'c', label: '360°' },
+      { id: 'd', label: '270°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Suplementares somam 180°.',
+  },
+  {
+    id: 'pl1-e3',
+    kind: 'multiple-choice',
+    prompt: 'Se um ângulo mede 35°, qual é o seu complementar?',
+    choices: [
+      { id: 'a', label: '55°' },
+      { id: 'b', label: '65°' },
+      { id: 'c', label: '145°' },
+      { id: 'd', label: '35°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '90° − 35° = 55°.',
+  },
+  {
+    id: 'pl1-e4',
+    kind: 'multiple-choice',
+    prompt: 'Se um ângulo mede 110°, qual é o seu suplementar?',
+    choices: [
+      { id: 'a', label: '70°' },
+      { id: 'b', label: '80°' },
+      { id: 'c', label: '250°' },
+      { id: 'd', label: '110°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '180° − 110° = 70°.',
+  },
+  {
+    id: 'pl1-e5',
+    kind: 'multiple-choice',
+    prompt: 'Quando duas retas se cruzam, os ângulos opostos pelo vértice são sempre:',
+    choices: [
+      { id: 'a', label: 'Congruentes (iguais)' },
+      { id: 'b', label: 'Complementares' },
+      { id: 'c', label: 'Suplementares' },
+      { id: 'd', label: 'Diferentes entre si' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Ângulos opostos pelo vértice têm sempre a mesma medida.',
+  },
+]
+
+const paralelasExercises: Exercise[] = [
+  {
+    id: 'pl2-e1',
+    kind: 'multiple-choice',
+    prompt: 'Ao cortar duas retas paralelas com uma transversal, os ângulos correspondentes são:',
+    choices: [
+      { id: 'a', label: 'Congruentes' },
+      { id: 'b', label: 'Suplementares' },
+      { id: 'c', label: 'Complementares' },
+      { id: 'd', label: 'Sempre 90°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Ângulos correspondentes são sempre congruentes em retas paralelas.',
+  },
+  {
+    id: 'pl2-e2',
+    kind: 'multiple-choice',
+    prompt: 'Os ângulos alternos internos formados por uma transversal em retas paralelas são:',
+    choices: [
+      { id: 'a', label: 'Congruentes' },
+      { id: 'b', label: 'Suplementares' },
+      { id: 'c', label: 'Sempre retos' },
+      { id: 'd', label: 'Sempre diferentes' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Alternos internos são congruentes.',
+  },
+  {
+    id: 'pl2-e3',
+    kind: 'multiple-choice',
+    prompt: 'Os ângulos colaterais internos são:',
+    choices: [
+      { id: 'a', label: 'Suplementares (somam 180°)' },
+      { id: 'b', label: 'Congruentes' },
+      { id: 'c', label: 'Complementares' },
+      { id: 'd', label: 'Sempre 90°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Colaterais internos somam 180°.',
+  },
+  {
+    id: 'pl2-e4',
+    kind: 'multiple-choice',
+    prompt: 'Se um ângulo formado mede 65°, qual é o valor do seu colateral interno?',
+    choices: [
+      { id: 'a', label: '115°' },
+      { id: 'b', label: '65°' },
+      { id: 'c', label: '25°' },
+      { id: 'd', label: '180°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '180° − 65° = 115°.',
+  },
+  {
+    id: 'pl2-e5',
+    kind: 'multiple-choice',
+    prompt: 'Se um ângulo formado mede 50°, qual é o valor do seu ângulo correspondente?',
+    choices: [
+      { id: 'a', label: '50°' },
+      { id: 'b', label: '130°' },
+      { id: 'c', label: '40°' },
+      { id: 'd', label: '180°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Correspondentes são congruentes.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'pl1x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Dois ângulos opostos pelo vértice medem 3x e 60°. Qual é o valor de x?',
+    choices: [
+      { id: 'a', label: '20' },
+      { id: 'b', label: '60' },
+      { id: 'c', label: '180' },
+      { id: 'd', label: '30' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '3x = 60 → x = 20.',
+  },
+  {
+    id: 'pl1x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Um ângulo e seu complementar têm razão 2:1 (o maior é o dobro do menor). Quais são as medidas?',
+    choices: [
+      { id: 'a', label: '60° e 30°' },
+      { id: 'b', label: '45° e 45°' },
+      { id: 'c', label: '70° e 20°' },
+      { id: 'd', label: '80° e 10°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '2y + y = 90 → y = 30; os ângulos são 60° e 30°.',
+  },
+  {
+    id: 'pl1x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Numa transversal cortando retas paralelas, um ângulo mede 3x+10 e seu correspondente mede 5x−30. Qual é o valor de x?',
+    choices: [
+      { id: 'a', label: '20' },
+      { id: 'b', label: '10' },
+      { id: 'c', label: '40' },
+      { id: 'd', label: '5' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Correspondentes são iguais: 3x+10=5x−30 → 2x=40 → x=20.',
+  },
+  {
+    id: 'pl1x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Um ângulo colateral interno mede 4x e seu par mede 2x. Como eles se relacionam e qual é x?',
+    choices: [
+      { id: 'a', label: 'São suplementares; x=30' },
+      { id: 'b', label: 'São congruentes; x=30' },
+      { id: 'c', label: 'São suplementares; x=60' },
+      { id: 'd', label: 'São complementares; x=15' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '4x+2x=180 → x=30.',
+  },
+  {
+    id: 'pl1x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Se duas retas são paralelas e uma transversal forma um ângulo de 90° com uma delas, qual é a medida de todos os outros ângulos formados?',
+    choices: [
+      { id: 'a', label: 'Todos medem 90°' },
+      { id: 'b', label: 'Alternam entre 45° e 135°' },
+      { id: 'c', label: 'Não é possível determinar' },
+      { id: 'd', label: 'Todos medem 180°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Uma transversal perpendicular a uma reta paralela forma 90° com ambas, e todos os 8 ângulos ficam retos.',
+  },
+]
+
+export const PLANA_UNIT1_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-angulos-tipos',
+    unitNumber: 1,
+    icon: '∠',
+    difficulty: 'easy',
+    title: 'Tipos de Ângulos',
+    description: 'Complementares, suplementares e opostos pelo vértice.',
+    points: 40,
+    exercises: tiposExercises,
+  },
+  {
+    id: 'ex-angulos-paralelas',
+    unitNumber: 1,
+    icon: '∥∠',
+    difficulty: 'medium',
+    title: 'Retas Paralelas e Transversal',
+    description: 'Ângulos correspondentes, alternos e colaterais.',
+    points: 60,
+    exercises: paralelasExercises,
+  },
+  {
+    id: 'ex-angulos-desafio',
+    unitNumber: 1,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Ângulos e Retas Paralelas',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 1.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

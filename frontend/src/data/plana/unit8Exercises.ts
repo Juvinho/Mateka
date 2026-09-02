@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const elementosExercises: Exercise[] = [
+  {
+    id: 'pl15-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a diferença entre circunferência e círculo?',
+    choices: [
+      { id: 'a', label: 'Circunferência é a curva; círculo é a região interna' },
+      { id: 'b', label: 'São a mesma coisa' },
+      { id: 'c', label: 'Círculo é a curva; circunferência é a região' },
+      { id: 'd', label: 'Circunferência tem raio, círculo não' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Circunferência é a borda; círculo é a região plana que ela delimita.',
+  },
+  {
+    id: 'pl15-e2',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a fórmula do comprimento de uma circunferência de raio r?',
+    choices: [
+      { id: 'a', label: '2πr' },
+      { id: 'b', label: 'πr²' },
+      { id: 'c', label: 'πr' },
+      { id: 'd', label: '4πr' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O comprimento (perímetro) da circunferência é C = 2πr.',
+  },
+  {
+    id: 'pl15-e3',
+    kind: 'multiple-choice',
+    prompt: 'Uma circunferência tem raio 5cm. Qual é seu comprimento (usando π≈3,14)?',
+    choices: [
+      { id: 'a', label: '31,4cm' },
+      { id: 'b', label: '15,7cm' },
+      { id: 'c', label: '78,5cm' },
+      { id: 'd', label: '10cm' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '2×3,14×5 = 31,4cm.',
+  },
+  {
+    id: 'pl15-e4',
+    kind: 'multiple-choice',
+    prompt: 'O diâmetro de uma circunferência é:',
+    choices: [
+      { id: 'a', label: 'O dobro do raio' },
+      { id: 'b', label: 'A metade do raio' },
+      { id: 'c', label: 'Igual ao raio' },
+      { id: 'd', label: 'Igual ao comprimento' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Diâmetro = 2r.',
+  },
+  {
+    id: 'pl15-e5',
+    kind: 'multiple-choice',
+    prompt: 'π é definido como:',
+    choices: [
+      { id: 'a', label: 'A razão entre o comprimento da circunferência e o diâmetro' },
+      { id: 'b', label: 'A razão entre o raio e o diâmetro' },
+      { id: 'c', label: 'O comprimento de qualquer circunferência' },
+      { id: 'd', label: 'A área de qualquer círculo' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'π é a razão constante C/diâmetro, para qualquer círculo.',
+  },
+]
+
+const areaExercises: Exercise[] = [
+  {
+    id: 'pl16-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a fórmula da área do círculo?',
+    choices: [
+      { id: 'a', label: 'πr²' },
+      { id: 'b', label: '2πr' },
+      { id: 'c', label: 'πr' },
+      { id: 'd', label: 'πr³' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Área do círculo = πr².',
+  },
+  {
+    id: 'pl16-e2',
+    kind: 'multiple-choice',
+    prompt: 'Um círculo tem raio 4cm. Qual é sua área (em termos de π)?',
+    choices: [
+      { id: 'a', label: '16π cm²' },
+      { id: 'b', label: '8π cm²' },
+      { id: 'c', label: '4π cm²' },
+      { id: 'd', label: '32π cm²' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'π(4²) = 16π.',
+  },
+  {
+    id: 'pl16-e3',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a fórmula da área de um setor circular de ângulo θ?',
+    choices: [
+      { id: 'a', label: '(θ/360°) × πr²' },
+      { id: 'b', label: 'θ × πr²' },
+      { id: 'c', label: '(θ/180°) × πr²' },
+      { id: 'd', label: 'πr²/θ' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O setor é uma fração proporcional da área total.',
+  },
+  {
+    id: 'pl16-e4',
+    kind: 'multiple-choice',
+    prompt: 'Um círculo de raio 6cm tem um setor de 90°. Qual é a área desse setor (em termos de π)?',
+    choices: [
+      { id: 'a', label: '9π cm²' },
+      { id: 'b', label: '36π cm²' },
+      { id: 'c', label: '18π cm²' },
+      { id: 'd', label: '4,5π cm²' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(90/360) × 36π = 9π.',
+  },
+  {
+    id: 'pl16-e5',
+    kind: 'multiple-choice',
+    prompt: 'Um setor de 180° corresponde a:',
+    choices: [
+      { id: 'a', label: 'Metade do círculo' },
+      { id: 'b', label: 'Um quarto do círculo' },
+      { id: 'c', label: 'O círculo inteiro' },
+      { id: 'd', label: 'Um oitavo do círculo' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '180/360 = 1/2 do círculo.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'pl8x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Um círculo tem área 100π cm². Qual é o seu raio?',
+    choices: [
+      { id: 'a', label: '10cm' },
+      { id: 'b', label: '100cm' },
+      { id: 'c', label: '50cm' },
+      { id: 'd', label: '20cm' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'r² = 100 → r = 10.',
+  },
+  {
+    id: 'pl8x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Um círculo tem comprimento 20π cm. Qual é o seu raio?',
+    choices: [
+      { id: 'a', label: '10cm' },
+      { id: 'b', label: '20cm' },
+      { id: 'c', label: '40cm' },
+      { id: 'd', label: '5cm' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '2πr=20π → r=10.',
+  },
+  {
+    id: 'pl8x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Um setor circular de 60° num círculo de raio 9cm tem qual área (em termos de π)?',
+    choices: [
+      { id: 'a', label: '13,5π cm²' },
+      { id: 'b', label: '27π cm²' },
+      { id: 'c', label: '6π cm²' },
+      { id: 'd', label: '81π cm²' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(60/360)×81π = 13,5π.',
+  },
+  {
+    id: 'pl8x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Dois círculos têm raios 3cm e 6cm. Qual é a razão entre suas áreas (maior/menor)?',
+    choices: [
+      { id: 'a', label: '4' },
+      { id: 'b', label: '2' },
+      { id: 'c', label: '8' },
+      { id: 'd', label: '36' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '(6²)/(3²) = 36/9 = 4.',
+  },
+  {
+    id: 'pl8x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Um setor circular tem área igual a um quarto da área do círculo. Qual é o ângulo desse setor?',
+    choices: [
+      { id: 'a', label: '90°' },
+      { id: 'b', label: '180°' },
+      { id: 'c', label: '45°' },
+      { id: 'd', label: '60°' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '1/4 de 360° = 90°.',
+  },
+]
+
+export const PLANA_UNIT8_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-circulo-elementos',
+    unitNumber: 8,
+    icon: '○',
+    difficulty: 'easy',
+    title: 'Elementos da Circunferência',
+    description: 'Raio, diâmetro e comprimento.',
+    points: 40,
+    exercises: elementosExercises,
+  },
+  {
+    id: 'ex-circulo-area',
+    unitNumber: 8,
+    icon: 'πr²',
+    difficulty: 'medium',
+    title: 'Área do Círculo e Setores',
+    description: 'Medindo o espaço interno e "fatias" do círculo.',
+    points: 60,
+    exercises: areaExercises,
+  },
+  {
+    id: 'ex-circulo-desafio',
+    unitNumber: 8,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Circunferência e Círculo',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 8.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const spdExercises: Exercise[] = [
+  {
+    id: 'sl9-e1',
+    kind: 'multiple-choice',
+    prompt: 'Um sistema é chamado de SPD quando tem:',
+    choices: [
+      { id: 'a', label: 'Exatamente uma solução' },
+      { id: 'b', label: 'Infinitas soluções' },
+      { id: 'c', label: 'Nenhuma solução' },
+      { id: 'd', label: 'Duas soluções' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'SPD significa "sistema possível e determinado" — possui exatamente uma solução.',
+  },
+  {
+    id: 'sl9-e2',
+    kind: 'multiple-choice',
+    prompt: 'Geometricamente, um sistema SPD corresponde a duas retas que:',
+    choices: [
+      { id: 'a', label: 'Se cruzam em um único ponto' },
+      { id: 'b', label: 'São paralelas e distintas' },
+      { id: 'c', label: 'Coincidem totalmente' },
+      { id: 'd', label: 'Nunca existem' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O ponto único de interseção corresponde à solução única do sistema SPD.',
+  },
+  {
+    id: 'sl9-e3',
+    kind: 'multiple-choice',
+    prompt: 'No sistema x + y = 5 e x − y = 1, comparando as razões dos coeficientes de x e y (1/1 e 1/−1), o sistema é:',
+    choices: [
+      { id: 'a', label: 'SPD, pois as razões são diferentes' },
+      { id: 'b', label: 'SPI' },
+      { id: 'c', label: 'SI' },
+      { id: 'd', label: 'Não é possível saber' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A razão 1 (primeira equação) é diferente de −1 (segunda) — as retas não são paralelas, então SPD.',
+  },
+  {
+    id: 'sl9-e4',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a solução do sistema x + y = 5 e x − y = 1?',
+    choices: [
+      { id: 'a', label: '(3, 2)' },
+      { id: 'b', label: '(2, 3)' },
+      { id: 'c', label: '(4, 1)' },
+      { id: 'd', label: '(1, 4)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Somando as equações: 2x = 6 → x = 3, e y = 2.',
+  },
+  {
+    id: 'sl9-e5',
+    kind: 'multiple-choice',
+    prompt: 'Um sistema SPD pode ter mais de uma solução?',
+    choices: [
+      { id: 'a', label: 'Não, por definição SPD tem exatamente uma' },
+      { id: 'b', label: 'Sim, sempre duas' },
+      { id: 'c', label: 'Sim, infinitas' },
+      { id: 'd', label: 'Depende do sinal dos coeficientes' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A própria definição de SPD (determinado) exige exatamente uma solução.',
+  },
+]
+
+const spiSiExercises: Exercise[] = [
+  {
+    id: 'sl10-e1',
+    kind: 'multiple-choice',
+    prompt: 'Um sistema é SPI quando:',
+    choices: [
+      { id: 'a', label: 'Tem infinitas soluções (retas coincidentes)' },
+      { id: 'b', label: 'Tem exatamente uma solução' },
+      { id: 'c', label: 'Não tem solução nenhuma' },
+      { id: 'd', label: 'Tem exatamente duas soluções' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'SPI significa "sistema possível e indeterminado" — infinitas soluções, retas coincidentes.',
+  },
+  {
+    id: 'sl10-e2',
+    kind: 'multiple-choice',
+    prompt: 'Um sistema é SI quando:',
+    choices: [
+      { id: 'a', label: 'Não tem solução (retas paralelas distintas)' },
+      { id: 'b', label: 'Tem infinitas soluções' },
+      { id: 'c', label: 'Tem exatamente uma solução' },
+      { id: 'd', label: 'É sempre 3×3' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'SI significa "sistema impossível" — nenhuma solução, retas paralelas que nunca se cruzam.',
+  },
+  {
+    id: 'sl10-e3',
+    kind: 'multiple-choice',
+    prompt: 'O sistema 2x + 4y = 10 e x + 2y = 5 é:',
+    choices: [
+      { id: 'a', label: 'SPI, pois são a mesma reta' },
+      { id: 'b', label: 'SI' },
+      { id: 'c', label: 'SPD' },
+      { id: 'd', label: 'Nenhuma das anteriores' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A segunda equação multiplicada por 2 dá 2x+4y=10 — igual à primeira, então mesma reta, SPI.',
+  },
+  {
+    id: 'sl10-e4',
+    kind: 'multiple-choice',
+    prompt: 'O sistema 2x + 4y = 10 e x + 2y = 8 é:',
+    choices: [
+      { id: 'a', label: 'SI, pois as retas são paralelas e distintas' },
+      { id: 'b', label: 'SPI' },
+      { id: 'c', label: 'SPD' },
+      { id: 'd', label: 'Indeterminado com solução única' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A segunda equação multiplicada por 2 dá 2x+4y=16, que conflita com 2x+4y=10 — paralelas distintas, SI.',
+  },
+  {
+    id: 'sl10-e5',
+    kind: 'multiple-choice',
+    prompt: 'Para distinguir SPI de SI depois de ver que as razões dos coeficientes de x e y são iguais, o que mais devemos comparar?',
+    choices: [
+      { id: 'a', label: 'A razão dos termos independentes, com as mesmas razões anteriores' },
+      { id: 'b', label: 'O sinal de x' },
+      { id: 'c', label: 'O valor de y isoladamente' },
+      { id: 'd', label: 'Nada, já dá para concluir' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Se a razão dos termos independentes também bater, é SPI (mesma reta); se for diferente, é SI.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'sl5x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Classifique o sistema x + y = 4 e 2x + 2y = 8.',
+    choices: [
+      { id: 'a', label: 'SPI' },
+      { id: 'b', label: 'SPD' },
+      { id: 'c', label: 'SI' },
+      { id: 'd', label: 'Não é um sistema linear' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A segunda equação é a primeira multiplicada por 2 — mesma reta, infinitas soluções, SPI.',
+  },
+  {
+    id: 'sl5x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Classifique o sistema x + y = 4 e 2x + 2y = 10.',
+    choices: [
+      { id: 'a', label: 'SI' },
+      { id: 'b', label: 'SPD' },
+      { id: 'c', label: 'SPI' },
+      { id: 'd', label: 'Impossível de classificar' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Dividindo a segunda equação por 2: x+y=5, que conflita com x+y=4 — paralelas distintas, SI.',
+  },
+  {
+    id: 'sl5x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Classifique o sistema x − y = 1 e x + y = 5.',
+    choices: [
+      { id: 'a', label: 'SPD, com solução (3, 2)' },
+      { id: 'b', label: 'SPI' },
+      { id: 'c', label: 'SI' },
+      { id: 'd', label: 'SPD, com solução (2, 3)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'As razões dos coeficientes são diferentes (SPD); somando as equações: 2x=6 → x=3, y=2.',
+  },
+  {
+    id: 'sl5x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Um sistema 2×2 tem D (determinante da matriz dos coeficientes) igual a zero. O que isso indica?',
+    choices: [
+      { id: 'a', label: 'O sistema é SPI ou SI, nunca SPD' },
+      { id: 'b', label: 'O sistema é sempre SPD' },
+      { id: 'c', label: 'O sistema não tem coeficientes válidos' },
+      { id: 'd', label: 'O sistema tem exatamente duas soluções' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'D = 0 significa que as retas são paralelas (mesma inclinação) — SPI se coincidentes, SI se distintas.',
+  },
+  {
+    id: 'sl5x-e5',
+    kind: 'multiple-choice',
+    prompt: 'As retas 3x − y = 2 e 6x − 2y = 4 representam um sistema:',
+    choices: [
+      { id: 'a', label: 'SPI (mesma reta)' },
+      { id: 'b', label: 'SI' },
+      { id: 'c', label: 'SPD' },
+      { id: 'd', label: 'Nenhuma das anteriores' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A segunda equação é exatamente a primeira multiplicada por 2 — mesma reta, SPI.',
+  },
+]
+
+export const SISTEMAS_UNIT5_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-classificacao-spd',
+    unitNumber: 5,
+    icon: '1',
+    difficulty: 'easy',
+    title: 'Sistema Determinado (SPD)',
+    description: 'Reconhecendo sistemas com solução única.',
+    points: 40,
+    exercises: spdExercises,
+  },
+  {
+    id: 'ex-classificacao-spi-si',
+    unitNumber: 5,
+    icon: '∞',
+    difficulty: 'medium',
+    title: 'SPI e SI',
+    description: 'Distinguindo infinitas soluções de nenhuma solução.',
+    points: 60,
+    exercises: spiSiExercises,
+  },
+  {
+    id: 'ex-classificacao-desafio',
+    unitNumber: 5,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Classificação de Sistemas',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 5.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

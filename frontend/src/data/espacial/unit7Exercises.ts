@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const piramideExercises: Exercise[] = [
+  {
+    id: 'es13-e1',
+    kind: 'multiple-choice',
+    prompt: 'Um tronco de pirâmide é obtido:',
+    choices: [
+      { id: 'a', label: 'Cortando uma pirâmide com um plano paralelo à base, descartando a parte de cima' },
+      { id: 'b', label: 'Somando duas pirâmides' },
+      { id: 'c', label: 'Cortando um prisma ao meio' },
+      { id: 'd', label: 'Girando um triângulo' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O tronco é o que sobra depois do corte paralelo à base.',
+  },
+  {
+    id: 'es13-e2',
+    kind: 'multiple-choice',
+    prompt: 'Um tronco de pirâmide tem quantas bases?',
+    choices: [
+      { id: 'a', label: '2, paralelas e semelhantes' },
+      { id: 'b', label: '1' },
+      { id: 'c', label: '3' },
+      { id: 'd', label: 'Nenhuma base' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O tronco tem a base original e a base do corte, paralelas e semelhantes.',
+  },
+  {
+    id: 'es13-e3',
+    kind: 'multiple-choice',
+    prompt: 'As faces laterais de um tronco de pirâmide são:',
+    choices: [
+      { id: 'a', label: 'Trapézios' },
+      { id: 'b', label: 'Triângulos' },
+      { id: 'c', label: 'Retângulos' },
+      { id: 'd', label: 'Círculos' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O corte transforma os triângulos laterais em trapézios.',
+  },
+  {
+    id: 'es13-e4',
+    kind: 'multiple-choice',
+    prompt: 'Como se calcula o volume de um tronco de pirâmide?',
+    choices: [
+      { id: 'a', label: 'Volume da pirâmide grande menos o da pirâmide pequena removida' },
+      { id: 'b', label: 'Volume da pirâmide grande dividido por 2' },
+      { id: 'c', label: 'Soma das duas bases vezes a altura' },
+      { id: 'd', label: 'Volume da pirâmide pequena apenas' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O tronco é o volume total menos o volume removido no corte.',
+  },
+  {
+    id: 'es13-e5',
+    kind: 'multiple-choice',
+    prompt: 'Se uma pirâmide original tem volume 200cm³ e a parte removida tem volume 40cm³, qual é o volume do tronco?',
+    choices: [
+      { id: 'a', label: '160cm³' },
+      { id: 'b', label: '240cm³' },
+      { id: 'c', label: '40cm³' },
+      { id: 'd', label: '8000cm³' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '200 − 40 = 160cm³.',
+  },
+]
+
+const coneExercises: Exercise[] = [
+  {
+    id: 'es14-e1',
+    kind: 'multiple-choice',
+    prompt: 'Um tronco de cone tem quantas bases circulares?',
+    choices: [
+      { id: 'a', label: '2, de raios diferentes' },
+      { id: 'b', label: '1' },
+      { id: 'c', label: '3' },
+      { id: 'd', label: 'Nenhuma base' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O tronco de cone tem base maior R e base menor r.',
+  },
+  {
+    id: 'es14-e2',
+    kind: 'multiple-choice',
+    prompt: 'Um tronco de cone pode ser obtido:',
+    choices: [
+      { id: 'a', label: 'Cortando um cone com um plano paralelo à base' },
+      { id: 'b', label: 'Somando dois cones' },
+      { id: 'c', label: 'Cortando uma esfera ao meio' },
+      { id: 'd', label: 'Girando um retângulo' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O corte paralelo remove o cone menor do topo.',
+  },
+  {
+    id: 'es14-e3',
+    kind: 'multiple-choice',
+    prompt: 'Um objeto do dia a dia com formato de tronco de cone é:',
+    choices: [
+      { id: 'a', label: 'Um balde' },
+      { id: 'b', label: 'Uma bola' },
+      { id: 'c', label: 'Uma caixa de sapato' },
+      { id: 'd', label: 'Um dado' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Um balde típico tem o formato de tronco de cone.',
+  },
+  {
+    id: 'es14-e4',
+    kind: 'multiple-choice',
+    prompt: 'Como se calcula o volume de um tronco de cone por subtração?',
+    choices: [
+      { id: 'a', label: 'Volume do cone maior menos o do cone menor removido' },
+      { id: 'b', label: 'Volume do cone maior dividido por 3' },
+      { id: 'c', label: 'Soma dos dois raios vezes a altura' },
+      { id: 'd', label: 'Volume do cone menor apenas' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Mesma lógica do tronco de pirâmide, aplicada ao cone.',
+  },
+  {
+    id: 'es14-e5',
+    kind: 'multiple-choice',
+    prompt: 'Se um cone original tem volume 150cm³ e o cone menor removido no corte tem volume 20cm³, qual é o volume do tronco?',
+    choices: [
+      { id: 'a', label: '130cm³' },
+      { id: 'b', label: '170cm³' },
+      { id: 'c', label: '20cm³' },
+      { id: 'd', label: '3000cm³' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '150 − 20 = 130cm³.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'es7x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Uma pirâmide original tem volume 320cm³. Um corte paralelo remove uma pirâmide menor, cujo volume é 1/8 do original. Qual é o volume do tronco resultante?',
+    choices: [
+      { id: 'a', label: '280cm³' },
+      { id: 'b', label: '40cm³' },
+      { id: 'c', label: '160cm³' },
+      { id: 'd', label: '300cm³' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Pirâmide pequena = 320/8 = 40; tronco = 320 − 40 = 280.',
+  },
+  {
+    id: 'es7x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Um tronco de pirâmide tem bases de área 100cm² e 25cm². Essas duas bases são sempre:',
+    choices: [
+      { id: 'a', label: 'Semelhantes entre si' },
+      { id: 'b', label: 'Congruentes' },
+      { id: 'c', label: 'Sem relação nenhuma' },
+      { id: 'd', label: 'Sempre iguais em área' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O corte paralelo sempre gera bases semelhantes à original.',
+  },
+  {
+    id: 'es7x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Um balde (tronco de cone) tem raio maior 10cm e raio menor 6cm. Comparado com um cilindro de mesma altura e raio 10cm, o volume do tronco é:',
+    choices: [
+      { id: 'a', label: 'Menor, pois o tronco se estreita na base menor' },
+      { id: 'b', label: 'Maior' },
+      { id: 'c', label: 'Igual' },
+      { id: 'd', label: 'Não é possível comparar' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O estreitamento do tronco reduz o volume comparado ao cilindro de raio constante.',
+  },
+  {
+    id: 'es7x-e4',
+    kind: 'multiple-choice',
+    prompt: 'O princípio de calcular volume de um tronco "por subtração" se aplica a:',
+    choices: [
+      { id: 'a', label: 'Tanto tronco de pirâmide quanto de cone' },
+      { id: 'b', label: 'Só tronco de pirâmide' },
+      { id: 'c', label: 'Só tronco de cone' },
+      { id: 'd', label: 'Nenhum dos dois' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A lógica de subtração vale igualmente para os dois tipos de tronco.',
+  },
+  {
+    id: 'es7x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Um cone original tem volume 240cm³. O corte remove um cone menor cujo volume é 1/3 do original. Qual é o volume do tronco?',
+    choices: [
+      { id: 'a', label: '160cm³' },
+      { id: 'b', label: '80cm³' },
+      { id: 'c', label: '220cm³' },
+      { id: 'd', label: '720cm³' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Cone pequeno = 240/3 = 80; tronco = 240 − 80 = 160.',
+  },
+]
+
+export const ESPACIAL_UNIT7_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-troncos-piramide',
+    unitNumber: 7,
+    icon: '⏚',
+    difficulty: 'easy',
+    title: 'Tronco de Pirâmide',
+    description: 'O que sobra ao cortar uma pirâmide paralelamente à base.',
+    points: 40,
+    exercises: piramideExercises,
+  },
+  {
+    id: 'ex-troncos-cone',
+    unitNumber: 7,
+    icon: '⏚○',
+    difficulty: 'medium',
+    title: 'Tronco de Cone',
+    description: 'Um balde, uma taça — a versão circular do tronco.',
+    points: 60,
+    exercises: coneExercises,
+  },
+  {
+    id: 'ex-troncos-desafio',
+    unitNumber: 7,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Troncos',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 7.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

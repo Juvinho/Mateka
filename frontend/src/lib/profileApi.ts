@@ -32,3 +32,13 @@ export const uploadAvatar = (blob: Blob) => uploadImage('avatar', blob)
 export const uploadBanner = (blob: Blob) => uploadImage('banner', blob)
 export const deleteAvatar = () => deleteImage('avatar')
 export const deleteBanner = () => deleteImage('banner')
+
+export async function updateBio(bio: string): Promise<AuthUser> {
+  const response = await fetch('/api/profile/bio', {
+    method: 'PATCH',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ bio }),
+  })
+  return parseUserResponse(response)
+}

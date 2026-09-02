@@ -6,12 +6,35 @@ import { uploadMiddlewareFor, urlForUpload, deleteUploadByUrl } from '../lib/upl
 import { toSafeUser } from '../lib/safeUser.ts'
 import { asyncHandler } from '../lib/asyncHandler.ts'
 
+const BIO_MAX_LENGTH = 240
+
 const router = Router()
 
 router.use((_req: Request, res: Response, next: NextFunction) => {
   res.set('Cache-Control', 'no-store')
   next()
 })
+
+router.patch(
+  '/bio',
+  requireAuth,
+  asyncHandler(async (req: Request, res: Response) => {
+    const user = authedUser(res)
+    const bio = req.body?.bio
+
+    if (typeof bio !== 'string' || bio.length > BIO_MAX_LENGTH) {
+      res.status(400).json({
+        error: 'validation_error',
+        field: 'bio',
+        message: `A bio precisa ter no máximo ${BIO_MAX_LENGTH} caracteres.`,
+      })
+      return
+    }
+
+    const updated = await prisma.user.update({ where: { id: user.id }, data: { bio: bio.trim() || null } })
+    res.status(200).json({ user: toSafeUser(updated) })
+  }),
+)
 
 router.post(
   '/avatar',

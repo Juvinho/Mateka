@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const definicaoExercises: Exercise[] = [
+  {
+    id: 'pc13-e1',
+    kind: 'multiple-choice',
+    prompt: 'O que significa log₂(8)?',
+    choices: [
+      { id: 'a', label: 'O expoente ao qual se eleva 2 para obter 8' },
+      { id: 'b', label: '2 dividido por 8' },
+      { id: 'c', label: '8 vezes 2' },
+      { id: 'd', label: 'A raiz quadrada de 8' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'logₐ(b) responde "a que expoente eu elevo a para chegar em b?".',
+  },
+  {
+    id: 'pc13-e2',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o valor de log₂(8)?',
+    choices: [
+      { id: 'a', label: '3' },
+      { id: 'b', label: '4' },
+      { id: 'c', label: '8' },
+      { id: 'd', label: '2' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'log₂(8) = 3, porque 2³ = 8.',
+  },
+  {
+    id: 'pc13-e3',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o valor de log₁₀(100)?',
+    choices: [
+      { id: 'a', label: '2' },
+      { id: 'b', label: '10' },
+      { id: 'c', label: '100' },
+      { id: 'd', label: '1' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'log₁₀(100) = 2, porque 10² = 100.',
+  },
+  {
+    id: 'pc13-e4',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o valor de log₅(1)?',
+    choices: [
+      { id: 'a', label: '0' },
+      { id: 'b', label: '1' },
+      { id: 'c', label: '5' },
+      { id: 'd', label: 'Não existe' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'log₅(1) = 0, porque 5⁰ = 1. Isso vale para qualquer base: logₐ(1) = 0.',
+  },
+  {
+    id: 'pc13-e5',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o domínio da função f(x) = logₐ(x) (com a &gt; 0, a ≠ 1)?',
+    choices: [
+      { id: 'a', label: '(0, +∞)' },
+      { id: 'b', label: 'Todo ℝ' },
+      { id: 'c', label: '[0, +∞)' },
+      { id: 'd', label: 'ℝ − {0}' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O logaritmo só está definido para valores positivos — o domínio é (0, +∞).',
+  },
+]
+
+const propriedadesExercises: Exercise[] = [
+  {
+    id: 'pc14-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual propriedade permite escrever logₐ(b·c) como uma soma?',
+    choices: [
+      { id: 'a', label: 'logₐ(b) + logₐ(c)' },
+      { id: 'b', label: 'logₐ(b) − logₐ(c)' },
+      { id: 'c', label: 'logₐ(b) · logₐ(c)' },
+      { id: 'd', label: 'logₐ(b + c)' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'A propriedade do produto: logₐ(b·c) = logₐ(b) + logₐ(c).',
+  },
+  {
+    id: 'pc14-e2',
+    kind: 'multiple-choice',
+    prompt: 'Se log₂(3) = a e log₂(5) = b, como se escreve log₂(15) em termos de a e b?',
+    choices: [
+      { id: 'a', label: 'a + b' },
+      { id: 'b', label: 'a − b' },
+      { id: 'c', label: 'a · b' },
+      { id: 'd', label: 'a / b' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'log₂(15) = log₂(3 · 5) = log₂(3) + log₂(5) = a + b.',
+  },
+  {
+    id: 'pc14-e3',
+    kind: 'multiple-choice',
+    prompt: 'Sabendo que log₃(9) = 2, qual é o valor de log₃(9²) usando a propriedade da potência?',
+    choices: [
+      { id: 'a', label: '4' },
+      { id: 'b', label: '2' },
+      { id: 'c', label: '81' },
+      { id: 'd', label: '18' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'logₐ(bⁿ) = n·logₐ(b), então log₃(9²) = 2·log₃(9) = 2·2 = 4.',
+  },
+  {
+    id: 'pc14-e4',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o valor de log₂(32) − log₂(4)?',
+    choices: [
+      { id: 'a', label: '3' },
+      { id: 'b', label: '8' },
+      { id: 'c', label: '28' },
+      { id: 'd', label: '5' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Pela propriedade do quociente: log₂(32) − log₂(4) = log₂(32/4) = log₂(8) = 3.',
+  },
+  {
+    id: 'pc14-e5',
+    kind: 'multiple-choice',
+    prompt: 'Resolva: log₃(x) = 4.',
+    choices: [
+      { id: 'a', label: 'x = 81' },
+      { id: 'b', label: 'x = 12' },
+      { id: 'c', label: 'x = 64' },
+      { id: 'd', label: 'x = 3' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Pela definição de logaritmo, log₃(x) = 4 equivale a x = 3⁴ = 81.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'pc7x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Resolva a equação log₂(x) + log₂(3) = log₂(24).',
+    choices: [
+      { id: 'a', label: 'x = 8' },
+      { id: 'b', label: 'x = 21' },
+      { id: 'c', label: 'x = 72' },
+      { id: 'd', label: 'x = 4' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'log₂(3x) = log₂(24) → 3x = 24 → x = 8.',
+  },
+  {
+    id: 'pc7x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o valor de log₅(125)?',
+    choices: [
+      { id: 'a', label: '3' },
+      { id: 'b', label: '25' },
+      { id: 'c', label: '5' },
+      { id: 'd', label: '15' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'log₅(125) = 3, porque 5³ = 125.',
+  },
+  {
+    id: 'pc7x-e3',
+    kind: 'multiple-choice',
+    prompt: 'Se logₐ(b) = x, isso é equivalente a dizer que aˣ é igual a:',
+    choices: [
+      { id: 'a', label: 'b' },
+      { id: 'b', label: 'a' },
+      { id: 'c', label: 'x' },
+      { id: 'd', label: '1' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Pela própria definição: logₐ(b) = x se, e somente se, aˣ = b.',
+  },
+  {
+    id: 'pc7x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Qual é o valor de log₂(1/8)?',
+    choices: [
+      { id: 'a', label: '−3' },
+      { id: 'b', label: '3' },
+      { id: 'c', label: '−8' },
+      { id: 'd', label: '1/8' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '1/8 = 2⁻³, então log₂(1/8) = −3.',
+  },
+  {
+    id: 'pc7x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Resolva: log₂(x − 1) = 3.',
+    choices: [
+      { id: 'a', label: 'x = 9' },
+      { id: 'b', label: 'x = 8' },
+      { id: 'c', label: 'x = 7' },
+      { id: 'd', label: 'x = 4' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'log₂(x − 1) = 3 equivale a x − 1 = 2³ = 8, então x = 9.',
+  },
+]
+
+export const PRECALCULO_UNIT7_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-log-definicao',
+    unitNumber: 7,
+    icon: 'log',
+    difficulty: 'easy',
+    title: 'O que é Logaritmo?',
+    description: 'A pergunta "por qual expoente elevar a base pra chegar nesse valor?"',
+    points: 40,
+    exercises: definicaoExercises,
+  },
+  {
+    id: 'ex-log-propriedades',
+    unitNumber: 7,
+    icon: '⇄',
+    difficulty: 'medium',
+    title: 'Propriedades dos Logaritmos',
+    description: 'As regras que transformam produto em soma, divisão em subtração e potência em multiplicação.',
+    points: 60,
+    exercises: propriedadesExercises,
+  },
+  {
+    id: 'ex-log-desafio',
+    unitNumber: 7,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Logaritmos',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 7.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]

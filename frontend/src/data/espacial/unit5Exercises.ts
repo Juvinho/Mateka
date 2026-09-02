@@ -1,0 +1,238 @@
+import type { Exercise, ExerciseSet } from '../exerciseTypes'
+
+const elementosExercises: Exercise[] = [
+  {
+    id: 'es9-e1',
+    kind: 'multiple-choice',
+    prompt: 'Um cone tem quantas bases?',
+    choices: [
+      { id: 'a', label: '1, circular' },
+      { id: 'b', label: '2, circulares' },
+      { id: 'c', label: '1, quadrada' },
+      { id: 'd', label: 'Nenhuma base' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O cone tem uma única base circular.',
+  },
+  {
+    id: 'es9-e2',
+    kind: 'multiple-choice',
+    prompt: 'A geratriz de um cone reto se relaciona com o raio e a altura por:',
+    choices: [
+      { id: 'a', label: 'g² = r² + h²' },
+      { id: 'b', label: 'g = r + h' },
+      { id: 'c', label: 'g² = r² − h²' },
+      { id: 'd', label: 'g = r × h' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Raio, altura e geratriz formam um triângulo retângulo dentro do cone.',
+  },
+  {
+    id: 'es9-e3',
+    kind: 'multiple-choice',
+    prompt: 'Um cone com raio 3cm e altura 4cm tem geratriz de quanto?',
+    choices: [
+      { id: 'a', label: '5cm' },
+      { id: 'b', label: '7cm' },
+      { id: 'c', label: '12cm' },
+      { id: 'd', label: '25cm' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '√(3²+4²) = √25 = 5.',
+  },
+  {
+    id: 'es9-e4',
+    kind: 'multiple-choice',
+    prompt: 'O ponto onde a superfície lateral do cone se encontra é chamado de:',
+    choices: [
+      { id: 'a', label: 'Vértice (ou ápice)' },
+      { id: 'b', label: 'Base' },
+      { id: 'c', label: 'Geratriz' },
+      { id: 'd', label: 'Apótema' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O vértice é o ponto mais alto do cone.',
+  },
+  {
+    id: 'es9-e5',
+    kind: 'multiple-choice',
+    prompt: 'A relação g²=r²+h² do cone lembra qual conceito do módulo de Geometria Plana?',
+    choices: [
+      { id: 'a', label: 'O Teorema de Pitágoras' },
+      { id: 'b', label: 'A soma dos ângulos internos' },
+      { id: 'c', label: 'O Teorema de Tales' },
+      { id: 'd', label: 'A potência de um ponto' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'É exatamente o Teorema de Pitágoras aplicado ao triângulo interno do cone.',
+  },
+]
+
+const areaVolumeExercises: Exercise[] = [
+  {
+    id: 'es10-e1',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a fórmula do volume do cone?',
+    choices: [
+      { id: 'a', label: '(πr²h)/3' },
+      { id: 'b', label: 'πr²h' },
+      { id: 'c', label: '(πr²h)/2' },
+      { id: 'd', label: 'πrh' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Volume do cone = (πr²h)/3.',
+  },
+  {
+    id: 'es10-e2',
+    kind: 'multiple-choice',
+    prompt: 'Um cone tem raio 3cm e altura 4cm. Qual é o volume (em termos de π)?',
+    choices: [
+      { id: 'a', label: '12π cm³' },
+      { id: 'b', label: '36π cm³' },
+      { id: 'c', label: '4π cm³' },
+      { id: 'd', label: '48π cm³' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'π(9)(4)/3 = 12π.',
+  },
+  {
+    id: 'es10-e3',
+    kind: 'multiple-choice',
+    prompt: 'Qual é a fórmula da área lateral do cone (r=raio, g=geratriz)?',
+    choices: [
+      { id: 'a', label: 'πrg' },
+      { id: 'b', label: 'πr²g' },
+      { id: 'c', label: '2πrg' },
+      { id: 'd', label: 'πr + πg' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'Área lateral do cone = πrg.',
+  },
+  {
+    id: 'es10-e4',
+    kind: 'multiple-choice',
+    prompt: 'Um cone tem raio 3cm e geratriz 5cm. Qual é sua área lateral (em termos de π)?',
+    choices: [
+      { id: 'a', label: '15π cm²' },
+      { id: 'b', label: '8π cm²' },
+      { id: 'c', label: '30π cm²' },
+      { id: 'd', label: '45π cm²' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'π(3)(5) = 15π.',
+  },
+  {
+    id: 'es10-e5',
+    kind: 'multiple-choice',
+    prompt: 'O volume do cone é sempre qual fração do cilindro de mesma base e altura?',
+    choices: [
+      { id: 'a', label: 'Um terço' },
+      { id: 'b', label: 'Metade' },
+      { id: 'c', label: 'Dois terços' },
+      { id: 'd', label: 'O mesmo volume' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'O cone tem sempre 1/3 do volume do cilindro correspondente.',
+  },
+]
+
+const desafioExercises: Exercise[] = [
+  {
+    id: 'es5x-e1',
+    kind: 'multiple-choice',
+    prompt: 'Um cone tem raio 6cm e altura 8cm. Qual é a geratriz?',
+    choices: [
+      { id: 'a', label: '10cm' },
+      { id: 'b', label: '14cm' },
+      { id: 'c', label: '48cm' },
+      { id: 'd', label: '100cm' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '√(36+64) = √100 = 10.',
+  },
+  {
+    id: 'es5x-e2',
+    kind: 'multiple-choice',
+    prompt: 'Continuando (raio 6, altura 8), qual é o volume desse cone (em termos de π)?',
+    choices: [
+      { id: 'a', label: '96π cm³' },
+      { id: 'b', label: '288π cm³' },
+      { id: 'c', label: '32π cm³' },
+      { id: 'd', label: '480π cm³' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'π(36)(8)/3 = 96π.',
+  },
+  {
+    id: 'es5x-e3',
+    kind: 'multiple-choice',
+    prompt: 'E qual é a área lateral desse mesmo cone, com geratriz 10cm (em termos de π)?',
+    choices: [
+      { id: 'a', label: '60π cm²' },
+      { id: 'b', label: '30π cm²' },
+      { id: 'c', label: '80π cm²' },
+      { id: 'd', label: '48π cm²' },
+    ],
+    correctChoiceId: 'a',
+    explanation: 'π(6)(10) = 60π.',
+  },
+  {
+    id: 'es5x-e4',
+    kind: 'multiple-choice',
+    prompt: 'Um cilindro e um cone têm a mesma base e mesma altura. O cilindro tem volume 300cm³. Qual é o volume do cone?',
+    choices: [
+      { id: 'a', label: '100cm³' },
+      { id: 'b', label: '900cm³' },
+      { id: 'c', label: '150cm³' },
+      { id: 'd', label: '200cm³' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '300 ÷ 3 = 100cm³.',
+  },
+  {
+    id: 'es5x-e5',
+    kind: 'multiple-choice',
+    prompt: 'Um cone tem volume 50π cm³ e raio 5cm. Qual é a sua altura?',
+    choices: [
+      { id: 'a', label: '6cm' },
+      { id: 'b', label: '2cm' },
+      { id: 'c', label: '18cm' },
+      { id: 'd', label: '10cm' },
+    ],
+    correctChoiceId: 'a',
+    explanation: '50π = π(25)h/3 → 150π=25πh → h=6.',
+  },
+]
+
+export const ESPACIAL_UNIT5_EXERCISE_SETS: ExerciseSet[] = [
+  {
+    id: 'ex-cone-elementos',
+    unitNumber: 5,
+    icon: '◁',
+    difficulty: 'easy',
+    title: 'Elementos do Cone',
+    description: 'Uma base circular e um vértice.',
+    points: 40,
+    exercises: elementosExercises,
+  },
+  {
+    id: 'ex-cone-area-volume',
+    unitNumber: 5,
+    icon: 'V=πr²h/3',
+    difficulty: 'medium',
+    title: 'Área e Volume do Cone',
+    description: 'A mesma divisão por 3 das pirâmides, com base circular.',
+    points: 60,
+    exercises: areaVolumeExercises,
+  },
+  {
+    id: 'ex-cone-desafio',
+    unitNumber: 5,
+    icon: '★',
+    difficulty: 'hard',
+    title: 'Desafio: Cone',
+    description: 'Revisão mista de tudo que você aprendeu na Unidade 5.',
+    points: 100,
+    exercises: desafioExercises,
+  },
+]
