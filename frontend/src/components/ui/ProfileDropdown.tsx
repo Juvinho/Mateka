@@ -126,14 +126,17 @@ const ProfileDropdown = ({ initials }: ProfileDropdownProps) => {
     {
       icon: <IconSettings />,
       label: 'Configurações',
-      action: () => setOpen(false),
+      action: () => {
+        setOpen(false)
+        window.location.hash = '#configuracoes'
+      },
     },
     {
       icon: <IconModules />,
       label: 'Meus Módulos',
       action: () => {
         setOpen(false)
-        window.location.hash = '#modulos'
+        window.location.hash = '#meus-modulos'
       },
     },
     {
@@ -141,7 +144,7 @@ const ProfileDropdown = ({ initials }: ProfileDropdownProps) => {
       label: 'Conquistas',
       action: () => {
         setOpen(false)
-        window.location.hash = '#perfil'
+        window.location.hash = '#conquistas'
       },
     },
     {

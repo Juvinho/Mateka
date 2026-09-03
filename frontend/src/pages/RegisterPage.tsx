@@ -286,7 +286,7 @@ const RegisterPage = ({ onSuccess, onBack, isVisible }: RegisterPageProps) => {
                   placeholder="Repita a senha"
                 />
                 <label className="login-label" htmlFor="register-confirm">Confirmar Senha</label>
-                <span ref={confirmIconRef} className="login-input-icon" aria-hidden="true" style={{ color: form.form.password && form.form.password === form.form.confirmPassword ? '#22c55e' : form.errors.confirmPassword ? '#f472b6' : 'rgba(148,163,184,0.5)' }}>
+                <span ref={confirmIconRef} className="login-input-icon" aria-hidden="true" style={{ color: form.form.password && form.form.password === form.form.confirmPassword ? 'var(--confirm-match-color)' : form.errors.confirmPassword ? '#f472b6' : 'rgba(148,163,184,0.5)' }}>
                   ✓
                 </span>
               </div>

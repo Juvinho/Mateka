@@ -3,6 +3,8 @@
 // submission), so creating/resuming the AudioContext here never runs into
 // autoplay-policy blocking.
 
+import { getSettings } from './settingsStore'
+
 let sharedContext: AudioContext | null = null
 
 function getContext(): AudioContext | null {
@@ -38,6 +40,7 @@ function playTone(
 }
 
 export function playCorrectSound(): void {
+  if (!getSettings().sfxEnabled) return
   const ctx = getContext()
   if (!ctx) return
   playTone(ctx, 523.25, 0, 0.12, 0.1) // C5
@@ -45,6 +48,7 @@ export function playCorrectSound(): void {
 }
 
 export function playWrongSound(): void {
+  if (!getSettings().sfxEnabled) return
   const ctx = getContext()
   if (!ctx) return
   playTone(ctx, 196, 0, 0.22, 0.08) // G3 — a soft, low thud, not harsh

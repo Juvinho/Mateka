@@ -1,0 +1,386 @@
+ .claude/settings.json                              |    8 [32m+[m
+ .claude/settings.local.json                        |    8 [31m-[m
+ .gitignore                                         |    8 [32m+[m
+ CHANGELOG.md                                       |  206 [32m+[m
+ Requisitos/HOW_2_WRITE_PROMPTS.md                  |  407 [31m--[m
+ Requisitos/image.png                               |  Bin [31m22505[m -> [32m0[m bytes
+ Requisitos/prompt1.md                              | 1072 [31m-----[m
+ .../prompt_anima\303\247\303\265es_dashboard.md"   |  169 [31m-[m
+ Requisitos/prompt_emy.md                           | 1462 [31m-------[m
+ Requisitos/promptcorretivo.md                      |  318 [31m--[m
+ ...+18f7ece9-d515-bbe6-c3c1-a46600000049 48000.cfa |  Bin [31m0[m -> [32m1048576[m bytes
+ ...+25045fe9-1404-b8be-d24b-65be00000049 48000.cfa |  Bin [31m0[m -> [32m1048576[m bytes
+ ...+64ae888a-9ead-645e-e5a6-fcb300000049 48000.cfa |  Bin [31m0[m -> [32m1572864[m bytes
+ ...+88864d77-9e0a-2a70-8d21-ff2600000049 48000.cfa |  Bin [31m0[m -> [32m524288[m bytes
+ ...+1f6e633a-cfd2-cb2d-0855-495a00000049 48000.cfa |  Bin [31m0[m -> [32m1048576[m bytes
+ ...+e56dc57c-1ba6-6a7a-c6fa-ddcd00000049 48000.cfa |  Bin [31m0[m -> [32m524288[m bytes
+ ...+20538c8f-4216-fc45-2b09-747d00000059 48000.cfa |  Bin [31m0[m -> [32m16777216[m bytes
+ ...+649d4d50-eb1b-4a5b-86f7-f60500000049 48000.cfa |  Bin [31m0[m -> [32m1048576[m bytes
+ ...+18f7ece9-d515-bbe6-c3c1-a46600000049 48000.pek |  Bin [31m0[m -> [32m4164[m bytes
+ ...+25045fe9-1404-b8be-d24b-65be00000049 48000.pek |  Bin [31m0[m -> [32m4164[m bytes
+ ...+64ae888a-9ead-645e-e5a6-fcb300000049 48000.pek |  Bin [31m0[m -> [32m6212[m bytes
+ ...+88864d77-9e0a-2a70-8d21-ff2600000049 48000.pek |  Bin [31m0[m -> [32m2116[m bytes
+ ...+1f6e633a-cfd2-cb2d-0855-495a00000049 48000.pek |  Bin [31m0[m -> [32m4164[m bytes
+ ...+e56dc57c-1ba6-6a7a-c6fa-ddcd00000049 48000.pek |  Bin [31m0[m -> [32m2116[m bytes
+ ...+20538c8f-4216-fc45-2b09-747d00000059 48000.pek |  Bin [31m0[m -> [32m65604[m bytes
+ ...+649d4d50-eb1b-4a5b-86f7-f60500000049 48000.pek |  Bin [31m0[m -> [32m4164[m bytes
+ ...+8699e663-f4c0-c3de-a0ed-177c00000049 48000.pek |  Bin [31m0[m -> [32m2116[m bytes
+ ...+2e5b6a33-06bc-290c-47b6-00c400000049 48000.pek |  Bin [31m0[m -> [32m2116[m bytes
+ ...+8699e663-f4c0-c3de-a0ed-177c00000049 48000.cfa |  Bin [31m0[m -> [32m524288[m bytes
+ ...+2e5b6a33-06bc-290c-47b6-00c400000049 48000.cfa |  Bin [31m0[m -> [32m524288[m bytes
+ ...b5-159b-2e7887bbe024-2026-08-18_20-26-09.prproj |  Bin [31m0[m -> [32m11978[m bytes
+ ...b5-159b-2e7887bbe024-2026-08-19_09-17-17.prproj |  Bin [31m0[m -> [32m18366[m bytes
+ ...b5-159b-2e7887bbe024-2026-08-19_09-23-17.prproj |  Bin [31m0[m -> [32m18748[m bytes
+ ...b5-159b-2e7887bbe024-2026-08-19_09-29-17.prproj |  Bin [31m0[m -> [32m28464[m bytes
+ ...b5-159b-2e7887bbe024-2026-08-19_09-38-01.prproj |  Bin [31m0[m -> [32m43154[m bytes
+ ...b5-159b-2e7887bbe024-2026-08-19_09-44-01.prproj |  Bin [31m0[m -> [32m47425[m bytes
+ ...b5-159b-2e7887bbe024-2026-08-19_09-50-01.prproj |  Bin [31m0[m -> [32m49385[m bytes
+ ...b5-159b-2e7887bbe024-2026-08-19_09-56-06.prproj |  Bin [31m0[m -> [32m52222[m bytes
+ ...b5-159b-2e7887bbe024-2026-08-19_10-02-51.prproj |  Bin [31m0[m -> [32m56907[m bytes
+ ...b5-159b-2e7887bbe024-2026-08-19_10-08-51.prproj |  Bin [31m0[m -> [32m63184[m bytes
+ ...b5-159b-2e7887bbe024-2026-08-19_10-14-51.prproj |  Bin [31m0[m -> [32m71606[m bytes
+ ...b5-159b-2e7887bbe024-2026-08-27_15-36-06.prproj |  Bin [31m0[m -> [32m78340[m bytes
+ ...b5-159b-2e7887bbe024-2026-08-27_15-42-06.prproj |  Bin [31m0[m -> [32m81023[m bytes
+ ...b5-159b-2e7887bbe024-2026-08-27_15-49-03.prproj |  Bin [31m0[m -> [32m86939[m bytes
+ ...b5-159b-2e7887bbe024-2026-08-27_15-55-03.prproj |  Bin [31m0[m -> [32m86775[m bytes
+ assetes/Emy-chan.prproj                            |  Bin [31m0[m -> [32m86963[m bytes
+ .../Huge Title_12.aegraphic                        |  Bin [31m0[m -> [32m1294115[m bytes
+ .../Lower Thirds_17.aegraphic                      |  Bin [31m0[m -> [32m1298706[m bytes
+ ...ELAXED BACKGR_Adobestock_2107440825_preview.m4a |  Bin [31m0[m -> [32m994484[m bytes
+ backend/.env.example                               |    6 [32m+[m
+ backend/README.md                                  |   77 [32m+[m
+ backend/package.json                               |   29 [32m+[m
+ backend/src/app.ts                                 |   47 [32m+[m
+ backend/src/index.ts                               |    8 [32m+[m
+ backend/src/lib/asyncHandler.ts                    |   13 [32m+[m
+ backend/src/lib/password.ts                        |   13 [32m+[m
+ backend/src/lib/prisma.ts                          |    6 [32m+[m
+ backend/src/lib/publicUser.ts                      |   27 [32m+[m
+ backend/src/lib/safeUser.ts                        |   25 [32m+[m
+ backend/src/lib/session.ts                         |   67 [32m+[m
+ backend/src/lib/uploads.ts                         |   69 [32m+[m
+ backend/src/middleware/requireAuth.ts              |   19 [32m+[m
+ backend/src/routes/auth.ts                         |  135 [32m+[m
+ backend/src/routes/profile.ts                      |   97 [32m+[m
+ backend/src/routes/social.ts                       |  222 [32m+[m
+ backend/tsconfig.json                              |   24 [32m+[m
+ ..., Briefing e Storytelling do Mat\303\251ka.pdf" |  Bin [31m384832[m -> [32m0[m bytes
+ ...a\303\247\303\243o dos Artefatos da Mateka.pdf" |  Bin [31m312574[m -> [32m0[m bytes
+ contexto/Mateka_Atualizacao_v3.0_Maio_2026.pdf     |  Bin [31m1422389[m -> [32m0[m bytes
+ database/.env.example                              |    4 [32m+[m
+ database/README.md                                 |  134 [32m+[m
+ database/docker-compose.yml                        |   20 [32m+[m
+ database/package.json                              |   31 [32m+[m
+ .../migrations/20260819141913_init/migration.sql   |  382 [32m++[m
+ .../migration.sql                                  |    3 [32m+[m
+ .../migration.sql                                  |   51 [32m+[m
+ .../migration.sql                                  |    6 [32m+[m
+ .../migration.sql                                  |    2 [32m+[m
+ database/prisma/migrations/migration_lock.toml     |    3 [32m+[m
+ database/prisma/schema.prisma                      |  316 [32m++[m
+ database/prisma/seed.ts                            |  710 [32m++++[m
+ database/tests/integrity.test.ts                   |  342 [32m++[m
+ database/tests/setup.ts                            |   10 [32m+[m
+ database/tsconfig.json                             |   24 [32m+[m
+ database/vitest.config.ts                          |   14 [32m+[m
+ emy-chan-bora-comecar.html                         |  366 [32m++[m
+ eslint.config.js => frontend/eslint.config.js      |    0
+ index.html => frontend/index.html                  |    0
+ frontend/package.json                              |   37 [32m+[m
+ {public => frontend/public}/favicon.svg            |    0
+ {public => frontend/public}/icons.svg              |    0
+ {src => frontend/src}/App.css                      |    0
+ frontend/src/App.tsx                               |  957 [32m+++++[m
+ {src => frontend/src}/assets/hero.png              |  Bin
+ frontend/src/assets/mascot/atencao.webp            |  Bin [31m0[m -> [32m87820[m bytes
+ frontend/src/assets/mascot/balao-fala.webp         |  Bin [31m0[m -> [32m3206[m bytes
+ .../assets/mascot/bracos-cruzados-confiante.webp   |  Bin [31m0[m -> [32m83360[m bytes
+ .../src/assets/mascot/bracos-cruzados-frente.webp  |  Bin [31m0[m -> [32m82978[m bytes
+ frontend/src/assets/mascot/bracos-cruzados.webp    |  Bin [31m0[m -> [32m82948[m bytes
+ frontend/src/assets/mascot/cansada.webp            |  Bin [31m0[m -> [32m77564[m bytes
+ frontend/src/assets/mascot/depressao.webp          |  Bin [31m0[m -> [32m78008[m bytes
+ .../src/assets/mascot/emy-peace.png                |  Bin
+ .../src/assets/mascot/feliz-cumprimentando.webp    |  Bin [31m0[m -> [32m90058[m bytes
+ frontend/src/assets/mascot/gamer.webp              |  Bin [31m0[m -> [32m78086[m bytes
+ frontend/src/assets/mascot/medo.webp               |  Bin [31m0[m -> [32m81496[m bytes
+ frontend/src/assets/mascot/muito-contente.webp     |  Bin [31m0[m -> [32m87444[m bytes
+ frontend/src/assets/mascot/muito-triste.webp       |  Bin [31m0[m -> [32m86330[m bytes
+ frontend/src/assets/mascot/negative-emy.png        |  Bin [31m0[m -> [32m165743[m bytes
+ .../src/assets/mascot/pensativa-escrevendo.webp    |  Bin [31m0[m -> [32m93138[m bytes
+ frontend/src/assets/mascot/pensativa-sentada.webp  |  Bin [31m0[m -> [32m98672[m bytes
+ frontend/src/assets/mascot/pensativa.webp          |  Bin [31m0[m -> [32m86070[m bytes
+ frontend/src/assets/mascot/policial.webp           |  Bin [31m0[m -> [32m80444[m bytes
+ frontend/src/assets/mascot/radiante-demais.webp    |  Bin [31m0[m -> [32m89258[m bytes
+ frontend/src/assets/mascot/radiante.webp           |  Bin [31m0[m -> [32m90954[m bytes
+ frontend/src/assets/mascot/sobrecarregada.webp     |  Bin [31m0[m -> [32m85784[m bytes
+ frontend/src/assets/mascot/sorridente.webp         |  Bin [31m0[m -> [32m88030[m bytes
+ frontend/src/assets/mascot/timida.webp             |  Bin [31m0[m -> [32m84804[m bytes
+ frontend/src/assets/mascot/triste.webp             |  Bin [31m0[m -> [32m85132[m bytes
+ {src => frontend/src}/assets/react.svg             |    0
+ .../src/assets/video/introducao-mateka-poster.jpg  |  Bin [31m0[m -> [32m109047[m bytes
+ frontend/src/assets/video/introducao-mateka.mp4    |  Bin [31m0[m -> [32m58731831[m bytes
+ {src => frontend/src}/assets/vite.svg              |    0
+ frontend/src/assets/voice/CH-multii.mp3            |  Bin [31m0[m -> [32m1476579[m bytes
+ .../src/assets/voice/Comutativa e associativa.mp3  |  Bin [31m0[m -> [32m1394659[m bytes
+ .../assets/voice/Conjuntos Num\303\251ricos.mp3"   |  Bin [31m0[m -> [32m1520047[m bytes
+ .../assets/voice/Equa\303\247\303\243o 1 Grau.mp3" |  Bin [31m0[m -> [32m1732370[m bytes
+ .../src/assets/voice/Fatora\303\247\303\243o.mp3"  |  Bin [31m0[m -> [32m1576471[m bytes
+ frontend/src/assets/voice/ITD-multi.mp3            |  Bin [31m0[m -> [32m1234581[m bytes
+ .../src/assets/voice/Localizando-e-comparando.mp3  |  Bin [31m0[m -> [32m750584[m bytes
+ frontend/src/assets/voice/MLC-multi.mp3            |  Bin [31m0[m -> [32m1114208[m bytes
+ frontend/src/assets/voice/MTM-multi.mp3            |  Bin [31m0[m -> [32m1270525[m bytes
+ frontend/src/assets/voice/Minver-Linear.mp3        |  Bin [31m0[m -> [32m1170633[m bytes
+ frontend/src/assets/voice/O-que-e-uma-matriz.mp3   |  Bin [31m0[m -> [32m852984[m bytes
+ ...03\247\303\265es com Fra\303\247\303\265es.mp3" |  Bin [31m0[m -> [32m1453591[m bytes
+ .../src/assets/voice/Produtos Not\303\241veis.mp3" |  Bin [31m0[m -> [32m1392151[m bytes
+ .../src/assets/voice/Propriedade distributiva.mp3  |  Bin [31m0[m -> [32m1405944[m bytes
+ .../Propriedades da potencia\303\247\303\243o.mp3" |  Bin [31m0[m -> [32m1820977[m bytes
+ .../src/assets/voice/Racionais e Irracionais.mp3   |  Bin [31m0[m -> [32m1281810[m bytes
+ .../src/assets/voice/Radicia\303\247\303\243o.mp3" |  Bin [31m0[m -> [32m1495805[m bytes
+ .../Raz\303\243o e Propor\303\247\303\243o.mp3"    |  Bin [31m0[m -> [32m1450665[m bytes
+ ...um\303\251rica e compara\303\247\303\265es.mp3" |  Bin [31m0[m -> [32m1372925[m bytes
+ frontend/src/assets/voice/SSM-escala.mp3           |  Bin [31m0[m -> [32m741807[m bytes
+ frontend/src/assets/voice/TGG-multi.mp3            |  Bin [31m0[m -> [32m1049007[m bytes
+ frontend/src/assets/voice/alegria modulo 2.mp3     |  Bin [31m0[m -> [32m122391[m bytes
+ frontend/src/assets/voice/alegria modulo.mp3       |  Bin [31m0[m -> [32m111942[m bytes
+ frontend/src/assets/voice/ambiencia.mp3            |  Bin [31m0[m -> [32m98074938[m bytes
+ frontend/src/assets/voice/endless.mp3              |  Bin [31m0[m -> [32m147887[m bytes
+ frontend/src/assets/voice/matriz.mp3               |  Bin [31m0[m -> [32m533245[m bytes
+ frontend/src/assets/voice/primeiro  acerto.mp3     |  Bin [31m0[m -> [32m110688[m bytes
+ frontend/src/assets/voice/promessa falhou.mp3      |  Bin [31m0[m -> [32m95224[m bytes
+ frontend/src/assets/voice/promessa.mp3             |  Bin [31m0[m -> [32m131168[m bytes
+ frontend/src/assets/voice/recaptular.mp3           |  Bin [31m0[m -> [32m69728[m bytes
+ frontend/src/assets/voice/tentarnovamente.mp3      |  Bin [31m0[m -> [32m124899[m bytes
+ frontend/src/assets/voice/tipos-de-matriz.mp3      |  Bin [31m0[m -> [32m676605[m bytes
+ {src => frontend/src}/components/Aurora.tsx        |    0
+ {src => frontend/src}/components/AuthCardFlip.tsx  |    7 [32m+[m[31m-[m
+ .../src}/components/BackgroundCanvas.tsx           |    0
+ {src => frontend/src}/components/ClickBurst.tsx    |    0
+ .../src}/components/DerivativeVisualizer.tsx       |    0
+ frontend/src/components/ErrorPageView.tsx          |   51 [32m+[m
+ .../src}/components/FloatingEquations.tsx          |    0
+ {src => frontend/src}/components/Footer.tsx        |    0
+ {src => frontend/src}/components/HeroSection.tsx   |    0
+ .../src}/components/IntegralVisualizer.tsx         |    0
+ {src => frontend/src}/components/LoadingScreen.tsx |    0
+ .../src}/components/LoginBackground.tsx            |    0
+ {src => frontend/src}/components/LoginCard.tsx     |   14 [32m+[m[31m-[m
+ {src => frontend/src}/components/LoginCursor.tsx   |    0
+ {src => frontend/src}/components/MatekaLogo.tsx    |    0
+ .../src}/components/MathBackground.tsx             |    0
+ {src => frontend/src}/components/MathTrail.tsx     |    0
+ frontend/src/components/MatrixDisplay.tsx          |   28 [32m+[m
+ .../src}/components/MiniWaveCanvas.tsx             |    0
+ {src => frontend/src}/components/ModuleGrid.tsx    |  138 [32m+[m[31m-[m
+ {src => frontend/src}/components/NavBar.tsx        |   35 [32m+[m[31m-[m
+ {src => frontend/src}/components/ParticleField.tsx |    0
+ .../src}/components/PlaygroundErrorBoundary.tsx    |    0
+ {src => frontend/src}/components/StatsBar.tsx      |    0
+ {src => frontend/src}/components/StatsCounter.tsx  |    0
+ .../src}/components/TestimonialSection.tsx         |    0
+ {src => frontend/src}/components/TrigCircle.tsx    |    0
+ frontend/src/components/VideoIntro.tsx             |   52 [32m+[m
+ {src => frontend/src}/components/Vignette.tsx      |    0
+ frontend/src/components/VirtualNotebook.tsx        |   86 [32m+[m
+ .../src}/components/WavePlayground.tsx             |  103 [31m-[m
+ {src => frontend/src}/components/WhyItMatters.tsx  |    0
+ frontend/src/components/emy/EmyAvatar.tsx          |   56 [32m+[m
+ frontend/src/components/emy/EmyCallout.tsx         |  125 [32m+[m
+ frontend/src/components/emy/ReverseEmy.tsx         |   45 [32m+[m
+ .../src/components/exercise/ExerciseContext.tsx    |   19 [32m+[m
+ .../src/components/exercise/ExerciseRenderer.tsx   |   35 [32m+[m
+ .../components/exercise/MatrixBuilderQuestion.tsx  |  116 [32m+[m
+ .../src/components/exercise/MatrixFillQuestion.tsx |   47 [32m+[m
+ frontend/src/components/exercise/MatrixGrid.tsx    |   75 [32m+[m
+ .../components/exercise/MultipleChoiceQuestion.tsx |  100 [32m+[m
+ frontend/src/components/exercise/ScratchPad.tsx    |  153 [32m+[m
+ .../src/components/exercise/TrueFalseQuestion.tsx  |   45 [32m+[m
+ .../src/components/labs/CayleyHamiltonVerifier.tsx |   58 [32m+[m
+ frontend/src/components/labs/DeterminantLab.tsx    |   45 [32m+[m
+ .../src/components/labs/InteractiveWidgetHost.tsx  |   29 [32m+[m
+ frontend/src/components/labs/InverseLab.tsx        |   48 [32m+[m
+ frontend/src/components/labs/MatrixExplorerLab.tsx |   94 [32m+[m
+ frontend/src/components/labs/MultiplicationLab.tsx |   49 [32m+[m
+ frontend/src/components/labs/OperationsLab.tsx     |   66 [32m+[m
+ frontend/src/components/labs/TransformLab.tsx      |   79 [32m+[m
+ frontend/src/components/mascot/LessonNarrator.tsx  |   26 [32m+[m
+ frontend/src/components/mascot/MascotToast.tsx     |  197 [32m+[m
+ frontend/src/components/mascot/MatrizesIntro.tsx   |  238 [32m++[m
+ .../src}/components/modules/ExerciseCard.tsx       |   59 [32m+[m[31m-[m
+ .../src}/components/modules/LessonCard.tsx         |    0
+ .../src}/components/modules/ModuleHeader.tsx       |    8 [32m+[m[31m-[m
+ .../src}/components/modules/ModuleHero.tsx         |   13 [32m+[m[31m-[m
+ .../src}/components/modules/ModuleProgress.tsx     |    0
+ .../src}/components/modules/QuizQuestion.tsx       |   19 [32m+[m[31m-[m
+ .../src}/components/modules/StreakSection.tsx      |    0
+ .../src}/components/modules/UnitSection.tsx        |    0
+ .../playground/CoordinatePlanePlayground.tsx       |   78 [32m+[m
+ .../components/playground/CylinderPlayground.tsx   |   66 [32m+[m
+ .../components/playground/FractionPlayground.tsx   |   99 [32m+[m
+ .../components/playground/FunctionPlayground.tsx   |   93 [32m+[m
+ .../src/components/playground/SystemPlayground.tsx |  141 [32m+[m
+ .../components/playground/TrianglePlayground.tsx   |   92 [32m+[m
+ .../src/components/profile/ModulePickerModal.tsx   |   79 [32m+[m
+ frontend/src/components/social/FriendAvatar.tsx    |   27 [32m+[m
+ frontend/src/components/social/FriendsModal.tsx    |  307 [32m++[m
+ .../src}/components/ui/ProfileDropdown.tsx         |   38 [32m+[m[31m-[m
+ .../src}/components/ui/RippleBackground.tsx        |    2 [32m+[m[31m-[m
+ frontend/src/data/achievements.ts                  |   78 [32m+[m
+ frontend/src/data/basicos/endlessBank.ts           | 1317 [32m++++++[m
+ frontend/src/data/basicos/exerciseSets.ts          | 2283 [32m++++++++++[m
+ frontend/src/data/basicos/moduleConfig.ts          |   23 [32m+[m
+ frontend/src/data/basicos/track.ts                 |   20 [32m+[m
+ frontend/src/data/basicos/units.ts                 |  368 [32m++[m
+ frontend/src/data/espacial/endlessBank.ts          |   18 [32m+[m
+ frontend/src/data/espacial/exerciseSets.ts         |   26 [32m+[m
+ frontend/src/data/espacial/moduleConfig.ts         |   23 [32m+[m
+ frontend/src/data/espacial/track.ts                |   20 [32m+[m
+ frontend/src/data/espacial/unit1Exercises.ts       |  238 [32m++[m
+ frontend/src/data/espacial/unit2Exercises.ts       |  238 [32m++[m
+ frontend/src/data/espacial/unit3Exercises.ts       |  238 [32m++[m
+ frontend/src/data/espacial/unit4Exercises.ts       |  238 [32m++[m
+ frontend/src/data/espacial/unit5Exercises.ts       |  238 [32m++[m
+ frontend/src/data/espacial/unit6Exercises.ts       |  238 [32m++[m
+ frontend/src/data/espacial/unit7Exercises.ts       |  238 [32m++[m
+ frontend/src/data/espacial/unit8Exercises.ts       |  238 [32m++[m
+ frontend/src/data/espacial/unit9Exercises.ts       |  238 [32m++[m
+ frontend/src/data/espacial/units.ts                |  352 [32m++[m
+ frontend/src/data/exerciseTypes.ts                 |   69 [32m+[m
+ frontend/src/data/geometria/endlessBank.ts         |   20 [32m+[m
+ frontend/src/data/geometria/exerciseSets.ts        |   26 [32m+[m
+ frontend/src/data/geometria/moduleConfig.ts        |   23 [32m+[m
+ frontend/src/data/geometria/track.ts               |   20 [32m+[m
+ frontend/src/data/geometria/unit1Exercises.ts      |  238 [32m++[m
+ frontend/src/data/geometria/unit2Exercises.ts      |  238 [32m++[m
+ frontend/src/data/geometria/unit3Exercises.ts      |  238 [32m++[m
+ frontend/src/data/geometria/unit4Exercises.ts      |  238 [32m++[m
+ frontend/src/data/geometria/unit5Exercises.ts      |  238 [32m++[m
+ frontend/src/data/geometria/unit6Exercises.ts      |  238 [32m++[m
+ frontend/src/data/geometria/unit7Exercises.ts      |  238 [32m++[m
+ frontend/src/data/geometria/unit8Exercises.ts      |  238 [32m++[m
+ frontend/src/data/geometria/unit9Exercises.ts      |  238 [32m++[m
+ frontend/src/data/geometria/units.ts               |  352 [32m++[m
+ frontend/src/data/hints.ts                         |   32 [32m+[m
+ frontend/src/data/lessonNarrations.ts              | 1175 [32m++++++[m
+ frontend/src/data/lessonTypes.ts                   |   32 [32m+[m
+ frontend/src/data/mascotReactions.ts               |  142 [32m+[m
+ frontend/src/data/matrizes/endlessBank.ts          |  315 [32m++[m
+ frontend/src/data/matrizes/exerciseSets.ts         |   22 [32m+[m
+ frontend/src/data/matrizes/moduleConfig.ts         |   71 [32m+[m
+ frontend/src/data/matrizes/track.ts                |   12 [32m+[m
+ frontend/src/data/matrizes/unit1Exercises.ts       |  325 [32m++[m
+ frontend/src/data/matrizes/unit2Exercises.ts       |   93 [32m+[m
+ frontend/src/data/matrizes/unit3Exercises.ts       |   86 [32m+[m
+ frontend/src/data/matrizes/unit4Exercises.ts       |   86 [32m+[m
+ frontend/src/data/matrizes/unit5Exercises.ts       |   86 [32m+[m
+ frontend/src/data/matrizes/unit6Exercises.ts       |   86 [32m+[m
+ frontend/src/data/matrizes/unit7Exercises.ts       |  180 [32m+[m
+ frontend/src/data/matrizes/units.ts                |  251 [32m++[m
+ frontend/src/data/moduleRoutes.ts                  |   13 [32m+[m
+ frontend/src/data/notebookStore.ts                 |   40 [32m+[m
+ frontend/src/data/plana/endlessBank.ts             |   18 [32m+[m
+ frontend/src/data/plana/exerciseSets.ts            |   26 [32m+[m
+ frontend/src/data/plana/moduleConfig.ts            |   23 [32m+[m
+ frontend/src/data/plana/track.ts                   |   20 [32m+[m
+ frontend/src/data/plana/unit1Exercises.ts          |  238 [32m++[m
+ frontend/src/data/plana/unit2Exercises.ts          |  238 [32m++[m
+ frontend/src/data/plana/unit3Exercises.ts          |  238 [32m++[m
+ frontend/src/data/plana/unit4Exercises.ts          |  238 [32m++[m
+ frontend/src/data/plana/unit5Exercises.ts          |  238 [32m++[m
+ frontend/src/data/plana/unit6Exercises.ts          |  238 [32m++[m
+ frontend/src/data/plana/unit7Exercises.ts          |  238 [32m++[m
+ frontend/src/data/plana/unit8Exercises.ts          |  238 [32m++[m
+ frontend/src/data/plana/unit9Exercises.ts          |  238 [32m++[m
+ frontend/src/data/plana/units.ts                   |  352 [32m++[m
+ frontend/src/data/precalculo/endlessBank.ts        |   23 [32m+[m
+ frontend/src/data/precalculo/exerciseSets.ts       |   26 [32m+[m
+ frontend/src/data/precalculo/moduleConfig.ts       |   23 [32m+[m
+ frontend/src/data/precalculo/track.ts              |   20 [32m+[m
+ frontend/src/data/precalculo/unit1Exercises.ts     |  238 [32m++[m
+ frontend/src/data/precalculo/unit2Exercises.ts     |  238 [32m++[m
+ frontend/src/data/precalculo/unit3Exercises.ts     |  238 [32m++[m
+ frontend/src/data/precalculo/unit4Exercises.ts     |  238 [32m++[m
+ frontend/src/data/precalculo/unit5Exercises.ts     |  238 [32m++[m
+ frontend/src/data/precalculo/unit6Exercises.ts     |  238 [32m++[m
+ frontend/src/data/precalculo/unit7Exercises.ts     |  238 [32m++[m
+ frontend/src/data/precalculo/unit8Exercises.ts     |  238 [32m++[m
+ frontend/src/data/precalculo/unit9Exercises.ts     |  316 [32m++[m
+ frontend/src/data/precalculo/units.ts              |  368 [32m++[m
+ frontend/src/data/sistemas/endlessBank.ts          |   20 [32m+[m
+ frontend/src/data/sistemas/exerciseSets.ts         |   26 [32m+[m
+ frontend/src/data/sistemas/moduleConfig.ts         |   24 [32m+[m
+ frontend/src/data/sistemas/track.ts                |   20 [32m+[m
+ frontend/src/data/sistemas/unit1Exercises.ts       |  238 [32m++[m
+ frontend/src/data/sistemas/unit2Exercises.ts       |  238 [32m++[m
+ frontend/src/data/sistemas/unit3Exercises.ts       |  238 [32m++[m
+ frontend/src/data/sistemas/unit4Exercises.ts       |  238 [32m++[m
+ frontend/src/data/sistemas/unit5Exercises.ts       |  238 [32m++[m
+ frontend/src/data/sistemas/unit6Exercises.ts       |  238 [32m++[m
+ frontend/src/data/sistemas/unit7Exercises.ts       |  238 [32m++[m
+ frontend/src/data/sistemas/unit8Exercises.ts       |  238 [32m++[m
+ frontend/src/data/sistemas/unit9Exercises.ts       |  238 [32m++[m
+ frontend/src/data/sistemas/units.ts                |  352 [32m++[m
+ frontend/src/data/trackUtils.ts                    |   29 [32m+[m
+ {src => frontend/src}/hooks/useAmbience.ts         |   64 [32m+[m[31m-[m
+ {src => frontend/src}/hooks/useCardTilt.ts         |    0
+ frontend/src/hooks/useEmyState.ts                  |   79 [32m+[m
+ {src => frontend/src}/hooks/useGlitchText.ts       |    0
+ {src => frontend/src}/hooks/useLoginForm.ts        |   39 [32m+[m[31m-[m
+ {src => frontend/src}/hooks/useMagneticButton.ts   |    0
+ {src => frontend/src}/hooks/useMousePosition.ts    |    0
+ frontend/src/hooks/useNotebook.ts                  |   48 [32m+[m
+ {src => frontend/src}/hooks/useRegisterForm.ts     |   40 [32m+[m[31m-[m
+ {src => frontend/src}/hooks/useScrollProgress.ts   |    0
+ {src => frontend/src}/hooks/useScrollVelocity.ts   |    0
+ {src => frontend/src}/hooks/useSpacedRepetition.ts |    0
+ {src => frontend/src}/hooks/useSpringReveal.ts     |    0
+ {src => frontend/src}/index.css                    | 2999 [32m++++++++++++[m[31m-[m
+ frontend/src/lib/dates.ts                          |   18 [32m+[m
+ frontend/src/lib/grading.ts                        |   22 [32m+[m
+ frontend/src/lib/imageResize.ts                    |   42 [32m+[m
+ frontend/src/lib/initials.ts                       |    7 [32m+[m
+ frontend/src/lib/matrixMath.ts                     |  115 [32m+[m
+ frontend/src/lib/profileApi.ts                     |   44 [32m+[m
+ frontend/src/lib/sfx.ts                            |   51 [32m+[m
+ frontend/src/lib/shuffle.ts                        |    8 [32m+[m
+ frontend/src/lib/socialApi.ts                      |   74 [32m+[m
+ {src => frontend/src}/main.tsx                     |    5 [32m+[m[31m-[m
+ frontend/src/pages/ConhecaEmyPage.tsx              |   91 [32m+[m
+ frontend/src/pages/EndlessSessionPage.tsx          |  168 [32m+[m
+ frontend/src/pages/ExerciseSessionPage.tsx         |  196 [32m+[m
+ {src => frontend/src}/pages/LoginPage.tsx          |    0
+ frontend/src/pages/ModulosPage.tsx                 |  460 [32m++[m
+ frontend/src/pages/PerfilPage.tsx                  |  558 [32m+++[m
+ {src => frontend/src}/pages/RegisterPage.tsx       |   20 [32m+[m[31m-[m
+ frontend/src/pages/UserProfilePage.tsx             |  187 [32m+[m
+ frontend/src/state/AuthContext.tsx                 |   44 [32m+[m
+ frontend/src/state/authContextStore.ts             |   23 [32m+[m
+ frontend/src/state/useAuth.ts                      |    9 [32m+[m
+ frontend/src/state/useMascotIntro.ts               |    6 [32m+[m
+ frontend/src/state/useMascotReactionTrigger.ts     |   66 [32m+[m
+ frontend/src/state/useModuleProgress.ts            |  209 [32m+[m
+ frontend/src/state/useOneTimeFlag.ts               |   24 [32m+[m
+ {src => frontend/src}/utils/audio.ts               |    0
+ {src => frontend/src}/utils/math.ts                |    0
+ {src => frontend/src}/utils/particles.ts           |    0
+ tsconfig.app.json => frontend/tsconfig.app.json    |    0
+ frontend/tsconfig.json                             |    7 [32m+[m
+ tsconfig.node.json => frontend/tsconfig.node.json  |    0
+ vite.config.ts => frontend/vite.config.ts          |    9 [32m+[m
+ ...ed_Image_b9ek0fb9ek0fb9ek.png_202605072005.jpeg |  Bin [31m223996[m -> [32m0[m bytes
+ "imagens/M\303\243os_na_camera.png"                |  Bin [31m2777371[m -> [32m0[m bytes
+ imagens/Quero_ela_de_lado_e_202605071846.jpeg      |  Bin [31m2828517[m -> [32m0[m bytes
+ ...ma_posi\303\247\303\243o_202605071845 (1).jpeg" |  Bin [31m2955621[m -> [32m0[m bytes
+ ...ma_posi\303\247\303\243o_202605071845 (2).jpeg" |  Bin [31m2914729[m -> [32m0[m bytes
+ ...ma_posi\303\247\303\243o_202605071845 (3).jpeg" |  Bin [31m2922732[m -> [32m0[m bytes
+ ...em_uma_posi\303\247\303\243o_202605071845.jpeg" |  Bin [31m2887773[m -> [32m0[m bytes
+ ..._vers\303\243o_dela_\303\241_202605071843.jpeg" |  Bin [31m2970991[m -> [32m0[m bytes
+ logo-exports/mateka-icone.png                      |  Bin [31m0[m -> [32m816477[m bytes
+ package-lock.json                                  | 4386 [32m++++++++++++++++[m[31m----[m
+ package.json                                       |   49 [32m+[m[31m-[m
+ requisitos.md                                      |    0
+ src/App.tsx                                        |  428 [31m--[m
+ src/components/CustomCursor.tsx                    |  132 [31m-[m
+ src/pages/ModulosPage.tsx                          |  492 [31m---[m
+ tsconfig.json                                      |    4 [32m+[m[31m-[m
+ 385 files changed, 37102 insertions(+), 5698 deletions(-)

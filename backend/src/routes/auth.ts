@@ -24,7 +24,7 @@ const MAX_FAILED_ATTEMPTS = 5
 const LOCKOUT_DURATION_MS = 1000 * 60 * 15
 
 router.post('/register', asyncHandler(async (req: Request, res: Response) => {
-  const { name, email, password } = req.body ?? {}
+  const { name, email, password, institution } = req.body ?? {}
 
   if (typeof name !== 'string' || name.trim().length < 3) {
     res.status(400).json({ error: 'validation_error', field: 'name', message: 'Nome precisa ter ao menos 3 caracteres.' })
@@ -38,6 +38,10 @@ router.post('/register', asyncHandler(async (req: Request, res: Response) => {
     res.status(400).json({ error: 'validation_error', field: 'password', message: 'Senha precisa ter pelo menos 8 caracteres.' })
     return
   }
+  if (typeof institution !== 'string' || !institution.trim()) {
+    res.status(400).json({ error: 'validation_error', field: 'institution', message: 'Informe sua instituição de ensino.' })
+    return
+  }
 
   const passwordHash = await hashPassword(password)
 
@@ -46,6 +50,7 @@ router.post('/register', asyncHandler(async (req: Request, res: Response) => {
       data: {
         email: email.trim().toLowerCase(),
         displayName: name.trim(),
+        institution: institution.trim(),
         passwordHash,
         authProvider: 'email',
       },

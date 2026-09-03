@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState } from 'react'
 import ExerciseRenderer from '../components/exercise/ExerciseRenderer'
 import ScratchPad from '../components/exercise/ScratchPad'
+import EndlessGameOver from '../components/exercise/EndlessGameOver'
 import MascotToast from '../components/mascot/MascotToast'
 import type { Exercise, Difficulty } from '../data/exerciseTypes'
 import { pickHint } from '../data/hints'
@@ -25,15 +26,18 @@ const DIFFICULTY_LABEL: Record<Difficulty, string> = {
   hard: 'Difícil',
 }
 
+const MAX_LIVES = 3
+
 const EndlessSessionPage = ({ difficulty, moduleId, bank, onNavigate }: Props) => {
   const { recordEndlessAnswer } = useModuleProgress(moduleId)
   const { registerAnswer } = useMascotReactionTrigger()
 
-  const [status, setStatus] = useState<'intro' | 'active'>('intro')
+  const [status, setStatus] = useState<'intro' | 'active' | 'game-over'>('intro')
   const queueRef = useRef<Exercise[]>(shuffle(bank))
   const [index, setIndex] = useState(0)
   const [answered, setAnswered] = useState(0)
   const [correctCount, setCorrectCount] = useState(0)
+  const [lives, setLives] = useState(MAX_LIVES)
   const [feedback, setFeedback] = useState<{ correct: boolean; explanation?: string } | null>(null)
   const [activeReaction, setActiveReaction] = useState<{ key: ReactionKey; nonce: number } | null>(null)
   const reactionNonceRef = useRef(0)
@@ -57,6 +61,7 @@ const EndlessSessionPage = ({ difficulty, moduleId, bank, onNavigate }: Props) =
         setCorrectCount((c) => c + 1)
         playCorrectSound()
       } else {
+        setLives((l) => l - 1)
         playWrongSound()
       }
       const milestoneReaction = recordEndlessAnswer(difficulty, correct)
@@ -77,8 +82,22 @@ const EndlessSessionPage = ({ difficulty, moduleId, bank, onNavigate }: Props) =
 
   const handleContinue = useCallback(() => {
     setFeedback(null)
+    if (lives <= 0) {
+      setStatus('game-over')
+      return
+    }
     setIndex((i) => i + 1)
-  }, [])
+  }, [lives])
+
+  const handleRetry = useCallback(() => {
+    queueRef.current = shuffle(bank)
+    setIndex(0)
+    setAnswered(0)
+    setCorrectCount(0)
+    setLives(MAX_LIVES)
+    setFeedback(null)
+    setStatus('active')
+  }, [bank])
 
   const accuracyPct = answered > 0 ? Math.round((correctCount / answered) * 100) : 0
   const needsScratchpad = currentExercise.kind === 'matrix-fill' || currentExercise.kind === 'matrix-builder'
@@ -93,7 +112,8 @@ const EndlessSessionPage = ({ difficulty, moduleId, bank, onNavigate }: Props) =
             <h1>Prática sem limite</h1>
             <p>
               Questões {DIFFICULTY_LABEL[difficulty].toLowerCase()}s embaralhadas de todo o módulo, sem fim — pratique
-              o quanto quiser e encerre quando decidir.
+              o quanto quiser e encerre quando decidir. Você tem {MAX_LIVES} vidas: cada erro custa uma, e ao
+              zerar é Game Over (mas dá pra tentar de novo na hora).
             </p>
             <p className="exercise-results-points">{bank.length} questões no banco · +5 pts por acerto</p>
             <button type="button" className="btn-primary" onClick={() => setStatus('active')}>
@@ -107,6 +127,17 @@ const EndlessSessionPage = ({ difficulty, moduleId, bank, onNavigate }: Props) =
           </div>
         </div>
       </div>
+    )
+  }
+
+  if (status === 'game-over') {
+    return (
+      <EndlessGameOver
+        answered={answered}
+        correctCount={correctCount}
+        onRetry={handleRetry}
+        onExit={() => onNavigate(moduleHubHash(moduleId))}
+      />
     )
   }
 
@@ -124,6 +155,10 @@ const EndlessSessionPage = ({ difficulty, moduleId, bank, onNavigate }: Props) =
         </div>
 
         <div className="exercise-endless-stats">
+          <span aria-label={`${Math.max(0, lives)} de ${MAX_LIVES} vidas`}>
+            {'❤️'.repeat(Math.max(0, lives))}
+            {'🖤'.repeat(MAX_LIVES - Math.max(0, lives))}
+          </span>
           <span>{answered} respondidas</span>
           <span>{correctCount} corretas</span>
           <span>{accuracyPct}% de acerto</span>

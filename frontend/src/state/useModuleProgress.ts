@@ -64,6 +64,21 @@ function touchStreak(streak: ModuleProgressState['streak']): ModuleProgressState
   return { count: nextCount, lastPracticedISODate: toLocalDateStr() }
 }
 
+// The stored `count` only gets corrected the next time the learner actually
+// practices (via touchStreak above) — so right after a missed day, before
+// any new activity, it would still hold yesterday's (now-broken) number.
+// This derives the real, current-as-of-now value instead: alive only while
+// the last practice was today or yesterday, 0 the moment a day is skipped
+// (Duolingo-style hard reset) — read on every render, not just on write, so
+// the profile shows 0 as soon as you open it the day after a miss, not only
+// after you practice again.
+export function effectiveStreakCount(streak: ModuleProgressState['streak']): number {
+  if (isToday(streak.lastPracticedISODate) || isYesterday(streak.lastPracticedISODate)) {
+    return streak.count
+  }
+  return 0
+}
+
 // Writes straight to localStorage instead of going through the `state`
 // setter's updater callback: React 18 batches and defers that callback, so a
 // caller that needs a same-tick return value (the mascot reaction key) would
@@ -187,7 +202,13 @@ export function useModuleProgress(moduleId: string) {
     [state.completedNodeIds],
   )
 
-  const totalPoints = Object.values(state.exerciseResults).reduce((sum, r) => sum + r.pointsEarned, 0)
+  // Lifetime total: every point ever earned in this module, from regular
+  // exercises AND Endless — both accumulate via Math.max/increment-only
+  // writers above, so this only ever grows, never shrinks (points aren't
+  // tied to the streak and don't reset with it).
+  const exercisePoints = Object.values(state.exerciseResults).reduce((sum, r) => sum + r.pointsEarned, 0)
+  const endlessPoints = Object.values(state.endless).reduce((sum, e) => sum + e.totalPoints, 0)
+  const totalPoints = exercisePoints + endlessPoints
   const completedSetCount = Object.keys(state.exerciseResults).length
   const averageAccuracy =
     completedSetCount > 0
@@ -202,7 +223,7 @@ export function useModuleProgress(moduleId: string) {
     isNodeCompleted,
     exerciseResults: state.exerciseResults,
     endless: state.endless,
-    streakCount: state.streak.count,
+    streakCount: effectiveStreakCount(state.streak),
     totalPoints,
     averageAccuracy,
   }

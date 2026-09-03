@@ -28,7 +28,44 @@
   --mateka-glass: rgba(15, 23, 42, 0.72);
   --mateka-success: #22c55e;
   --mateka-locked: rgba(148, 163, 184, 0.35);
+
+  /* Correct/wrong exercise feedback — kept as its own variable group (not
+     reusing --mateka-success or literal reds) specifically so colorblind
+     mode below can retarget just this red/green pair, which is the one
+     place in the app where color alone (no icon, no text) tells a choice
+     button apart from its sibling. */
+  --feedback-correct-border: rgba(34, 197, 94, 0.55);
+  --feedback-correct-bg: rgba(34, 197, 94, 0.1);
+  --feedback-wrong-border: rgba(239, 68, 68, 0.5);
+  --feedback-wrong-bg: rgba(239, 68, 68, 0.08);
+
+  /* Same idea as above, for the lone confirm-password checkmark on the
+     register form (RegisterPage.tsx) — a color-only "match" signal. */
+  --confirm-match-color: #22c55e;
 }
+
+/* Colorblind palette, per type (Configurações → Acessibilidade).
+   Protanopia and deuteranopia are both red-green deficiencies — standard
+   accessibility guidance is the same fix for both: swap the red/green
+   correct-vs-wrong pair for blue/orange, which stays distinguishable
+   under either confusion. Scoped to just this pair (and the confirm-
+   password checkmark) rather than the whole palette: those are the only
+   places a right/wrong or match/mismatch signal is conveyed by color
+   alone, with no accompanying text or icon. */
+:root[data-colorblind-mode="protanopia"],
+:root[data-colorblind-mode="deuteranopia"] {
+  --feedback-correct-border: rgba(59, 130, 246, 0.65);
+  --feedback-correct-bg: rgba(59, 130, 246, 0.14);
+  --feedback-wrong-border: rgba(249, 115, 22, 0.6);
+  --feedback-wrong-bg: rgba(249, 115, 22, 0.12);
+  --confirm-match-color: #3b82f6;
+}
+
+/* Tritanopia is a blue-yellow deficiency — it doesn't affect red/green
+   perception, so the default palette above already reads fine. No
+   override block here on purpose (the ConfiguracoesPage UI explains this
+   to the user, so picking "Tritanopia" and seeing no color change doesn't
+   read as broken). */
 
 * {
   box-sizing: border-box;
@@ -5265,13 +5302,13 @@ select {
 }
 
 .quiz-option-btn.is-correct {
-  border-color: rgba(34, 197, 94, 0.6);
-  background: rgba(34, 197, 94, 0.08);
+  border-color: var(--feedback-correct-border);
+  background: var(--feedback-correct-bg);
 }
 
 .quiz-option-btn.is-wrong {
-  border-color: rgba(239, 68, 68, 0.5);
-  background: rgba(239, 68, 68, 0.06);
+  border-color: var(--feedback-wrong-border);
+  background: var(--feedback-wrong-bg);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -5502,13 +5539,13 @@ select {
 }
 
 .exercise-choice-btn.is-correct {
-  border-color: rgba(34, 197, 94, 0.6);
-  background: rgba(34, 197, 94, 0.1);
+  border-color: var(--feedback-correct-border);
+  background: var(--feedback-correct-bg);
 }
 
 .exercise-choice-btn.is-wrong {
-  border-color: rgba(239, 68, 68, 0.5);
-  background: rgba(239, 68, 68, 0.08);
+  border-color: var(--feedback-wrong-border);
+  background: var(--feedback-wrong-bg);
 }
 
 .exercise-choice-btn:disabled {
@@ -5760,14 +5797,14 @@ select {
 }
 
 .exercise-feedback.is-correct {
-  background: rgba(34, 197, 94, 0.1);
-  border-color: rgba(34, 197, 94, 0.4);
+  background: var(--feedback-correct-bg);
+  border-color: var(--feedback-correct-border);
   animation: exerciseFeedbackPopIn 260ms ease-out;
 }
 
 .exercise-feedback.is-incorrect {
-  background: rgba(248, 113, 113, 0.1);
-  border-color: rgba(248, 113, 113, 0.4);
+  background: var(--feedback-wrong-bg);
+  border-color: var(--feedback-wrong-border);
   animation: exerciseFeedbackShake 320ms ease-out;
 }
 
@@ -7020,6 +7057,199 @@ select {
   line-height: 1.3;
 }
 
+/* ── Configurações (ConfiguracoesPage) ── */
+.settings-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 32px;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 16px 4px;
+  border-bottom: 1px solid var(--mateka-border-soft);
+}
+
+.settings-row:last-child {
+  border-bottom: none;
+}
+
+.settings-row__text {
+  display: block;
+  min-width: 0;
+}
+
+.settings-row__label {
+  display: block;
+  margin: 0 0 4px;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.95rem;
+  color: var(--text-main);
+}
+
+.settings-row__description {
+  display: block;
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--text-soft);
+  line-height: 1.5;
+}
+
+.settings-switch {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 24px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.25);
+  border: 1px solid var(--mateka-border-soft);
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.settings-switch.is-on {
+  background: rgba(34, 211, 238, 0.35);
+  border-color: var(--cyan);
+}
+
+.settings-switch__thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #f8fafc;
+  transition: transform 0.2s ease;
+}
+
+.settings-switch.is-on .settings-switch__thumb {
+  transform: translateX(20px);
+  background: var(--cyan);
+}
+
+.settings-radio-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-radio-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 4px;
+  border-bottom: 1px solid var(--mateka-border-soft);
+  width: 100%;
+  background: none;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.settings-radio-row:last-child {
+  border-bottom: none;
+}
+
+.settings-radio {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  border-radius: 50%;
+  border: 1px solid var(--mateka-border-soft);
+  position: relative;
+  transition: border-color 0.2s ease;
+}
+
+.settings-radio-row.is-selected .settings-radio {
+  border-color: var(--cyan);
+}
+
+.settings-radio-row.is-selected .settings-radio::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: var(--cyan);
+}
+
+.settings-section--danger {
+  padding-top: 12px;
+  border-top: 1px solid rgba(244, 63, 94, 0.2);
+}
+
+.settings-danger-kicker {
+  color: #f43f5e;
+}
+
+.settings-danger-btn {
+  flex: 0 0 auto;
+  border-color: rgba(244, 63, 94, 0.4);
+  color: #f43f5e;
+}
+
+.settings-danger-btn:hover {
+  border-color: #f43f5e;
+  background: rgba(244, 63, 94, 0.08);
+}
+
+.settings-danger-btn--confirm {
+  padding: 14px 28px;
+  border-radius: 10px;
+  font-weight: 700;
+  background: #f43f5e;
+  color: #fff;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 200ms ease-out;
+}
+
+.settings-danger-btn--confirm:hover:not(:disabled) {
+  box-shadow: 0 0 20px rgba(244, 63, 94, 0.4);
+}
+
+.settings-danger-btn--confirm:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.settings-delete-confirm {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px;
+  background: rgba(244, 63, 94, 0.05);
+  border: 1px solid rgba(244, 63, 94, 0.25);
+  border-radius: 12px;
+}
+
+.settings-delete-confirm__input {
+  width: 100%;
+  max-width: 320px;
+  padding: 10px 14px;
+  background: rgba(2, 6, 23, 0.6);
+  border: 1px solid var(--mateka-border-soft);
+  border-radius: 10px;
+  color: var(--text-main);
+  font-size: 0.95rem;
+}
+
+.settings-delete-confirm__input:focus {
+  outline: none;
+  border-color: #f43f5e;
+}
+
+.settings-delete-confirm__actions {
+  display: flex;
+  gap: 10px;
+}
+
 .perfil-stats-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -7212,6 +7442,18 @@ select {
   flex-wrap: wrap;
   gap: 10px;
   margin-left: auto;
+}
+
+.user-profile-block-btn {
+  opacity: 0.6;
+  font-size: 0.82rem;
+  padding: 8px 16px;
+}
+
+.user-profile-block-btn:hover {
+  opacity: 1;
+  border-color: rgba(244, 63, 94, 0.65);
+  color: #f43f5e;
 }
 
 .perfil-user-not-found {

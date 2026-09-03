@@ -4,6 +4,7 @@ export type AuthUser = {
   id: string
   email: string
   displayName: string
+  institution: string | null
   role: string
   createdAt: string
   avatarUrl: string | null

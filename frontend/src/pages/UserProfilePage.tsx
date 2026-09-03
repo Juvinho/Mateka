@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import MatekaLogo from '../components/MatekaLogo'
 import { initialsFor } from '../lib/initials'
-import { getPublicProfile, sendFriendRequest, acceptFriendRequest, removeRelationship } from '../lib/socialApi'
+import { getPublicProfile, sendFriendRequest, acceptFriendRequest, removeRelationship, blockUser } from '../lib/socialApi'
 import type { PublicUser, Relationship } from '../lib/socialApi'
 
 type Props = {
@@ -114,7 +114,7 @@ const UserProfilePage = ({ userId, onNavigate }: Props) => {
                 <button type="button" className="btn-secondary" onClick={() => onNavigate('#perfil')}>
                   Ir para meu perfil
                 </button>
-              ) : (
+              ) : relationship === 'blocked_by' ? null : (
                 <div className="user-profile-friend-actions">
                   {relationship === 'none' && (
                     <button
@@ -164,6 +164,26 @@ const UserProfilePage = ({ userId, onNavigate }: Props) => {
                       onClick={() => void runAction(() => removeRelationship(userId))}
                     >
                       Amigos ✓ — desfazer
+                    </button>
+                  )}
+                  {relationship === 'blocked' && (
+                    <button
+                      type="button"
+                      className="btn-secondary"
+                      disabled={actionPending}
+                      onClick={() => void runAction(() => removeRelationship(userId))}
+                    >
+                      Desbloquear
+                    </button>
+                  )}
+                  {relationship !== 'blocked' && (
+                    <button
+                      type="button"
+                      className="btn-secondary user-profile-block-btn"
+                      disabled={actionPending}
+                      onClick={() => void runAction(() => blockUser(userId))}
+                    >
+                      Bloquear
                     </button>
                   )}
                 </div>

@@ -12,7 +12,7 @@ router.use((_req: Request, res: Response, next: NextFunction) => {
   next()
 })
 
-type Relationship = 'self' | 'none' | 'friends' | 'pending_sent' | 'pending_received'
+type Relationship = 'self' | 'none' | 'friends' | 'pending_sent' | 'pending_received' | 'blocked' | 'blocked_by'
 
 async function relationshipBetween(meId: string, otherId: string): Promise<Relationship> {
   if (meId === otherId) return 'self'
@@ -21,6 +21,12 @@ async function relationshipBetween(meId: string, otherId: string): Promise<Relat
     prisma.friendship.findUnique({ where: { requesterId_addresseeId: { requesterId: meId, addresseeId: otherId } } }),
     prisma.friendship.findUnique({ where: { requesterId_addresseeId: { requesterId: otherId, addresseeId: meId } } }),
   ])
+
+  // A 'blocked' row's requesterId is always the blocker (see schema.prisma's
+  // comment on Friendship.status) — check both directions explicitly rather
+  // than falling through to the pending/accepted logic below.
+  if (forward?.status === 'blocked') return 'blocked'
+  if (reverse?.status === 'blocked') return 'blocked_by'
 
   const row = forward ?? reverse
   if (!row) return 'none'
@@ -90,6 +96,13 @@ router.post(
       prisma.friendship.findUnique({ where: { requesterId_addresseeId: { requesterId: targetId, addresseeId: user.id } } }),
     ])
 
+    if (forward?.status === 'blocked' || reverse?.status === 'blocked') {
+      // Generic message either way — don't confirm to the caller which of
+      // the two blocked the other.
+      res.status(403).json({ error: 'forbidden', message: 'Não é possível adicionar esse usuário.' })
+      return
+    }
+
     if (forward) {
       // 'pending' or 'accepted' — idempotent, nothing to do. A prior decline
       // deletes the row instead of leaving it 'declined' (see DELETE below),
@@ -139,12 +152,65 @@ router.post(
   }),
 )
 
+router.post(
+  '/friends/:userId/block',
+  requireAuth,
+  asyncHandler(async (req: Request, res: Response) => {
+    const user = authedUser(res)
+    const targetId = req.params.userId
+
+    if (targetId === user.id) {
+      res.status(400).json({ error: 'validation_error', message: 'Não é possível bloquear a si mesmo.' })
+      return
+    }
+
+    const target = await prisma.user.findUnique({ where: { id: targetId } })
+    if (!target) {
+      res.status(404).json({ error: 'not_found', message: 'Usuário não encontrado.' })
+      return
+    }
+
+    // Blocking wipes out whatever relationship existed before (pending
+    // request either way, or an existing friendship) and replaces it with a
+    // single 'blocked' row — requesterId is always the blocker here.
+    await prisma.$transaction([
+      prisma.friendship.deleteMany({
+        where: {
+          OR: [
+            { requesterId: user.id, addresseeId: targetId },
+            { requesterId: targetId, addresseeId: user.id },
+          ],
+        },
+      }),
+      prisma.friendship.create({ data: { requesterId: user.id, addresseeId: targetId, status: 'blocked' } }),
+    ])
+
+    res.status(200).json({ relationship: 'blocked' satisfies Relationship })
+  }),
+)
+
 router.delete(
   '/friends/:userId',
   requireAuth,
   asyncHandler(async (req: Request, res: Response) => {
     const user = authedUser(res)
     const otherId = req.params.userId
+
+    const existing = await prisma.friendship.findFirst({
+      where: {
+        OR: [
+          { requesterId: user.id, addresseeId: otherId },
+          { requesterId: otherId, addresseeId: user.id },
+        ],
+      },
+    })
+
+    // A block can only be lifted by whoever set it — the blocked party has
+    // no say in removing it via this same "unfriend/cancel/decline" route.
+    if (existing?.status === 'blocked' && existing.requesterId !== user.id) {
+      res.status(403).json({ error: 'forbidden', message: 'Não é possível remover esse bloqueio.' })
+      return
+    }
 
     await prisma.friendship.deleteMany({
       where: {

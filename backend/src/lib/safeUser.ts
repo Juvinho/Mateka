@@ -4,6 +4,7 @@ export type SafeUser = {
   id: string
   email: string
   displayName: string
+  institution: string | null
   role: string
   createdAt: string
   avatarUrl: string | null
@@ -16,6 +17,7 @@ export function toSafeUser(user: User): SafeUser {
     id: user.id,
     email: user.email,
     displayName: user.displayName,
+    institution: user.institution,
     role: user.role,
     createdAt: user.createdAt.toISOString(),
     avatarUrl: user.avatarUrl,

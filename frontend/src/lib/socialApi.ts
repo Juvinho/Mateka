@@ -8,7 +8,7 @@ export type PublicUser = {
   createdAt: string
 }
 
-export type Relationship = 'self' | 'none' | 'friends' | 'pending_sent' | 'pending_received'
+export type Relationship = 'self' | 'none' | 'friends' | 'pending_sent' | 'pending_received' | 'blocked' | 'blocked_by'
 
 async function parseJson<T>(response: Response): Promise<T> {
   const body = await response.json().catch(() => null)
@@ -39,6 +39,12 @@ export async function sendFriendRequest(userId: string): Promise<Relationship> {
 
 export async function acceptFriendRequest(userId: string): Promise<Relationship> {
   const response = await fetch(`/api/social/friends/${userId}/accept`, { method: 'POST', credentials: 'include' })
+  const body = await parseJson<{ relationship: Relationship }>(response)
+  return body.relationship
+}
+
+export async function blockUser(userId: string): Promise<Relationship> {
+  const response = await fetch(`/api/social/friends/${userId}/block`, { method: 'POST', credentials: 'include' })
   const body = await parseJson<{ relationship: Relationship }>(response)
   return body.relationship
 }

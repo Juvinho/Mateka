@@ -71,6 +71,15 @@ import gamerImg from './assets/mascot/gamer.webp'
 import { EmyCallout } from './components/emy/EmyCallout'
 import { ReverseEmy } from './components/emy/ReverseEmy'
 import { VirtualNotebook } from './components/VirtualNotebook'
+import ConfiguracoesPage from './pages/ConfiguracoesPage'
+import MeusModulosPage from './pages/MeusModulosPage'
+import ConquistasPage from './pages/ConquistasPage'
+import { initSettings } from './lib/settingsStore'
+
+// Runs once when this module loads — before the first render — so the
+// colorblind CSS override (if the user has it on) is already in place
+// instead of flashing the default palette first.
+initSettings()
 
 const ENDLESS_DIFFICULTIES: Difficulty[] = ['easy', 'medium', 'hard']
 
@@ -106,6 +115,9 @@ const KNOWN_EXACT_HASHES = new Set([
   '#geometria-espacial',
   '#conheca-emy',
   '#perfil',
+  '#configuracoes',
+  '#meus-modulos',
+  '#conquistas',
 ])
 const KNOWN_DYNAMIC_PREFIXES = ['#modulos/', '#aula-', '#exercicio-', '#endless-', '#usuario-']
 // Dedicated hashes to preview each error page on demand, without needing to
@@ -494,6 +506,9 @@ const App = () => {
   const isEspacialRoute = activeHash === '#geometria-espacial'
   const isConhecaEmyRoute = activeHash === '#conheca-emy'
   const isPerfilRoute = activeHash === '#perfil'
+  const isConfiguracoesRoute = activeHash === '#configuracoes'
+  const isMeusModulosRoute = activeHash === '#meus-modulos'
+  const isConquistasRoute = activeHash === '#conquistas'
   const isUserProfileRoute = activeHash.startsWith('#usuario-')
   const viewedUserId = isUserProfileRoute ? activeHash.slice('#usuario-'.length) : undefined
   // 404 covers two cases: a dynamic-id route (aula/exercicio/endless) whose id
@@ -527,6 +542,9 @@ const App = () => {
     isPlanaRoute ||
     isEspacialRoute ||
     isPerfilRoute ||
+    isConfiguracoesRoute ||
+    isMeusModulosRoute ||
+    isConquistasRoute ||
     isUserProfileRoute ||
     Boolean(activeLesson) ||
     Boolean(activeLessonTitle) ||
@@ -565,6 +583,9 @@ const App = () => {
     !isEspacialRoute &&
     !isConhecaEmyRoute &&
     !isPerfilRoute &&
+    !isConfiguracoesRoute &&
+    !isMeusModulosRoute &&
+    !isConquistasRoute &&
     !isUserProfileRoute &&
     !activeExerciseSet &&
     !resolvedEndless &&
@@ -739,6 +760,18 @@ const App = () => {
 
     if (isPerfilRoute) {
       return <PerfilPage onNavigate={navigateTo} />
+    }
+
+    if (isConfiguracoesRoute) {
+      return <ConfiguracoesPage onNavigate={navigateTo} />
+    }
+
+    if (isMeusModulosRoute) {
+      return <MeusModulosPage onNavigate={navigateTo} />
+    }
+
+    if (isConquistasRoute) {
+      return <ConquistasPage onNavigate={navigateTo} />
     }
 
     if (isUserProfileRoute && viewedUserId) {

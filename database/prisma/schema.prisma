@@ -42,6 +42,7 @@ model User {
   passwordHash        String?   @map("password_hash")
   authProvider        String    @default("email") @map("auth_provider")
   displayName         String    @map("display_name")
+  institution         String?   @map("institution")
   role                String    @default("student")
   avatarUrl           String?   @map("avatar_url")
   bannerUrl           String?   @map("banner_url")
@@ -101,7 +102,10 @@ model VerificationToken {
   @@map("verification_tokens")
 }
 
-/// CHECK status_valid: status IN ('pending', 'accepted', 'declined').
+/// CHECK status_valid: status IN ('pending', 'accepted', 'declined', 'blocked').
+///   For a 'blocked' row, requester_id is the blocker and addressee_id is the
+///   blocked party — same column reuse as every other status, just a
+///   different reading of "who requested what".
 /// CHECK not_self: requester_id <> addressee_id.
 model Friendship {
   id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid

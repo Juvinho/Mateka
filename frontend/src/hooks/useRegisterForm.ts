@@ -85,6 +85,7 @@ export const useRegisterForm = () => {
           name: form.name.trim(),
           email: form.email.trim(),
           password: form.password,
+          institution: form.institution.trim(),
         }),
       })
 

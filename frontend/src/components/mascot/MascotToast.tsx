@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import gsap from 'gsap'
 import speechBubble from '../../assets/mascot/balao-fala.webp'
 import { MOOD_ALT, MOOD_IMAGE, type Reaction } from '../../data/mascotReactions'
+import { getSettings } from '../../lib/settingsStore'
 
 type Props = {
   reaction: Reaction
@@ -70,6 +71,10 @@ const MascotToast = ({ reaction, onDone }: Props) => {
     const fallbackMs = reaction.segments.length * FALLBACK_READ_MS_PER_SEGMENT
 
     if (audio) {
+      // Muted (not skipped) so the segment-by-segment mood/text sync — which
+      // reads audio.currentTime — keeps working identically either way; only
+      // the sound itself is silenced.
+      audio.muted = !getSettings().emyVoiceEnabled
       audio
         .play()
         .then(() => {

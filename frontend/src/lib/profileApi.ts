@@ -42,3 +42,16 @@ export async function updateBio(bio: string): Promise<AuthUser> {
   })
   return parseUserResponse(response)
 }
+
+export async function deleteAccount(password: string): Promise<void> {
+  const response = await fetch('/api/profile/account', {
+    method: 'DELETE',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password }),
+  })
+  if (!response.ok) {
+    const body = await response.json().catch(() => null)
+    throw new Error(body?.message ?? 'Não foi possível excluir a conta.')
+  }
+}

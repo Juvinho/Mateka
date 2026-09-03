@@ -7,6 +7,7 @@ import mascotTimida from '../../assets/mascot/timida.webp'
 import speechBubble from '../../assets/mascot/balao-fala.webp'
 import introAudio from '../../assets/voice/matriz.mp3'
 import { useMascotIntro } from '../../state/useMascotIntro'
+import { getSettings } from '../../lib/settingsStore'
 
 type Mood = 'entusiasmo' | 'normal' | 'timida'
 
@@ -83,7 +84,10 @@ const MatrizesIntro = () => {
     if (!root || !backdrop || !figure || !bubble || !text) return
 
     const playAudio = () => {
-      audioRef.current?.play().catch(() => setNeedsManualPlay(true))
+      const audio = audioRef.current
+      if (!audio) return
+      audio.muted = !getSettings().emyVoiceEnabled
+      audio.play().catch(() => setNeedsManualPlay(true))
     }
 
     if (reducedMotion) {

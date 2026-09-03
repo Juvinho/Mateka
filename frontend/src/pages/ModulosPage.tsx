@@ -18,7 +18,7 @@ import type { LessonCardData } from '../components/modules/LessonCard'
 import type { UnitContent, LessonContent } from '../data/lessonTypes'
 import type { ExerciseSet, Exercise, Difficulty } from '../data/exerciseTypes'
 import type { TrackNode } from '../data/trackUtils'
-import { useModuleProgress } from '../state/useModuleProgress'
+import { useModuleProgress, effectiveStreakCount } from '../state/useModuleProgress'
 import { useAuth } from '../state/useAuth'
 
 const ENDLESS_DIFFICULTIES: Difficulty[] = ['easy', 'medium', 'hard']
@@ -287,14 +287,15 @@ const ModulosPage = ({ config, onNavigate }: ModulosPageProps) => {
 
   const streakDays = useMemo(() => {
     const lastDate = state.streak.lastPracticedISODate
-    if (!lastDate || state.streak.count === 0) return Array<boolean>(7).fill(false)
+    const activeCount = effectiveStreakCount(state.streak)
+    if (!lastDate || activeCount === 0) return Array<boolean>(7).fill(false)
     const anchor = new Date(`${lastDate}T00:00:00`)
     const anchorIndex = anchor.getDay() === 0 ? 6 : anchor.getDay() - 1
     return Array.from({ length: 7 }, (_, i) => {
       const diff = (anchorIndex - i + 7) % 7
-      return diff < state.streak.count
+      return diff < activeCount
     })
-  }, [state.streak.lastPracticedISODate, state.streak.count])
+  }, [state.streak])
 
   const todayIndex = new Date().getDay() === 0 ? 6 : new Date().getDay() - 1
 
