@@ -10,7 +10,11 @@
   "scripts": {
     "dev": "npm run dev --workspace=frontend",
     "dev:api": "npm run dev --workspace=backend",
-    "dev:all": "npm run db:up && concurrently -n api,web -c green,cyan \"npm:dev:api\" \"npm:dev\"",
+    "dev:all": "node scripts/dev-all.js",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:build": "docker compose build",
+    "docker:logs": "docker compose logs -f",
     "build": "npm run build --workspace=frontend",
     "lint": "npm run lint --workspace=frontend",
     "preview": "npm run preview --workspace=frontend",

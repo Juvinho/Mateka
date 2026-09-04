@@ -1,0 +1,47 @@
+services:
+  db:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: mateka
+      POSTGRES_PASSWORD: mateka_dev_password
+      POSTGRES_DB: Mateka
+    ports:
+      - '5432:5432'
+    volumes:
+      - mateka_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U mateka -d Mateka']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: 'postgresql://mateka:mateka_dev_password@db:5432/Mateka?schema=public'
+      PORT: 4000
+      FRONTEND_ORIGIN: 'http://localhost:5173'
+    ports:
+      - '4000:4000'
+    volumes:
+      - ./backend/uploads:/app/backend/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    restart: unless-stopped
+    ports:
+      - '5173:5173'
+    depends_on:
+      - backend
+
+volumes:
+  mateka_pgdata:

@@ -58,6 +58,14 @@ const navItems: NavItem[] = [
     previewSubtitle: '5 módulos com visualizações',
     previewGlyph: '∑',
   },
+  {
+    id: 'rankings',
+    label: 'Rankings',
+    hash: '#rankings',
+    previewTitle: 'Leaderboard',
+    previewSubtitle: 'Top jogadores por módulo',
+    previewGlyph: '🏆',
+  },
 ]
 
 const NavBar = ({ ambienceEnabled, onToggleAmbience, onNavigate, isAuthenticated }: NavBarProps) => {

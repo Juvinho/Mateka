@@ -12,6 +12,7 @@ import { gradeExercise, type ExerciseAnswer } from '../lib/grading'
 import { playCorrectSound, playWrongSound } from '../lib/sfx'
 import { useMascotReactionTrigger } from '../state/useMascotReactionTrigger'
 import { useModuleProgress } from '../state/useModuleProgress'
+import { useRanking } from '../state/useRanking'
 
 type Props = {
   difficulty: Difficulty
@@ -29,8 +30,9 @@ const DIFFICULTY_LABEL: Record<Difficulty, string> = {
 const MAX_LIVES = 3
 
 const EndlessSessionPage = ({ difficulty, moduleId, bank, onNavigate }: Props) => {
-  const { recordEndlessAnswer } = useModuleProgress(moduleId)
+  const { recordEndlessAnswer, exerciseResults, endless } = useModuleProgress(moduleId)
   const { registerAnswer } = useMascotReactionTrigger()
+  const { syncLocalProgress } = useRanking()
 
   const [status, setStatus] = useState<'intro' | 'active' | 'game-over'>('intro')
   const queueRef = useRef<Exercise[]>(shuffle(bank))
@@ -41,6 +43,7 @@ const EndlessSessionPage = ({ difficulty, moduleId, bank, onNavigate }: Props) =
   const [feedback, setFeedback] = useState<{ correct: boolean; explanation?: string } | null>(null)
   const [activeReaction, setActiveReaction] = useState<{ key: ReactionKey; nonce: number } | null>(null)
   const reactionNonceRef = useRef(0)
+  const rankingSyncedRef = useRef(false)
 
   const triggerReaction = useCallback((key: ReactionKey | null) => {
     if (!key) return
@@ -84,6 +87,29 @@ const EndlessSessionPage = ({ difficulty, moduleId, bank, onNavigate }: Props) =
     setFeedback(null)
     if (lives <= 0) {
       setStatus('game-over')
+      // Sync ranking once at game-over (not on every answer to avoid excessive writes)
+      if (!rankingSyncedRef.current) {
+        rankingSyncedRef.current = true
+        const exPts = Object.values(exerciseResults).reduce((sum, r) => sum + r.pointsEarned, 0)
+        const endlessPts = Object.values(endless).reduce((sum, e) => sum + e.totalPoints, 0)
+        const exCorrect = Object.values(exerciseResults).reduce(
+          (sum, r) => sum + Math.round(r.bestAccuracy * 10),
+          0,
+        )
+        const endlessCorrect = Object.values(endless).reduce((sum, e) => sum + e.totalCorrect, 0)
+        const exAnswered = Object.values(exerciseResults).reduce((sum, r) => sum + r.attempts, 0)
+        const endlessAnswered = Object.values(endless).reduce((sum, e) => sum + e.totalAnswered, 0)
+        const bestAcc = Object.values(exerciseResults).reduce(
+          (max, r) => Math.max(max, r.bestAccuracy),
+          0,
+        )
+        syncLocalProgress(moduleId, {
+          totalPoints: exPts + endlessPts,
+          totalCorrect: exCorrect + endlessCorrect,
+          totalAnswered: exAnswered + endlessAnswered,
+          bestAccuracy: bestAcc,
+        })
+      }
       return
     }
     setIndex((i) => i + 1)

@@ -9,6 +9,7 @@ import { gradeExercise, type ExerciseAnswer } from '../lib/grading'
 import { playCorrectSound, playWrongSound } from '../lib/sfx'
 import { useMascotReactionTrigger } from '../state/useMascotReactionTrigger'
 import { useModuleProgress } from '../state/useModuleProgress'
+import { useRanking } from '../state/useRanking'
 
 type Props = {
   exerciseSet: ExerciseSet
@@ -41,8 +42,9 @@ type InnerProps = Props & { onRetry: () => void }
 type SessionStatus = 'intro' | 'active' | 'results'
 
 const ExerciseSessionInner = ({ exerciseSet, moduleId, onNavigate, onRetry }: InnerProps) => {
-  const { recordExerciseResult } = useModuleProgress(moduleId)
+  const { recordExerciseResult, exerciseResults, endless } = useModuleProgress(moduleId)
   const { registerAnswer } = useMascotReactionTrigger()
+  const { syncLocalProgress } = useRanking()
   const [status, setStatus] = useState<SessionStatus>('intro')
   const [index, setIndex] = useState(0)
   const [correctCount, setCorrectCount] = useState(0)
@@ -66,7 +68,22 @@ const ExerciseSessionInner = ({ exerciseSet, moduleId, onNavigate, onRetry }: In
     const reaction = recordExerciseResult(exerciseSet.id, accuracy, exerciseSet.points)
     triggerReaction(reaction)
     setResultSaved(true)
-  }, [status, resultSaved, correctCount, exercises.length, exerciseSet.id, exerciseSet.points, recordExerciseResult, triggerReaction])
+
+    // Sync ranking: aggregate all results for this module after the new result persists
+    const allResults = { ...exerciseResults, [exerciseSet.id]: { bestAccuracy: accuracy, attempts: 1, pointsEarned: Math.round(exerciseSet.points * accuracy) } }
+    const totalCorrect = Object.values(allResults).reduce((sum, r) => sum + Math.round(r.bestAccuracy * exercises.length), 0)
+    const totalAnswered = Object.values(allResults).reduce((sum, r) => sum + r.attempts, 0)
+    const bestAccuracy = Object.values(allResults).reduce((max, r) => Math.max(max, r.bestAccuracy), 0)
+    const exercisePts = Object.values(allResults).reduce((sum, r) => sum + r.pointsEarned, 0)
+    const endlessPts = Object.values(endless).reduce((sum, e) => sum + e.totalPoints, 0)
+    syncLocalProgress(moduleId, {
+      totalPoints: exercisePts + endlessPts,
+      totalCorrect,
+      totalAnswered,
+      bestAccuracy,
+    })
+  }, [status, resultSaved, correctCount, exercises.length, exerciseSet.id, exerciseSet.points, recordExerciseResult, triggerReaction, syncLocalProgress, moduleId, exerciseResults, endless])
+
 
   const handleAnswer = useCallback(
     (answer: ExerciseAnswer) => {

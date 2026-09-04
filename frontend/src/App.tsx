@@ -71,9 +71,12 @@ import gamerImg from './assets/mascot/gamer.webp'
 import { EmyCallout } from './components/emy/EmyCallout'
 import { ReverseEmy } from './components/emy/ReverseEmy'
 import { VirtualNotebook } from './components/VirtualNotebook'
+import { RankingSection } from './components/ranking/RankingSection'
+import { useRanking } from './state/useRanking'
 import ConfiguracoesPage from './pages/ConfiguracoesPage'
 import MeusModulosPage from './pages/MeusModulosPage'
 import ConquistasPage from './pages/ConquistasPage'
+import RankingsPage from './pages/RankingsPage'
 import { initSettings } from './lib/settingsStore'
 
 // Runs once when this module loads — before the first render — so the
@@ -118,6 +121,9 @@ const KNOWN_EXACT_HASHES = new Set([
   '#configuracoes',
   '#meus-modulos',
   '#conquistas',
+  '#rankings',
+  '#ranking-completo',
+  '#rankings-completo',
 ])
 const KNOWN_DYNAMIC_PREFIXES = ['#modulos/', '#aula-', '#exercicio-', '#endless-', '#usuario-']
 // Dedicated hashes to preview each error page on demand, without needing to
@@ -244,6 +250,7 @@ const App = () => {
   const scrollBoosting = useScrollVelocity()
   const { enabled: ambienceEnabled, toggle: toggleAmbience } = useAmbience()
   const { status: authStatus } = useAuth()
+  const { rankings, localUserId } = useRanking()
 
   const reducedMotion = useMemo(
     () =>
@@ -509,6 +516,7 @@ const App = () => {
   const isConfiguracoesRoute = activeHash === '#configuracoes'
   const isMeusModulosRoute = activeHash === '#meus-modulos'
   const isConquistasRoute = activeHash === '#conquistas'
+  const isRankingCompletoRoute = activeHash === '#ranking-completo' || activeHash === '#rankings-completo'
   const isUserProfileRoute = activeHash.startsWith('#usuario-')
   const viewedUserId = isUserProfileRoute ? activeHash.slice('#usuario-'.length) : undefined
   // 404 covers two cases: a dynamic-id route (aula/exercicio/endless) whose id
@@ -586,6 +594,7 @@ const App = () => {
     !isConfiguracoesRoute &&
     !isMeusModulosRoute &&
     !isConquistasRoute &&
+    !isRankingCompletoRoute &&
     !isUserProfileRoute &&
     !activeExerciseSet &&
     !resolvedEndless &&
@@ -772,6 +781,10 @@ const App = () => {
 
     if (isConquistasRoute) {
       return <ConquistasPage onNavigate={navigateTo} />
+    }
+
+    if (isRankingCompletoRoute) {
+      return <RankingsPage rankings={rankings} localUserId={localUserId} onNavigate={navigateTo} />
     }
 
     if (isUserProfileRoute && viewedUserId) {
@@ -964,6 +977,7 @@ const App = () => {
 
               <ModuleGrid onNavigate={navigateTo} />
               <StatsCounter />
+              <RankingSection rankings={rankings} localUserId={localUserId} onNavigate={navigateTo} />
               <TestimonialSection />
               <Footer onNavigate={navigateTo} />
             </main>
